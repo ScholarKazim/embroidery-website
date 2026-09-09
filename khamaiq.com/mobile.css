@@ -358,10 +358,22 @@
   .swatch {
     flex-shrink: 0;
     scroll-snap-align: start;
-    min-height: 44px;
-    padding: 8px 14px;
-    border-radius: 12px;
-    font-size: 13px;
+    min-width: 82px;
+    padding: 10px 8px 8px;
+    border-radius: 14px;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .swatch .dot {
+    width: 34px !important;
+    height: 34px !important;
+    aspect-ratio: 1;
+    border-radius: 50% !important;
+    flex-shrink: 0;
   }
 
   .tester {

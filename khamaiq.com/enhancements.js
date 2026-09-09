@@ -158,6 +158,7 @@
     const tabBack = document.getElementById('vis-tab-back');
 
     if (!swatchesContainer || !photoFrame) return;
+    if (swatchesContainer.children.length > 0) return;
 
     const VIS_COLORS = [
       {
