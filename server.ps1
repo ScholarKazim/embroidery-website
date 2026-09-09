@@ -163,9 +163,9 @@ while ($listener.IsListening) {
 
             # 2. POST New Order (With Server-Side Payload Validation)
             if ($request.HttpMethod -eq "POST") {
-                if ($request.ContentLength64 -gt 262144) {
+                if ($request.ContentLength64 -gt 2097152) {
                     $response.StatusCode = 413
-                    $bytes = [System.Text.Encoding]::UTF8.GetBytes('{"error":"حجم الطلب كبير جداً"}')
+                    $bytes = [System.Text.Encoding]::UTF8.GetBytes('{"error":"حجم الطلب كبير جدا"}')
                     $response.OutputStream.Write($bytes, 0, $bytes.Length)
                     $response.OutputStream.Close()
                     continue

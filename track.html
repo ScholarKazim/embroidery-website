@@ -418,10 +418,19 @@
         const itName = escapeHtml(it.name || it.title || 'قطعة تخرج');
         const itQty = Math.max(1, parseInt(it.qty, 10) || 1);
         const itPrice = Math.max(0, parseFloat(it.price) || 35000);
+        const cfg = it.config || {};
+        let extraInfo = [];
+        if (cfg.cut) extraInfo.push(`قصة: ${escapeHtml(cfg.cut)}`);
+        if (cfg.name) extraInfo.push(`الاسم: ${escapeHtml(cfg.name)}`);
+        if (cfg.backText) extraInfo.push(`تطريز الظهر: ${escapeHtml(cfg.backText)}`);
         return `
-          <div style="display:flex; justify-content:space-between; border-bottom:1px dashed #e5d8d0; padding:6px 0;">
-            <span>• ${itName} (×${itQty})</span>
-            <span style="font-weight:700;">${Number(itPrice * itQty).toLocaleString()} د.ع</span>
+          <div style="border-bottom:1px dashed #e5d8d0; padding:6px 0;">
+            <div style="display:flex; justify-content:space-between;">
+              <span>• ${itName} (×${itQty})</span>
+              <span style="font-weight:700;">${Number(itPrice * itQty).toLocaleString()} د.ع</span>
+            </div>
+            ${extraInfo.length ? `<div style="font-size:12px; color:#777; margin-top:3px;">${extraInfo.join(' · ')}</div>` : ''}
+            ${cfg.referenceImage ? `<div style="margin-top:6px;"><span style="font-size:11.5px; color:#888; margin-left:6px;">النموذج المرفق:</span><img src="${cfg.referenceImage}" alt="نموذج الطلب" style="max-height:45px; max-width:65px; border-radius:6px; object-fit:contain; border:1px solid #ebdcd5; background:#fff; padding:2px; vertical-align:middle;"></div>` : ''}
           </div>
         `;
       }).join('');

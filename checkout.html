@@ -654,6 +654,8 @@
       if (c.side1) details.push(`الجهة الأولى: ${escapeHtml(c.side1)}`);
       if (c.side2) details.push(`الجهة الثانية: ${escapeHtml(c.side2)}`);
       else if (c.name) details.push(`الاسم: ${escapeHtml(c.name)}`);
+      if (c.backText) details.push(`تطريز الظهر: ${escapeHtml(c.backText)}`);
+      if (c.referenceImage) details.push(`📷 مرفق صورة نموذج`);
       if (c.scarfColor) details.push(`اللون: ${escapeHtml(c.scarfColor)}`);
       if (c.font) details.push(`الخط: ${escapeHtml(c.font)}`);
       if (c.textColor) details.push(`الخيط: ${c.textColor === 'silver' ? 'فضي' : 'ذهبي'}`);
@@ -663,6 +665,7 @@
       if (c.height) details.push(`الطول: ${escapeHtml(c.height)} سم`);
       if (c.refName) details.push(`المقاس: ${escapeHtml(c.refName)}`);
       if (c.shoulder) details.push(`الكتف: ${escapeHtml(c.shoulder)} سم`);
+      if (c.referenceImage) details.push(`📷 مرفق صورة نموذج`);
     } else if (item.kind === 'cap') {
       if (c.cut) details.push(`القصة: ${escapeHtml(c.cut)}`);
       if (c.notes && c.notes !== 'بدون طلب خاص (القصة الأصلية والشرابة الذهبية)') {
@@ -670,6 +673,7 @@
       } else {
         details.push('القصة الأصلية والشرابة الذهبية');
       }
+      if (c.referenceImage) details.push(`📷 مرفق صورة نموذج`);
       details.push('مقاس مرن ذكي Free Size');
     }
 
@@ -685,6 +689,7 @@
       <div>
         <h4 class="co-item-title">${itName} × ${itQty}</h4>
         <p class="co-item-detail">${details.join(' · ')}</p>
+        ${c.referenceImage ? `<div style="margin-top:6px;"><img src="${c.referenceImage}" alt="نموذج مرفق" style="max-height:48px; max-width:65px; border-radius:6px; object-fit:contain; border:1px solid #ebdcd5; background:#fff; padding:2px;"></div>` : ''}
       </div>
       <span class="co-item-price">${Number(itemTotal).toLocaleString()} د.ع</span>
     `;
@@ -836,10 +841,18 @@
           const itName = escapeHtml(it.name || 'قطعة إبرة وخيط');
           const itQty = Math.max(1, parseInt(it.qty, 10) || 1);
           const itPrice = Math.max(0, parseFloat(it.price) || 35000);
+          const cfg = it.config || {};
+          let extraInfo = [];
+          if (cfg.backText) extraInfo.push(`تطريز الظهر: ${escapeHtml(cfg.backText)}`);
+          if (cfg.referenceImage) extraInfo.push(`📷 نموذج مرفق`);
           return `
-            <div style="display:flex; justify-content:space-between; margin-bottom:6px; border-bottom:1px dashed #e8ded7; padding-bottom:6px;">
-              <span>• ${itName} (×${itQty})</span>
-              <span style="font-weight:700;">${Number(itPrice * itQty).toLocaleString()} د.ع</span>
+            <div style="margin-bottom:8px; border-bottom:1px dashed #e8ded7; padding-bottom:6px;">
+              <div style="display:flex; justify-content:space-between;">
+                <span>• ${itName} (×${itQty})</span>
+                <span style="font-weight:700;">${Number(itPrice * itQty).toLocaleString()} د.ع</span>
+              </div>
+              ${extraInfo.length ? `<div style="font-size:12px; color:#777; margin-top:3px;">${extraInfo.join(' · ')}</div>` : ''}
+              ${cfg.referenceImage ? `<div style="margin-top:4px;"><img src="${cfg.referenceImage}" alt="نموذج مرفق" style="max-height:45px; max-width:65px; border-radius:6px; object-fit:contain; border:1px solid #ebdcd5; background:#fff; padding:2px;"></div>` : ''}
             </div>
           `;
         }).join('');

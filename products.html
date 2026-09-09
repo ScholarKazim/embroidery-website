@@ -1391,6 +1391,44 @@
                 <button type="button" class="option-pill-btn" data-font="thuluth">الثلث</button>
               </div>
             </div>
+
+            <!-- Back Writing Input (خاص بالوشاح الملكي) -->
+            <div class="form-group-item" id="wiz-back-embroidery-group" style="margin-top:20px; border-top:1px dashed #ebdcd5; padding-top:18px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <label class="form-group-label" for="wiz-back-text-input" style="margin:0;">
+                  تطريز الظهر
+                  <span id="royal-back-tag" style="background:#fef3e2; color:#b06000; font-size:11.5px; padding:3px 8px; border-radius:10px; font-weight:700; margin-right:6px;">✨ خاص بالوشاح الملكي</span>
+                </label>
+                <span class="name-char-count" id="back-char-counter" style="font-size:12px; color:#888;">0 / 60</span>
+              </div>
+              <div class="name-input-container">
+                <input type="text" class="name-input-field" id="wiz-back-text-input" maxlength="60" placeholder="اكتب عبارة أو اسم كليتك على الظهر (مثال: وَقُل رَّبِّ زِدْنِي عِلْمًا — دفعة 2026)">
+              </div>
+              <p class="name-helper-note">قصة الظهر الملكية تتضمن مساحة تطريز مخصصة وبارزة لخريجي 2026.</p>
+            </div>
+
+            <!-- Reference Image Attachment / Dropzone -->
+            <div class="form-group-item" id="wiz-reference-image-group" style="margin-top:16px;">
+              <label class="form-group-label" style="margin-bottom:8px; display:block;">
+                إدراج صورة أو نموذج للتصميم
+                <span style="font-size:12px; font-weight:normal; color:#888;">(اختياري)</span>
+              </label>
+              <div class="ref-image-dropzone" id="ref-image-dropzone" style="border:2px dashed #d9c4ba; border-radius:16px; padding:18px; text-align:center; background:#fdfbf9; cursor:pointer; transition:all 0.2s;">
+                <input type="file" id="wiz-ref-image-input" accept="image/*" style="display:none;">
+                <div id="ref-image-placeholder">
+                  <div style="font-size:32px; margin-bottom:6px;">📷</div>
+                  <div style="font-weight:700; color:var(--color-burgundy); font-size:14px;">اضغط لإرفاق صورة أو شعار للطلب</div>
+                  <p style="font-size:12px; color:#777; margin:4px 0 0;">يمكنك إرفاق صورة شعار جامعتك، مخطوطة خاصة، أو نموذج تطريز ترغب بتنفيذه</p>
+                </div>
+                <div id="ref-image-preview-wrap" style="display:none; align-items:center; justify-content:center; gap:14px; flex-wrap:wrap;">
+                  <img id="ref-image-preview" src="" alt="نموذج الطلب" style="max-height:85px; max-width:120px; border-radius:10px; border:1px solid #ebdcd5; object-fit:contain; background:#fff; padding:4px;">
+                  <div style="text-align:right;">
+                    <span id="ref-image-name" style="font-size:13px; font-weight:700; color:#333; display:block; max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"></span>
+                    <button type="button" id="btn-remove-ref-image" style="background:#fff; border:1px solid #f5c2c7; color:#c5221f; border-radius:8px; padding:4px 10px; font-size:12px; margin-top:6px; cursor:pointer; font-weight:700; font-family:inherit;">🗑️ إزالة الصورة</button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <!-- Sub-view 3B: Robe Details -->
@@ -2069,6 +2107,83 @@
   btnStep3Next.addEventListener('click', () => goToStep(4));
 
   // ============================================================
+  // Back Embroidery & Reference Image Upload Logic
+  // ============================================================
+  const wizBackInput = document.getElementById('wiz-back-text-input');
+  const backCharCounter = document.getElementById('back-char-counter');
+  if (wizBackInput && backCharCounter) {
+    wizBackInput.addEventListener('input', () => {
+      backCharCounter.textContent = `${wizBackInput.value.length} / 60`;
+    });
+  }
+
+  let uploadedRefImage = null;
+  const refDropzone = document.getElementById('ref-image-dropzone');
+  const refFileInput = document.getElementById('wiz-ref-image-input');
+  const refPlaceholder = document.getElementById('ref-image-placeholder');
+  const refPreviewWrap = document.getElementById('ref-image-preview-wrap');
+  const refPreviewImg = document.getElementById('ref-image-preview');
+  const refImageName = document.getElementById('ref-image-name');
+  const btnRemoveRefImg = document.getElementById('btn-remove-ref-image');
+
+  if (refDropzone && refFileInput) {
+    refDropzone.addEventListener('click', (e) => {
+      if (e.target === btnRemoveRefImg) return;
+      refFileInput.click();
+    });
+
+    refFileInput.addEventListener('change', (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        const img = new Image();
+        img.onload = function() {
+          // Resize to max 600px width/height to keep payload light
+          const canvas = document.createElement('canvas');
+          let w = img.width;
+          let h = img.height;
+          const maxDim = 600;
+          if (w > maxDim || h > maxDim) {
+            if (w > h) {
+              h = Math.round((h * maxDim) / w);
+              w = maxDim;
+            } else {
+              w = Math.round((w * maxDim) / h);
+              h = maxDim;
+            }
+          }
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          uploadedRefImage = canvas.toDataURL('image/jpeg', 0.82);
+
+          if (refPlaceholder) refPlaceholder.style.display = 'none';
+          if (refPreviewWrap) refPreviewWrap.style.display = 'flex';
+          if (refPreviewImg) refPreviewImg.src = uploadedRefImage;
+          if (refImageName) refImageName.textContent = file.name;
+        };
+        img.src = evt.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  if (btnRemoveRefImg) {
+    btnRemoveRefImg.addEventListener('click', (e) => {
+      e.stopPropagation();
+      uploadedRefImage = null;
+      if (refFileInput) refFileInput.value = '';
+      if (refPlaceholder) refPlaceholder.style.display = 'block';
+      if (refPreviewWrap) refPreviewWrap.style.display = 'none';
+      if (refPreviewImg) refPreviewImg.src = '';
+      if (refImageName) refImageName.textContent = '';
+    });
+  }
+
+  // ============================================================
   // Step 4 Logic: Add to cart & Confirm (Matches Screenshot 3)
   // ============================================================
   function addItemToCart() {
@@ -2096,7 +2211,8 @@
           sizeNum: selectedSizeNum,
           height: document.getElementById('detail-height').value,
           shoulder: document.getElementById('detail-shoulder').value,
-          embroidery: robeEmb || 'بدون تطريز'
+          embroidery: robeEmb || 'بدون تطريز',
+          referenceImage: uploadedRefImage || null
         },
         addedAt: Date.now()
       });
@@ -2113,11 +2229,13 @@
           cut: cutInfo.name,
           type: selectedCut,
           notes: capNotes || 'بدون طلب خاص (القصة الأصلية والشرابة الذهبية)',
-          size: 'free'
+          size: 'free',
+          referenceImage: uploadedRefImage || null
         },
         addedAt: Date.now()
       });
     } else {
+      const backTextVal = wizBackInput ? wizBackInput.value.trim() : '';
       items.push({
         id,
         kind: 'scarf',
@@ -2127,6 +2245,8 @@
         priceLabel: Number(cutInfo.price).toLocaleString() + ' د.ع',
         config: {
           name: studentName,
+          backText: backTextVal,
+          referenceImage: uploadedRefImage || null,
           gender: selectedGender,
           size: selectedSize,
           sizeNum: selectedSizeNum,

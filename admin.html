@@ -507,6 +507,7 @@
           if (c.cut) tags.push(`قصة: ${escapeHtml(c.cut)}`);
           if (c.color || c.scarfColor) tags.push(`لون: ${escapeHtml(c.color || c.scarfColor)}`);
           if (c.embroidery || c.name || c.side1) tags.push(`تطريز: ${escapeHtml(c.embroidery || c.name || c.side1)}`);
+          if (c.backText) tags.push(`🧵 تطريز الظهر: <strong style="color:var(--color-burgundy);">${escapeHtml(c.backText)}</strong>`);
           if (c.height) tags.push(`طول: ${escapeHtml(c.height)} سم`);
           if (c.shoulder) tags.push(`كتف: ${escapeHtml(c.shoulder)} سم`);
           if (c.refName) tags.push(`قياس: ${escapeHtml(c.refName)}`);
@@ -515,11 +516,21 @@
           const itQty = Math.max(1, parseInt(it.qty, 10) || 1);
           const itPrice = Math.max(0, parseFloat(it.price) || 35000);
 
+          const refImgHtml = c.referenceImage ? `
+            <div style="margin-top:8px; padding-top:6px; border-top:1px dashed #e8ded7; display:flex; align-items:center; gap:8px;">
+              <span style="font-size:12px; font-weight:700; color:#5d022a;">📷 نموذج التصميم المرفق:</span>
+              <a href="${c.referenceImage}" target="_blank" title="انقر لفتح الصورة بالحجم الكامل">
+                <img src="${c.referenceImage}" alt="نموذج الطلب" style="height:48px; max-width:70px; border-radius:6px; border:1px solid #d9c4ba; object-fit:contain; background:#fff; padding:2px; vertical-align:middle; cursor:zoom-in;">
+              </a>
+            </div>
+          ` : '';
+
           return `
             <div class="item-row">
               <div style="font-weight:700; color:#1a0a10;">${idx + 1}. ${itName} (×${itQty})</div>
               ${tags.length ? `<div style="color:#666; font-size:12.5px; margin-top:3px;">${tags.join(' · ')}</div>` : ''}
-              <div style="font-size:12.5px; font-weight:700; color:var(--color-burgundy); margin-top:2px;">
+              ${refImgHtml}
+              <div style="font-size:12.5px; font-weight:700; color:var(--color-burgundy); margin-top:4px;">
                 ${Number(itPrice * itQty).toLocaleString()} د.ع
               </div>
             </div>
