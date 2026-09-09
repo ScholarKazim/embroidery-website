@@ -1,0 +1,1727 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="only light">
+
+<link rel="icon" href="khamaiq.com/favicon_v=p138.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="khamaiq.com/assets/icons/favicon-32x32_v=p138.png">
+<link rel="icon" type="image/png" sizes="16x16" href="khamaiq.com/assets/icons/favicon-16x16_v=p138.png">
+<link rel="apple-touch-icon" href="khamaiq.com/assets/icons/apple-touch-icon_v=p138.png">
+<title>صفحة الدفعة والتصويت | إبرة وخيط</title>
+<meta name="description" content="صفحة دفعتك للتصويت على لون الوشاح المشترك، طلب عينة الألوان المجانية، ومشاركة الرابط مع أعضاء الدفعة.">
+
+<link rel="stylesheet" href="khamaiq.com/colors_and_type_v=p138.css">
+<link rel="stylesheet" href="khamaiq.com/styles_v=p138.css">
+<link rel="stylesheet" href="khamaiq.com/extras_v=p138.css">
+<link rel="stylesheet" href="khamaiq.com/cart_v=p138.css">
+<link rel="stylesheet" href="khamaiq.com/desktop_v=p138.css">
+<link rel="stylesheet" href="khamaiq.com/mobile.css">
+<link rel="stylesheet" href="khamaiq.com/enhancements.css">
+
+<style>
+body {
+  background-color: #fbf5f3;
+  color: var(--ink, #1a0a10);
+  font-family: var(--font-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+}
+
+.class-page-wrap {
+  padding-top: 100px;
+  padding-bottom: 90px;
+  min-height: 100vh;
+}
+
+.class-content-box {
+  max-width: 540px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* ============================================================
+   SCREENSHOT 2 STYLES (Class Hub / Live Voting)
+   ============================================================ */
+/* Top Header Card */
+.hub-header-card {
+  background: #ffffff;
+  border-radius: 26px;
+  padding: 24px 28px;
+  box-shadow: 0 10px 30px rgba(93, 2, 42, 0.04);
+  border: 1px solid rgba(0,0,0,0.03);
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+.hub-top-tag {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 700;
+  color: #ba8d5d;
+  margin-bottom: 6px;
+}
+
+.hub-college-title {
+  font-family: var(--font-display, "Amiri", serif);
+  font-size: 34px;
+  font-weight: 900;
+  color: #1a0a10;
+  margin: 0 0 4px;
+  line-height: 1.2;
+}
+
+.hub-uni-sub {
+  font-family: var(--font-text);
+  font-size: 14.5px;
+  color: #666;
+  margin: 0 0 16px;
+}
+
+.hub-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: #444;
+  font-weight: 700;
+}
+
+.hub-status-badge {
+  background: #eafaf1;
+  color: #1e874b;
+  border: 1px solid #c7f0d8;
+  padding: 3px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* Main Voting Card */
+.hub-voting-card {
+  background: #ffffff;
+  border-radius: 28px;
+  padding: 28px 22px;
+  box-shadow: 0 12px 36px rgba(93, 2, 42, 0.05);
+  border: 1px solid rgba(0,0,0,0.03);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.hub-card-heading {
+  font-family: var(--font-display, "Amiri", serif);
+  font-size: 26px;
+  font-weight: 900;
+  color: #1a0a10;
+  margin: 0 0 4px;
+}
+
+.hub-card-sub {
+  font-family: var(--font-text);
+  font-size: 13.5px;
+  color: #777;
+  margin: 0 0 20px;
+}
+
+/* Model Showcase Frame with Badge */
+.hub-showcase-container {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto 24px;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 14px 34px rgba(0,0,0,0.12);
+  background: #1a0a10;
+  aspect-ratio: 4 / 5;
+}
+
+.hub-showcase-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity 0.3s ease;
+}
+
+.hub-color-pill-overlay {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  text-align: right;
+  pointer-events: none;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.7);
+}
+
+.hub-color-tag-lbl {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #e5be7d;
+  margin-bottom: 2px;
+}
+
+.hub-color-name-lbl {
+  font-family: var(--font-display, "Amiri", serif);
+  font-size: 24px;
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.1;
+}
+
+/* 6 Colors Voting Grid (2 columns) */
+.hub-vote-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+  direction: rtl;
+}
+
+.vote-tile-btn {
+  background: #faebe8;
+  border: 1.5px solid transparent;
+  border-radius: 14px;
+  padding: 10px 12px;
+  cursor: pointer;
+  text-align: right;
+  transition: all 0.2s ease;
+  position: relative;
+  outline: none;
+}
+
+.vote-tile-btn:hover {
+  background: #f7e0dc;
+}
+
+.vote-tile-btn.is-active {
+  background: #faebe8;
+  border-color: #5d022a;
+  box-shadow: 0 0 0 1px #5d022a;
+}
+
+.tile-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.tile-color-name {
+  font-family: var(--font-ui);
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #1a0a10;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tile-check-icon {
+  font-size: 13px;
+  color: #5d022a;
+  font-weight: 900;
+}
+
+.tile-circle-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+.tile-progress-bar {
+  width: 100%;
+  height: 5px;
+  background: #e3d2cf;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+
+.tile-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+.tile-count-txt {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  color: #666;
+  font-weight: 600;
+  display: block;
+}
+
+.hub-vote-deadline-note {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  color: #888;
+  margin: 0;
+}
+
+/* Card 2: Sample Fabric Box */
+.hub-sample-card {
+  background: #fdf3eb;
+  border: 1px solid #f6ded0;
+  border-radius: 24px;
+  padding: 26px 22px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.hub-sample-tag {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 700;
+  color: #ba8d5d;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.hub-sample-title {
+  font-family: var(--font-display, "Amiri", serif);
+  font-size: 24px;
+  font-weight: 900;
+  color: #1a0a10;
+  margin: 0 0 8px;
+}
+
+.hub-sample-desc {
+  font-family: var(--font-text);
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: #555;
+  margin: 0 auto 16px;
+  max-width: 440px;
+}
+
+.btn-camel-action {
+  display: inline-block;
+  background: #cba06f;
+  color: #1a0a10;
+  font-family: var(--font-ui);
+  font-size: 15px;
+  font-weight: 800;
+  padding: 12px 28px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(203, 160, 111, 0.3);
+}
+
+.btn-camel-action:hover {
+  background: #b98e5e;
+  transform: translateY(-1px);
+}
+
+.hub-sample-lock-note {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  color: #888;
+  margin: 14px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* Card 3: Rep Needed Box (Dashed border) */
+.hub-rep-dashed-card {
+  background: #ffffff;
+  border: 1.8px dashed #cba06f;
+  border-radius: 24px;
+  padding: 26px 22px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.hub-rep-tag {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 700;
+  color: #888;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.hub-rep-title {
+  font-family: var(--font-display, "Amiri", serif);
+  font-size: 24px;
+  font-weight: 900;
+  color: #1a0a10;
+  margin: 0 0 8px;
+}
+
+.hub-rep-desc {
+  font-family: var(--font-text);
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: #555;
+  margin: 0 auto 16px;
+  max-width: 440px;
+}
+
+/* Card 4: Share Link Box */
+.hub-share-card {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 24px 22px;
+  box-shadow: 0 10px 30px rgba(93, 2, 42, 0.04);
+  border: 1px solid rgba(0,0,0,0.03);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.hub-share-title {
+  font-family: var(--font-display, "Amiri", serif);
+  font-size: 20px;
+  font-weight: 800;
+  color: #1a0a10;
+  margin: 0 0 4px;
+}
+
+.hub-share-sub {
+  font-family: var(--font-text);
+  font-size: 13px;
+  color: #777;
+  margin: 0 0 16px;
+}
+
+.hub-link-copy-row {
+  display: flex;
+  gap: 8px;
+  direction: ltr;
+}
+
+.hub-link-input {
+  flex: 1;
+  background: #faf6f0;
+  border: 1px solid #dcd5cc;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: #444;
+  outline: none;
+}
+
+.btn-copy-link {
+  background: #cba06f;
+  color: #1a0a10;
+  border: none;
+  border-radius: 12px;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 0 16px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* Card 5: Members List */
+.hub-members-card {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 24px 22px;
+  box-shadow: 0 10px 30px rgba(93, 2, 42, 0.04);
+  border: 1px solid rgba(0,0,0,0.03);
+  margin-bottom: 24px;
+  text-align: right;
+}
+
+.hub-members-heading {
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 800;
+  color: #1a0a10;
+  margin: 0 0 14px;
+}
+
+.hub-members-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.member-pill-tag {
+  background: #ffffff;
+  border: 1px solid #e8ded4;
+  border-radius: 999px;
+  padding: 6px 14px 6px 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a0a10;
+}
+
+.member-avatar-circle {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #e8ded4;
+  color: #5d022a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+/* Bottom CTA Area */
+.hub-bottom-area {
+  text-align: center;
+  padding: 10px 0 30px;
+}
+
+.hub-bottom-sub {
+  font-family: var(--font-text);
+  font-size: 13.5px;
+  color: #666;
+  margin: 0 0 14px;
+}
+
+.btn-bottom-order {
+  display: inline-block;
+  background: #cba06f;
+  color: #1a0a10;
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 800;
+  padding: 14px 36px;
+  border-radius: 14px;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(203, 160, 111, 0.3);
+  margin-bottom: 14px;
+}
+
+.link-explainer-guide {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #1a0a10;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.link-explainer-guide:hover {
+  color: #5d022a;
+}
+
+/* ============================================================
+   SCREENSHOT 1 STYLES (Explainer Guide "كيف تصوت الدفعة")
+   ============================================================ */
+.guide-container-section {
+  margin-top: 40px;
+  padding-top: 40px;
+  border-top: 1.5px dashed #e8ded4;
+}
+
+.guide-hero-head {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.guide-hero-tag {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 700;
+  color: #ba8d5d;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.guide-hero-title {
+  font-family: var(--font-display, "Amiri", serif);
+  font-size: clamp(32px, 7vw, 46px);
+  font-weight: 900;
+  color: #1a0a10;
+  margin: 0 0 14px;
+  line-height: 1.2;
+}
+
+.guide-hero-desc {
+  font-family: var(--font-text);
+  font-size: 15px;
+  line-height: 1.7;
+  color: #555;
+  margin: 0 auto;
+  max-width: 500px;
+}
+
+/* Section Subheaders */
+.guide-sec-head {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.guide-sec-title {
+  font-family: var(--font-display, "Amiri", serif);
+  font-size: 28px;
+  font-weight: 900;
+  color: #1a0a10;
+  margin: 0 0 6px;
+}
+
+.guide-sec-sub {
+  font-family: var(--font-text);
+  font-size: 13.5px;
+  color: #777;
+  margin: 0;
+}
+
+/* 3 How It Works Steps */
+.guide-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+@media (max-width: 600px) {
+  .guide-steps-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.guide-step-card {
+  background: #ffffff;
+  border: 1px solid #e8ded4;
+  border-radius: 20px;
+  padding: 20px 16px;
+  text-align: center;
+}
+
+.guide-step-num {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #5d022a;
+  color: #ffffff;
+  font-family: var(--font-ui);
+  font-size: 15px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+}
+
+.guide-step-card-title {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 800;
+  color: #1a0a10;
+  margin: 0 0 8px;
+}
+
+.guide-step-card-text {
+  font-family: var(--font-text);
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: #555;
+  margin: 0;
+  text-align: right;
+}
+
+/* Pink Background Cards (Rules & FAQ) */
+.pink-rules-container {
+  background: #faebe8;
+  border-radius: 28px;
+  padding: 32px 20px;
+  margin-bottom: 40px;
+}
+
+.rules-cards-2x2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 500px) {
+  .rules-cards-2x2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.rule-card-white {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 18px;
+  text-align: right;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.02);
+}
+
+.rule-card-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 800;
+  color: #1a0a10;
+  margin: 0 0 6px;
+}
+
+.rule-card-text {
+  font-family: var(--font-text);
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: #555;
+  margin: 0;
+}
+
+/* Rep Role Card */
+.rep-role-card-wrap {
+  background: #ffffff;
+  border: 1px solid #e8ded4;
+  border-radius: 24px;
+  padding: 26px 20px;
+  text-align: right;
+  margin-bottom: 40px;
+}
+
+.rep-role-badge {
+  background: #cba06f;
+  color: #1a0a10;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 8px;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.rep-role-list {
+  list-style: none;
+  padding: 0;
+  margin: 14px 0 0;
+}
+
+.rep-role-list li {
+  font-family: var(--font-ui);
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 10px;
+  position: relative;
+  padding-right: 16px;
+}
+
+.rep-role-list li::before {
+  content: "•";
+  position: absolute;
+  right: 0;
+  color: #cba06f;
+  font-size: 18px;
+}
+
+/* ============================================================
+   SCREENSHOT 3 STYLES (Modal: أنت ممثل الدفعة؟)
+   ============================================================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 10, 16, 0.65);
+  backdrop-filter: blur(5px);
+  z-index: 2100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.modal-box-card {
+  background: #fdf8f6;
+  border-radius: 32px;
+  max-width: 440px;
+  width: 100%;
+  padding: 36px 26px 26px;
+  position: relative;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+  box-sizing: border-box;
+  text-align: center;
+  animation: modalPop 0.25s ease;
+}
+
+@keyframes modalPop {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.modal-btn-close {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  color: #a89f9e;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.modal-rep-heading {
+  font-family: var(--font-display, "Amiri", serif);
+  font-size: 28px;
+  font-weight: 900;
+  color: #1a0a10;
+  margin: 0 0 6px;
+}
+
+.modal-rep-sub {
+  font-family: var(--font-text);
+  font-size: 13px;
+  line-height: 1.6;
+  color: #666;
+  margin: 0 0 22px;
+}
+
+.modal-field-group {
+  text-align: right;
+  margin-bottom: 14px;
+}
+
+.modal-field-label {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 700;
+  color: #2c1219;
+  margin-bottom: 6px;
+}
+
+.modal-field-input {
+  width: 100%;
+  background: #ffffff;
+  border: 1.5px solid #ece4de;
+  border-radius: 14px;
+  padding: 13px 16px;
+  font-family: var(--font-ui);
+  font-size: 15px;
+  color: #1a0a10;
+  outline: none;
+  box-sizing: border-box;
+  direction: ltr;
+  text-align: left;
+}
+
+.modal-legal-note {
+  font-family: var(--font-ui);
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: #888;
+  margin: 0 0 16px;
+}
+
+.btn-send-sms-code {
+  width: 100%;
+  background: #5d022a;
+  color: #ffffff;
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 800;
+  padding: 15px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(93, 2, 42, 0.25);
+  margin-bottom: 16px;
+  transition: background 0.2s;
+}
+
+.btn-send-sms-code:hover {
+  background: #46011f;
+}
+
+.modal-recaptcha-footer {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  color: #999;
+  margin: 0;
+}
+
+.modal-recaptcha-footer a {
+  color: #666;
+  text-decoration: underline;
+}
+
+/* Step 2 Cloud OTP styles */
+.modal-otp-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fdf5f0;
+  border: 1px solid #ebd8ce;
+  color: #7a1832;
+  font-family: var(--font-ui);
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 20px;
+  margin: 0 auto 16px;
+}
+
+.modal-otp-input {
+  width: 100%;
+  background: #ffffff;
+  border: 2px solid #ece4de;
+  border-radius: 14px;
+  padding: 14px 10px;
+  font-family: monospace, var(--font-ui);
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 8px;
+  text-align: center;
+  color: #1a0a10;
+  outline: none;
+  box-sizing: border-box;
+  direction: ltr;
+  transition: border-color 0.2s;
+}
+
+.modal-otp-input:focus {
+  border-color: #5d022a;
+}
+
+.modal-otp-input.is-error {
+  border-color: #a81c2f;
+  animation: shake 0.3s ease;
+}
+
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+
+.modal-otp-feedback {
+  font-family: var(--font-ui);
+  font-size: 12.5px;
+  font-weight: 600;
+  min-height: 20px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.modal-otp-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14px;
+}
+
+.btn-otp-action-link {
+  background: none;
+  border: none;
+  color: #7a1832;
+  font-family: var(--font-ui);
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 4px;
+}
+
+.btn-otp-action-link:hover {
+  color: #46011f;
+}
+
+.btn-otp-action-link:disabled {
+  color: #aaa;
+  cursor: not-allowed;
+  text-decoration: none;
+}
+</style>
+</head>
+<body>
+
+<!-- ============== NAV ============== -->
+<nav class="nav" data-nav="" data-nav-state="scrolled" aria-label="القائمة">
+  <a href="/" class="brand" aria-label="إبرة وخيط، الصفحة الرئيسية">
+    <img src="khamaiq.com/assets/logo.png" alt="إبرة وخيط">
+  </a>
+
+  <div class="nav-links" data-nav-links="">
+    <a href="/products">المنتجات</a>
+    <a href="/class" class="is-active" style="color:var(--emerald-deep); font-weight:700;">صفحة الدفعة</a>
+    <a href="/قياس">حاسبة القياس</a>
+    <a href="/#visualizer">جرب الألوان</a>
+    <a href="/blog">المدونة</a>
+    <a href="/#faq">الأسئلة</a>
+  </div>
+
+  <div class="nav-actions">
+    <button class="nav-cart" data-cart-trigger="" aria-label="السلة (فارغة)">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 7h14l-1.4 10.5a2 2 0 0 1-2 1.5H8.4a2 2 0 0 1-2-1.5L5 7Z"></path>
+        <path d="M9 7V5a3 3 0 0 1 6 0v2"></path>
+      </svg>
+      <span class="nav-cart-count" data-cart-count="" hidden="">0</span>
+    </button>
+    <button class="mobile-burger" data-mobile-burger aria-label="فتح القائمة" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ============== Off-Canvas Mobile Drawer ============== -->
+<div class="mobile-drawer-backdrop" id="mobile-drawer-backdrop"></div>
+<aside class="mobile-drawer" id="mobile-drawer">
+  <div class="mobile-drawer-head">
+    <img src="khamaiq.com/assets/logo.png" alt="إبرة وخيط" class="mobile-drawer-logo">
+    <button class="mobile-drawer-close" data-drawer-close>&times;</button>
+  </div>
+  <nav class="mobile-drawer-nav">
+    <a href="/" class="mobile-drawer-link">الرئيسية</a>
+    <a href="/products" class="mobile-drawer-link">المنتجات</a>
+    <a href="/class" class="mobile-drawer-link" style="color:var(--emerald-deep);">صفحة الدفعة والتصويت</a>
+    <a href="/قياس" class="mobile-drawer-link">حاسبة القياس والتفصيل</a>
+    <a href="/#visualizer" class="mobile-drawer-link">جرب لون الوشاح</a>
+    <a href="/blog" class="mobile-drawer-link">المدونة ودليل التخرج</a>
+    <a href="/#faq" class="mobile-drawer-link">الأسئلة الشائعة</a>
+  </nav>
+</aside>
+
+<!-- ============== MAIN CONTENT ============== -->
+<main class="class-page-wrap">
+  <div class="class-content-box">
+
+    <!-- ============================================================
+         SECTION A: CLASS HUB & VOTING (Matches Screenshot 2)
+         ============================================================ -->
+    <section id="section-class-hub">
+
+      <!-- Top Header Card -->
+      <div class="hub-header-card">
+        <span class="hub-top-tag">صفحة الدفعة</span>
+        <h1 class="hub-college-title" id="hub-college-lbl">كلية الطب</h1>
+        <p class="hub-uni-sub" id="hub-uni-lbl">جامعة بغداد - دفعة 2026</p>
+        <div class="hub-meta-row">
+          <span id="hub-members-count-lbl">0 أعضاء</span>
+          <span>•</span>
+          <span id="hub-votes-count-lbl">0 صوت</span>
+          <span>•</span>
+          <span class="hub-status-badge" id="hub-vote-status">التصويت مفتوح</span>
+        </div>
+      </div>
+
+      <!-- Main Voting Card -->
+      <div class="hub-voting-card">
+        <h2 class="hub-card-heading">صوت ع لون دفعتك</h2>
+        <p class="hub-card-sub" id="hub-vote-summary-sub">صوتك يحسب. كن أول من يصوت لدفعتك!</p>
+
+        <!-- Model Showcase Box -->
+        <div class="hub-showcase-container">
+          <img src="khamaiq.com/assets/images/visualizer-mauve.jpg" alt="معاينة لون الوشاح" class="hub-showcase-img" id="hub-model-img" width="800" height="1000" loading="lazy" decoding="async">
+          <div class="hub-color-pill-overlay">
+            <span class="hub-color-tag-lbl">اللون المتصدر</span>
+            <h3 class="hub-color-name-lbl" id="hub-lead-color-name">وردي ملكي</h3>
+          </div>
+        </div>
+
+        <!-- 6 Colors Voting Grid -->
+        <div class="hub-vote-grid" id="hub-colors-grid">
+          <!-- Populated by JavaScript -->
+        </div>
+
+        <p class="hub-vote-deadline-note" id="hub-deadline-note">لم يحدد ممثل الدفعة موعد إغلاق.</p>
+      </div>
+
+      <!-- Card 3: Rep Needed (Dashed Card) -->
+      <div class="hub-rep-dashed-card" id="card-rep-needed">
+        <span class="hub-rep-tag">الدفعة بدون ممثل</span>
+        <h3 class="hub-rep-title">دفعتكم تحتاج ممثل</h3>
+        <p class="hub-rep-desc">إذا أنت ممثل الدفعة، أكد رقم موبايلك بكود SMS حتى تدير لون الدفعة وطلابها.</p>
+        <button type="button" class="btn-camel-action" id="btn-trigger-rep-modal">أنت ممثل الدفعة؟</button>
+      </div>
+
+      <!-- Card 4: Share Link with Classmates -->
+      <div class="hub-share-card">
+        <h3 class="hub-share-title">شارك الرابط مع دفعتك</h3>
+        <p class="hub-share-sub">كل واحد ينقر الرابط راح يدخل لنفس الصفحة هاي.</p>
+        <div class="hub-link-copy-row">
+          <button type="button" class="btn-copy-link" id="btn-copy-class-link">انسخ الرابط</button>
+          <input type="text" class="hub-link-input" id="input-class-link" readonly value="https://khamaiq.com/class">
+        </div>
+      </div>
+
+      <!-- Card 5: Class Members -->
+      <div class="hub-members-card">
+        <h3 class="hub-members-heading">أعضاء الدفعة</h3>
+        <div class="hub-members-list" id="hub-members-tags">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Bottom CTA Area -->
+      <div class="hub-bottom-area">
+        <p class="hub-bottom-sub">لما يتحدد لون الدفعة، تظهر هنا استمارة القياسات حتى تكمل طلبك.</p>
+        <a href="/products" class="btn-bottom-order">صمم طقمك</a>
+        <a id="btn-scroll-to-guide" class="link-explainer-guide">شوف كيف تصوت دفعتك</a>
+      </div>
+
+    </section>
+
+    <!-- ============================================================
+         SECTION B: EXPLAINER GUIDE (Matches Screenshot 1)
+         ============================================================ -->
+    <section class="guide-container-section" id="section-explainer-guide">
+
+      <div class="guide-hero-head">
+        <span class="guide-hero-tag">كيف تصوت الدفعة</span>
+        <h2 class="guide-hero-title">دفعتك تقرر بصوت واحد</h2>
+        <p class="guide-hero-desc">صفحة دفعتك تشتغل بطريقة بسيطة. كل عضو يصوت ع لون من ست ألوان. اللي يجمع أكثر أصوات يفوز، الباقي إحنا نتكفل بيه.</p>
+      </div>
+
+      <!-- 1. How It Works -->
+      <div class="guide-sec-head">
+        <h3 class="guide-sec-title">كيف تشتغل صفحة الدفعة</h3>
+        <p class="guide-sec-sub">ثلاث خطوات بس، من الفتح لين اللون الفائز.</p>
+      </div>
+
+      <div class="guide-steps-grid">
+        <div class="guide-step-card">
+          <div class="guide-step-num">1</div>
+          <h4 class="guide-step-card-title">افتح الصفحة</h4>
+          <p class="guide-step-card-text">طالب واحد من الدفعة يدخل برقم موبايله وكلمة سر، ويحدد جامعته، كليته، وسنة تخرجه، أو هو ممثل الدفعة. يتفرع الصندوق ويثبت رقمه برمز يوصله، ويصير المسؤول عن الموعد والتعامل وإدارة الأعضاء.</p>
+        </div>
+        <div class="guide-step-card">
+          <div class="guide-step-num">2</div>
+          <h4 class="guide-step-card-title">دفعتك تنضم</h4>
+          <p class="guide-step-card-text">الممثل يشارك الرابط بمجموعة الواتساب. كل طالب من نفس الجامعة والكلية والسنة ينضم، يصوت ع لون.</p>
+        </div>
+        <div class="guide-step-card">
+          <div class="guide-step-num">3</div>
+          <h4 class="guide-step-card-title">اللون يفوز</h4>
+          <p class="guide-step-card-text">لما الموعد ينتهي، اللون اللي يجمع أكثر أصوات يفوز. ما نطلب نصف الدفعة - 10 أصوات تكفي، والباقي إحنا نتكفل بيه.</p>
+        </div>
+      </div>
+
+      <!-- 2. Voting Rules (Pink Container) -->
+      <div class="pink-rules-container">
+        <div class="guide-sec-head">
+          <h3 class="guide-sec-title">قواعد التصويت</h3>
+          <p class="guide-sec-sub">كل القواعد بمكان واحد. ما في غموض ولا تعديل بالمنتصف.</p>
+        </div>
+
+        <div class="rules-cards-2x2">
+          <div class="rule-card-white">
+            <h4 class="rule-card-title">جولة وحدة، صوت واحد</h4>
+            <p class="rule-card-text">كل عضو يختار لون واحد من ست ألوان. تقدر تغير صوتك لين الموعد ينتهي، لكن الصوت يحسب لآخر اختيار.</p>
+          </div>
+          <div class="rule-card-white">
+            <h4 class="rule-card-title">الأكثرية البسيطة</h4>
+            <p class="rule-card-text">اللي يجمع أكثر أصوات يفوز. ما نطلب نصف الدفعة - 10 أصوات تصويت كافي. اللون الأول هو الفائز.</p>
+          </div>
+          <div class="rule-card-white">
+            <h4 class="rule-card-title">التصويت المتأخر مسموح</h4>
+            <p class="rule-card-text">لو طالب انضم متأخر، يقدر يصوت لين الموعد ينتهي، ما في "وقت قفل مبكر" غير اللي يحدده الممثل.</p>
+          </div>
+          <div class="rule-card-white">
+            <h4 class="rule-card-title">التعادل، الممثل يختار</h4>
+            <p class="rule-card-text">إذا صار لونين بنفس عدد الأصوات، ممثل الدفعة يختار الفائز من بين الألوان المتعادلة، صلاحية واحدة بس، لكن مهمة.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Representative Role (White Container) -->
+      <div class="guide-sec-head">
+        <h3 class="guide-sec-title">دور ممثل الدفعة</h3>
+        <p class="guide-sec-sub">الممثل هو اللي يشرح نفسه بصندوق "أنا ممثل الدفعة" وقت التسجيل، أو ما اختار حد، أي عضو من الدفعة يقدر يتولى من داخل الصفحة.</p>
+      </div>
+
+      <div class="rep-role-card-wrap">
+        <span class="rep-role-badge">صلاحيات الممثل</span>
+        <h4 style="font-family:var(--font-display); font-size:18px; margin:0 0 10px; color:#1a0a10;">شنو يكدر يسوي</h4>
+        <ul class="rep-role-list">
+          <li>يحدد موعد إغلاق التصويت. أسبوع، عشرة أيام، شهر، إنت تختار.</li>
+          <li>يقدر يقفل التصويت يدوي. إذا الدفعة قررت بدري، الممثل يقدر يقفل قبل الموعد.</li>
+          <li>يقدر يشيل عضو من الدفعة. لو دخل حد مو من دفعتكم أو تكرر رقم، الممثل يشيله ويتصفى الصوت، ما في "موافقة" قبل التصويت، أي عضو ينضم يصوت ع طول، والممثل يدير بالحذف بس.</li>
+          <li>يختار الفائز لو صار تعادل، صلاحية واحدة بس، تنحط بصينية الممثل يختار من اللي تعادل.</li>
+        </ul>
+      </div>
+
+      <!-- 4. Frequently Asked Questions (Pink Container) -->
+      <div class="pink-rules-container">
+        <div class="guide-sec-head">
+          <h3 class="guide-sec-title">أسئلة شائعة</h3>
+        </div>
+
+        <div class="rules-cards-2x2">
+          <div class="rule-card-white">
+            <h4 class="rule-card-title">شلون تضمن إن كل المصوتين من دفعتنا؟</h4>
+            <p class="rule-card-text">كل عضو يدخل برقم موبايله، الجامعة والكلية والسنة لازم تطابق خ حتى صفحة الدفعة. ما يقدر طالب من دفعة ثانية يدخل بصفحتكم.</p>
+          </div>
+          <div class="rule-card-white">
+            <h4 class="rule-card-title">إذا الممثل اختفى أو ما حدد موعد؟</h4>
+            <p class="rule-card-text">إذا الممثل ما حدد موعد، التصويت مفتوح إلى أجل غير مسمى، أو ما عندكم ممثل أصلاً، أي عضو من الدفعة يقدر يتولى من داخل صفحة الدفعة.</p>
+          </div>
+          <div class="rule-card-white">
+            <h4 class="rule-card-title">تكدر تغير صوتك؟</h4>
+            <p class="rule-card-text">إي، لين الموعد ينتهي تقدر تغير اختيارك أي عدد من المرات، الصوت اللي ينحسب هو آخر اختيار.</p>
+          </div>
+          <div class="rule-card-white">
+            <h4 class="rule-card-title">لون دفعتنا مو من الست ألوان؟</h4>
+            <p class="rule-card-text">الست ألوان مختارة بعناية ومتوافقة مع جودة الإنتاج، لو دفعتك مصرة ع لون ثاني، تواصلوا معنا بالواتساب ونشوف.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Guide CTA -->
+      <div style="text-align:center; padding: 10px 0 40px;">
+        <p style="font-family:var(--font-ui); font-size:14px; font-weight:700; color:#555; margin:0 0 10px;">جاهز؟</p>
+        <button type="button" class="btn-camel-action" id="btn-guide-back-to-hub">افتح صفحة دفعتك</button>
+      </div>
+
+    </section>
+
+  </div>
+</main>
+
+<!-- ============================================================
+     MODAL: أنت ممثل الدفعة؟ (Matches Screenshot 3)
+     ============================================================ -->
+<div class="modal-overlay" id="modal-rep-verify" style="display:none;">
+  <div class="modal-box-card">
+    <button type="button" class="modal-btn-close" id="btn-close-rep-modal">&times;</button>
+    
+    <!-- STEP 1: Phone input -->
+    <div id="rep-step-phone">
+      <h2 class="modal-rep-heading">أنت ممثل الدفعة؟</h2>
+      <p class="modal-rep-sub">أكد رقم موبايلك برسالة SMS حتى تصير ممثل الدفعة وتدير لونها وطلابها.</p>
+
+      <form id="form-rep-verify">
+        <div class="modal-field-group">
+          <label class="modal-field-label" for="input-rep-phone-val">رقم الموبايل</label>
+          <input type="tel" class="modal-field-input" id="input-rep-phone-val" value="+9647805088134" required autocomplete="tel">
+        </div>
+
+        <p class="modal-legal-note">بالضغط على إرسال الكود توافق على استلام رسالة تحقق ومعالجة رقمك من Google للحماية من إساءة الاستخدام.</p>
+
+        <button type="submit" class="btn-send-sms-code" id="btn-submit-rep-sms">أرسل كود التحقق</button>
+
+        <p class="modal-recaptcha-footer">
+          <span>محمي بـ reCAPTCHA · </span>
+          <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">الخصوصية</a> · <a href="https://policies.google.com/terms" target="_blank" rel="noopener">الشروط</a>
+        </p>
+      </form>
+    </div>
+
+    <!-- STEP 2: OTP input -->
+    <div id="rep-step-otp" style="display:none; text-align:center;">
+      <h2 class="modal-rep-heading">أدخل كود التحقق</h2>
+      <p class="modal-rep-sub">أرسلنا كود SMS إلى <strong id="rep-otp-phone-display" dir="ltr" style="color:#5d022a;"></strong></p>
+
+      <div class="modal-otp-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
+        <span>Google Cloud OTP · SMS مجاني</span>
+      </div>
+
+      <form id="form-rep-confirm-otp">
+        <div class="modal-field-group" style="text-align:center;">
+          <label class="modal-field-label" for="input-rep-otp-code" style="text-align:center;">كود التحقق (6 أرقام)</label>
+          <input type="text" class="modal-otp-input" id="input-rep-otp-code" maxlength="6" inputmode="numeric" pattern="[0-9]*" placeholder="000000" autocomplete="one-time-code">
+        </div>
+
+        <p class="modal-otp-feedback" id="rep-otp-feedback" style="color:#555;"></p>
+
+        <button type="submit" class="btn-send-sms-code" id="btn-confirm-rep-otp">تأكيد كود التحقق</button>
+
+        <div class="modal-otp-actions">
+          <button type="button" class="btn-otp-action-link" id="btn-rep-change-phone">تغيير رقم الموبايل</button>
+          <button type="button" class="btn-otp-action-link" id="btn-rep-resend-otp" disabled>إعادة الإرسال (<span id="rep-resend-timer">60</span>ث)</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<!-- Core Firebase & Cloud OTP Scripts -->
+<script src="khamaiq.com/firebase-config_v=p138.js"></script>
+<script src="khamaiq.com/firebase-init_v=p144.js"></script>
+<script src="khamaiq.com/cloud-otp.js"></script>
+<script src="khamaiq.com/uni-directory_v=p138.js"></script>
+<script src="khamaiq.com/cart_v=p138.js"></script>
+<script src="khamaiq.com/mobile.js"></script>
+<script src="khamaiq.com/enhancements.js" defer></script>
+
+<script>
+(function () {
+  'use strict';
+
+  // The 6 Official Class Colors (Matches Screenshot 2)
+  // Saved votes in localStorage or initial clean state
+  let savedVotes = {};
+  try {
+    savedVotes = JSON.parse(localStorage.getItem('khama_class_votes') || '{}');
+  } catch (_) {}
+
+  // The 6 Official Class Colors (Matches Screenshot 2)
+  const CLASS_COLORS = [
+    {
+      id: 'burgundy',
+      name: 'ماروني خامة',
+      hex: '#7a1832',
+      votes: typeof savedVotes['burgundy'] === 'number' ? savedVotes['burgundy'] : 0,
+      image: 'khamaiq.com/assets/images/visualizer-burgundy.jpg'
+    },
+    {
+      id: 'red',
+      name: 'أحمر عميق',
+      hex: '#a81c2f',
+      votes: typeof savedVotes['red'] === 'number' ? savedVotes['red'] : 0,
+      image: 'khamaiq.com/assets/images/visualizer-red.jpg'
+    },
+    {
+      id: 'mauve',
+      name: 'وردي ملكي',
+      hex: '#7d384e',
+      votes: typeof savedVotes['mauve'] === 'number' ? savedVotes['mauve'] : 0,
+      image: 'khamaiq.com/assets/images/visualizer-mauve.jpg'
+    },
+    {
+      id: 'emerald',
+      name: 'أخضر داكن',
+      hex: '#0e4937',
+      votes: typeof savedVotes['emerald'] === 'number' ? savedVotes['emerald'] : 0,
+      image: 'khamaiq.com/assets/images/visualizer-emerald.jpg'
+    },
+    {
+      id: 'navy',
+      name: 'أزرق داكن',
+      hex: '#132247',
+      votes: typeof savedVotes['navy'] === 'number' ? savedVotes['navy'] : 0,
+      image: 'khamaiq.com/assets/images/visualizer-navy.jpg'
+    },
+    {
+      id: 'teal',
+      name: 'أزرق فاتح',
+      hex: '#0b7285',
+      votes: typeof savedVotes['teal'] === 'number' ? savedVotes['teal'] : 0,
+      image: 'khamaiq.com/assets/images/visualizer-teal.jpg'
+    }
+  ];
+
+  // State
+  let userSelectedColor = localStorage.getItem('khama_user_vote') || null;
+  let isRepresentative = localStorage.getItem('khama_is_rep') === 'true';
+
+  // Elements
+  const colorsGrid = document.getElementById('hub-colors-grid');
+  const modelImg = document.getElementById('hub-model-img');
+  const leadColorName = document.getElementById('hub-lead-color-name');
+  const membersCountLbl = document.getElementById('hub-members-count-lbl');
+  const votesCountLbl = document.getElementById('hub-votes-count-lbl');
+  const voteSummarySub = document.getElementById('hub-vote-summary-sub');
+
+  const modalRep = document.getElementById('modal-rep-verify');
+  const btnTriggerRep = document.getElementById('btn-trigger-rep-modal');
+  const btnCloseRep = document.getElementById('btn-close-rep-modal');
+  const formRepVerify = document.getElementById('form-rep-verify');
+  const cardRepNeeded = document.getElementById('card-rep-needed');
+
+  const btnCopyClassLink = document.getElementById('btn-copy-class-link');
+  const inputClassLink = document.getElementById('input-class-link');
+  const btnScrollToGuide = document.getElementById('btn-scroll-to-guide');
+  const btnGuideBackToHub = document.getElementById('btn-guide-back-to-hub');
+
+  // Dynamic College / Uni from Query Params
+  const urlParams = new URLSearchParams(window.location.search);
+  const collegeParam = urlParams.get('college') || urlParams.get('c');
+  const uniParam = urlParams.get('uni') || urlParams.get('u');
+  const yearParam = urlParams.get('year') || '2026';
+
+  let collegeName = 'كلية الطب';
+  let uniName = 'جامعة بغداد';
+
+  if (collegeParam) {
+    collegeName = collegeParam;
+    const collegeEl = document.getElementById('hub-college-lbl');
+    if (collegeEl) collegeEl.textContent = collegeName;
+  }
+  if (uniParam) {
+    uniName = uniParam;
+    const uniEl = document.getElementById('hub-uni-lbl');
+    if (uniEl) uniEl.textContent = `${uniName} - دفعة ${yearParam}`;
+  }
+
+  // Dynamic Members List
+  function renderMembersList() {
+    const membersContainer = document.getElementById('hub-members-tags');
+    if (!membersContainer) return;
+
+    let members = [];
+    try {
+      members = JSON.parse(localStorage.getItem('khama_class_members') || '[]');
+    } catch (_) {}
+
+    // Check if current user is stored
+    try {
+      const u = JSON.parse(localStorage.getItem('khama_user') || '{}');
+      const uName = u.name || u.displayName || (u.phone ? 'عضو (' + u.phone.slice(-4) + ')' : null);
+      if (uName && !members.some(m => m.name === uName)) {
+        members.unshift({ name: uName, isRep: isRepresentative });
+      }
+    } catch (_) {}
+
+    membersContainer.innerHTML = '';
+    if (members.length === 0) {
+      membersContainer.innerHTML = '<p style="font-size:13px; color:#888; margin:6px 0;">لم ينضم أحد بعد — شارك الرابط مع دفعتك لتظهر الأسماء هنا!</p>';
+      if (membersCountLbl) membersCountLbl.textContent = '0 أعضاء';
+      return;
+    }
+
+    if (membersCountLbl) membersCountLbl.textContent = `${members.length} عضو`;
+
+    members.forEach(m => {
+      const pill = document.createElement('div');
+      pill.className = 'member-pill-tag';
+      const initial = (m.name || 'ع').trim().charAt(0);
+      pill.innerHTML = `
+        <span>${m.name}${m.isRep ? ' ⭐' : ''}</span>
+        <div class="member-avatar-circle">${initial}</div>
+      `;
+      membersContainer.appendChild(pill);
+    });
+  }
+
+  // Save votes to localStorage
+  function persistVotes() {
+    try {
+      const vObj = {};
+      CLASS_COLORS.forEach(c => { vObj[c.id] = c.votes; });
+      localStorage.setItem('khama_class_votes', JSON.stringify(vObj));
+    } catch (_) {}
+  }
+
+  // Populate dynamic current URL for link copying
+  if (inputClassLink) {
+    inputClassLink.value = window.location.href;
+  }
+
+  // Render 6 colors grid
+  function renderColorsGrid() {
+    colorsGrid.innerHTML = '';
+    const totalVotes = CLASS_COLORS.reduce((acc, cur) => acc + cur.votes, 0);
+
+    // Find leading color
+    const sorted = [...CLASS_COLORS].sort((a, b) => b.votes - a.votes);
+    const leading = sorted[0];
+
+    // Update showcase image to match currently selected or leading
+    const activeObj = (userSelectedColor ? CLASS_COLORS.find(c => c.id === userSelectedColor) : null) || leading;
+    if (activeObj) {
+      modelImg.src = activeObj.image;
+      leadColorName.textContent = activeObj.name;
+    }
+
+    // Update counts
+    votesCountLbl.textContent = `${totalVotes} صوت`;
+    voteSummarySub.textContent = totalVotes > 0
+      ? `صوتك يحسب. ${totalVotes} عضو صوتوا حتى الآن.`
+      : 'صوتك يحسب. كن أول من يصوت لدفعتك!';
+
+    CLASS_COLORS.forEach(col => {
+      const pct = totalVotes > 0 ? Math.round((col.votes / totalVotes) * 100) : 0;
+      const isUserChoice = (userSelectedColor === col.id);
+
+      const tile = document.createElement('button');
+      tile.type = 'button';
+      tile.className = 'vote-tile-btn' + (isUserChoice ? ' is-active' : '');
+
+      tile.innerHTML = `
+        <div class="tile-top-row">
+          <span class="tile-color-name">
+            ${isUserChoice ? '<span class="tile-check-icon">✓</span>' : ''}
+            <span>${col.name}</span>
+          </span>
+          <div class="tile-circle-dot" style="background:${col.hex};"></div>
+        </div>
+        <div class="tile-progress-bar">
+          <div class="tile-progress-fill" style="width:${pct}%; background:${col.hex};"></div>
+        </div>
+        <span class="tile-count-txt">${col.votes} (${pct}%)</span>
+      `;
+
+      tile.addEventListener('click', () => {
+        if (userSelectedColor === col.id) return;
+
+        // Decrement previous
+        const prev = CLASS_COLORS.find(c => c.id === userSelectedColor);
+        if (prev && prev.votes > 0) prev.votes--;
+
+        // Increment new
+        col.votes++;
+        userSelectedColor = col.id;
+        localStorage.setItem('khama_user_vote', col.id);
+        persistVotes();
+
+        // Add user to members list if not already
+        try {
+          let members = JSON.parse(localStorage.getItem('khama_class_members') || '[]');
+          const u = JSON.parse(localStorage.getItem('khama_user') || '{}');
+          const voterName = u.name || u.displayName || 'طالب مصوت';
+          if (!members.some(m => m.name === voterName)) {
+            members.push({ name: voterName, isRep: isRepresentative });
+            localStorage.setItem('khama_class_members', JSON.stringify(members));
+          }
+        } catch (_) {}
+
+        renderColorsGrid();
+        renderMembersList();
+      });
+
+      colorsGrid.appendChild(tile);
+    });
+  }
+
+  // Rep status check
+  function updateRepCard() {
+    if (isRepresentative && cardRepNeeded) {
+      cardRepNeeded.innerHTML = `
+        <span class="hub-rep-tag" style="color:#1e874b; font-weight:800;">✓ أنت ممثل الدفعة المعتمد</span>
+        <h3 class="hub-rep-title">لوحة تحكم ممثل الدفعة 👑</h3>
+        <p class="hub-rep-desc">بصفتك ممثل الدفعة، تقدر تحدد موعد إغلاق التصويت، تطلب عينات الأقمشة، وتعتمد اللون النهائي.</p>
+        <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
+          <a href="https://wa.me/9647805088134?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D8%A5%D8%A8%D8%B1%D8%A9%20%D9%88%D8%AE%D9%8A%D8%B7%D8%8C%20%D8%A3%D9%86%D8%A7%20%D9%85%D9%85%D8%AB%D9%84%20%D8%AF%D9%81%D8%B9%D8%A9%20%D9%83%D9%84%D9%8A%D8%A9%20%D8%A7%D9%84%D8%B7%D8%A8%20%D8%AC%D8%A7%D9%85%D8%B9%D8%A9%20%D8%A8%D8%BA%D8%AF%D8%A7%D8%AF" target="_blank" rel="noopener" class="btn-camel-action" style="font-size:13px; padding:10px 18px;">تواصل كمنسق ع الواتساب</a>
+          <button type="button" id="btn-lock-voting" class="btn-camel-action" style="background:#5d022a; color:#fff; font-size:13px; padding:10px 18px;">إغلاق التصويت الآن</button>
+        </div>
+      `;
+
+      const btnLock = document.getElementById('btn-lock-voting');
+      if (btnLock) {
+        btnLock.addEventListener('click', () => {
+          document.getElementById('hub-vote-status').textContent = 'التصويت مغلق';
+          document.getElementById('hub-vote-status').style.background = '#faebe8';
+          document.getElementById('hub-vote-status').style.color = '#5d022a';
+          document.getElementById('hub-deadline-note').textContent = 'أغلق ممثل الدفعة التصويت واعتمد اللون المتصدر.';
+          alert('تم إغلاق التصويت واعتماد اللون الفائز بنجاح!');
+        });
+      }
+    }
+  }
+
+  // Copy Link button
+  if (btnCopyClassLink && inputClassLink) {
+    btnCopyClassLink.addEventListener('click', () => {
+      navigator.clipboard.writeText(inputClassLink.value).then(() => {
+        const orig = btnCopyClassLink.textContent;
+        btnCopyClassLink.textContent = 'تم النسخ!';
+        setTimeout(() => { btnCopyClassLink.textContent = orig; }, 2000);
+      });
+    });
+  }
+
+  // Smooth scrolls
+  if (btnScrollToGuide) {
+    btnScrollToGuide.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById('section-explainer-guide').scrollIntoView({ behavior: 'smooth' });
+    });
+  }
+  if (btnGuideBackToHub) {
+    btnGuideBackToHub.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  // Modal: أنت ممثل الدفعة؟
+  if (btnTriggerRep && modalRep) {
+    btnTriggerRep.addEventListener('click', () => {
+      modalRep.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    });
+  }
+  if (btnCloseRep && modalRep) {
+    btnCloseRep.addEventListener('click', () => {
+      modalRep.style.display = 'none';
+      document.body.style.overflow = '';
+    });
+  }
+  if (modalRep) {
+    modalRep.addEventListener('click', (e) => {
+      if (e.target === modalRep) {
+        modalRep.style.display = 'none';
+        document.body.style.overflow = '';
+      }
+    });
+  }
+
+  // Cloud OTP Elements
+  const stepPhone = document.getElementById('rep-step-phone');
+  const stepOtp = document.getElementById('rep-step-otp');
+  const phoneDisplay = document.getElementById('rep-otp-phone-display');
+  const otpInput = document.getElementById('input-rep-otp-code');
+  const otpFeedback = document.getElementById('rep-otp-feedback');
+  const formOtpConfirm = document.getElementById('form-rep-confirm-otp');
+  const btnChangePhone = document.getElementById('btn-rep-change-phone');
+  const btnResendOtp = document.getElementById('btn-rep-resend-otp');
+  const resendTimerEl = document.getElementById('rep-resend-timer');
+  let resendInterval = null;
+
+  function startResendCountdown() {
+    if (resendInterval) clearInterval(resendInterval);
+    let secondsLeft = 60;
+    if (btnResendOtp) btnResendOtp.disabled = true;
+    if (resendTimerEl) resendTimerEl.textContent = secondsLeft;
+    resendInterval = setInterval(() => {
+      secondsLeft--;
+      if (secondsLeft <= 0) {
+        clearInterval(resendInterval);
+        if (btnResendOtp) {
+          btnResendOtp.disabled = false;
+          btnResendOtp.textContent = 'إعادة إرسال الكود';
+        }
+      } else {
+        if (resendTimerEl) resendTimerEl.textContent = secondsLeft;
+      }
+    }, 1000);
+  }
+
+  // Submit Step 1: Send Free Cloud OTP via Google Cloud Firebase
+  if (formRepVerify) {
+    formRepVerify.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const phoneVal = document.getElementById('input-rep-phone-val').value.trim();
+      const btn = document.getElementById('btn-submit-rep-sms');
+      const origText = btn.textContent;
+      btn.textContent = 'جاري إرسال الكود عبر السحابة...';
+      btn.disabled = true;
+
+      try {
+        const res = await window.KhamaCloudOTP.sendOtp(phoneVal, 'recaptcha-container-rep');
+        if (stepPhone) stepPhone.style.display = 'none';
+        if (stepOtp) stepOtp.style.display = 'block';
+        if (phoneDisplay) phoneDisplay.textContent = res.phone;
+        if (otpInput) {
+          otpInput.value = '';
+          setTimeout(() => otpInput.focus(), 100);
+        }
+        if (otpFeedback) {
+          otpFeedback.textContent = res.isFallback && res.testCode
+            ? `[بيئة تجريبية]: رمز التحقق هو ${res.testCode}`
+            : 'تم إرسال كود التحقق بنجاح!';
+          otpFeedback.style.color = '#1e874b';
+        }
+        startResendCountdown();
+      } catch (err) {
+        alert(err.message || 'تعذر إرسال كود التحقق. يرجى التأكد من الرقم والمحاولة ثانية.');
+      } finally {
+        btn.textContent = origText;
+        btn.disabled = false;
+      }
+    });
+  }
+
+  // Submit Step 2: Confirm Cloud OTP
+  if (formOtpConfirm) {
+    formOtpConfirm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const code = otpInput ? otpInput.value.trim() : '';
+      const btn = document.getElementById('btn-confirm-rep-otp');
+      const origText = btn ? btn.textContent : '';
+      if (btn) {
+        btn.textContent = 'جاري التحقق عبر السحابة...';
+        btn.disabled = true;
+      }
+      if (otpFeedback) otpFeedback.textContent = '';
+
+      try {
+        await window.KhamaCloudOTP.confirmOtp(code);
+        if (otpFeedback) {
+          otpFeedback.style.color = '#1e874b';
+          otpFeedback.textContent = '✓ تم التحقق بنجاح! جاري التفعيل...';
+        }
+        isRepresentative = true;
+        updateRepCard();
+
+        setTimeout(() => {
+          if (modalRep) {
+            modalRep.style.display = 'none';
+            document.body.style.overflow = '';
+          }
+          if (stepPhone) stepPhone.style.display = 'block';
+          if (stepOtp) stepOtp.style.display = 'none';
+          alert('تم تأكيد صفتك كممثل للدفعة بنجاح! 🎓');
+        }, 800);
+      } catch (err) {
+        if (otpFeedback) {
+          otpFeedback.style.color = '#a81c2f';
+          otpFeedback.textContent = err.message || 'رمز التحقق غير صحيح. حاول مجدداً.';
+        }
+        if (otpInput) {
+          otpInput.classList.add('is-error');
+          setTimeout(() => otpInput.classList.remove('is-error'), 1500);
+        }
+      } finally {
+        if (btn) {
+          btn.textContent = origText;
+          btn.disabled = false;
+        }
+      }
+    });
+  }
+
+  // Change phone button
+  if (btnChangePhone) {
+    btnChangePhone.addEventListener('click', () => {
+      if (resendInterval) clearInterval(resendInterval);
+      if (stepOtp) stepOtp.style.display = 'none';
+      if (stepPhone) stepPhone.style.display = 'block';
+      const inp = document.getElementById('input-rep-phone-val');
+      if (inp) inp.focus();
+    });
+  }
+
+  // Resend OTP button
+  if (btnResendOtp) {
+    btnResendOtp.addEventListener('click', async () => {
+      btnResendOtp.disabled = true;
+      btnResendOtp.textContent = 'جاري الإرسال...';
+      try {
+        const res = await window.KhamaCloudOTP.resendOtp();
+        if (otpFeedback) {
+          otpFeedback.style.color = '#1e874b';
+          otpFeedback.textContent = res.isFallback && res.testCode
+            ? `[بيئة تجريبية]: رمز التحقق هو ${res.testCode}`
+            : 'تم إرسال كود جديد برسالة SMS!';
+        }
+        startResendCountdown();
+      } catch (err) {
+        if (otpFeedback) {
+          otpFeedback.style.color = '#a81c2f';
+          otpFeedback.textContent = err.message || 'فشل إعادة الإرسال.';
+        }
+        btnResendOtp.disabled = false;
+        btnResendOtp.textContent = 'إعادة إرسال الكود';
+      }
+    });
+  }
+
+  // Listen to rep-verified event
+  window.addEventListener('khama:rep-verified', () => {
+    isRepresentative = true;
+    updateRepCard();
+    renderMembersList();
+  });
+
+  // Initialize
+  renderColorsGrid();
+  renderMembersList();
+  updateRepCard();
+
+})();
+</script>
+
+</body>
+</html>

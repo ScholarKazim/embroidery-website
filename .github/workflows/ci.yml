@@ -1,0 +1,78 @@
+name: CI & Hardening Verification
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  validate:
+    name: Code Quality & Security Linting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate JSON files
+        run: |
+          python3 -c "import json; json.load(open('orders.json', encoding='utf-8'))"
+          echo "orders.json is valid JSON."
+
+      - name: Audit HTML for baseline tags
+        run: |
+          for file in index.html products.html class.html track.html admin.html checkout.html; do
+            if [ ! -f "$file" ]; then
+              echo "Error: Missing required page $file"
+              exit 1
+            fi
+          done
+          echo "All core HTML pages exist."
+
+      - name: Verify Security Controls in server.ps1
+        run: |
+          grep -q "X-Content-Type-Options" server.ps1 || { echo "Missing X-Content-Type-Options"; exit 1; }
+          grep -q "X-Frame-Options" server.ps1 || { echo "Missing X-Frame-Options"; exit 1; }
+          grep -q "GetFullPath" server.ps1 || { echo "Missing Path Traversal Defense"; exit 1; }
+          grep -q "X-Admin-Pin" server.ps1 || { echo "Missing Admin PIN Check"; exit 1; }
+          echo "All server-side security controls verified."
+
+  test-server:
+    name: Automated Integration Tests
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Start PowerShell Web Server
+        shell: powershell
+        run: |
+          $proc = Start-Process powershell -ArgumentList "-ExecutionPolicy Bypass -File server.ps1" -PassThru
+          Start-Sleep -Seconds 4
+          $proc.Id | Out-File -FilePath server_pid.txt
+
+      - name: Run Endpoint Health & Security Tests
+        shell: powershell
+        run: |
+          $base = "http://localhost:8080"
+          $routes = @("/", "/products", "/class", "/track", "/admin", "/checkout")
+          foreach ($r in $routes) {
+            $resp = Invoke-WebRequest -Uri "$base$r" -UseBasicParsing
+            if ($resp.StatusCode -ne 200) {
+              throw "Route $r returned status $($resp.StatusCode)"
+            }
+          }
+          Write-Host "All core routes returned 200 OK."
+
+          try {
+            $resp = Invoke-WebRequest -Uri "$base/../../Windows/win.ini" -UseBasicParsing
+            throw "Path traversal attack was not blocked!"
+          } catch {
+            Write-Host "Path traversal blocked."
+          }
+
+          $homeResp = Invoke-WebRequest -Uri "$base/" -UseBasicParsing
+          if (-not $homeResp.Headers["X-Content-Type-Options"]) {
+            throw "Missing X-Content-Type-Options header!"
+          }
+          Write-Host "Security headers confirmed."

@@ -1,0 +1,187 @@
+/* ============================================================
+   Khama (خامة) -- desktop.css
+   Large-desktop (>=1200px) refinements layered on the mobile-first
+   styles.css / extras.css. Loaded LAST so it wins the cascade.
+   NOTHING here applies below 1200px: the mobile/tablet design is
+   unchanged. Goal: make desktop read as a deliberate composition
+   instead of an enlarged phone layout.
+   ============================================================ */
+
+/* Shared wide track, sibling to --container (1200px). Global so any
+   section can reuse it. */
+:root { --maxw-wide: 1320px; }
+
+/* ===================================================================
+   GLOBAL RHYTHM + NAV (the page spine)
+   =================================================================== */
+@media (min-width: 1200px) {
+  /* Calm desktop vertical rhythm; inline gutters stay near the content edge. */
+  section { padding-block: clamp(112px, 9vw, 140px); padding-inline: 40px; }
+
+  /* Nav stays one line, <=80px tall, wordmark on the right (RTL). Align the
+     bar's inline padding toward the 1200 content column. */
+  .nav {
+    padding-block: 16px;
+    padding-inline: clamp(40px, calc((100vw - 1200px) / 2 + 8px), 80px);
+  }
+  .nav-links { gap: 30px; font-size: 14.5px; }
+  .nav[data-nav-state="scrolled"] { padding-block: 12px; }
+}
+
+/* ===================================================================
+   HERO GALLERY : desktop sizing
+   The 3D box gallery is the same component as mobile; on desktop the
+   lockup is pulled out of flow (anchored inside the hero image's lower
+   band) so the gallery band flows straight from the image bottom.
+   =================================================================== */
+@media (min-width: 1200px) {
+  /* Slogan + CTA: anchor the lockup INSIDE the hero image's lower band so the
+     CTA always reads inside the hero. z-index:5 (base) keeps it painting
+     above the image. */
+  .hero-content {
+    position: absolute;
+    inset-inline: 0;
+    top: calc(100svh - 270px);
+    bottom: auto;
+    margin-top: 0;
+  }
+
+  /* Standalone gallery band with desktop air after the hero image; the
+     stage height comes from the shared photo-height formula in styles.css. */
+  .hero-gallery {
+    margin-top: clamp(64px, 8vh, 104px);
+  }
+}
+
+/* ===================================================================
+   VISUALIZER / PRODUCTS / PRICING : desktop polish
+   =================================================================== */
+@media (min-width: 1200px) {
+  /* Visualizer: balance the two columns, frame the portrait with matting. */
+  .visualizer .vis-above { max-width: 32ch; margin-bottom: 40px; }
+  .visualizer .vis-below { max-width: 40ch; margin-top: 36px; }
+  .tester { grid-template-columns: minmax(0, 1fr) minmax(320px, 380px); border-radius: 32px; }
+  .tester-photos { padding: 34px; }
+  .tester-controls { padding: 44px 36px; }
+  .tester-photos .photo-frame { max-width: 460px; }
+  .swatches { gap: 12px; }
+  .swatch:hover { box-shadow: 0 8px 22px -10px rgba(212, 165, 116, .35); }
+
+  /* Products: gap rhythm + a refined card hover (media zoom already exists). */
+  .products-grid { gap: 28px; }
+  .product-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-burgundy-lg); }
+  .product-card-media .image-placeholder { aspect-ratio: 4 / 5; }
+  .product-card-foot { margin-top: 24px; }
+  .product-card:hover .product-cta { box-shadow: 0 10px 24px -12px rgba(43, 11, 22, .5); }
+
+  /* Pricing: tighten internal spacing, bottom-align both CTAs. */
+  .pricing-grid { align-items: stretch; gap: 28px; }
+  .price-card { padding: 40px 36px; }
+  .price-card-desc { margin-bottom: 28px; }
+  .price-solo-list { margin-bottom: 26px; }
+  .price-card-include { margin-bottom: 28px; }
+  .price-card-cta { margin-top: auto; padding: 17px 24px; }
+  .price-card-cta:hover { transform: translateY(-2px); }
+}
+
+/* ===================================================================
+   WHY / FAQ / SIZE-NUDGE : desktop layouts
+   =================================================================== */
+@media (min-width: 1200px) {
+  /* WHY: a lonely single column becomes a balanced 2x2 grid.
+     (.why-list keeps its inherited margin-inline:auto, so it stays centered.) */
+  .why-list {
+    max-width: 1040px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(28px, 3vw, 44px) clamp(40px, 5vw, 72px);
+  }
+  .why-row { padding: 0; border-bottom: 0; align-items: baseline; column-gap: 24px; }
+  /* One tasteful hairline between the top pair and the bottom pair. */
+  .why-row:nth-child(3),
+  .why-row:nth-child(4) { padding-top: clamp(28px, 3vw, 44px); border-top: 1px solid var(--gray-line); }
+  .why-num { font-size: 14px; padding-top: 4px; }
+  .why-row p { font-size: clamp(18px, 1.4vw, 21px); line-height: 1.6; max-width: 32ch; }
+
+  /* FAQ: a comfortable centered reading measure. */
+  .faq-list { max-width: 780px; gap: 16px; }
+  .faq summary { padding: 22px 28px; gap: 18px; }
+  .faq summary .q { font-size: 17px; line-height: 1.7; } /* >=1.7 keeps the final yeh's dots */
+  .faq .a { padding: 0 28px 26px; font-size: 16px; line-height: 1.8; max-width: 60ch; }
+
+  /* SIZE-NUDGE: a confident horizontal band (text on the right, CTA on the left in RTL). */
+  .size-nudge-card { max-width: 1080px; padding: 48px 64px; align-items: center; gap: clamp(40px, 5vw, 72px); }
+  .size-nudge-text { flex: 1 1 auto; }
+  .size-nudge-sub { max-width: 56ch; }
+  .size-nudge-btn { flex: 0 0 auto; transition: transform .3s var(--ease-out), box-shadow .3s var(--ease-out); }
+  .size-nudge-btn:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -14px rgba(93, 2, 42, .35); }
+}
+
+/* ===================================================================
+   FINAL CTA + FOOTER
+   =================================================================== */
+@media (min-width: 1200px) {
+  /* Final CTA banner: cap the width, balance the padding. */
+  .cta-final { padding-bottom: 96px; }
+  .cta-banner { max-width: 1160px; padding: 104px 88px; border-radius: 32px; }
+  .cta-line { margin-bottom: 36px; }
+  .cta-actions { gap: 16px; }
+  .cta-banner .btn-pri:hover { box-shadow: 0 16px 36px rgba(68, 1, 30, .40); transform: translateY(-1px); }
+  .cta-banner .btn-ghost-dark:hover { background: rgba(212, 165, 116, .12); border-color: var(--gold-soft); color: var(--gold-soft); }
+
+  /* Footer: pull the wordmark into the same row as the link columns so the
+     empty mid-band disappears. .container becomes a 5-track grid: the mark
+     is column 1 (rightmost in RTL), the 4 link columns fill the rest, and the
+     copyright spans the full width on its own row. */
+  .footer { padding: 104px 40px 44px; }
+  .footer .container {
+    display: grid;
+    grid-template-columns: 1.3fr repeat(4, 1fr);
+    column-gap: 40px;
+    align-items: start;
+  }
+  .footer-mark {
+    grid-column: 1; grid-row: 1;
+    margin-bottom: 0;
+    padding-top: 56px;
+    border-top: 1px solid rgba(255, 255, 255, .1);
+  }
+  .footer-logo { height: 48px; }
+  .footer-cols {
+    grid-column: 2 / -1; grid-row: 1;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+    padding-top: 56px;
+  }
+  .footer-meta { grid-column: 1 / -1; grid-row: 2; margin-top: 48px; }
+}
+
+/* ===================================================================
+   VERY WIDE (>=1600px) : keep proportions honest, do not balloon
+   =================================================================== */
+@media (min-width: 1600px) {
+  section { padding-inline: 64px; }
+  .nav { padding-inline: clamp(64px, calc((100vw - 1200px) / 2 + 8px), 120px); }
+
+  /* Visualizer: stop the photo dwarfing the controls at huge widths. */
+  .tester { grid-template-columns: minmax(0, 1fr) 400px; }
+  .tester-photos { padding: 44px; }
+  .tester-photos .photo-frame { max-width: 480px; }
+  .tester-controls { padding: 52px 44px; }
+
+  .products-grid, .pricing-grid { gap: 34px; }
+  .cta-banner { max-width: var(--maxw-wide); }
+  .footer { padding-inline: 64px; }
+}
+
+/* ===================================================================
+   REDUCED MOTION (>=1200px): neutralize the new desktop hover motion.
+   (The hero photos are a static grid here, so nothing to disable there.)
+   =================================================================== */
+@media (min-width: 1200px) and (prefers-reduced-motion: reduce) {
+  .product-card:hover { transform: none; }
+  .price-card-cta:hover { transform: none; }
+  .swatch:hover { box-shadow: none; }
+  .size-nudge-btn, .size-nudge-btn:hover { transition: none; transform: none; }
+  .cta-banner .btn-pri:hover { transform: none; }
+}

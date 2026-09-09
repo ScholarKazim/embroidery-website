@@ -1,0 +1,1450 @@
+/* ============================================================
+   Khama — styles.css
+   Globals: page chrome, nav (scroll-revealed), hero (with image),
+   buttons, image-placeholder pattern, signup modal, footer,
+   visualizer (preserved from prior build), wa-pill, motion.
+
+   The site is mobile-first (90% of visitors). Desktop styles
+   are layered via min-width: 720px and 1100px breakpoints.
+   ============================================================ */
+
+body { background: var(--paper); margin: 0; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+
+:root {
+  --ease-out:    cubic-bezier(.16, 1, .3, 1);
+  --ease-in-out: cubic-bezier(.65, 0, .35, 1);
+  --t-quick:     .25s var(--ease-out);
+  --t-med:       .55s var(--ease-out);
+  --t-slow:      .9s var(--ease-out);
+  --nav-h:       64px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+a { color: inherit; text-decoration: none; }
+::selection { background: var(--emerald-deep); color: #fff; }
+img { max-width: 100%; display: block; }
+
+/* ===== Editorial paper-grain surface =====
+   Fixed SVG noise overlay above background, below interaction layers.
+   Multiply blend so it darkens blush slightly rather than washing it out.
+   Gated to retina+ at user motion preference. Single composited layer, no scroll cost.
+*/
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='2' stitchTiles='stitch' seed='3'/><feColorMatrix values='0 0 0 0 0.10  0 0 0 0 0.04  0 0 0 0 0.06  0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-size: 240px 240px;
+  opacity: var(--noise-opacity, 0.04);
+  mix-blend-mode: multiply;
+}
+@media (max-resolution: 1.4dppx) {
+  body::before { display: none; }
+}
+
+/* ===== Tonal depth surface =====
+   Viewport-anchored (fixed) soft blooms that make the blush paper feel lit
+   rather than flat. Sits behind all in-flow content (z-index:-1), above the
+   body's paper fill. Three near-invisible radials (<=10% alpha): a cool
+   window-light bloom from the top, a warm peach-gold pool low-left, and a
+   faint burgundy weight low-right. Anchored fixed so the light stays put as
+   you scroll — the surface reads as one continuous lit sheet of paper.
+   Opaque sections (hero, cards) paint over it, so depth only shows on blush. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(135% 95% at 50% -22%, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 58%),
+    radial-gradient(90% 80% at 10% 112%, rgba(212, 165, 116, 0.10), rgba(212, 165, 116, 0) 55%),
+    radial-gradient(95% 88% at 102% 104%, rgba(93, 2, 42, 0.055), rgba(93, 2, 42, 0) 55%);
+}
+
+/* ===== Scroll progress ===== */
+.scroll-progress {
+  position: fixed; top: 0; inset-inline-start: 0;
+  width: 100%; height: 2px;
+  background: transparent;
+  z-index: 100;
+  pointer-events: none;
+}
+.scroll-progress::after {
+  content: "";
+  position: absolute; top: 0; inset-inline-start: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, var(--gold-soft), var(--gold) 60%, var(--emerald-deep));
+  transform: scaleX(var(--p, 0));
+  transform-origin: right center; /* RTL */
+  transition: transform .12s linear;
+  will-change: transform;
+}
+
+/* ===== Reveal on scroll ===== */
+.reveal {
+  opacity: 0; transform: translateY(14px);
+  transition: opacity .8s var(--ease-out), transform .8s var(--ease-out);
+}
+.reveal.in { opacity: 1; transform: translateY(0); }
+.reveal-stagger > * {
+  opacity: 0; transform: translateY(14px);
+  transition: opacity .8s var(--ease-out), transform .8s var(--ease-out);
+}
+.reveal-stagger.in > * { opacity: 1; transform: translateY(0); }
+.reveal-stagger.in > *:nth-child(1) { transition-delay: .05s; }
+.reveal-stagger.in > *:nth-child(2) { transition-delay: .15s; }
+.reveal-stagger.in > *:nth-child(3) { transition-delay: .25s; }
+.reveal-stagger.in > *:nth-child(4) { transition-delay: .35s; }
+.reveal-stagger.in > *:nth-child(5) { transition-delay: .45s; }
+.reveal-stagger.in > *:nth-child(6) { transition-delay: .55s; }
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .reveal-stagger > * { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+
+/* ===== Keyframes (reusable) ===== */
+@keyframes hero-rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes faq-answer-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes scarf-shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+
+/* ===================== NAV — scroll-revealed ===================== */
+/* Hero state: only brand visible, transparent bg, no nav frame.
+   Scrolled state: full nav bar fades in with blurred blush bg. */
+.nav {
+  position: fixed; top: 0; inset-inline: 0;
+  z-index: 50;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 20px;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition:
+    background .45s var(--ease-out),
+    padding .45s var(--ease-out),
+    border-color .45s var(--ease-out),
+    backdrop-filter .45s var(--ease-out);
+}
+.nav .brand {
+  display: inline-flex; align-items: center;
+  height: 36px;
+}
+.nav .brand img {
+  height: 100%; width: auto; display: block;
+  /* Render in native burgundy by default (the file's true color). */
+  filter: none;
+  opacity: 1;
+  transition: filter .35s var(--ease-out), opacity .35s var(--ease-out), height .35s var(--ease-out);
+}
+.nav-links {
+  display: flex; align-items: center; gap: 22px;
+  font-family: var(--font-ui); font-size: 14px;
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition: opacity .35s var(--ease-out), transform .35s var(--ease-out);
+}
+.nav-links a {
+  color: var(--ink);
+  position: relative;
+  padding-block: 6px;
+  transition: color var(--t-quick);
+}
+.nav-links a::after {
+  content: ""; position: absolute; bottom: -2px; inset-inline-start: 0;
+  width: 100%; height: 1px;
+  background: currentColor;
+  transform: scaleX(0); transform-origin: left center;
+  transition: transform .45s var(--ease-out);
+}
+.nav-links a:hover { color: var(--emerald-deep); }
+.nav-links a:hover::after { transform: scaleX(1); transform-origin: right center; }
+
+.nav-cart {
+  background: transparent;
+  border: 1px solid rgba(26, 10, 16, .12);
+  color: var(--ink);
+  width: 40px; height: 40px;
+  border-radius: 999px;
+  display: inline-flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  position: relative;
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition: opacity .35s var(--ease-out), transform .35s var(--ease-out), background var(--t-quick), color var(--t-quick), border-color var(--t-quick);
+}
+.nav-cart:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
+.nav-cart-count {
+  position: absolute;
+  top: -4px; inset-inline-end: -4px;
+  min-width: 18px; height: 18px; padding: 0 5px;
+  background: var(--emerald-deep);
+  color: #fff;
+  font-family: var(--font-ui); font-size: 10px; font-weight: 700;
+  border-radius: 999px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-variant-numeric: tabular-nums;
+}
+.nav-cart-count[hidden] { display: none; }
+
+/* Scrolled state: bar materializes */
+.nav[data-nav-state="scrolled"] {
+  background: rgba(254, 240, 240, 0.78);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border-bottom-color: rgba(26, 10, 16, 0.06);
+  padding-block: 10px;
+}
+.nav[data-nav-state="scrolled"] .brand img {
+  filter: none;
+  opacity: 1;
+}
+.nav[data-nav-state="scrolled"] .nav-links,
+.nav[data-nav-state="scrolled"] .nav-cart {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .nav[data-nav-state="scrolled"] { background: rgba(254, 240, 240, 0.96); }
+}
+
+/* Mobile nav links: still 4 items + cart, smaller font, tighter gaps */
+@media (max-width: 540px) {
+  .nav { padding: 12px 14px; }
+  .nav .brand { height: 30px; }
+  .nav-links { gap: 14px; font-size: 12.5px; }
+  .nav-cart { width: 36px; height: 36px; }
+  .nav-cart svg { width: 18px; height: 18px; }
+}
+@media (max-width: 380px) {
+  .nav-links { gap: 10px; font-size: 11.5px; }
+}
+
+/* ===================== HERO (single combined section: image + sticky slogan/CTAs + rising photo stack) =====================
+   The hero is ONE tall scroll section. The hero image occupies the first
+   viewport. The slogan/CTAs sit overlaid at the bottom of the image initially,
+   then become `position: sticky` and pin to the top of the viewport as the
+   user scrolls. Below them, a sticky deck pin holds photo cards that JS
+   animates from offscreen-below into a stacked pile — the slogan stays put
+   the whole time. No clones; the original hero CTAs are the ones that stick.
+*/
+:root {
+  --hero-bg: var(--paper);
+  --hero-ink: var(--ink);
+  /* JS keeps these in sync with measured DOM. Defaults are mobile-first. */
+  --hero-content-h: 167px;
+  /* Extra distance the slogan/CTA cluster floats above the hero image's bottom
+     edge. Smaller value = the lockup sits lower, nearer the image's lower edge. */
+  --hero-lift: 34px;
+}
+
+.hero {
+  position: relative;
+  background: var(--hero-bg);
+  color: var(--hero-ink);
+  isolation: isolate;
+}
+.nav[data-nav-state="hero"] {
+  background: rgba(254, 240, 240, 0.22);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
+  border-bottom-color: rgba(254, 240, 240, 0.18);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .nav[data-nav-state="hero"] { background: rgba(254, 240, 240, 0.55); }
+}
+
+/* — Hero image: fills the first viewport. Normal block so the page scrolls
+     past it naturally as the user scrolls down. — */
+.hero-image {
+  position: relative;
+  margin: 0;
+  width: 100%;
+  height: 100svh;
+  background: #0d2226;
+  overflow: hidden;
+  /* Sits ABOVE the rising-card deck (z-index 2) so the cards are masked by the
+     hero image while it's still on screen — they only reveal in the paper area
+     below the image as it scrolls out. Stays below the pinned slogan/CTAs
+     (.hero-content, z-index 5), which must always read over the photo. */
+  z-index: 3;
+  animation: hero-fade 1.1s var(--ease-out) both;
+}
+.hero-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+/* — Scrim: the lower portion of the photo deepens into burgundy shadow, as if
+     the fabric itself falls into shade. This is the single most important fix
+     for legibility — the slogan and gold accent were dissolving into the gold
+     embroidery behind them. A warm focus-pool concentrated at the lower-right
+     (the RTL text anchor) gives the lockup an intentional "stage" so it reads
+     as designed rather than dropped on top. Sits above the img, below the
+     pinned .hero-content (z-index 5). — */
+.hero-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(135% 78% at 74% 112%,
+      rgba(16, 1, 8, .70) 0%,
+      rgba(16, 1, 8, 0) 58%),
+    linear-gradient(to top,
+      rgba(15, 1, 8, .90) 0%,
+      rgba(20, 2, 11, .68) 15%,
+      rgba(33, 4, 18, .34) 36%,
+      rgba(40, 5, 20, .06) 54%,
+      rgba(40, 5, 20, 0) 66%);
+}
+
+/* — Hero content: slogan + CTAs. Sits at the bottom of the hero image
+     (negative margin pulls it up to overlap the image) and scrolls away with
+     it naturally — no pinning. — */
+.hero-content {
+  position: relative;
+  z-index: 5;
+  margin-top: calc(-1 * (var(--hero-content-h) + var(--hero-lift)));
+  padding: 12px 24px 22px;
+  text-align: right;
+  display: flex; flex-direction: column;
+  /* Editorial rhythm: the lede (slogan + subline) is one tight unit, then a
+     calm step drops to a single clear action below it. Every child right-anchors
+     to the content edge; the slogan alone carries a small bearing correction so
+     its display-font glyph lands on that same guide. */
+  align-items: flex-start; gap: 28px;
+  background: transparent;
+  pointer-events: none;
+}
+.hero-content > * { pointer-events: auto; }
+
+/* Lede: slogan + supporting line bound as one editorial unit, sharing the same
+   right guide. The tight internal gap reads as headline+subtitle, distinct from
+   the generous gap that drops to the action below. */
+.hero-lede {
+  /* Span the full content width so the subline anchors to the SAME right guide
+     as the CTA below — not to the slogan's narrower, display-font box. */
+  align-self: stretch;
+  display: flex; flex-direction: column;
+  align-items: flex-start;
+  gap: 17px;
+}
+
+/* The headline is the design — one confident display line that owns the lower
+   third like an editorial fashion masthead, right-anchored to the same guide as
+   the kicker and CTA. Kept on a single line so the two words never collide. */
+.hero-slogan {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(42px, 11.8vw, 102px);
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  margin: 0;
+  /* Optical right-edge alignment: the leading glyph (rightmost in RTL, the تـ
+     swash) overshoots its own box, so the slogan reads as sticking out past the
+     CTA pill's border and the link below. A small POSITIVE inline-start margin
+     (the right side in RTL) pulls it back left onto that shared guide. */
+  margin-inline-start: 0.05em;
+  margin-inline-end: 0;
+  text-align: right;
+  white-space: nowrap;
+  color: var(--paper);
+  display: inline-flex;
+  justify-content: flex-start; align-items: baseline;
+  column-gap: .28em;
+  text-shadow: none;
+}
+.hero-slogan__word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(24px);
+  animation: hero-rise 1s var(--ease-out) both;
+  animation-delay: calc(.15s + var(--i, 0) * .1s);
+}
+/* "بفخامة" — a warm champagne-gold glow that echoes the silver/gold thread of
+   the embroidery, without the loud solid-gold of the old brand word. */
+.hero-slogan__word--accent {
+  color: #f6e1bd;
+  text-shadow: none;
+}
+
+.hero-actions {
+  display: flex; flex-direction: column;
+  /* One confident primary plaque sized to its own content (no longer stretched
+     to a full-width rectangle), with the scarf path demoted to a quiet text
+     link beneath it — a single clear hero action, right-anchored in RTL. */
+  align-items: flex-start;
+  gap: 20px;
+  width: auto; max-width: 100%;
+  opacity: 0;
+  animation: hero-fade .95s var(--ease-out) both;
+  animation-delay: .55s;
+}
+
+/* — Hero CTAs: the brand's soft-rounded button shape, shared site-wide via the
+     --plaque-* tokens. The primary is a solid peach-gold "thread" face; the
+     secondary is a glass face with a hairline border rim. — */
+.hero-cta {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: auto;                        /* size to the text inside */
+  font-family: var(--font-ui);
+  border-radius: 11px;                /* softly-rounded editorial tag, not a full pill */
+  cursor: pointer;
+  text-align: center;
+  transition: transform .42s cubic-bezier(.32,.72,0,1),
+              box-shadow .42s cubic-bezier(.32,.72,0,1),
+              background-color .42s var(--ease-out),
+              border-color .42s var(--ease-out);
+}
+
+/* Primary — a hairline-outlined champagne pill (Venetian/luxury-fashion idiom):
+   transparent fill, a fine champagne rim, the action sized to its own content.
+   Quiet confidence, not a loud filled block. The label pairs with a nested
+   "button-in-button" arrow in its own ringed circle. */
+.hero-cta--primary {
+  color: #f6e1bd;
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: .03em;
+  /* A confident plaque sized to sit right under the slogan: generous padding
+     makes the action read as substantial, while the outline's RIGHT edge stays
+     anchored to the same right guide as the slogan above (the block right-aligns
+     in RTL, so the extra width grows leftward, never past the slogan's edge). */
+  padding: 15px 28px;
+  background: transparent;
+  border: 1px solid rgba(246, 225, 189, .5);
+  box-shadow: 0 1px 22px rgba(8, 0, 4, .28);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, .4);
+}
+.hero-cta__label { display: inline-block; line-height: 1; }
+.hero-cta--primary:hover {
+  border-color: rgba(246, 225, 189, .92);
+  background: rgba(246, 225, 189, .08);
+  transform: translateY(-1px);
+}
+.hero-cta--primary:active { transform: translateY(0) scale(.985); }
+
+@keyframes hero-fade {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* — Hero gallery: a horizontal 3D "box" the photos glide through. The scene
+     is a perspective viewport holding three clipped planes — a back wall and
+     two side walls hinged at the creases, flaring TOWARD the viewer. Each
+     photo has one copy per plane; JS translates the copies along a shared
+     path so a photo visibly bends around the crease as it enters/exits.
+     Per-frame work is translate3d only (GPU-composited, no layout/paint). — */
+.hero-gallery {
+  position: relative;
+  /* Its own standalone section on paper — clear breathing room after the hero. */
+  margin-top: calc(var(--hero-lift) + clamp(48px, 11vw, 84px));
+  /* Pull the next section up under the stage's shadow air so the page reads
+     continuous instead of leaving a blank band (the strip the next section
+     reclaims is empty padding, so nothing overlaps visually). */
+  margin-bottom: clamp(-64px, -7vw, -36px);
+}
+/* Swipe affordance: a quiet glass pill floating at the foot of the stage.
+   The chevrons pulse outward; the whole cue fades for good on first drag. */
+.hg-cue {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 18px;
+  border-radius: 999px;
+  background: rgba(254, 240, 240, .82);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(93, 2, 42, .18);
+  color: #5d022a;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .01em;
+  box-shadow: var(--shadow-burgundy-sm);
+  pointer-events: none;
+  z-index: 4;
+  transition: opacity .5s var(--ease-out, ease-out), visibility .5s;
+}
+.hg-cue.is-done { opacity: 0; visibility: hidden; }
+.hg-cue__chev {
+  font-size: 15px;
+  line-height: 1;
+  animation: hg-nudge 1.6s ease-in-out infinite;
+}
+.hg-cue__chev--r { animation-name: hg-nudge-r; }
+@keyframes hg-nudge {
+  0%, 100% { transform: translateX(0); opacity: .55; }
+  50%      { transform: translateX(-4px); opacity: 1; }
+}
+@keyframes hg-nudge-r {
+  0%, 100% { transform: translateX(0); opacity: .55; }
+  50%      { transform: translateX(4px); opacity: 1; }
+}
+
+/* The 3D stage: exactly one photo tall plus shadow room — no dead band. */
+.hg-stage {
+  position: relative;
+  height: calc(min(80vw, 480px) / 0.85 + 60px);
+  overflow: hidden;
+}
+
+/* No-JS / reduced-motion fallback: a native swipeable strip. motion.js
+   removes it when it builds the 3D scene. */
+.hg-track {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 100%;
+  padding: 28px max(24px, calc(50% - min(33vw, 215px)));
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.hg-track::-webkit-scrollbar { display: none; }
+.hg-item {
+  flex: 0 0 auto;
+  height: 100%;
+  aspect-ratio: 4 / 5;
+  margin: 0;
+  scroll-snap-align: center;
+}
+.hg-item img {
+  display: block;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  border-radius: 22px;
+  box-shadow: var(--shadow-burgundy-md);
+}
+
+/* The 3D scene (built by JS). Perspective + face geometry are set inline by
+   motion.js from measured viewport numbers; these rules cover the rest. */
+.hg-scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  touch-action: pan-y;          /* horizontal gestures are ours, page scroll stays native */
+  overscroll-behavior-x: contain;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.hg-scene.is-dragging { cursor: grabbing; }
+.hg-face {
+  position: absolute;
+  overflow: hidden;             /* clips photos at the crease */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.hg-face img {
+  position: absolute;
+  top: 0; left: 0;
+  object-fit: cover;
+  /* The site's card language: soft corners + layered burgundy shadow. Both
+     are painted once into the composited layer — free during the glide. */
+  border-radius: 22px;
+  box-shadow: var(--shadow-burgundy-md);
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
+/* — Hero desktop refinements — */
+@media (min-width: 880px) {
+  :root {
+    --hero-content-h: 180px;
+  }
+  .hero-content {
+    padding: 16px 14px 20px;
+    gap: 30px;
+  }
+  .hero-lede { gap: 20px; }
+  .hero-slogan {
+    font-size: clamp(58px, 7.2vw, 108px);
+    line-height: 1.0;
+    column-gap: .32em;
+  }
+  .hero-actions {
+    flex-direction: row; justify-content: flex-start; align-items: center;
+    max-width: none; width: auto;
+    gap: 28px;
+  }
+  .hero-cta { width: auto; }
+  .hero-cta--primary {
+    padding: 17px 34px;
+    font-size: 17px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-image,
+  .hero-slogan__word,
+  .hero-actions {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Scroll cue centered, nudges down */
+.scroll-cue {
+  position: absolute;
+  left: 50%;
+  bottom: 30px;
+  transform: translateX(-50%);
+  display: inline-flex; flex-direction: column; align-items: center;
+  gap: 10px;
+  z-index: 2;
+  animation: hero-rise 1s var(--ease-out) both;
+  animation-delay: .9s;
+}
+.scroll-cue .cue-line {
+  width: 1px; height: 36px;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,.5), transparent);
+  position: relative; overflow: hidden;
+  display: inline-block;
+}
+.scroll-cue .cue-dot {
+  position: absolute;
+  left: -1.5px; top: 0;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 8px rgba(212,165,116,.6);
+  animation: scroll-cue-fall 2.2s var(--ease-out) infinite;
+}
+@keyframes scroll-cue-fall {
+  0%   { top: -2px; opacity: 0; }
+  20%  { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { top: 36px; opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue .cue-dot { animation: none; opacity: 1; }
+}
+
+/* ===================== Buttons =====================
+   Every button wears the brand's soft-rounded shape via the shared --plaque-*
+   tokens (--plaque-cut = corner radius). Filled buttons round their corners;
+   outline buttons draw a hairline border with a transparent centre that works
+   over paper, gradients, or photos. */
+.btn-pri {
+  position: relative;
+  background-color: var(--gold);
+  background-image: linear-gradient(to right, var(--gold) 50%, var(--emerald-ink) 50%);
+  background-size: 200% 100%;
+  background-position: 0% center;
+  background-repeat: no-repeat;
+  color: var(--ink);
+  font-family: var(--font-ui); font-weight: 700; font-size: 16px;
+  padding: 16px 28px; border-radius: var(--plaque-cut);
+  border: 0; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  text-align: center;
+  transition: background-position .55s var(--ease-out), color .35s var(--ease-out), box-shadow .35s var(--ease-out);
+}
+.btn-pri:hover {
+  background-position: 100% center;
+  color: var(--gold-soft);
+  box-shadow: 0 10px 28px rgba(68, 1, 30, .32);
+}
+.btn-pri:active { transform: scale(.97); transition: transform .12s var(--ease-out); }
+
+/* Outline buttons — transparent centre + soft-rounded hairline border, which
+   works over paper, gradients, or photos. */
+.btn-ghost,
+.btn-ghost-light,
+.btn-ghost-dark {
+  position: relative;
+  background: transparent;
+  border: var(--plaque-bw) solid var(--btn-rim, rgba(26, 10, 16, .25));
+  font-family: var(--font-ui); font-weight: 500; font-size: 16px;
+  padding: 15px 26px; border-radius: var(--plaque-cut);
+  cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: background var(--t-quick), color var(--t-quick), border-color var(--t-quick);
+}
+
+/* Ghost on light bg (white/blush) — burgundy rim */
+.btn-ghost { color: var(--ink); --btn-rim: rgba(26, 10, 16, .25); }
+.btn-ghost:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+/* Ghost on dark/burgundy bg — white rim */
+.btn-ghost-light { color: #fff; --btn-rim: rgba(255, 255, 255, .32); }
+.btn-ghost-light:hover { background: #fff; color: var(--emerald-deep); border-color: #fff; }
+.btn-ghost-light:active { transform: scale(.97); transition: transform .12s var(--ease-out); }
+
+/* Ghost on ink/black bg (used in cta-final) */
+.btn-ghost-dark { color: #fff; --btn-rim: rgba(255, 255, 255, .28); }
+.btn-ghost-dark:hover { background: rgba(255, 255, 255, .08); color: var(--gold-soft); border-color: var(--gold-soft); }
+
+/* ===================== SECTION SHELL ===================== */
+section { padding: 80px 22px; position: relative; }
+@media (min-width: 720px) { section { padding: 112px 40px; } }
+.container { max-width: 1200px; margin: 0 auto; }
+
+.section-head {
+  max-width: 720px;
+  margin: 0 auto 40px;
+  text-align: center;
+}
+.section-head h2 {
+  font-family: var(--font-display); font-weight: 900;
+  font-size: clamp(28px, 6vw, 48px);
+  line-height: 1.22; letter-spacing: -0.014em;
+  margin: 0;
+  text-wrap: balance;
+  color: var(--ink);
+}
+@media (min-width: 720px) {
+  .section-head { margin-bottom: 56px; }
+}
+
+/* ===================== IMAGE PLACEHOLDER (system) ===================== */
+/* Pattern: <div class="image-placeholder" data-prompt-id="hero-graduate-01" data-aspect="4:5">
+                <span class="placeholder-label">صورة قريبا</span>
+             </div>
+   When motion.js detects /assets/images/{id}.jpg exists, it replaces inner with an <img>.
+*/
+.image-placeholder {
+  position: relative;
+  width: 100%;
+  background:
+    repeating-linear-gradient(
+      135deg,
+      rgba(93, 2, 42, 0.04) 0px,
+      rgba(93, 2, 42, 0.04) 8px,
+      transparent 8px,
+      transparent 16px
+    ),
+    var(--cream-warm);
+  border: 1px dashed rgba(93, 2, 42, .32);
+  border-radius: 20px;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+  color: var(--gray);
+  isolation: isolate;
+}
+.image-placeholder[data-aspect="1:1"]  { aspect-ratio: 1 / 1; }
+.image-placeholder[data-aspect="4:5"]  { aspect-ratio: 4 / 5; }
+.image-placeholder[data-aspect="3:4"]  { aspect-ratio: 3 / 4; }
+.image-placeholder[data-aspect="4:3"]  { aspect-ratio: 4 / 3; }
+.image-placeholder[data-aspect="16:9"] { aspect-ratio: 16 / 9; }
+.image-placeholder .placeholder-label {
+  font-family: var(--font-ui); font-size: 12px;
+  letter-spacing: .04em;
+  color: var(--gray);
+  opacity: .7;
+}
+/* Once swapped to a real image */
+.image-placeholder.has-image { background: none; border: 0; }
+.image-placeholder.has-image .placeholder-label { display: none; }
+.image-placeholder.has-image img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  border-radius: inherit;
+}
+
+/* ===================== COLOR VISUALIZER (preserved structure) ===================== */
+.visualizer { background: linear-gradient(180deg, var(--paper) 0%, var(--cream-warm) 100%); padding-top: 140px; }
+@media (min-width: 720px) { .visualizer { padding-top: 180px; } }
+.vis-above {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(20px, 4.4vw, 30px);
+  line-height: 1.4;
+  color: var(--ink);
+  text-align: center;
+  max-width: 28ch;
+  margin: 0 auto 32px;
+  letter-spacing: -.005em;
+}
+.vis-below {
+  font-family: var(--font-text);
+  font-size: 15px;
+  color: var(--gray);
+  text-align: center;
+  margin: 28px auto 0;
+  max-width: 36ch;
+  line-height: 1.65;
+}
+.vis-cta { text-align: center; margin-top: 28px; }
+
+.tester {
+  background: var(--ink);
+  border-radius: 28px;
+  overflow: hidden;
+  color: #fff;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 1100px) {
+  .tester { grid-template-columns: 1fr minmax(280px, 360px); border-radius: 36px; }
+}
+.tester-photos {
+  padding: 18px;
+  display: grid; grid-template-columns: 1fr;
+  gap: 12px;
+  background: var(--ink);
+  justify-items: center;
+}
+@media (min-width: 1100px) { .tester-photos { padding: 28px; gap: 18px; } }
+
+.photo-frame {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  width: 100%;
+  max-width: 480px;
+  border-radius: 22px;
+  overflow: hidden;
+  background: #0d0d0d;
+  box-shadow:
+    0 18px 36px rgba(0,0,0,.4),
+    inset 0 0 0 1px rgba(255,255,255,.04);
+  isolation: isolate;
+}
+.photo-frame img,
+.photo-frame canvas {
+  width: 100%; height: 100%;
+  display: block;
+  object-fit: cover;
+}
+/* Two-layer crossfade: stacked imgs, only .is-active is shown.
+   When the visualizer swaps colors, the new src is set on the inactive
+   layer (already preloaded), and the .is-active class flips — no flash. */
+.photo-frame .vis-photo-layer {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 480ms cubic-bezier(.4, 0, .2, 1);
+  will-change: opacity;
+}
+.photo-frame .vis-photo-layer.is-active { opacity: 1; }
+
+.vis-custom-note {
+  margin: 14px auto 0;
+  max-width: 32ch;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  color: rgba(255,255,255,.62);
+  text-align: center;
+  font-style: italic;
+  line-height: 1.55;
+}
+.photo-frame::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(212,165,116,.22) 50%, transparent 60%);
+  background-size: 100% 220%;
+  background-position: 0% 110%;
+  background-repeat: no-repeat;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 3;
+  mix-blend-mode: screen;
+}
+.photo-frame.is-changing::after { animation: scan-flash .75s var(--ease-out); }
+@keyframes scan-flash {
+  0%   { opacity: 0; background-position: 0% 110%; }
+  15%  { opacity: 1; }
+  100% { opacity: 0; background-position: 0% -10%; }
+}
+
+.vis-view-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 480px;
+  margin-bottom: 12px;
+}
+.vis-tab-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1.5px solid rgba(212, 165, 116, 0.35);
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.85);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.vis-tab-btn:hover {
+  background: rgba(212, 165, 116, 0.2);
+  color: #ffffff;
+}
+.vis-tab-btn.is-active {
+  background: linear-gradient(135deg, #d4a574 0%, #b88648 100%);
+  color: #1a0a10;
+  border-color: #d4a574;
+  box-shadow: 0 4px 14px rgba(212, 165, 116, 0.35);
+}
+
+
+.tester-controls {
+  padding: 28px 22px 32px;
+  background: linear-gradient(180deg, #1a1a1a, #0e0e0e);
+  display: flex; flex-direction: column;
+  border-top: 1px solid rgba(255,255,255,.06);
+}
+@media (min-width: 1100px) {
+  .tester-controls {
+    padding: 40px 32px;
+    border-top: 0;
+    border-inline-start: 1px solid rgba(255,255,255,.06);
+  }
+}
+
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+@media (min-width: 720px) { .swatches { gap: 10px; } }
+.swatch {
+  cursor: pointer;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 16px;
+  padding: 12px 8px 10px;
+  display: flex; flex-direction: column; gap: 8px;
+  align-items: center;
+  transition:
+    background var(--t-quick),
+    border-color var(--t-quick),
+    box-shadow var(--t-quick),
+    transform .25s var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+.swatch:hover {
+  background: rgba(255,255,255,.07);
+  border-color: rgba(240,216,182,.3);
+  transform: translateY(-2px);
+}
+.swatch:active { transform: translateY(0) scale(.97); }
+.swatch.active {
+  background: rgba(240,216,182,.08);
+  border-color: var(--gold);
+  box-shadow:
+    0 0 0 1px var(--gold),
+    0 10px 28px -8px rgba(212, 165, 116, .35);
+}
+.swatch .dot {
+  width: 100%; aspect-ratio: 1;
+  border-radius: 50%;
+  box-shadow:
+    inset 0 -4px 12px rgba(0,0,0,.25),
+    inset 0 4px 8px rgba(255,255,255,.12);
+}
+.swatch .nm {
+  font-family: var(--font-ui); font-size: 11px; font-weight: 500;
+  color: rgba(255,255,255,.85);
+  text-align: center;
+  line-height: 1.25;
+}
+.swatch .hx {
+  font-family: var(--font-ui); font-size: 10px;
+  color: rgba(255,255,255,.4);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .04em;
+  margin-top: -2px;
+}
+@media (max-width: 540px) {
+  .swatch { padding: 10px 6px 8px; gap: 6px; border-radius: 14px; }
+  .swatch .nm { font-size: 10.5px; }
+  .swatch .hx { display: none; }
+}
+/* "Other colors available — contact on WhatsApp" tile (spans the swatch grid) */
+.swatch-wa {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  text-decoration: none;
+  background: rgba(37, 211, 102, .10);
+  border-color: rgba(37, 211, 102, .35);
+}
+.swatch-wa:hover {
+  background: rgba(37, 211, 102, .16);
+  border-color: rgba(37, 211, 102, .6);
+}
+.swatch-wa .nm { color: #eafff2; font-weight: 600; }
+.swatch-wa-icon { width: 20px; height: 20px; color: #25d366; flex: none; }
+
+.custom-row {
+  margin-top: 22px;
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 500px;
+  padding-inline: 18px 8px;
+  padding-block: 6px;
+}
+.custom-row label {
+  font-family: var(--font-ui); font-size: 13px;
+  color: rgba(255,255,255,.7);
+  flex: 1;
+}
+.custom-row input[type="color"] {
+  width: 38px; height: 38px;
+  border: 0; padding: 0; background: transparent;
+  border-radius: 50%; cursor: pointer;
+  overflow: hidden;
+}
+.custom-row input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+.custom-row input[type="color"]::-webkit-color-swatch { border: 0; border-radius: 50%; }
+
+.current-info {
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,.08);
+  display: flex; justify-content: space-between; align-items: flex-end;
+}
+.current-info .l {
+  font-family: var(--font-ui); font-size: 11px; color: rgba(255,255,255,.5);
+  text-transform: uppercase; letter-spacing: .12em;
+}
+.current-info .v {
+  font-family: var(--font-display); font-weight: 900; font-size: 20px;
+  color: #fff; margin-top: 4px;
+}
+.current-info .hex {
+  font-family: var(--font-ui); font-size: 13px; font-weight: 500;
+  color: var(--gold); font-variant-numeric: tabular-nums;
+  letter-spacing: .04em;
+}
+
+/* ===================== FOOTER ===================== */
+.footer {
+  background: var(--ink);
+  color: #fff;
+  padding: 80px 22px 40px;
+  position: relative;
+  overflow: hidden;
+}
+@media (min-width: 720px) { .footer { padding: 96px 40px 40px; } }
+.footer .container { max-width: 1200px; }
+.footer-mark { margin-bottom: 56px; }
+.footer-logo { height: 44px; width: auto; filter: brightness(0) invert(1); opacity: .92; }
+
+.footer-cols {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px 24px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(255,255,255,.1);
+}
+@media (min-width: 720px) {
+  .footer-cols { grid-template-columns: repeat(4, 1fr); gap: 32px; }
+}
+.footer-col h5 {
+  font-family: var(--font-ui); font-size: 11px; font-weight: 600;
+  color: var(--gold); text-transform: uppercase; letter-spacing: .14em;
+  margin: 0 0 14px;
+}
+.footer-col a {
+  display: block;
+  font-family: var(--font-ui); font-size: 14px;
+  color: rgba(255,255,255,.65);
+  padding: 5px 0;
+  transition: color var(--t-quick);
+}
+.footer-col a:hover { color: var(--gold-soft); }
+
+.footer-meta {
+  margin-top: 56px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(255,255,255,.08);
+  display: flex; justify-content: space-between;
+  font-family: var(--font-ui); font-size: 12px;
+  color: rgba(255,255,255,.4);
+  flex-wrap: wrap; gap: 12px;
+}
+
+/* ===================== SIGN-UP MODAL ===================== */
+.signup-modal {
+  position: fixed; inset: 0;
+  z-index: 200;
+  display: flex; align-items: center; justify-content: center;
+  padding: 18px;
+}
+.signup-modal[hidden] { display: none; }
+.signup-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(26, 10, 16, .56);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.signup-card {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  max-height: 92vh;
+  overflow-y: auto;
+  background: var(--paper);
+  border-radius: 28px;
+  padding: 32px 28px;
+  box-shadow: 0 30px 80px rgba(26,10,16,.4);
+  animation: signup-in .35s var(--ease-out);
+}
+@keyframes signup-in {
+  from { opacity: 0; transform: translateY(12px) scale(.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.signup-close {
+  position: absolute;
+  top: 14px; inset-inline-end: 14px;
+  width: 36px; height: 36px;
+  border: 0; background: transparent;
+  font-family: var(--font-display); font-size: 24px; line-height: 1;
+  color: var(--ink-soft);
+  cursor: pointer;
+  border-radius: 999px;
+  transition: background var(--t-quick), color var(--t-quick);
+}
+.signup-close:hover { background: var(--cream-warm); color: var(--emerald-deep); }
+.signup-card h3 {
+  font-family: var(--font-display); font-weight: 900; font-size: 26px;
+  color: var(--ink);
+  margin: 0 0 8px;
+  line-height: 1.2;
+}
+.signup-sub {
+  font-family: var(--font-text); font-size: 15px;
+  color: var(--gray);
+  margin: 0 0 24px;
+  line-height: 1.6;
+}
+.signup-form {
+  display: flex; flex-direction: column;
+  gap: 14px;
+}
+.signup-form label {
+  display: flex; flex-direction: column;
+  gap: 6px;
+  font-family: var(--font-ui); font-size: 12px;
+  color: var(--ink-soft);
+  font-weight: 500;
+  letter-spacing: .02em;
+}
+.signup-form input,
+.signup-form select {
+  font-family: var(--font-text); font-size: 16px;
+  padding: 12px 14px;
+  border: 1px solid var(--gray-line);
+  background: #fff;
+  border-radius: 12px;
+  color: var(--ink);
+  transition: border-color var(--t-quick), box-shadow var(--t-quick);
+  width: 100%;
+}
+.signup-form input:focus,
+.signup-form select:focus {
+  outline: none;
+  border-color: var(--emerald-deep);
+  box-shadow: 0 0 0 3px rgba(93, 2, 42, .12);
+}
+.signup-submit {
+  margin-top: 8px;
+  background: var(--emerald-deep);
+  color: #fff;
+  font-family: var(--font-ui); font-weight: 700; font-size: 16px;
+  padding: 15px 20px;
+  border: 0; border-radius: 999px;
+  cursor: pointer;
+  transition: background var(--t-quick), transform .15s var(--ease-out);
+}
+.signup-submit:hover { background: var(--emerald-ink); }
+.signup-submit:active { transform: scale(.97); }
+.signup-fineprint {
+  font-family: var(--font-ui); font-size: 12px;
+  color: var(--gray);
+  margin: 12px 0 0;
+  text-align: center;
+  line-height: 1.5;
+}
+.signup-form input.is-error,
+.signup-form select.is-error {
+  border-color: #b03030;
+  box-shadow: 0 0 0 3px rgba(176, 48, 48, .14);
+}
+.signup-step[hidden] { display: none; }
+.signup-recaptcha { min-height: 0; margin-top: 8px; }
+.signup-recaptcha:empty { display: none; }
+.signup-submit:disabled {
+  opacity: .6;
+  cursor: progress;
+}
+
+/* OTP step */
+.signup-otp-label { align-items: center; }
+.signup-otp-input {
+  font-family: var(--font-display);
+  font-size: 28px;
+  letter-spacing: .35em;
+  text-align: center;
+  font-feature-settings: "tnum" 1;
+}
+.signup-otp-actions {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 14px; gap: 12px; flex-wrap: wrap;
+}
+.signup-otp-back,
+.signup-otp-resend {
+  font-family: var(--font-ui); font-size: 13px; font-weight: 600;
+  color: var(--ink-soft);
+  background: transparent; border: 0; padding: 4px 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.signup-otp-back:hover,
+.signup-otp-resend:hover { color: var(--emerald-deep); }
+.signup-otp-fineprint { min-height: 18px; margin-top: 8px; }
+.signup-otp-fineprint.is-error { color: #b03030; }
+
+/* Hide Google's reCAPTCHA badge (fixed bottom-right). Google permits this as
+   long as the attribution is shown elsewhere — see .signup-recaptcha-attr. */
+.grecaptcha-badge { visibility: hidden !important; }
+.signup-recaptcha-attr {
+  font-family: var(--font-ui);
+  font-size: 10.5px;
+  color: var(--gray);
+  text-align: center;
+  margin: 6px 0 0;
+  line-height: 1.5;
+  opacity: .72;
+}
+.signup-recaptcha-attr a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.signup-recaptcha-attr a:hover { color: var(--emerald-deep); }
+
+/* Switch between sign-up and sign-in inside the modal */
+.signup-switch {
+  font-family: var(--font-ui); font-size: 13px;
+  color: var(--ink-soft);
+  margin: 14px 0 0;
+  text-align: center;
+}
+.signup-switch-btn {
+  font-family: var(--font-ui); font-size: 13px; font-weight: 700;
+  color: var(--emerald-deep);
+  background: transparent; border: 0; padding: 4px 0;
+  margin-inline-start: 4px;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.signup-switch-btn:hover { color: var(--emerald-ink); }
+
+/* University/college picker (window.KhamaUni) + role toggle inside the modal */
+.signup-uni,
+.uni-pick {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+/* The picker renders <label>s; .signup-form label sets display:flex, which would
+   beat the [hidden] UA rule, so we need an explicit, higher-specificity hide. */
+.uni-pick-field[hidden] { display: none; }
+.signup-uni.is-error select,
+.uni-pick.is-error select,
+.uni-pick.is-error .uni-combo-input {
+  border-color: #b03030;
+  box-shadow: 0 0 0 3px rgba(176, 48, 48, .14);
+}
+
+/* Searchable university/college combobox (same interaction as /admin الدفعات).
+   The <ul> is absolutely positioned inside its <label>, so it drops right under
+   the input. */
+.uni-combo { position: relative; }
+.uni-combo-lab { position: relative; }
+.uni-combo-list {
+  position: absolute; z-index: 40; inset-inline: 0; top: 100%;
+  margin: 6px 0 0; padding: 4px; list-style: none;
+  background: #fff; border: 1px solid var(--gray-line); border-radius: 14px;
+  box-shadow: 0 14px 32px rgba(93, 2, 42, .16);
+  max-height: 300px; overflow-y: auto;
+}
+.uni-combo-list[hidden] { display: none; }
+.uni-combo-item {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 10px 12px; border-radius: 10px; cursor: pointer;
+  font-family: var(--font-text); font-size: 15px; color: var(--ink);
+}
+.uni-combo-item:hover { background: var(--cream-warm); }
+.uni-combo-name { min-width: 0; }
+.uni-combo-count {
+  font-family: var(--font-ui); font-size: 11.5px; font-weight: 700;
+  color: var(--emerald-deep); background: var(--cream-warm);
+  border-radius: 999px; padding: 2px 9px; white-space: nowrap; flex: none;
+}
+/* "X students from your university signed up before you" hint under the uni box. */
+.uni-pick-count {
+  font-family: var(--font-ui); font-size: 12.5px; font-weight: 700;
+  color: var(--emerald-deep);
+  margin: 8px 2px 0; line-height: 1.5;
+}
+.uni-pick-count[hidden] { display: none; }
+/* "لا ترى جامعتك؟ أضِفها" / "لا ترى كليتك؟ أضِفها" small text buttons + back links. */
+.uni-pick-add,
+.uni-pick-back {
+  align-self: flex-start;
+  font-family: var(--font-ui); font-size: 12.5px; font-weight: 700;
+  color: var(--ink-soft);
+  background: transparent; border: 0; padding: 6px 2px 0;
+  cursor: pointer;
+  text-decoration: underline; text-underline-offset: 4px;
+}
+.uni-pick-add:hover,
+.uni-pick-back:hover { color: var(--emerald-deep); }
+.uni-pick-back { margin-top: 2px; }
+.uni-pick-back[hidden] { display: none; }
+
+/* Role contact blocks (student email/password vs rep phone). */
+[data-role-fields] {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+[data-role-fields][hidden] { display: none; }
+
+/* "أنا ممثل الدفعة" — the one featured choice, pinned to the top of the signup
+   form. A real switch (the native checkbox is visually hidden) that lights up in
+   peach gold when the rep path is chosen. */
+.signup-role {
+  flex-direction: row !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  cursor: pointer;
+  background: var(--cream-warm);
+  border: 1px solid var(--gray-line);
+  border-radius: 16px;
+  padding: 14px 16px;
+  transition: border-color var(--t-quick), background var(--t-quick), box-shadow var(--t-quick);
+}
+.signup-role:hover { border-color: var(--gold-soft); }
+.signup-role:has(input:checked) {
+  border-color: var(--gold);
+  background: linear-gradient(180deg, #fff7ee, var(--cream-warm));
+  box-shadow: 0 0 0 3px rgba(212, 165, 116, .18);
+}
+.signup-role-text { display: flex; flex-direction: column; gap: 3px; }
+.signup-role-text strong {
+  font-family: var(--font-ui); font-size: 14.5px; font-weight: 700;
+  color: var(--ink); letter-spacing: 0;
+}
+.signup-role-text span {
+  font-family: var(--font-text); font-size: 12.5px; color: var(--gray);
+  line-height: 1.5; font-weight: 400;
+}
+/* Visually-hidden native checkbox — .signup-role-box is the visible control. */
+.signup-role input[type="checkbox"] {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px; border: 0;
+  overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%);
+  white-space: nowrap;
+}
+/* Switch track + sliding knob. */
+.signup-role-box {
+  display: block;
+  position: relative;
+  flex-shrink: 0;
+  width: 46px; height: 28px;
+  border-radius: 999px;
+  background: var(--gray-line);
+  transition: background var(--t-quick);
+}
+.signup-role-box::after {
+  content: "";
+  position: absolute;
+  top: 3px; inset-inline-start: 3px;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(26, 10, 16, .25);
+  transition: transform var(--t-quick);
+}
+.signup-role:has(input:checked) .signup-role-box { background: var(--gold); }
+.signup-role:has(input:checked) .signup-role-box::after { transform: translateX(-18px); }
+.signup-role:has(input:focus-visible) .signup-role-box {
+  box-shadow: 0 0 0 3px rgba(212, 165, 116, .4);
+}
+
+/* ===================== WHATSAPP PILL ===================== */
+.wa-pill {
+  position: fixed;
+  bottom: 18px;
+  right: 18px;
+  z-index: 60;
+  display: none;
+  align-items: center; gap: 10px;
+  background: transparent;
+  color: #fff;
+  font-family: var(--font-ui); font-weight: 600; font-size: 14px;
+  padding: 12px 18px;
+  border-radius: 500px;
+  text-decoration: none;
+  filter: drop-shadow(0 12px 20px rgba(26,10,16,.34));
+  transform: translateY(80px);
+  opacity: 0;
+  transition: transform .55s var(--ease-out), opacity .35s var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+/* Rounded fill behind the icon/text; the drop-shadow above follows this
+   silhouette, so the floating button keeps its elevation. */
+.wa-pill::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--ink);
+  border-radius: var(--plaque-cut);
+  z-index: -1;
+  transition: background .25s var(--ease-out);
+}
+.wa-pill.is-visible { transform: translateY(0); opacity: 1; }
+.wa-pill:active { transform: translateY(0) scale(.97); }
+.wa-pill:active::before { background: var(--emerald-deep); }
+.wa-pill .wa-pill-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px;
+  color: var(--gold-soft);
+  flex-shrink: 0;
+}
+@media (max-width: 880px) { .wa-pill { display: inline-flex; } }
+@media (prefers-reduced-motion: reduce) { .wa-pill { transition: opacity .35s var(--ease-out); transform: none; } }

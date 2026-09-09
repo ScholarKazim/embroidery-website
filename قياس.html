@@ -1,0 +1,1321 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="only light">
+
+<link rel="icon" href="khamaiq.com/favicon_v=p138.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="khamaiq.com/assets/icons/favicon-32x32_v=p138.png">
+<link rel="icon" type="image/png" sizes="16x16" href="khamaiq.com/assets/icons/favicon-16x16_v=p138.png">
+<link rel="apple-touch-icon" href="khamaiq.com/assets/icons/apple-touch-icon_v=p138.png">
+<title>حاسبة القياس والتفصيل بالملي | إبرة وخيط - احسب مقاسك بدقة</title>
+<meta name="description" content="أداة حاسبة القياس المجانية من إبرة وخيط. احسب مقاس روب وتخرجك بالملي مع صور توضيحية دقيقة لطريقة قياس الكتف والكم وطول الروب.">
+
+<link rel="stylesheet" href="khamaiq.com/colors_and_type_v=p138.css">
+<link rel="stylesheet" href="khamaiq.com/styles_v=p138.css">
+<link rel="stylesheet" href="khamaiq.com/extras_v=p138.css">
+<link rel="stylesheet" href="khamaiq.com/cart_v=p138.css">
+<link rel="stylesheet" href="khamaiq.com/desktop_v=p138.css">
+<link rel="stylesheet" href="khamaiq.com/mobile.css">
+<link rel="stylesheet" href="khamaiq.com/enhancements.css">
+
+<style>
+/* Page-specific styling for the interactive Size Calculator */
+.calc-page {
+  padding-top: 100px;
+  padding-bottom: 80px;
+  min-height: 100vh;
+  background: var(--paper, #faf6f0);
+}
+
+.calc-header {
+  text-align: center;
+  max-width: 780px;
+  margin: 0 auto 36px;
+  padding: 0 16px;
+}
+
+.calc-badge {
+  display: inline-block;
+  padding: 6px 18px;
+  background: rgba(93, 2, 42, 0.08);
+  color: var(--emerald-deep, #5d022a);
+  border-radius: 999px;
+  font-family: var(--font-ui, sans-serif);
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.calc-title {
+  font-family: var(--font-display, "Traditional Arabic", serif);
+  font-size: clamp(32px, 6vw, 52px);
+  color: var(--ink, #1a0a10);
+  line-height: 1.25;
+  margin: 0 0 16px;
+  font-weight: 800;
+}
+
+.calc-subtitle {
+  font-family: var(--font-text, sans-serif);
+  font-size: clamp(16px, 3.5vw, 19px);
+  color: #4a4548;
+  line-height: 1.65;
+  margin: 0 auto 12px;
+}
+
+.calc-instruction-note {
+  font-family: var(--font-ui, sans-serif);
+  font-size: 14px;
+  color: var(--gold, #b6834b);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Calculator Main Grid */
+.calc-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+@media (min-width: 920px) {
+  .calc-layout {
+    grid-template-columns: 1.25fr 0.95fr;
+    align-items: start;
+  }
+}
+
+/* Form Container */
+.calc-form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.calc-card {
+  background: #ffffff;
+  border: 1px solid var(--gray-line, #e8dfd8);
+  border-radius: 24px;
+  padding: 28px 24px;
+  box-shadow: 0 10px 30px rgba(93, 2, 42, 0.04);
+  position: relative;
+  transition: border-color 0.2s;
+}
+
+.calc-card:hover {
+  border-color: #dfcdbf;
+}
+
+.calc-group-title {
+  font-family: var(--font-ui, sans-serif);
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--ink, #1a0a10);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+/* Gender Toggle Buttons */
+.gender-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.btn-gender {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px;
+  border: 2px solid var(--gray-line, #e8dfd8);
+  background: #fdfbf9;
+  border-radius: 16px;
+  font-family: var(--font-ui, sans-serif);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink, #1a0a10);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.btn-gender:hover {
+  border-color: var(--gold, #b6834b);
+}
+
+.btn-gender.is-active {
+  border-color: var(--emerald-deep, #5d022a);
+  background: rgba(93, 2, 42, 0.06);
+  color: var(--emerald-deep, #5d022a);
+  font-weight: 900;
+}
+
+/* Body Size (Letters & Number) */
+.size-letter-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 500px) {
+  .size-letter-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.btn-size-letter {
+  padding: 14px 6px;
+  text-align: center;
+  border: 1.5px solid var(--gray-line, #e8dfd8);
+  background: #fdfbf9;
+  border-radius: 14px;
+  font-family: var(--font-ui, sans-serif);
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--ink, #1a0a10);
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+}
+
+.btn-size-letter:hover {
+  border-color: var(--gold, #b6834b);
+}
+
+.btn-size-letter.is-active {
+  background: var(--emerald-deep, #5d022a);
+  border-color: var(--emerald-deep, #5d022a);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(93, 2, 42, 0.25);
+}
+
+.size-manual-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.size-manual-label {
+  font-family: var(--font-text, sans-serif);
+  font-size: 14px;
+  color: #555;
+  white-space: nowrap;
+}
+
+.size-manual-input {
+  width: 90px;
+  padding: 10px 14px;
+  border: 1.5px solid var(--gray-line, #e8dfd8);
+  border-radius: 12px;
+  font-family: var(--font-ui, sans-serif);
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.size-manual-input:focus {
+  border-color: var(--emerald-deep, #5d022a);
+}
+
+.size-status-pill {
+  margin-top: 14px;
+  padding: 12px 16px;
+  background: rgba(93, 2, 42, 0.06);
+  border-radius: 14px;
+  font-family: var(--font-ui, sans-serif);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--emerald-deep, #5d022a);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Measurement Step Cards (With Real Diagram Images) */
+.measure-card {
+  background: #ffffff;
+  border: 1px solid var(--gray-line, #e8dfd8);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 10px 28px rgba(93, 2, 42, 0.04);
+  margin-bottom: 20px;
+}
+
+.measure-card-header {
+  padding: 20px 24px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #f2ece8;
+}
+
+.measure-title-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.measure-badge-num {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--emerald-deep, #5d022a);
+  color: #ffffff;
+  font-family: var(--font-ui, sans-serif);
+  font-size: 14px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.measure-title {
+  font-family: var(--font-ui, sans-serif);
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--ink, #1a0a10);
+  margin: 0;
+}
+
+.measure-val-display {
+  font-family: var(--font-ui, sans-serif);
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--emerald-deep, #5d022a);
+  background: rgba(93, 2, 42, 0.07);
+  padding: 4px 14px;
+  border-radius: 10px;
+}
+
+.measure-body {
+  padding: 20px 24px 24px;
+}
+
+.measure-img-wrapper {
+  background: #fdfbf9;
+  border: 1px solid #efe8e1;
+  border-radius: 18px;
+  padding: 12px;
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.measure-img {
+  max-width: 100%;
+  height: auto;
+  max-height: 280px;
+  border-radius: 12px;
+  display: inline-block;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+}
+
+.measure-help-box {
+  background: #fdf8f4;
+  border-right: 4px solid var(--gold, #b6834b);
+  padding: 12px 16px;
+  border-radius: 0 12px 12px 0;
+  margin-bottom: 18px;
+}
+
+.measure-help-title {
+  font-family: var(--font-ui, sans-serif);
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--gold, #b6834b);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.measure-help-desc {
+  font-family: var(--font-text, sans-serif);
+  font-size: 13.5px;
+  color: #4a4548;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.measure-input-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.measure-slider {
+  flex: 1;
+  height: 8px;
+  border-radius: 4px;
+  background: #edd8cb;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+.measure-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--emerald-deep, #5d022a);
+  border: 2px solid #ffffff;
+  box-shadow: 0 3px 8px rgba(93, 2, 42, 0.35);
+  cursor: pointer;
+}
+
+.measure-input-box {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.measure-num-input {
+  width: 80px;
+  padding: 10px 10px;
+  border: 1.5px solid var(--gray-line, #e8dfd8);
+  border-radius: 12px;
+  font-family: var(--font-ui, sans-serif);
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--ink, #1a0a10);
+  text-align: center;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.measure-num-input:focus {
+  border-color: var(--emerald-deep, #5d022a);
+}
+
+.measure-unit {
+  font-family: var(--font-ui, sans-serif);
+  font-size: 14px;
+  font-weight: 700;
+  color: #777;
+}
+
+/* Big Calculate Button */
+.btn-calculate-main {
+  width: 100%;
+  padding: 18px 24px;
+  background: linear-gradient(135deg, var(--emerald-deep, #5d022a) 0%, #3f011c 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 18px;
+  font-family: var(--font-ui, sans-serif);
+  font-size: 17px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(93, 2, 42, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.2s ease;
+  margin-top: 10px;
+}
+
+.btn-calculate-main:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(93, 2, 42, 0.38);
+}
+
+.btn-calculate-main:active {
+  transform: scale(0.98);
+}
+
+/* Results Card (Sticky Sidebar) */
+.results-card {
+  background: linear-gradient(150deg, #3d011b 0%, #5d022a 60%, #460220 100%);
+  color: #ffffff;
+  border-radius: 28px;
+  padding: 32px 26px;
+  box-shadow: 0 18px 45px rgba(68, 1, 30, 0.35);
+  position: sticky;
+  top: 100px;
+}
+
+@media (max-width: 600px) {
+  .results-card {
+    padding: 24px 20px;
+    border-radius: 22px;
+  }
+}
+
+.res-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  margin-bottom: 24px;
+}
+
+.res-tag {
+  font-family: var(--font-ui, sans-serif);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: #e5b98b;
+  font-weight: 700;
+}
+
+.res-code {
+  font-family: var(--font-ui, sans-serif);
+  font-size: 22px;
+  font-weight: 900;
+  color: #ffffff;
+  margin-top: 4px;
+}
+
+.res-pill {
+  background: rgba(212, 165, 116, 0.22);
+  border: 1px solid rgba(212, 165, 116, 0.6);
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-family: var(--font-ui, sans-serif);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.res-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.res-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+}
+
+.res-row-name {
+  font-family: var(--font-ui, sans-serif);
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.res-row-val {
+  font-family: var(--font-ui, sans-serif);
+  font-size: 17px;
+  font-weight: 800;
+  color: #fce7cf;
+}
+
+.res-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn-calc-order {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px;
+  background: linear-gradient(135deg, var(--gold, #d4a574), #b6834b);
+  color: #1a0a10;
+  border: none;
+  border-radius: 16px;
+  font-family: var(--font-ui, sans-serif);
+  font-size: 15.5px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.15s;
+  box-shadow: 0 4px 16px rgba(212, 165, 116, 0.35);
+}
+
+.btn-calc-order:hover {
+  transform: translateY(-2px);
+}
+
+.btn-calc-wa {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px;
+  background: #25D366;
+  color: #ffffff;
+  border-radius: 16px;
+  font-family: var(--font-ui, sans-serif);
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 4px 16px rgba(37, 211, 102, 0.35);
+  transition: transform 0.15s;
+}
+
+.btn-calc-wa:hover {
+  transform: translateY(-2px);
+}
+
+/* Philosophy Section ("ليش ما نعتمد M و L؟") */
+.why-section {
+  max-width: 1120px;
+  margin: 50px auto 0;
+  padding: 0 16px;
+}
+
+.why-card {
+  background: #ffffff;
+  border: 1px solid var(--gray-line, #e8dfd8);
+  border-radius: 28px;
+  padding: 36px 32px;
+  box-shadow: 0 12px 36px rgba(93, 2, 42, 0.04);
+  position: relative;
+  overflow: hidden;
+}
+
+.why-card::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; left: 0;
+  height: 5px;
+  background: linear-gradient(90deg, var(--emerald-deep, #5d022a), var(--gold, #d4a574));
+}
+
+.why-title {
+  font-family: var(--font-display, "Traditional Arabic", serif);
+  font-size: clamp(24px, 4vw, 32px);
+  color: var(--ink, #1a0a10);
+  margin: 0 0 16px;
+  font-weight: 800;
+}
+
+.why-desc {
+  font-family: var(--font-text, sans-serif);
+  font-size: 16px;
+  color: #4a4548;
+  line-height: 1.8;
+  margin: 0;
+}
+
+/* Quick Footer Links */
+.calc-footer {
+  max-width: 1120px;
+  margin: 60px auto 0;
+  padding: 40px 16px 20px;
+  border-top: 1px solid var(--gray-line, #e8dfd8);
+}
+
+.footer-nav-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 32px;
+  margin-bottom: 36px;
+}
+
+.footer-col-title {
+  font-family: var(--font-ui, sans-serif);
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--ink, #1a0a10);
+  margin-bottom: 14px;
+}
+
+.footer-links-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-links-list a {
+  font-family: var(--font-text, sans-serif);
+  font-size: 14px;
+  color: #666;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-links-list a:hover {
+  color: var(--emerald-deep, #5d022a);
+}
+
+.footer-copy {
+  text-align: center;
+  font-family: var(--font-ui, sans-serif);
+  font-size: 13px;
+  color: #888;
+  padding-top: 24px;
+  border-top: 1px solid #efe8e1;
+}
+</style>
+</head>
+<body>
+
+<div class="scroll-progress" aria-hidden="true"></div>
+
+<!-- ============== NAV ============== -->
+<nav class="nav" data-nav="" data-nav-state="scrolled" aria-label="القائمة">
+  <a href="/" class="brand" aria-label="إبرة وخيط، الصفحة الرئيسية">
+    <img src="khamaiq.com/assets/logo.png" alt="إبرة وخيط">
+  </a>
+
+  <div class="nav-links" data-nav-links="">
+    <a href="/products">المنتجات</a>
+    <a href="/class">الدفعة</a>
+    <a href="/#visualizer">جرب الألوان</a>
+    <a href="/قياس" style="color:var(--emerald-deep); font-weight:800;">حاسبة القياس</a>
+    <a href="/blog">المدونة</a>
+    <a href="/#faq">الأسئلة</a>
+  </div>
+
+  <div class="nav-actions">
+    <button class="nav-cart" data-cart-trigger="" aria-label="السلة (فارغة)">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 7h14l-1.4 10.5a2 2 0 0 1-2 1.5H8.4a2 2 0 0 1-2-1.5L5 7Z"></path>
+        <path d="M9 7V5a3 3 0 0 1 6 0v2"></path>
+      </svg>
+      <span class="nav-cart-count" data-cart-count="" hidden="">0</span>
+    </button>
+
+    <button class="nav-burger" data-mobile-burger aria-label="فتح القائمة">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ============== Off-Canvas Mobile Drawer ============== -->
+<div class="mobile-drawer-backdrop" id="mobile-drawer-backdrop"></div>
+<aside class="mobile-drawer" id="mobile-drawer">
+  <div class="mobile-drawer-head">
+    <img src="khamaiq.com/assets/logo.png" alt="إبرة وخيط" class="mobile-drawer-logo">
+    <button class="mobile-drawer-close" data-drawer-close>&times;</button>
+  </div>
+  <nav class="mobile-drawer-nav">
+    <a href="/" class="mobile-drawer-link">الرئيسية</a>
+    <a href="/products" class="mobile-drawer-link">المنتجات والتفصيل</a>
+    <a href="/قياس" class="mobile-drawer-link" style="color:var(--emerald-deep); font-weight:800;">حاسبة القياس بالملي</a>
+    <a href="/class" class="mobile-drawer-link">صفحة الدفعة والتصويت</a>
+    <a href="/#visualizer" class="mobile-drawer-link">جرب لون الوشاح</a>
+    <a href="/blog" class="mobile-drawer-link">المدونة ودليل التخرج</a>
+    <a href="/#faq" class="mobile-drawer-link">الأسئلة الشائعة</a>
+  </nav>
+  <div class="mobile-drawer-foot">
+    <a href="/class" class="mobile-drawer-cta">افتح صفحة دفعتك</a>
+  </div>
+</aside>
+
+<!-- ============== Mobile Sticky Bottom Action Bar ============== -->
+<div class="mobile-bottom-bar">
+  <a href="https://wa.me/9647805088134?text=السلام%20عليكم،%20عندي%20سؤال%20عن%20حاسبة%20قياس%20إبرة%20وخيط" class="mobile-bar-btn-wa" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.06 2.87 1.21 3.07.15.2 2.09 3.2 5.07 4.49.71.31 1.26.49 1.69.63.71.23 1.36.19 1.87.12.57-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35zM12 2a10 10 0 0 0-8.55 15.19L2 22l4.94-1.3A10 10 0 1 0 12 2z"/></svg>
+  </a>
+  <button class="mobile-bar-btn-pri" id="btn-save-bottom">
+    <span>احسب مقاسي الآن</span>
+  </button>
+  <button class="mobile-bar-btn-cart" data-bottom-cart aria-label="عرض السلة">
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="M5 7h14l-1.4 10.5a2 2 0 0 1-2 1.5H8.4a2 2 0 0 1-2-1.5L5 7Z"></path>
+      <path d="M9 7V5a3 3 0 0 1 6 0v2"></path>
+    </svg>
+  </button>
+</div>
+
+<!-- ============== MAIN CALCULATOR PAGE ============== -->
+<main class="calc-page">
+  <div class="container">
+
+    <!-- Page Header -->
+    <div class="calc-header">
+      <span class="calc-badge">أداة مجانية · بدون أي طلب</span>
+      <h1 class="calc-title">حاسبة القياس</h1>
+      <p class="calc-subtitle">
+        احسب مقاسك بنفسك بأقل من دقيقة، واعرف القياسات الصح لروب تخرجك. إحنا ما نعتمد M أو L — نفصّل ملابس تخرجك عليك بالملي.
+      </p>
+      <div class="calc-instruction-note">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        <span>القياسات بالسنتيمتر. كل خطوة فيها صورة توضّح وين تحط شريط القياس.</span>
+      </div>
+    </div>
+
+    <!-- Interactive Grid -->
+    <div class="calc-layout">
+
+      <!-- Form Column -->
+      <div class="calc-form-container">
+
+        <!-- 1. Gender Selection -->
+        <div class="calc-card">
+          <div class="calc-group-title">
+            <span>المقاس حسب</span>
+          </div>
+          <div class="gender-switch" id="gender-switch">
+            <button type="button" class="btn-gender is-active" data-gender="men">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="10" cy="14" r="5"/><path d="M19 5l-5.4 5.4"/><path d="M19 5h-5"/><path d="M19 5v5"/></svg>
+              <span>رجالي</span>
+            </button>
+            <button type="button" class="btn-gender" data-gender="women">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="9" r="5"/><path d="M12 14v7"/><path d="M9 18h6"/></svg>
+              <span>نسائي</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. Body Size -->
+        <div class="calc-card">
+          <div class="calc-group-title">
+            <span>مقاس البدن</span>
+          </div>
+          <div class="size-letter-grid" id="size-letter-grid">
+            <button type="button" class="btn-size-letter" data-letter="XS">XS</button>
+            <button type="button" class="btn-size-letter" data-letter="S">S</button>
+            <button type="button" class="btn-size-letter" data-letter="M">M</button>
+            <button type="button" class="btn-size-letter" data-letter="L">L</button>
+            <button type="button" class="btn-size-letter is-active" data-letter="XL">XL</button>
+            <button type="button" class="btn-size-letter" data-letter="XXL">XXL</button>
+          </div>
+
+          <div class="size-manual-row">
+            <span class="size-manual-label">أو اكتب رقم مقاسك:</span>
+            <input type="number" class="size-manual-input" id="input-numeric-size" value="54" min="30" max="68">
+          </div>
+
+          <div class="size-status-pill" id="size-status-text">
+            <span>مقاسك: XL — كبير جداً (54 رجالي).</span>
+          </div>
+        </div>
+
+        <!-- 3. Measurement Step 1: Shoulder Width -->
+        <div class="measure-card">
+          <div class="measure-card-header">
+            <div class="measure-title-area">
+              <span class="measure-badge-num">١</span>
+              <h3 class="measure-title">عرض الكتف (سم)</h3>
+            </div>
+            <div class="measure-val-display" id="lbl-val-shoulder">50 سم</div>
+          </div>
+          <div class="measure-body">
+            <div class="measure-img-wrapper">
+              <img src="khamaiq.com/assets/images/guide-shoulder.jpg" alt="طريقة قياس الكتف" class="measure-img" loading="lazy">
+            </div>
+            <div class="measure-help-box">
+              <div class="measure-help-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                <span>كيف أقيس الكتف؟</span>
+              </div>
+              <p class="measure-help-desc">
+                من نهاية كتف إلى نهاية الكتف الآخر بشكل مستقيم على الظهر، دون النزول باتجاه الذراعين. هذا القياس يتأكد من صحة مقاس البدن.
+              </p>
+            </div>
+            <div class="measure-input-row">
+              <input type="range" class="measure-slider" id="slider-shoulder" min="36" max="60" value="50">
+              <div class="measure-input-box">
+                <input type="number" class="measure-num-input" id="num-shoulder" value="50" min="36" max="60">
+                <span class="measure-unit">سم</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Measurement Step 2: Robe Length -->
+        <div class="measure-card">
+          <div class="measure-card-header">
+            <div class="measure-title-area">
+              <span class="measure-badge-num">٢</span>
+              <h3 class="measure-title">طول العباءة / الروب (سم)</h3>
+            </div>
+            <div class="measure-val-display" id="lbl-val-length">135 سم</div>
+          </div>
+          <div class="measure-body">
+            <div class="measure-img-wrapper">
+              <img src="khamaiq.com/assets/images/guide-robe-length.jpg" alt="طريقة قياس طول العباءة" class="measure-img" loading="lazy">
+            </div>
+            <div class="measure-help-box">
+              <div class="measure-help-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                <span>كيف أقيس الطول؟</span>
+              </div>
+              <p class="measure-help-desc">
+                من أعلى نقطة في الكتف (عند اتصال الكتف بالرقبة) نزولاً إلى الطول المطلوب أسفل العباءة.
+              </p>
+            </div>
+            <div class="measure-input-row">
+              <input type="range" class="measure-slider" id="slider-length" min="110" max="160" value="135">
+              <div class="measure-input-box">
+                <input type="number" class="measure-num-input" id="num-length" value="135" min="110" max="160">
+                <span class="measure-unit">سم</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Measurement Step 3: Sleeve Length -->
+        <div class="measure-card">
+          <div class="measure-card-header">
+            <div class="measure-title-area">
+              <span class="measure-badge-num">٣</span>
+              <h3 class="measure-title">طول الكم (سم)</h3>
+            </div>
+            <div class="measure-val-display" id="lbl-val-sleeve">62 سم</div>
+          </div>
+          <div class="measure-body">
+            <div class="measure-img-wrapper">
+              <img src="khamaiq.com/assets/images/guide-sleeve.jpg" alt="طريقة قياس طول الأكمام" class="measure-img" loading="lazy">
+            </div>
+            <div class="measure-help-box">
+              <div class="measure-help-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                <span>كيف أقيس الكم؟</span>
+              </div>
+              <p class="measure-help-desc">
+                من نقطة اتصال الكتف إلى نهاية المعصم (عند العظم)، مع ثني الذراع قليلاً.
+              </p>
+            </div>
+            <div class="measure-input-row">
+              <input type="range" class="measure-slider" id="slider-sleeve" min="48" max="74" value="62">
+              <div class="measure-input-box">
+                <input type="number" class="measure-num-input" id="num-sleeve" value="62" min="48" max="74">
+                <span class="measure-unit">سم</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Big Action Button -->
+        <button type="button" class="btn-calculate-main" id="btn-calculate-main">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12l2 6-8 12-8-12z"/></svg>
+          <span>احسب مقاسي</span>
+        </button>
+
+      </div>
+
+      <!-- Results Sticky Column -->
+      <div>
+        <div class="results-card" id="results-card">
+          <div class="res-header">
+            <div>
+              <div class="res-tag">نتيجة التفصيل الدقيق</div>
+              <div class="res-code" id="res-size-title">مقاسك: XL (54 رجالي)</div>
+            </div>
+            <div class="res-pill" id="res-code-badge">IK-XL-54</div>
+          </div>
+
+          <div class="res-rows">
+            <div class="res-row">
+              <div class="res-row-name">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                <span>المقاس المعتمد:</span>
+              </div>
+              <div class="res-row-val" id="res-val-type">رجالي · XL</div>
+            </div>
+
+            <div class="res-row">
+              <div class="res-row-name">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12l2 6-8 12-8-12z"/></svg>
+                <span>عرض الكتف:</span>
+              </div>
+              <div class="res-row-val" id="res-val-shoulder">50 سم</div>
+            </div>
+
+            <div class="res-row">
+              <div class="res-row-name">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                <span>طول العباءة / الروب:</span>
+              </div>
+              <div class="res-row-val" id="res-val-length">135 سم</div>
+            </div>
+
+            <div class="res-row">
+              <div class="res-row-name">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                <span>طول الكم:</span>
+              </div>
+              <div class="res-row-val" id="res-val-sleeve">62 سم</div>
+            </div>
+
+            <div class="res-row">
+              <div class="res-row-name">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/></svg>
+                <span>طول الوشاح الموصى به:</span>
+              </div>
+              <div class="res-row-val" id="res-val-scarf">135 سم</div>
+            </div>
+          </div>
+
+          <div class="res-actions">
+            <button class="btn-calc-order" id="btn-save-order" type="button">
+              <span>احفظ قياسي وأضف الروب للسلة</span>
+            </button>
+            <button class="btn-calc-order" id="btn-copy-meas-card" type="button" style="background:#ffffff; color:var(--emerald-deep); border:2px solid var(--emerald-deep); box-shadow:none;">
+              <span>📋 نسخ كارت القياسات للدفعة</span>
+            </button>
+            <a class="btn-calc-wa" id="btn-wa-send" href="#" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.06 2.87 1.21 3.07.15.2 2.09 3.2 5.07 4.49.71.31 1.26.49 1.69.63.71.23 1.36.19 1.87.12.57-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35zM12 2a10 10 0 0 0-8.55 15.19L2 22l4.94-1.3A10 10 0 1 0 12 2z"/></svg>
+              <span>أرسل قياساتي المنسقة عبر الواتساب</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Philosophy Section: ليش ما نعتمد M و L؟ -->
+    <div class="why-section">
+      <div class="why-card">
+        <h2 class="why-title">ليش ما نعتمد M و L؟</h2>
+        <p class="why-desc">
+          المقاسات الجاهزة تخمين: الروب يجي واسع من فوق وضيق من تحت، أو طويل ويتعفّر بالأرض. إبرة وخيط تاخذ مقاس بدنك وعرض كتفك وطول عباءتك وكمّك، وتفصّل كل قطعة عليك بالملي. المقاس الحرف مجرد بداية — القياسات بالسنتيمتر هي اللي تحكم.
+        </p>
+      </div>
+    </div>
+
+    <!-- Footer Links -->
+    <footer class="calc-footer">
+      <div class="footer-nav-grid">
+        <div>
+          <div class="footer-col-title">المتجر</div>
+          <ul class="footer-links-list">
+            <li><a href="/products/scarf">وشاح إبرة وخيط</a></li>
+            <li><a href="/products/robe">روب إبرة وخيط</a></li>
+            <li><a href="/products/cap">قبعة إبرة وخيط</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">الدفعة</div>
+          <ul class="footer-links-list">
+            <li><a href="/class">افتح صفحة دفعتك</a></li>
+            <li><a href="/class#voting">كيف يصير التصويت</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">أدوات</div>
+          <ul class="footer-links-list">
+            <li><a href="/قياس">حاسبة القياس</a></li>
+            <li><a href="/#visualizer">جرب الألوان</a></li>
+            <li><a href="/blog">المدونة</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">تواصل</div>
+          <ul class="footer-links-list">
+            <li><a href="https://wa.me/9647805088134" target="_blank" rel="noopener">واتساب</a></li>
+            <li><a href="/#faq">الأسئلة الشائعة</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-copy">
+        © 2026 إبرة وخيط. كل الحقوق محفوظة.
+      </div>
+    </footer>
+
+  </div>
+</main>
+
+<script src="khamaiq.com/cart_v=p138.js"></script>
+<script src="khamaiq.com/mobile.js"></script>
+<script>
+// Interactive Measurement Calculator Logic
+(function () {
+  // Elements
+  const btnGenders = document.querySelectorAll('.btn-gender');
+  const btnSizeLetters = document.querySelectorAll('.btn-size-letter');
+  const inputNumericSize = document.getElementById('input-numeric-size');
+  const sizeStatusText = document.getElementById('size-status-text');
+
+  const sliderShoulder = document.getElementById('slider-shoulder');
+  const numShoulder = document.getElementById('num-shoulder');
+  const lblValShoulder = document.getElementById('lbl-val-shoulder');
+
+  const sliderLength = document.getElementById('slider-length');
+  const numLength = document.getElementById('num-length');
+  const lblValLength = document.getElementById('lbl-val-length');
+
+  const sliderSleeve = document.getElementById('slider-sleeve');
+  const numSleeve = document.getElementById('num-sleeve');
+  const lblValSleeve = document.getElementById('lbl-val-sleeve');
+
+  const resSizeTitle = document.getElementById('res-size-title');
+  const resCodeBadge = document.getElementById('res-code-badge');
+  const resValType = document.getElementById('res-val-type');
+  const resValShoulder = document.getElementById('res-val-shoulder');
+  const resValLength = document.getElementById('res-val-length');
+  const resValSleeve = document.getElementById('res-val-sleeve');
+  const resValScarf = document.getElementById('res-val-scarf');
+
+  const btnCalculateMain = document.getElementById('btn-calculate-main');
+  const btnSaveOrder = document.getElementById('btn-save-order');
+  const btnSaveBottom = document.getElementById('btn-save-bottom');
+  const btnWaSend = document.getElementById('btn-wa-send');
+
+  // State
+  let currentGender = 'men';
+  let currentLetter = 'XL';
+  let currentNumeric = 54;
+
+  const SIZES_DATA = {
+    men: {
+      XS:  { num: 46, desc: 'صغير جداً',   shoulder: 44, length: 125, sleeve: 58 },
+      S:   { num: 48, desc: 'صغير',         shoulder: 46, length: 130, sleeve: 60 },
+      M:   { num: 50, desc: 'متوسط',        shoulder: 48, length: 135, sleeve: 62 },
+      L:   { num: 52, desc: 'كبير',          shoulder: 50, length: 138, sleeve: 63 },
+      XL:  { num: 54, desc: 'كبير جداً',    shoulder: 52, length: 142, sleeve: 65 },
+      XXL: { num: 56, desc: 'كبير مضاعف',   shoulder: 54, length: 145, sleeve: 66 }
+    },
+    women: {
+      XS:  { num: 36, desc: 'صغير جداً',   shoulder: 38, length: 120, sleeve: 54 },
+      S:   { num: 38, desc: 'صغير',         shoulder: 40, length: 125, sleeve: 56 },
+      M:   { num: 40, desc: 'متوسط',        shoulder: 42, length: 130, sleeve: 58 },
+      L:   { num: 42, desc: 'كبير',          shoulder: 44, length: 135, sleeve: 60 },
+      XL:  { num: 44, desc: 'كبير جداً',    shoulder: 46, length: 138, sleeve: 61 },
+      XXL: { num: 46, desc: 'كبير مضاعف',   shoulder: 48, length: 140, sleeve: 62 }
+    }
+  };
+
+  function updateDefaultsForSize(letter) {
+    const data = SIZES_DATA[currentGender][letter];
+    if (!data) return;
+
+    currentLetter = letter;
+    currentNumeric = data.num;
+    inputNumericSize.value = data.num;
+
+    // Update measurements
+    setShoulder(data.shoulder);
+    setLength(data.length);
+    setSleeve(data.sleeve);
+
+    updateUI();
+  }
+
+  function setShoulder(val) {
+    val = Math.max(36, Math.min(65, parseInt(val, 10) || 50));
+    sliderShoulder.value = val;
+    numShoulder.value = val;
+    lblValShoulder.textContent = val + ' سم';
+  }
+
+  function setLength(val) {
+    val = Math.max(100, Math.min(165, parseInt(val, 10) || 135));
+    sliderLength.value = val;
+    numLength.value = val;
+    lblValLength.textContent = val + ' سم';
+  }
+
+  function setSleeve(val) {
+    val = Math.max(45, Math.min(75, parseInt(val, 10) || 62));
+    sliderSleeve.value = val;
+    numSleeve.value = val;
+    lblValSleeve.textContent = val + ' سم';
+  }
+
+  function updateUI() {
+    const genderLabel = currentGender === 'men' ? 'رجالي' : 'نسائي';
+    const data = SIZES_DATA[currentGender][currentLetter] || { desc: 'مخصص' };
+
+    sizeStatusText.innerHTML = `<span>مقاسك: ${currentLetter} — ${data.desc} (${currentNumeric} ${genderLabel}).</span>`;
+
+    const sh = numShoulder.value;
+    const len = numLength.value;
+    const slv = numSleeve.value;
+    const scarfLen = (parseInt(len, 10) >= 135) ? 135 : 125;
+    const code = `IK-${currentLetter}-${currentNumeric}-${currentGender.toUpperCase().slice(0,1)}`;
+
+    resSizeTitle.textContent = `مقاسك: ${currentLetter} (${currentNumeric} ${genderLabel})`;
+    resCodeBadge.textContent = code;
+    resValType.textContent = `${genderLabel} · ${currentLetter}`;
+    resValShoulder.textContent = sh + ' سم';
+    resValLength.textContent = len + ' سم';
+    resValSleeve.textContent = slv + ' سم';
+    resValScarf.textContent = scarfLen + ' سم';
+
+    // WhatsApp text
+    const waMsg = `مرحباً إبرة وخيط، حابب أطلب تفصيل روب تخرج بالقياسات التالية من حاسبة القياس:
+• النوع: ${genderLabel}
+• مقاس البدن: ${currentLetter} (${currentNumeric})
+• عرض الكتف: ${sh} سم
+• طول العباءة / الروب: ${len} سم
+• طول الكم: ${slv} سم
+• طول الوشاح الموصى به: ${scarfLen} سم
+• كود التفصيل: ${code}`;
+
+    btnWaSend.href = 'https://wa.me/9647805088134?text=' + encodeURIComponent(waMsg);
+
+    return {
+      gender: currentGender,
+      genderLabel,
+      letter: currentLetter,
+      numeric: currentNumeric,
+      shoulder: sh,
+      length: len,
+      sleeve: slv,
+      scarfLength: scarfLen,
+      code
+    };
+  }
+
+  // Event Listeners: Gender
+  btnGenders.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btnGenders.forEach(b => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      currentGender = btn.dataset.gender;
+      updateDefaultsForSize(currentLetter);
+    });
+  });
+
+  // Event Listeners: Size Letters
+  btnSizeLetters.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btnSizeLetters.forEach(b => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      updateDefaultsForSize(btn.dataset.letter);
+    });
+  });
+
+  // Event Listener: Numeric Size input
+  inputNumericSize.addEventListener('input', () => {
+    const num = parseInt(inputNumericSize.value, 10);
+    if (!num) return;
+    currentNumeric = num;
+
+    // Find closest letter
+    let matchedLetter = currentLetter;
+    const table = SIZES_DATA[currentGender];
+    let minDiff = 999;
+    for (const [letter, item] of Object.entries(table)) {
+      const diff = Math.abs(item.num - num);
+      if (diff < minDiff) {
+        minDiff = diff;
+        matchedLetter = letter;
+      }
+    }
+
+    currentLetter = matchedLetter;
+    btnSizeLetters.forEach(b => {
+      b.classList.toggle('is-active', b.dataset.letter === matchedLetter);
+    });
+
+    updateUI();
+  });
+
+  // Sync Slider <-> Number Inputs
+  sliderShoulder.addEventListener('input', () => { setShoulder(sliderShoulder.value); updateUI(); });
+  numShoulder.addEventListener('input', () => { setShoulder(numShoulder.value); updateUI(); });
+
+  sliderLength.addEventListener('input', () => { setLength(sliderLength.value); updateUI(); });
+  numLength.addEventListener('input', () => { setLength(numLength.value); updateUI(); });
+
+  sliderSleeve.addEventListener('input', () => { setSleeve(sliderSleeve.value); updateUI(); });
+  numSleeve.addEventListener('input', () => { setSleeve(numSleeve.value); updateUI(); });
+
+  // Main Calculate Button
+  function handleCalculate() {
+    const data = updateUI();
+    const resCard = document.getElementById('results-card');
+    if (window.innerWidth < 920 && resCard) {
+      resCard.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  btnCalculateMain.addEventListener('click', handleCalculate);
+
+  // Save measurements & Add to Cart
+  function saveAndAddToCart() {
+    const data = updateUI();
+    localStorage.setItem('ibra_measurements', JSON.stringify(data));
+
+    try {
+      const raw = localStorage.getItem('khama_cart');
+      const items = raw ? JSON.parse(raw) : [];
+      const price = 40000;
+      const id = 'item_' + Date.now();
+
+      items.push({
+        id,
+        kind: 'robe',
+        name: `روب تخرج إبرة وخيط (${data.genderLabel} - ${data.letter})`,
+        qty: 1,
+        price: price,
+        priceLabel: '40,000 د.ع',
+        config: {
+          gender: data.gender,
+          sizeLetter: data.letter,
+          sizeNumber: data.numeric,
+          shoulder: data.shoulder,
+          length: data.length,
+          sleeve: data.sleeve,
+          scarfLength: data.scarfLength,
+          notes: `تفصيل حسب حاسبة القياس: كود ${data.code}`
+        },
+        addedAt: Date.now()
+      });
+
+      localStorage.setItem('khama_cart', JSON.stringify(items));
+      window.dispatchEvent(new CustomEvent('khama:cart-update'));
+
+      if (window.KhamaCart && typeof window.KhamaCart.open === 'function') {
+        window.KhamaCart.open();
+      } else {
+        alert(`تم حفظ مقاسك (${data.letter}) وإضافة روب التخرج المفصل للسلة بنجاح!`);
+      }
+    } catch (e) {
+      alert(`تم حفظ قياساتك بنجاح! كود القياس: ${data.code}`);
+    }
+  }
+
+  btnSaveOrder.addEventListener('click', saveAndAddToCart);
+  if (btnSaveBottom) btnSaveBottom.addEventListener('click', () => {
+    handleCalculate();
+    saveAndAddToCart();
+  });
+
+  // Copy Measurement Card
+  const btnCopyMeasCard = document.getElementById('btn-copy-meas-card');
+  if (btnCopyMeasCard) {
+    btnCopyMeasCard.addEventListener('click', () => {
+      const data = handleCalculate();
+      const txt = `🎓 بطاقة قياس التخرج الرسمية - إبرة وخيط:
+• النوع: ${data.genderLabel}
+• مقاس البدن: ${data.letter} (${data.numeric})
+• عرض الكتف: ${data.shoulder} سم
+• طول العباءة / الروب: ${data.length} سم
+• طول الكم: ${data.sleeve} سم
+• طول الوشاح الموصى به: ${data.scarfLength} سم
+• كود القياس: ${data.code}`;
+      navigator.clipboard.writeText(txt).then(() => {
+        if (window.showIkToast) window.showIkToast('تم نسخ بطاقة القياسات بنجاح! شاركها مع ممثل دفعتك.');
+        else alert('تم نسخ بطاقة القياسات بنجاح!');
+      }).catch(() => {
+        alert('تم نسخ بطاقة القياسات!');
+      });
+    });
+  }
+
+  // Init
+  updateDefaultsForSize('XL');
+})();
+</script>
+<script src="khamaiq.com/enhancements.js" defer></script>
+
+</body></html>

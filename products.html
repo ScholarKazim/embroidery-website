@@ -1,0 +1,2290 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<base href="/">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="only light">
+
+<link rel="icon" href="khamaiq.com/favicon_v=p138.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="khamaiq.com/assets/icons/favicon-32x32_v=p138.png">
+<link rel="icon" type="image/png" sizes="16x16" href="khamaiq.com/assets/icons/favicon-16x16_v=p138.png">
+<link rel="apple-touch-icon" href="khamaiq.com/assets/icons/apple-touch-icon_v=p138.png">
+<title>منتجات إبرة وخيط | تفصيل الوشاح، الروب، والقبعة بقياسك</title>
+<meta name="description" content="فصل وشاح، روب، وقبعة تخرجك بقياسك الدقيق وتطريز اسمك بالخط العربي الفاخر من إبرة وخيط.">
+
+<link rel="stylesheet" href="khamaiq.com/colors_and_type_v=p138.css">
+<link rel="stylesheet" href="khamaiq.com/styles_v=p138.css">
+<link rel="stylesheet" href="khamaiq.com/extras_v=p138.css">
+<link rel="stylesheet" href="khamaiq.com/cart_v=p138.css">
+<link rel="stylesheet" href="khamaiq.com/desktop_v=p138.css">
+<link rel="stylesheet" href="khamaiq.com/mobile.css">
+<link rel="stylesheet" href="khamaiq.com/enhancements.css">
+
+<style>
+/* Page Layout */
+.products-page {
+  padding-top: 100px;
+  padding-bottom: 90px;
+  background: var(--paper, #fef0f0);
+  min-height: 100vh;
+}
+
+/* ============================================================
+   1. CATALOG VIEW (اختر قطعتك، نفصلها عليك)
+   ============================================================ */
+.catalog-header {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 48px;
+}
+
+.catalog-eyebrow {
+  display: inline-block;
+  padding: 5px 16px;
+  background: rgba(93, 2, 42, 0.08);
+  color: var(--emerald-deep, #5d022a);
+  border-radius: 999px;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.catalog-title {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 5.5vw, 48px);
+  color: var(--ink, #1a0a10);
+  line-height: 1.2;
+  margin: 0 0 14px;
+  font-weight: 800;
+}
+
+.catalog-sub {
+  font-family: var(--font-text);
+  font-size: clamp(15px, 3.2vw, 18px);
+  color: var(--gray, #666);
+  line-height: 1.6;
+  margin: 0 auto 24px;
+}
+
+.catalog-dot-divider {
+  display: block;
+  width: 6px;
+  height: 6px;
+  background: var(--gold-soft, #d4a574);
+  border-radius: 50%;
+  margin: 0 auto;
+}
+
+.catalog-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 28px;
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+.catalog-card {
+  background: #ffffff;
+  border: 1px solid var(--gray-line, #efe8e1);
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  text-decoration: none;
+  color: inherit;
+}
+
+.catalog-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(93, 2, 42, 0.08);
+}
+
+.catalog-card-media {
+  width: 100%;
+  height: 290px;
+  background: #fdf6f3;
+  overflow: hidden;
+  position: relative;
+}
+
+.catalog-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform 0.4s ease;
+}
+
+.catalog-card:hover .catalog-card-media img {
+  transform: scale(1.03);
+}
+
+.catalog-card-body {
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.catalog-card-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--ink, #1a0a10);
+  margin: 0 0 10px;
+}
+
+.catalog-card-desc {
+  font-family: var(--font-text);
+  font-size: 15px;
+  color: var(--gray, #666);
+  line-height: 1.6;
+  margin: 0 0 24px;
+  flex: 1;
+}
+
+.catalog-card-btn {
+  background: var(--emerald-deep, #5d022a);
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  padding: 13px 20px;
+  font-family: var(--font-ui);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  transition: background 0.2s, transform 0.15s;
+  box-shadow: 0 4px 14px rgba(93, 2, 42, 0.2);
+}
+
+.catalog-card-btn:hover {
+  background: var(--emerald-ink, #44011e);
+  transform: translateY(-2px);
+}
+
+/* ============================================================
+   2. CONFIGURATOR WIZARD VIEW
+   ============================================================ */
+.wizard-header {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 32px;
+}
+
+.wizard-breadcrumb {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--gray, #888);
+  margin-bottom: 12px;
+}
+
+.wizard-breadcrumb a {
+  color: var(--emerald-deep, #5d022a);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.wizard-title {
+  font-family: var(--font-display);
+  font-size: clamp(30px, 5vw, 44px);
+  color: var(--ink, #1a0a10);
+  margin: 0 0 12px;
+  font-weight: 800;
+}
+
+.wizard-sub {
+  font-family: var(--font-text);
+  font-size: clamp(14px, 3vw, 17px);
+  color: var(--gray, #666);
+  line-height: 1.6;
+  margin: 0 auto 28px;
+}
+
+/* Stepper Bar */
+.stepper-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 580px;
+  margin: 0 auto 36px;
+  padding: 0 16px;
+  position: relative;
+}
+
+.stepper-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+}
+
+.stepper-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid #ecdfe2;
+  background: transparent;
+  color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-ui);
+  font-size: 15px;
+  font-weight: 700;
+  transition: all 0.25s ease;
+}
+
+.stepper-label {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 700;
+  color: #888;
+  margin-top: 8px;
+  transition: color 0.25s ease;
+}
+
+.stepper-item.is-active .stepper-circle,
+.stepper-item.is-completed .stepper-circle {
+  background: var(--emerald-deep, #5d022a);
+  border-color: var(--emerald-deep, #5d022a);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(93, 2, 42, 0.25);
+}
+
+.stepper-item.is-active .stepper-label,
+.stepper-item.is-completed .stepper-label {
+  color: var(--emerald-deep, #5d022a);
+  font-weight: 700;
+}
+
+.stepper-line {
+  flex: 1;
+  height: 2.5px;
+  background: #ecdfe2;
+  margin: 0 -8px 24px;
+  z-index: 1;
+  transition: background 0.3s ease;
+}
+
+.stepper-line.is-completed {
+  background: var(--emerald-deep, #5d022a);
+}
+
+/* Wizard Main Card */
+.wizard-card {
+  max-width: 680px;
+  margin: 0 auto;
+  background: #ffffff;
+  border: 1px solid var(--gray-line, #efe8e1);
+  border-radius: 28px;
+  padding: 36px 32px;
+  box-shadow: 0 12px 36px rgba(0,0,0,0.03);
+}
+
+@media (max-width: 600px) {
+  .wizard-card {
+    padding: 24px 18px;
+    border-radius: 22px;
+  }
+}
+
+.step-counter {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 700;
+  color: #c79758;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.step-title {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 4vw, 32px);
+  color: var(--ink, #1a0a10);
+  margin: 0 0 8px;
+  font-weight: 800;
+}
+
+.step-desc {
+  font-family: var(--font-text);
+  font-size: 15px;
+  color: #666;
+  margin: 0 0 28px;
+  line-height: 1.6;
+}
+
+/* Types Segmented Tabs */
+.types-segmented-nav {
+  background: #fcf1f2;
+  border: 1px solid #f2e2e4;
+  border-radius: 14px;
+  padding: 5px;
+  display: flex;
+  gap: 4px;
+  margin-bottom: 28px;
+}
+
+.type-tab-btn {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 11px 8px;
+  border-radius: 10px;
+  font-family: var(--font-ui);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink, #1a0a10);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.type-tab-btn.is-active {
+  background: var(--emerald-deep, #5d022a);
+  color: #ffffff;
+  box-shadow: 0 3px 10px rgba(93, 2, 42, 0.25);
+}
+
+/* Mannequin Showcase Container */
+.mannequin-showcase-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 24px;
+  min-height: 250px;
+}
+
+.mannequin-single-frame {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fbf7f8;
+  border: 1px solid #efe8ea;
+  border-radius: 18px;
+  padding: 12px 16px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.02);
+}
+
+.mannequin-single-frame img {
+  width: 100%;
+  max-width: 175px;
+  height: auto;
+  border-radius: 12px;
+  object-fit: contain;
+}
+
+.mannequin-frame-tag {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 700;
+  color: #888;
+  margin-top: 8px;
+}
+
+/* Cut Details Box */
+.cut-details-box {
+  text-align: center;
+  padding: 10px 0 20px;
+}
+
+.cut-detail-name {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--ink, #1a0a10);
+  margin: 0 0 6px;
+}
+
+.cut-detail-desc {
+  font-family: var(--font-text);
+  font-size: 15px;
+  color: #666;
+  margin: 0 0 16px;
+  line-height: 1.5;
+}
+
+.cut-popular-tag-above {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 700;
+  color: #c79758;
+  margin-bottom: 6px;
+}
+
+.cut-price-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.cut-price-amount {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--emerald-deep, #5d022a);
+}
+
+.cut-tag-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  background: #fff8f0;
+  border: 1px solid #dfba73;
+  color: #925f2b;
+  border-radius: 999px;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* ============================================================
+   STEP 2 STYLES (قياسك)
+   ============================================================ */
+.form-group-item {
+  margin-bottom: 22px;
+}
+
+.form-group-label {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink, #1a0a10);
+  margin-bottom: 8px;
+}
+
+.gender-toggle-box {
+  background: #fdf2f3;
+  border: 1px solid #f6dadd;
+  border-radius: 14px;
+  padding: 4px;
+  display: flex;
+  margin-bottom: 22px;
+}
+
+.gender-toggle-btn {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-family: var(--font-ui);
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a0a10;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.gender-toggle-btn.is-active {
+  background: #5d022a;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(93, 2, 42, 0.25);
+}
+
+.size-buttons-row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+  direction: rtl;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 480px) {
+  .size-buttons-row {
+    gap: 6px;
+  }
+}
+
+.size-btn-item {
+  border: 1.5px solid #f6dadd;
+  background: #fdf2f3;
+  color: #1a0a10;
+  padding: 13px 4px;
+  border-radius: 12px;
+  font-family: var(--font-ui);
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.size-btn-item.is-active {
+  background: #5d022a;
+  border-color: #5d022a;
+  color: #ffffff;
+  box-shadow: 0 3px 10px rgba(93, 2, 42, 0.25);
+}
+
+.size-number-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.size-number-label {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  color: #555;
+  font-weight: 600;
+}
+
+.size-number-input {
+  width: 96px;
+  height: 52px;
+  background: #fdf2f3;
+  border: 1.5px solid #f6dadd;
+  border-radius: 14px;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 800;
+  color: #1a0a10;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.size-number-input:focus {
+  border-color: #5d022a;
+  background: #ffffff;
+}
+
+.size-feedback-lbl {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  color: #666;
+  text-align: right;
+  margin-bottom: 22px;
+  line-height: 1.5;
+}
+
+.btn-detailed-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #fdf2f3;
+  border: 1px solid #f6dadd;
+  color: #5d022a;
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 24px;
+  transition: background 0.2s;
+}
+
+.btn-detailed-toggle:hover {
+  background: #fae4e7;
+}
+
+/* ============================================================
+   STEP 3 STYLES (التطريز أو تفاصيل الروب)
+   ============================================================ */
+.vertical-sash-preview-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto 32px;
+}
+
+.vertical-sash-tip-card {
+  width: 200px;
+  height: 480px;
+  border-radius: 22px 22px 30px 30px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 16px 36px rgba(0,0,0,0.18), inset 0 0 20px rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+}
+
+.vertical-sash-stitch-border {
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  border: 1.5px dashed rgba(212, 165, 116, 0.45);
+  border-radius: 14px 14px 22px 22px;
+  pointer-events: none;
+}
+
+.vertical-sash-text-track {
+  width: 440px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transform: rotate(-90deg);
+  white-space: nowrap;
+  letter-spacing: 0.05em;
+  line-height: 1;
+  pointer-events: none;
+  font-size: 32px;
+  font-weight: 800;
+  direction: rtl;
+  user-select: none;
+  transition: all 0.25s ease;
+}
+
+.sash-text-gold {
+  background: linear-gradient(135deg, #fff3d1 0%, #e5be7d 25%, #fff1b8 45%, #b28236 75%, #ffd700 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
+}
+
+.sash-text-silver {
+  background: linear-gradient(135deg, #ffffff 0%, #d5d5d5 35%, #ffffff 50%, #909090 80%, #eaeaea 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
+}
+
+.font-thmanyah {
+  font-family: "Thmanyah Sans", "Thmanyah Serif Display", sans-serif;
+}
+
+.font-naskh {
+  font-family: "KA Traditional Naskh", serif;
+}
+
+.font-thuluth {
+  font-family: "DecoType Thuluth", cursive;
+}
+
+.name-input-container {
+  border: 1.5px solid #5d022a;
+  border-radius: 16px;
+  background: #ffffff;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 8px rgba(93, 2, 42, 0.06);
+}
+
+.name-input-field {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a0a10;
+  width: 100%;
+}
+
+.name-char-count {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: #888;
+  white-space: nowrap;
+  margin-right: 12px;
+}
+
+.name-helper-note {
+  font-family: var(--font-text);
+  font-size: 13px;
+  color: #777;
+  margin: 4px 0;
+  line-height: 1.5;
+}
+
+.color-circles-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.color-circle-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  outline: none;
+}
+
+.color-circle-btn:hover {
+  transform: scale(1.08);
+}
+
+.color-circle-btn.is-active {
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #5d022a;
+}
+
+.wa-custom-colors-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fdf2f3;
+  border: 1px solid #f6dadd;
+  color: #1b7e45;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 14px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.wa-custom-colors-pill:hover {
+  background: #fae4e7;
+}
+
+.option-pills-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.option-pill-btn {
+  border: 1px solid #f6dadd;
+  background: #fdf2f3;
+  color: #1a0a10;
+  padding: 9px 22px;
+  border-radius: 999px;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.option-pill-btn.is-active {
+  background: #1c1c20;
+  border-color: #1c1c20;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* ============================================================
+   STEP 4 STYLES (الوشاح/الروب بسلتك)
+   ============================================================ */
+.step4-success-circle {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: #5d022a;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px auto 24px;
+  box-shadow: 0 10px 24px rgba(93, 2, 42, 0.28);
+}
+
+.step4-success-circle svg {
+  width: 36px;
+  height: 36px;
+}
+
+.step4-title {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 800;
+  color: #1a0a10;
+  margin: 0 0 10px;
+}
+
+.step4-sub {
+  font-family: var(--font-text);
+  font-size: 15px;
+  color: #666;
+  margin: 0 0 32px;
+  line-height: 1.6;
+}
+
+.step4-buttons-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.btn-step4-pri {
+  background: #cba06f;
+  color: #1a0a10;
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 700;
+  padding: 13px 36px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(203, 160, 111, 0.3);
+}
+
+.btn-step4-pri:hover {
+  background: #b98e5e;
+}
+
+.btn-step4-sec {
+  background: #ffffff;
+  border: 1.5px solid #d4c7b8;
+  color: #1a0a10;
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 700;
+  padding: 13px 28px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-step4-sec:hover {
+  background: #faf6f0;
+}
+
+/* Cap Notes Styles (Matches Screenshot 3) */
+.cap-notes-wrapper {
+  position: relative;
+  margin-top: 8px;
+  margin-bottom: 20px;
+}
+
+.cap-notes-textarea {
+  width: 100%;
+  min-height: 150px;
+  background: #ffffff;
+  border: 1.5px solid #5d022a;
+  border-radius: 18px;
+  padding: 16px 18px 36px 18px;
+  font-family: var(--font-ui);
+  font-size: 15px;
+  color: #1a0a10;
+  resize: vertical;
+  box-sizing: border-box;
+  outline: none;
+  line-height: 1.6;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.cap-notes-textarea::placeholder {
+  color: #a89f9e;
+  font-family: var(--font-ui);
+  font-size: 14.5px;
+}
+
+.cap-notes-textarea:focus {
+  border-color: #5d022a;
+  box-shadow: 0 0 0 3px rgba(93, 2, 42, 0.15);
+}
+
+.cap-char-counter {
+  position: absolute;
+  bottom: 12px;
+  left: 14px;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: #888;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 2px 8px;
+  border-radius: 6px;
+  pointer-events: none;
+  direction: ltr;
+}
+
+.cap-notice-box {
+  background: #fdf2f0;
+  border: 1px solid #f6dadd;
+  border-radius: 14px;
+  padding: 14px 20px;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  color: #1a0a10;
+  line-height: 1.6;
+  margin-bottom: 26px;
+}
+
+/* Wizard Navigation Buttons */
+.wizard-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 32px;
+}
+
+.btn-wizard-next {
+  flex: 1;
+  background: #cba06f;
+  color: #1a0a10;
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 12px;
+  padding: 14px 20px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(203, 160, 111, 0.3);
+  text-align: center;
+}
+
+.btn-wizard-next:hover {
+  background: #b98e5e;
+}
+
+.btn-wizard-back {
+  background: #ffffff;
+  border: 1px solid #dcd5cc;
+  color: var(--ink, #1a0a10);
+  font-family: var(--font-ui);
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 12px;
+  padding: 14px 24px;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  transition: background 0.2s;
+}
+
+.btn-wizard-back:hover {
+  background: #faf6f0;
+}
+
+/* WhatsApp Callout Box below wizard */
+.wa-callout-box {
+  max-width: 680px;
+  margin: 36px auto 0;
+  text-align: center;
+  padding: 24px;
+}
+
+.wa-callout-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--ink, #1a0a10);
+  margin: 0 0 6px;
+}
+
+.wa-callout-desc {
+  font-family: var(--font-text);
+  font-size: 14px;
+  color: #666;
+  margin: 0 0 16px;
+}
+
+.btn-wa-callout {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #25d366;
+  color: #ffffff;
+  padding: 12px 28px;
+  border-radius: 999px;
+  font-family: var(--font-ui);
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 6px 18px rgba(37, 211, 102, 0.28);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-wa-callout:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(37, 211, 102, 0.38);
+}
+</style>
+</head>
+<body>
+
+<!-- ============== NAV ============== -->
+<nav class="nav" data-nav="" data-nav-state="scrolled" aria-label="القائمة">
+  <a href="/" class="brand" aria-label="إبرة وخيط، الصفحة الرئيسية">
+    <img src="khamaiq.com/assets/logo.png" alt="إبرة وخيط">
+  </a>
+
+  <div class="nav-links" data-nav-links="">
+    <a href="/products" class="is-active">المنتجات</a>
+    <a href="/class">الدفعة</a>
+    <a href="/قياس">حاسبة القياس</a>
+    <a href="/#visualizer">جرب الألوان</a>
+    <a href="/blog">المدونة</a>
+    <a href="/#faq">الأسئلة</a>
+  </div>
+
+  <div class="nav-actions">
+    <button class="nav-cart" data-cart-trigger="" aria-label="السلة (فارغة)">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M5 7h14l-1.4 10.5a2 2 0 0 1-2 1.5H8.4a2 2 0 0 1-2-1.5L5 7Z"></path>
+        <path d="M9 7V5a3 3 0 0 1 6 0v2"></path>
+      </svg>
+      <span class="nav-cart-count" data-cart-count="" hidden="">0</span>
+    </button>
+    <button class="mobile-burger" data-mobile-burger aria-label="فتح القائمة" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ============== Off-Canvas Mobile Drawer ============== -->
+<div class="mobile-drawer-backdrop" id="mobile-drawer-backdrop"></div>
+<aside class="mobile-drawer" id="mobile-drawer">
+  <div class="mobile-drawer-head">
+    <img src="khamaiq.com/assets/logo.png" alt="إبرة وخيط" class="mobile-drawer-logo">
+    <button class="mobile-drawer-close" data-drawer-close>&times;</button>
+  </div>
+  <nav class="mobile-drawer-nav">
+    <a href="/" class="mobile-drawer-link">الرئيسية</a>
+    <a href="/products" class="mobile-drawer-link" style="color:var(--emerald-deep, #5d022a);">المنتجات</a>
+    <a href="/class" class="mobile-drawer-link">صفحة الدفعة والتصويت</a>
+    <a href="/قياس" class="mobile-drawer-link">حاسبة القياس والتفصيل</a>
+    <a href="/#visualizer" class="mobile-drawer-link">جرب لون الوشاح</a>
+    <a href="/blog" class="mobile-drawer-link">المدونة ودليل التخرج</a>
+    <a href="/#faq" class="mobile-drawer-link">الأسئلة الشائعة</a>
+  </nav>
+  <div class="mobile-drawer-foot">
+    <a href="/class" class="mobile-drawer-cta">افتح صفحة دفعتك</a>
+  </div>
+</aside>
+
+<!-- ============== Mobile Sticky Bottom Action Bar ============== -->
+<div class="mobile-bottom-bar">
+  <a href="https://wa.me/9647805088134" class="mobile-bar-btn-wa" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.06 2.87 1.21 3.07.15.2 2.09 3.2 5.07 4.49.71.31 1.26.49 1.69.63.71.23 1.36.19 1.87.12.57-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35zM12 2a10 10 0 0 0-8.55 15.19L2 22l4.94-1.3A10 10 0 1 0 12 2z"/></svg>
+  </a>
+  <button class="mobile-bar-btn-pri" id="mobile-bottom-main-action">
+    <span id="mobile-bottom-cta-label">صمم الآن</span>
+  </button>
+  <button class="mobile-bar-btn-cart" data-cart-trigger aria-label="عرض السلة">
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="M5 7h14l-1.4 10.5a2 2 0 0 1-2 1.5H8.4a2 2 0 0 1-2-1.5L5 7Z"></path>
+      <path d="M9 7V5a3 3 0 0 1 6 0v2"></path>
+    </svg>
+  </button>
+</div>
+
+<!-- ============== MAIN CONTENT CONTAINER ============== -->
+<main class="products-page">
+  <div class="container">
+
+    <!-- ============================================================
+         VIEW A: PRODUCTS CATALOG VIEW (/products)
+         Matches Screenshot 1
+         ============================================================ -->
+    <div id="view-catalog" style="display:block;">
+      <header class="catalog-header">
+        <span class="catalog-eyebrow">المنتجات</span>
+        <h1 class="catalog-title">اختر قطعتك، نفصلها عليك</h1>
+        <p class="catalog-sub">ثلاث قطع لتخرج عراقي يستاهل التذكر، كل قطعة بقياسك إنت، بتطريز اسمك.</p>
+        <span class="catalog-dot-divider"></span>
+      </header>
+
+      <div class="catalog-cards-grid">
+
+        <!-- Card 1: Scarf (وشاح إبرة وخيط) -->
+        <div class="catalog-card">
+          <div class="catalog-card-media">
+            <img src="khamaiq.com/assets/images/JzKgiBLaZS8T.jpg" alt="وشاح إبرة وخيط" width="1080" height="1350" loading="lazy" decoding="async">
+          </div>
+          <div class="catalog-card-body">
+            <h2 class="catalog-card-title">وشاح إبرة وخيط</h2>
+            <p class="catalog-card-desc">وشاح تخرج مفصل بقياسك مع تطريز اسمك، أربع خطوات.</p>
+            <button type="button" class="catalog-card-btn" id="btn-open-scarf-wizard">صمم وشاحك</button>
+          </div>
+        </div>
+
+        <!-- Card 2: Robe (روب إبرة وخيط) -->
+        <div class="catalog-card">
+          <div class="catalog-card-media">
+            <img src="khamaiq.com/assets/images/m7D4i8xxT1hu.jpg" alt="روب إبرة وخيط" width="1080" height="1350" loading="lazy" decoding="async">
+          </div>
+          <div class="catalog-card-body">
+            <h2 class="catalog-card-title">روب إبرة وخيط</h2>
+            <p class="catalog-card-desc">روب تخرج بقصة تختارها، مفصل بقياساتك، أربع خطوات.</p>
+            <button type="button" class="catalog-card-btn" id="btn-open-robe-wizard">صمم روبك</button>
+          </div>
+        </div>
+
+        <!-- Card 3: Cap (قبعة إبرة وخيط) -->
+        <div class="catalog-card">
+          <div class="catalog-card-media">
+            <img src="khamaiq.com/assets/images/cap-cut-royal.jpg" alt="قبعة إبرة وخيط" width="800" height="1000" loading="lazy" decoding="async">
+          </div>
+          <div class="catalog-card-body">
+            <h2 class="catalog-card-title">قبعة إبرة وخيط</h2>
+            <p class="catalog-card-desc">قبعة تخرج بنوعين (عادية أو ملكية)، ملاحظاتك الخاصة وتطريز اختياري.</p>
+            <button type="button" class="catalog-card-btn" id="btn-open-cap-wizard">صمم قبعتك</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================================
+         VIEW B: 4-STEP CONFIGURATOR WIZARD (/products/scarf, /products/robe & /products/cap)
+         ============================================================ -->
+    <div id="view-wizard" style="display:none;">
+
+      <header class="wizard-header">
+        <div class="wizard-breadcrumb">
+          <a href="/products" id="btn-breadcrumb-catalog">المنتجات</a> / <span id="lbl-breadcrumb-curr">وشاح إبرة وخيط</span>
+        </div>
+        <h1 class="wizard-title" id="wizard-title-text">صمم وشاحك</h1>
+        <p class="wizard-sub" id="wizard-sub-text">أربع خطوات. اختر النوع، قياساتك، اسمك على الوشاح، ومراجعة. كل وشاح يتفصل عليك إنت.</p>
+
+        <!-- Stepper -->
+        <div class="stepper-container" id="stepper-bar">
+          <div class="stepper-item is-active" data-step="1" id="step-node-1">
+            <div class="stepper-circle">✓</div>
+            <span class="stepper-label" id="stepper-lbl-step1">النوع</span>
+          </div>
+          <div class="stepper-line" id="step-line-1"></div>
+
+          <div class="stepper-item" data-step="2" id="step-node-2">
+            <div class="stepper-circle"></div>
+            <span class="stepper-label" id="stepper-lbl-step2">القياسات</span>
+          </div>
+          <div class="stepper-line" id="step-line-2"></div>
+
+          <div class="stepper-item" data-step="3" id="step-node-3">
+            <div class="stepper-circle"></div>
+            <span class="stepper-label" id="stepper-lbl-step3">التطريز</span>
+          </div>
+          <div class="stepper-line" id="step-line-3"></div>
+
+          <div class="stepper-item" data-step="4" id="step-node-4">
+            <div class="stepper-circle"></div>
+            <span class="stepper-label" id="stepper-lbl-step4">المراجعة</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Wizard Card -->
+      <div class="wizard-card">
+
+        <!-- ==================== STEP 1: اختر نوع القطعة ==================== -->
+        <div class="wizard-step-content" id="wizard-step-1" style="display:block;">
+          <span class="step-counter" id="step1-counter-lbl">الخطوة 1 من 4</span>
+          <h2 class="step-title" id="step1-main-title">اختر نوع الوشاح</h2>
+          <p class="step-desc" id="step1-main-desc">أربعة أنواع. اختر الشكل اللي يعجبك، ونفصله بقياسك.</p>
+
+          <!-- Types Segmented Nav (Populated dynamically by JS) -->
+          <div class="types-segmented-nav" id="types-nav-bar">
+            <!-- Tabs injected dynamically -->
+          </div>
+
+          <!-- Mannequin Showcase Container -->
+          <div class="mannequin-showcase-box" id="mannequin-box">
+            <!-- Injected dynamically -->
+          </div>
+
+          <!-- Cut Details -->
+          <div class="cut-details-box">
+            <h3 class="cut-detail-name" id="cut-name-lbl">ملكي</h3>
+            <p class="cut-detail-desc" id="cut-desc-lbl">يحتوي على ظهر بقصات مختلفة. يُنصح به للعبارات أو الرسمات الكبيرة على الظهر.</p>
+            <span class="cut-popular-tag-above" id="cut-popular-tag" style="display:none;">الأكثر طلبا</span>
+            <div class="cut-price-row">
+              <span class="cut-price-amount" id="cut-price-lbl">35,000 دينار</span>
+            </div>
+            <span class="cut-tag-badge">يتوفر خصم خاص للدفعات</span>
+          </div>
+
+          <!-- Actions -->
+          <div class="wizard-nav-actions">
+            <button type="button" class="btn-wizard-back" id="btn-step1-back">رجوع</button>
+            <button type="button" class="btn-wizard-next" id="btn-step1-next">التالي</button>
+          </div>
+        </div>
+
+        <!-- ==================== STEP 2: القياسات (Matches Screenshot 1) ==================== -->
+        <div class="wizard-step-content" id="wizard-step-2" style="display:none;">
+          <span class="step-counter">الخطوة 2 من 4</span>
+          <h2 class="step-title">قياسك</h2>
+          <p class="step-desc">اختر مقاسك القياسي ويكفي. تريد دقة أكثر؟ افتح الحاسبة وأدخل قياساتك بالسنتيمتر.</p>
+
+          <!-- Gender Toggle -->
+          <div class="form-group-item">
+            <label class="form-group-label">المقاس حسب</label>
+            <div class="gender-toggle-box">
+              <button type="button" class="gender-toggle-btn is-active" id="btn-gender-male" data-gender="male">رجالي</button>
+              <button type="button" class="gender-toggle-btn" id="btn-gender-female" data-gender="female">نسائي</button>
+            </div>
+          </div>
+
+          <!-- Body Size Buttons (RTL: XS to XXL) -->
+          <div class="form-group-item">
+            <label class="form-group-label">مقاس البدن</label>
+            <div class="size-buttons-row" id="body-size-buttons">
+              <button type="button" class="size-btn-item" data-size="XS">XS</button>
+              <button type="button" class="size-btn-item" data-size="S">S</button>
+              <button type="button" class="size-btn-item" data-size="M">M</button>
+              <button type="button" class="size-btn-item" data-size="L">L</button>
+              <button type="button" class="size-btn-item" data-size="XL">XL</button>
+              <button type="button" class="size-btn-item is-active" data-size="XXL">XXL</button>
+            </div>
+
+            <!-- Number Input Box -->
+            <div class="size-number-row">
+              <span class="size-number-label">أو اكتب رقم مقاسك</span>
+              <input type="number" id="input-size-num" class="size-number-input" value="54" min="30" max="66">
+            </div>
+
+            <!-- Dynamic Result Feedback -->
+            <div id="size-feedback-lbl" class="size-feedback-lbl">مقاسك: XXL — كبير مضاعف (54 رجالي).</div>
+          </div>
+
+          <!-- Expandable Detailed Measurements -->
+          <div style="margin-bottom: 24px;">
+            <button type="button" id="btn-toggle-detailed-measurements" class="btn-detailed-toggle">
+              <span>أدخل قياساتك بالتفصيل (اختياري)</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="14" height="20" x="5" y="2" rx="2" ry="2"/>
+                <path d="M12 18h.01"/>
+              </svg>
+            </button>
+
+            <div id="detailed-measurements-panel" style="display:none; background:#faf6f0; border:1px solid #efe8e1; border-radius:16px; padding:16px;">
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                <div>
+                  <label class="form-group-label" for="detail-shoulder">عرض الكتف (سم):</label>
+                  <input type="number" id="detail-shoulder" class="form-text-input" placeholder="مثال: 46" value="46" style="background:#fff; width:100%;">
+                </div>
+                <div>
+                  <label class="form-group-label" for="detail-height">طول القامة (سم):</label>
+                  <input type="number" id="detail-height" class="form-text-input" placeholder="مثال: 172" value="172" style="background:#fff; width:100%;">
+                </div>
+              </div>
+
+              <div style="margin-top: 14px;" id="scarf-len-options-wrap">
+                <label class="form-group-label">طول الوشاح الموصى به:</label>
+                <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:10px;" id="length-pills-row">
+                  <button type="button" class="option-pill-btn" data-len="150">150 سم</button>
+                  <button type="button" class="option-pill-btn is-active" data-len="165">165 سم</button>
+                  <button type="button" class="option-pill-btn" data-len="175">175 سم</button>
+                </div>
+              </div>
+
+              <div style="margin-top:14px; padding:10px 14px; background:#fff; border:1px solid #efe8e1; border-radius:10px; display:flex; align-items:center; justify-content:space-between;">
+                <span style="font-family:var(--font-ui); font-size:12px; color:#5d022a; font-weight:700;">استيراد القياسات من حاسبة القياس؟</span>
+                <button type="button" id="btn-import-size-data" style="background:#5d022a; color:#fff; border:none; padding:6px 14px; border-radius:8px; font-family:var(--font-ui); font-size:12px; font-weight:700; cursor:pointer;">استيراد</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="wizard-nav-actions">
+            <button type="button" class="btn-wizard-back" id="btn-step2-back">رجوع</button>
+            <button type="button" class="btn-wizard-next" id="btn-step2-next">التالي</button>
+          </div>
+        </div>
+
+        <!-- ==================== STEP CAP NOTES: ملاحظاتك (Matches Screenshot 3) ==================== -->
+        <div class="wizard-step-content" id="wizard-step-cap-notes" style="display:none;">
+          <span class="step-counter" id="cap-step2-counter-lbl">الخطوة 2 من 3</span>
+          <h2 class="step-title">ملاحظاتك</h2>
+          <p class="step-desc">تحب تطريز اسمك على القبعة؟ تحب لون شرابة معين؟ أي تفصيل ع بالك، اكتبه هنا ونتواصل معاك لتأكيد التفاصيل قبل الخياطة.</p>
+
+          <div class="form-group-item">
+            <label class="form-group-label" for="input-cap-notes">ملاحظاتك (اختياري)</label>
+            <div class="cap-notes-wrapper">
+              <textarea id="input-cap-notes" maxlength="500" class="cap-notes-textarea" placeholder="مثال: حابب تطريز حرفي 'م.ع' بخيط ذهبي على الجهة اليمنى، والشرابة بنفس لون القبعة."></textarea>
+              <span id="cap-notes-counter" class="cap-char-counter">0 / 500</span>
+            </div>
+          </div>
+
+          <div class="cap-notice-box">
+            اتركها فاضية إذا ما عندك أي طلب خاص — كل قبعة تجي بالقصة الأصلية والشرابة الذهبية.
+          </div>
+
+          <!-- Actions -->
+          <div class="wizard-nav-actions">
+            <button type="button" class="btn-wizard-back" id="btn-cap-step2-back">رجوع</button>
+            <button type="button" class="btn-wizard-next" id="btn-cap-step2-next">التالي</button>
+          </div>
+        </div>
+
+        <!-- ==================== STEP 3: التطريز أو التفاصيل ==================== -->
+        <div class="wizard-step-content" id="wizard-step-3" style="display:none;">
+          
+          <!-- Sub-view 3A: Scarf Embroidery (Matches Screenshot 2) -->
+          <div id="step3-scarf-content">
+            <span class="step-counter">الخطوة 3 من 4</span>
+            <h2 class="step-title">اسمك على الوشاح</h2>
+            <p class="step-desc">يطرز على طرف الوشاح بخيط ذهبي حقيقي. اكتب اسمك وشوف شكله بخط التطريز قبل لا تطلب.</p>
+
+            <!-- Vertical Sash Tip Preview Box (Matches Screenshot 2) -->
+            <div class="vertical-sash-preview-wrap">
+              <div class="vertical-sash-tip-card" id="vertical-sash-card" style="background: radial-gradient(ellipse at 50% 20%, #8c1439 0%, #5d022a 55%, #340117 100%);">
+                <div class="vertical-sash-stitch-border" id="vertical-sash-border"></div>
+                <div class="vertical-sash-text-track font-thmanyah sash-text-gold" id="vertical-sash-name">
+                  مُحمَّد عليّ سَعد
+                </div>
+              </div>
+            </div>
+
+            <!-- Name Input Field with Character Counter -->
+            <div class="form-group-item">
+              <label class="form-group-label" for="wiz-name-input">اكتب اسمك</label>
+              <div class="name-input-container">
+                <input type="text" class="name-input-field" id="wiz-name-input" value="محمد علي سعد" maxlength="24" placeholder="مثال: محمد علي سعد">
+                <span class="name-char-count" id="name-char-counter">12 / 24</span>
+              </div>
+              <p class="name-helper-note">يطرز بخيط حقيقي. الكتابة بنفس الترتيب اللي تكتبه.</p>
+              <p class="name-helper-note">نضيف تشكيل الأسماء المعروفة تلقائي — وتكدر تكتب التشكيل بنفسك لو تحب.</p>
+            </div>
+
+            <!-- Color Swatches Circles -->
+            <div class="form-group-item">
+              <label class="form-group-label">لون الوشاح</label>
+              <div class="color-circles-row" id="wiz-colors-circles">
+                <button type="button" class="color-circle-btn is-active" data-color="burgundy" data-hex="#7a1832" data-name="ماروني" style="background:#7a1832;" aria-label="ماروني"></button>
+                <button type="button" class="color-circle-btn" data-color="red" data-hex="#a81c2f" data-name="أحمر" style="background:#a81c2f;" aria-label="أحمر"></button>
+                <button type="button" class="color-circle-btn" data-color="mauve" data-hex="#7d384e" data-name="موف" style="background:#7d384e;" aria-label="موف"></button>
+                <button type="button" class="color-circle-btn" data-color="emerald" data-hex="#0e4937" data-name="زمردي" style="background:#0e4937;" aria-label="زمردي"></button>
+                <button type="button" class="color-circle-btn" data-color="navy" data-hex="#132247" data-name="كحلي" style="background:#132247;" aria-label="كحلي"></button>
+                <button type="button" class="color-circle-btn" data-color="teal" data-hex="#0b7285" data-name="فيروزي" style="background:#0b7285;" aria-label="فيروزي"></button>
+
+                <a href="https://wa.me/9647805088134?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%AD%D8%A7%D8%A8%D8%A8%20%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%B1%20%D8%B9%D9%86%20%D8%A3%D9%84%D9%88%D8%A7%D9%86%20%D8%A3%D8%AE%D8%B1%D9%89%20%D9%84%D9%84%D9%88%D8%B4%D8%A7%D8%AD" class="wa-custom-colors-pill" target="_blank" rel="noopener">
+                  <span>تتوفر ألوان أخرى؟ تواصل ع الواتساب</span>
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.06 2.87 1.21 3.07.15.2 2.09 3.2 5.07 4.49.71.31 1.26.49 1.69.63.71.23 1.36.19 1.87.12.57-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35zM12 2a10 10 0 0 0-8.55 15.19L2 22l4.94-1.3A10 10 0 1 0 12 2z"/></svg>
+                </a>
+              </div>
+            </div>
+
+            <!-- Embroidery Thread Color -->
+            <div class="form-group-item">
+              <label class="form-group-label">لون التطريز</label>
+              <div class="option-pills-row" id="wiz-threads-pills">
+                <button type="button" class="option-pill-btn is-active" data-thread="gold">ذهبي</button>
+                <button type="button" class="option-pill-btn" data-thread="silver">فضي</button>
+              </div>
+            </div>
+
+            <!-- Calligraphy Font -->
+            <div class="form-group-item">
+              <label class="form-group-label">الخط</label>
+              <div class="option-pills-row" id="wiz-fonts-pills">
+                <button type="button" class="option-pill-btn is-active" data-font="thmanyah">خط ثمانية</button>
+                <button type="button" class="option-pill-btn" data-font="naskh">نسخ</button>
+                <button type="button" class="option-pill-btn" data-font="thuluth">الثلث</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sub-view 3B: Robe Details -->
+          <div id="step3-robe-content" style="display:none;">
+            <span class="step-counter">الخطوة 3 من 4</span>
+            <h2 class="step-title">تفاصيل الروب</h2>
+            <p class="step-desc">خامة كريب ملكي فاخر، باردة وخفيفة للطقس الصيفي مع انسيابية عالية.</p>
+
+            <div style="background:#faf6f0; border:1px solid #efe8e1; border-radius:20px; padding:20px; margin-bottom:24px;">
+              <div style="display:flex; align-items:center; gap:14px; margin-bottom:12px;">
+                <div style="width:44px; height:44px; border-radius:50%; background:#1a0a10; color:#fff; display:flex; align-items:center; justify-content:center; font-size:20px;">✨</div>
+                <div>
+                  <h4 style="font-family:var(--font-display); font-size:16px; margin:0; color:#1a0a10;">خامة الكريب الياباني الفاخر</h4>
+                  <p style="font-family:var(--font-text); font-size:13px; margin:2px 0 0; color:#666;">سواد داكن غير لامع، خفيف على الجسم ومريح لساعات الحفل والتصوير.</p>
+                </div>
+              </div>
+              <div style="padding:10px 14px; background:#fff; border-radius:12px; font-family:var(--font-ui); font-size:12px; color:#5d022a; font-weight:700;">
+                ✓ ضد التجعّد وسهل الكي بالبخار.
+              </div>
+            </div>
+
+            <div class="form-group-item">
+              <label class="form-group-label">لون الروب الأساسي</label>
+              <div class="option-pills-row">
+                <button type="button" class="option-pill-btn is-active">أسود ملكي فاخر</button>
+                <button type="button" class="option-pill-btn">كحلي غامق (حسب الطلب)</button>
+              </div>
+            </div>
+
+            <div class="form-group-item">
+              <label class="form-group-label" for="robe-embroidery-name">تطريز اسمك أو حرفك على جيب الروب (اختياري)</label>
+              <input type="text" class="form-text-input" id="robe-embroidery-name" placeholder="اتركه فارغاً إذا كنت لا ترغب بتطريز على الروب" style="width:100%;">
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="wizard-nav-actions">
+            <button type="button" class="btn-wizard-back" id="btn-step3-back">رجوع</button>
+            <button type="button" class="btn-wizard-next" id="btn-step3-next">التالي</button>
+          </div>
+        </div>
+
+        <!-- ==================== STEP 4: الوشاح/الروب بسلتك (Matches Screenshot 3) ==================== -->
+        <div class="wizard-step-content" id="wizard-step-4" style="display:none; text-align:center; padding: 20px 10px;">
+          
+          <!-- Big Maroon Success Circle (Matches Screenshot 3) -->
+          <div class="step4-success-circle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+
+          <h2 class="step4-title" id="step4-title-text">الوشاح بسلتك</h2>
+          <p class="step4-sub">تكدر تكمل الطلب الآن، أو ترجع تشوف باقي القطع وتجمعها لطقم كامل.</p>
+
+          <!-- Buttons Row (Matches Screenshot 3) -->
+          <div class="step4-buttons-row">
+            <button type="button" class="btn-step4-sec" id="btn-step4-see-more">شوف باقي القطع</button>
+            <a href="/checkout" class="btn-step4-pri" id="btn-step4-checkout">أكمل الطلب</a>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- WhatsApp Callout Box below wizard (Matches Screenshot 2) -->
+      <div class="wa-callout-box">
+        <h3 class="wa-callout-title">تحب تطلب عبر واتساب؟</h3>
+        <p class="wa-callout-desc">صمم قطعتك، وبضغطة نكمل الطلب وياك بالمحادثة.</p>
+        <a href="https://wa.me/9647805088134" target="_blank" rel="noopener" class="btn-wa-callout" id="btn-callout-wa">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.06 2.87 1.21 3.07.15.2 2.09 3.2 5.07 4.49.71.31 1.26.49 1.69.63.71.23 1.36.19 1.87.12.57-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35zM12 2a10 10 0 0 0-8.55 15.19L2 22l4.94-1.3A10 10 0 1 0 12 2z"/></svg>
+          <span>اطلب عبر واتساب</span>
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+</main>
+
+<script src="khamaiq.com/cart_v=p138.js"></script>
+<script src="khamaiq.com/mobile.js"></script>
+<script src="khamaiq.com/enhancements.js" defer></script>
+
+<script>
+(function () {
+  'use strict';
+
+  const WA_PHONE = '9647805088134';
+
+  // Config data for Scarf cuts
+  const SCARF_CUTS = {
+    regular: {
+      key: 'regular',
+      name: 'عادي',
+      desc: 'قصة مستقيمة، بدون ظهر.',
+      price: 30000,
+      tag: 'الأكثر طلباً',
+      images: [
+        { src: 'khamaiq.com/assets/images/scarf-cut-regular.jpg', label: '' }
+      ]
+    },
+    side: {
+      key: 'side',
+      name: 'جانبي',
+      desc: 'قصة جانبية تمتد من الكتف إلى الجانب.',
+      price: 30000,
+      tag: null,
+      images: [
+        { src: 'khamaiq.com/assets/images/scarf-cut-side.jpg', label: '' }
+      ]
+    },
+    royal: {
+      key: 'royal',
+      name: 'ملكي',
+      desc: 'يحتوي على ظهر بقصات مختلفة. يُنصح به للعبارات أو الرسمات الكبيرة على الظهر.',
+      price: 35000,
+      tag: null,
+      images: [
+        { src: 'khamaiq.com/assets/images/scarf-cut-royal-front.jpg', label: 'أمام' },
+        { src: 'khamaiq.com/assets/images/scarf-cut-royal-back.jpg', label: 'خلف' }
+      ]
+    },
+    american: {
+      key: 'american',
+      name: 'أمريكي',
+      desc: 'مثلث من الأمام ومن الخلف.',
+      price: 20000,
+      tag: null,
+      images: [
+        { src: 'khamaiq.com/assets/images/scarf-cut-american-front.jpg', label: 'أمام' },
+        { src: 'khamaiq.com/assets/images/scarf-cut-american-back.jpg', label: 'خلف' }
+      ]
+    }
+  };
+
+  // Config data for Robe cuts (Matches 4 new screenshots)
+  const ROBE_CUTS = {
+    regular: {
+      key: 'regular',
+      name: 'عادي',
+      desc: 'روب بقصة مستقيمة وخالي من الكسرات.',
+      price: 35000,
+      tag: 'الأكثر طلبا',
+      images: [
+        { src: 'khamaiq.com/assets/images/robe-cut-regular.jpg', label: '' }
+      ]
+    },
+    royal: {
+      key: 'royal',
+      name: 'ملكي',
+      desc: 'روب ملكي يحتوي على كسرات من الكتف فقط.',
+      price: 40000,
+      tag: null,
+      images: [
+        { src: 'khamaiq.com/assets/images/robe-cut-royal.jpg', label: '' }
+      ]
+    },
+    american: {
+      key: 'american',
+      name: 'أمريكي',
+      desc: 'كسرات في الكتف والظهر والصدر، من الأمام ومن الخلف.',
+      price: 40000,
+      tag: null,
+      images: [
+        { src: 'khamaiq.com/assets/images/robe-cut-american-front.jpg', label: 'أمام' },
+        { src: 'khamaiq.com/assets/images/robe-cut-american-back.jpg', label: 'خلف' }
+      ]
+    },
+    khaliji: {
+      key: 'khaliji',
+      name: 'خليجي',
+      desc: 'بدون أي كسرات، واسع بالردن ومن الأسفل (كلوش).',
+      price: 40000,
+      tag: null,
+      images: [
+        { src: 'khamaiq.com/assets/images/robe-cut-khaliji.jpg', label: '' }
+      ]
+    }
+  };
+
+  // Config data for Cap cuts (Matches 3 new screenshots)
+  const CAP_CUTS = {
+    regular: {
+      key: 'regular',
+      name: 'عادية',
+      desc: 'دائرية، بدون مثلث من الأمام.',
+      price: 20000,
+      tag: 'الأكثر طلبا',
+      images: [
+        { src: 'khamaiq.com/assets/images/cap-cut-regular.jpg', label: '' }
+      ]
+    },
+    royal: {
+      key: 'royal',
+      name: 'ملكية',
+      desc: 'تحتوي على مثلث من الأمام.',
+      price: 25000,
+      tag: null,
+      images: [
+        { src: 'khamaiq.com/assets/images/cap-cut-royal.jpg', label: '' }
+      ]
+    }
+  };
+
+  // Common Arabic Names Tashkeel Dictionary
+  const COMMON_TASHKEEL = {
+    'محمد': 'مُحَمَّد',
+    'علي': 'عَلِيّ',
+    'سعد': 'سَعْد',
+    'كاظم': 'كَاظِم',
+    'عبيد': 'عُبَيْد',
+    'احمد': 'أَحْمَد',
+    'أحمد': 'أَحْمَد',
+    'حسين': 'حُسَيْن',
+    'حسن': 'حَسَن',
+    'حيدر': 'حَيْدَر',
+    'جعفر': 'جَعْفَر',
+    'عباس': 'عَبَّاس',
+    'زينب': 'زَيْنَب',
+    'فاطمة': 'فَاطِمَة',
+    'زهراء': 'زَهْرَاء',
+    'مريم': 'مَرْيَم',
+    'نور': 'نُور',
+    'سجاد': 'سَجَّاد',
+    'كرار': 'كَرَّار',
+    'مصطفى': 'مُصْطَفَى',
+    'مرتضى': 'مُرْتَضَى',
+    'يوسف': 'يُوسُف',
+    'ابراهيم': 'إِبْرَاهِيم',
+    'مهدي': 'مَهْدِيّ',
+    'رضا': 'رِضَا',
+    'عمر': 'عُمَر',
+    'عثمان': 'عُثْمَان',
+    'خالد': 'خَالِد',
+    'طارق': 'طَارِق',
+    'زيد': 'زَيْد',
+    'حمزة': 'حَمْزَة',
+    'عبدالله': 'عَبْدُ اللهِ',
+    'عبد الله': 'عَبْدُ اللهِ',
+    'عبدالرحمن': 'عَبْدُ الرَّحْمَنِ'
+  };
+
+  function applyTashkeel(text) {
+    if (!text) return '';
+    if (/[\u064B-\u0652]/.test(text)) return text;
+    const words = text.split(/\s+/);
+    return words.map(w => COMMON_TASHKEEL[w] || w).join(' ');
+  }
+
+  // State
+  let currentView = 'catalog'; // 'catalog' or 'wizard'
+  let currentProductKind = 'scarf'; // 'scarf' or 'robe'
+  let currentStep = 1;
+
+  let selectedCut = 'royal';
+  let selectedGender = 'male';
+  let selectedSize = 'XXL';
+  let selectedSizeNum = 54;
+  let selectedLength = 165;
+
+  let studentName = 'محمد علي سعد';
+  let scarfColor = 'burgundy';
+  let scarfColorName = 'ماروني';
+  let scarfColorHex = '#7a1832';
+  let scarfFont = 'thmanyah';
+  let scarfFontName = 'خط ثمانية';
+  let scarfThread = 'gold';
+  let scarfThreadName = 'ذهبي';
+
+  // Elements
+  const viewCatalog = document.getElementById('view-catalog');
+  const viewWizard = document.getElementById('view-wizard');
+  const mannequinBox = document.getElementById('mannequin-box');
+  const typesNavBar = document.getElementById('types-nav-bar');
+  const cutNameLbl = document.getElementById('cut-name-lbl');
+  const cutDescLbl = document.getElementById('cut-desc-lbl');
+  const cutPriceLbl = document.getElementById('cut-price-lbl');
+  const cutPopularTag = document.getElementById('cut-popular-tag');
+
+  const btnStep1Back = document.getElementById('btn-step1-back');
+  const btnStep1Next = document.getElementById('btn-step1-next');
+  const btnStep2Back = document.getElementById('btn-step2-back');
+  const btnStep2Next = document.getElementById('btn-step2-next');
+  const btnStep3Back = document.getElementById('btn-step3-back');
+  const btnStep3Next = document.getElementById('btn-step3-next');
+  const btnCalloutWa = document.getElementById('btn-callout-wa');
+
+  const inputSizeNum = document.getElementById('input-size-num');
+  const sizeFeedbackLbl = document.getElementById('size-feedback-lbl');
+  const btnToggleDetailed = document.getElementById('btn-toggle-detailed-measurements');
+  const detailedPanel = document.getElementById('detailed-measurements-panel');
+
+  const wizNameInput = document.getElementById('wiz-name-input');
+  const nameCharCounter = document.getElementById('name-char-counter');
+  const verticalSashCard = document.getElementById('vertical-sash-card');
+  const verticalSashName = document.getElementById('vertical-sash-name');
+
+  const inputCapNotes = document.getElementById('input-cap-notes');
+  const capNotesCounter = document.getElementById('cap-notes-counter');
+  const btnCapStep2Back = document.getElementById('btn-cap-step2-back');
+  const btnCapStep2Next = document.getElementById('btn-cap-step2-next');
+
+  if (inputCapNotes && capNotesCounter) {
+    inputCapNotes.addEventListener('input', () => {
+      capNotesCounter.textContent = `${inputCapNotes.value.length} / 500`;
+    });
+  }
+  if (btnCapStep2Back) {
+    btnCapStep2Back.addEventListener('click', () => goToStep(1));
+  }
+  if (btnCapStep2Next) {
+    btnCapStep2Next.addEventListener('click', () => goToStep(3));
+  }
+
+  function getActiveCutDataset() {
+    if (currentProductKind === 'robe') return ROBE_CUTS;
+    if (currentProductKind === 'cap') return CAP_CUTS;
+    return SCARF_CUTS;
+  }
+
+  // Setup Step 1 Tabs based on current product
+  function setupStep1Tabs() {
+    const dataset = getActiveCutDataset();
+    typesNavBar.innerHTML = '';
+
+    Object.values(dataset).forEach((cut, idx) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'type-tab-btn' + (cut.key === selectedCut ? ' is-active' : '');
+      btn.dataset.cut = cut.key;
+      btn.textContent = cut.name;
+      btn.addEventListener('click', () => {
+        renderCutDisplay(cut.key);
+      });
+      typesNavBar.appendChild(btn);
+    });
+
+    if (currentProductKind === 'robe') {
+      const c = document.getElementById('step1-counter-lbl');
+      if (c) c.textContent = 'الخطوة 1 من 4';
+      document.getElementById('step1-main-title').textContent = 'اختر نوع الروب';
+      document.getElementById('step1-main-desc').textContent = 'أربعة أنواع، كلها بنفس الجودة والقماش، الفرق بالكسرات بس.';
+    } else if (currentProductKind === 'cap') {
+      const c = document.getElementById('step1-counter-lbl');
+      if (c) c.textContent = 'الخطوة 1 من 3';
+      document.getElementById('step1-main-title').textContent = 'اختر نوع القبعة';
+      document.getElementById('step1-main-desc').textContent = 'نوعان، الفرق بالمثلث اللي قدام القبعة.';
+    } else {
+      const c = document.getElementById('step1-counter-lbl');
+      if (c) c.textContent = 'الخطوة 1 من 4';
+      document.getElementById('step1-main-title').textContent = 'اختر نوع الوشاح';
+      document.getElementById('step1-main-desc').textContent = 'أربعة أنواع. اختر الشكل اللي يعجبك، ونفصله بقياسك.';
+    }
+  }
+
+  // Render Cut Showcase
+  function renderCutDisplay(cutKey) {
+    const dataset = getActiveCutDataset();
+    selectedCut = dataset[cutKey] ? cutKey : (dataset.regular ? 'regular' : Object.keys(dataset)[0]);
+    const info = dataset[selectedCut];
+
+    // Update active tab
+    typesNavBar.querySelectorAll('.type-tab-btn').forEach(btn => {
+      btn.classList.toggle('is-active', btn.dataset.cut === selectedCut);
+    });
+
+    // Render mannequin frames
+    mannequinBox.innerHTML = '';
+    info.images.forEach(img => {
+      const frame = document.createElement('div');
+      frame.className = 'mannequin-single-frame';
+      frame.innerHTML = `
+        <img src="${img.src}" alt="${info.name}" loading="lazy">
+        ${img.label ? `<span class="mannequin-frame-tag">${img.label}</span>` : ''}
+      `;
+      mannequinBox.appendChild(frame);
+    });
+
+    cutNameLbl.textContent = info.name;
+    cutDescLbl.textContent = info.desc;
+    cutPriceLbl.textContent = Number(info.price).toLocaleString() + ' دينار';
+
+    if (cutPopularTag) {
+      if (info.tag) {
+        cutPopularTag.textContent = info.tag;
+        cutPopularTag.style.display = 'block';
+      } else {
+        cutPopularTag.style.display = 'none';
+      }
+    }
+
+    updateCalloutWhatsApp();
+  }
+
+  // Navigation between steps
+  function goToStep(step) {
+    currentStep = step;
+
+    const step1El = document.getElementById('wizard-step-1');
+    const step2El = document.getElementById('wizard-step-2');
+    const stepCapNotesEl = document.getElementById('wizard-step-cap-notes');
+    const step3El = document.getElementById('wizard-step-3');
+    const step4El = document.getElementById('wizard-step-4');
+
+    if (currentProductKind === 'cap') {
+      // 3-step wizard for Cap
+      if (step1El) step1El.style.display = step === 1 ? 'block' : 'none';
+      if (step2El) step2El.style.display = 'none';
+      if (stepCapNotesEl) stepCapNotesEl.style.display = step === 2 ? 'block' : 'none';
+      if (step3El) step3El.style.display = 'none';
+      if (step4El) step4El.style.display = step === 3 ? 'block' : 'none';
+
+      for (let i = 1; i <= 3; i++) {
+        const node = document.getElementById('step-node-' + i);
+        const line = document.getElementById('step-line-' + i);
+
+        if (node) {
+          const isDoneOrActive = i <= step;
+          node.classList.toggle('is-active', i === step);
+          node.classList.toggle('is-completed', i < step);
+
+          const circle = node.querySelector('.stepper-circle');
+          if (circle) {
+            circle.textContent = isDoneOrActive ? '✓' : '';
+          }
+        }
+        if (line) {
+          line.classList.toggle('is-completed', i < step);
+        }
+      }
+
+      if (step === 3) {
+        document.getElementById('step4-title-text').textContent = 'القبعة بسلتك';
+        addItemToCart();
+      }
+    } else {
+      // 4-step wizard for Scarf and Robe
+      if (step1El) step1El.style.display = step === 1 ? 'block' : 'none';
+      if (step2El) step2El.style.display = step === 2 ? 'block' : 'none';
+      if (stepCapNotesEl) stepCapNotesEl.style.display = 'none';
+      if (step3El) step3El.style.display = step === 3 ? 'block' : 'none';
+      if (step4El) step4El.style.display = step === 4 ? 'block' : 'none';
+
+      for (let i = 1; i <= 4; i++) {
+        const node = document.getElementById('step-node-' + i);
+        const line = document.getElementById('step-line-' + i);
+
+        if (node) {
+          const isDoneOrActive = i <= step;
+          node.classList.toggle('is-active', i === step);
+          node.classList.toggle('is-completed', i < step);
+
+          const circle = node.querySelector('.stepper-circle');
+          if (circle) {
+            circle.textContent = isDoneOrActive ? '✓' : '';
+          }
+        }
+        if (line) {
+          line.classList.toggle('is-completed', i < step || (step === 4 && i <= 3));
+        }
+      }
+
+      if (step === 3) {
+        document.getElementById('step3-scarf-content').style.display = currentProductKind === 'scarf' ? 'block' : 'none';
+        document.getElementById('step3-robe-content').style.display = currentProductKind === 'robe' ? 'block' : 'none';
+      }
+
+      if (step === 4) {
+        document.getElementById('step4-title-text').textContent = currentProductKind === 'robe' ? 'الروب بسلتك' : 'الوشاح بسلتك';
+        addItemToCart();
+      }
+    }
+
+    window.scrollTo({ top: 120, behavior: 'smooth' });
+  }
+
+  // Stepper Node Clicks
+  document.querySelectorAll('.stepper-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const targetStep = parseInt(item.dataset.step, 10);
+      if (currentProductKind === 'cap' && targetStep > 3) return;
+      goToStep(targetStep);
+    });
+  });
+
+  // Step 1 Buttons
+  btnStep1Back.addEventListener('click', () => showCatalogView(true));
+  btnStep1Next.addEventListener('click', () => goToStep(2));
+
+  // ============================================================
+  // Step 2 Logic: Gender, Sizes, Numbers, Detailed measurements
+  // ============================================================
+  const SIZE_MAP = {
+    male: {
+      XS: { num: 44, label: 'صغير جداً' },
+      S:  { num: 46, label: 'صغير' },
+      M:  { num: 48, label: 'وسط' },
+      L:  { num: 50, label: 'كبير' },
+      XL: { num: 52, label: 'كبير جداً' },
+      XXL:{ num: 54, label: 'كبير مضاعف' }
+    },
+    female: {
+      XS: { num: 36, label: 'صغير جداً' },
+      S:  { num: 38, label: 'صغير' },
+      M:  { num: 40, label: 'وسط' },
+      L:  { num: 42, label: 'كبير' },
+      XL: { num: 44, label: 'كبير جداً' },
+      XXL:{ num: 46, label: 'كبير مضاعف' }
+    }
+  };
+
+  function updateSizeFeedback() {
+    const genderObj = SIZE_MAP[selectedGender] || SIZE_MAP.male;
+    const info = genderObj[selectedSize] || { num: selectedSizeNum, label: 'مخصص' };
+    const genderWord = selectedGender === 'male' ? 'رجالي' : 'نسائي';
+    sizeFeedbackLbl.textContent = `مقاسك: ${selectedSize} — ${info.label} (${selectedSizeNum} ${genderWord}).`;
+  }
+
+  // Gender Buttons
+  document.getElementById('btn-gender-male').addEventListener('click', () => {
+    selectedGender = 'male';
+    document.getElementById('btn-gender-male').classList.add('is-active');
+    document.getElementById('btn-gender-female').classList.remove('is-active');
+    selectedSizeNum = SIZE_MAP.male[selectedSize].num;
+    inputSizeNum.value = selectedSizeNum;
+    updateSizeFeedback();
+  });
+
+  document.getElementById('btn-gender-female').addEventListener('click', () => {
+    selectedGender = 'female';
+    document.getElementById('btn-gender-female').classList.add('is-active');
+    document.getElementById('btn-gender-male').classList.remove('is-active');
+    selectedSizeNum = SIZE_MAP.female[selectedSize].num;
+    inputSizeNum.value = selectedSizeNum;
+    updateSizeFeedback();
+  });
+
+  // Size Buttons
+  document.querySelectorAll('#body-size-buttons .size-btn-item').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#body-size-buttons .size-btn-item').forEach(b => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      selectedSize = btn.dataset.size;
+      const genderObj = SIZE_MAP[selectedGender] || SIZE_MAP.male;
+      selectedSizeNum = genderObj[selectedSize].num;
+      inputSizeNum.value = selectedSizeNum;
+      updateSizeFeedback();
+    });
+  });
+
+  // Number Input
+  inputSizeNum.addEventListener('input', () => {
+    selectedSizeNum = parseInt(inputSizeNum.value, 10) || 50;
+    const genderObj = SIZE_MAP[selectedGender] || SIZE_MAP.male;
+    let closestKey = 'M';
+    let minDiff = 999;
+    for (const [key, val] of Object.entries(genderObj)) {
+      const diff = Math.abs(val.num - selectedSizeNum);
+      if (diff < minDiff) {
+        minDiff = diff;
+        closestKey = key;
+      }
+    }
+    selectedSize = closestKey;
+    document.querySelectorAll('#body-size-buttons .size-btn-item').forEach(b => {
+      b.classList.toggle('is-active', b.dataset.size === closestKey);
+    });
+    updateSizeFeedback();
+  });
+
+  // Toggle Detailed Measurements
+  btnToggleDetailed.addEventListener('click', () => {
+    const isHidden = detailedPanel.style.display === 'none';
+    detailedPanel.style.display = isHidden ? 'block' : 'none';
+  });
+
+  // Detailed Length Pills
+  document.querySelectorAll('#length-pills-row .option-pill-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#length-pills-row .option-pill-btn').forEach(b => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      selectedLength = parseInt(btn.dataset.len, 10);
+    });
+  });
+
+  // Import Measurements
+  document.getElementById('btn-import-size-data').addEventListener('click', () => {
+    try {
+      const raw = localStorage.getItem('ibra_measurements');
+      if (!raw) {
+        alert('لم يتم العثور على قياسات سابقة. يمكنك حساب قياساتك الآن من صفحة "حاسبة القياس".');
+        return;
+      }
+      const m = JSON.parse(raw);
+      if (m && m.scarfLength) selectedLength = m.scarfLength;
+      if (m && m.shoulder) document.getElementById('detail-shoulder').value = m.shoulder;
+      if (m && m.height) document.getElementById('detail-height').value = m.height;
+      alert('تم استيراد قياساتك المحفوظة بنجاح!');
+    } catch {}
+  });
+
+  btnStep2Back.addEventListener('click', () => goToStep(1));
+  btnStep2Next.addEventListener('click', () => goToStep(3));
+
+  // ============================================================
+  // Step 3 Logic: Vertical Sash Tip Embroidery Simulation
+  // ============================================================
+  function updateVerticalSashPreview() {
+    studentName = wizNameInput.value.trim() || 'محمد علي سعد';
+    const count = wizNameInput.value.length;
+    nameCharCounter.textContent = `${count} / 24`;
+
+    const tashkeelName = applyTashkeel(studentName);
+    verticalSashName.textContent = tashkeelName;
+
+    // Dynamic Font Sizing for vertical track
+    const len = studentName.length;
+    if (len <= 12) verticalSashName.style.fontSize = '32px';
+    else if (len <= 18) verticalSashName.style.fontSize = '26px';
+    else if (len <= 24) verticalSashName.style.fontSize = '22px';
+    else verticalSashName.style.fontSize = '18px';
+
+    // Font family & Thread color
+    verticalSashName.className = `vertical-sash-text-track font-${scarfFont} sash-text-${scarfThread}`;
+
+    // Card Gradient matching scarf color
+    const colorGradients = {
+      burgundy: 'radial-gradient(ellipse at 50% 20%, #8c1439 0%, #5d022a 55%, #340117 100%)',
+      red:      'radial-gradient(ellipse at 50% 20%, #b82136 0%, #871223 55%, #47060f 100%)',
+      mauve:    'radial-gradient(ellipse at 50% 20%, #91455d 0%, #682c3f 55%, #391320 100%)',
+      emerald:  'radial-gradient(ellipse at 50% 20%, #155c46 0%, #0d4232 55%, #052119 100%)',
+      navy:     'radial-gradient(ellipse at 50% 20%, #192d5c 0%, #101e40 55%, #070e1f 100%)',
+      teal:     'radial-gradient(ellipse at 50% 20%, #0f89a0 0%, #0b687a 55%, #05353f 100%)'
+    };
+    verticalSashCard.style.background = colorGradients[scarfColor] || colorGradients.burgundy;
+  }
+
+  wizNameInput.addEventListener('input', updateVerticalSashPreview);
+
+  // Color Swatches
+  document.querySelectorAll('#wiz-colors-circles .color-circle-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#wiz-colors-circles .color-circle-btn').forEach(b => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      scarfColor = btn.dataset.color;
+      scarfColorHex = btn.dataset.hex;
+      scarfColorName = btn.dataset.name;
+      updateVerticalSashPreview();
+    });
+  });
+
+  // Threads
+  document.querySelectorAll('#wiz-threads-pills .option-pill-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#wiz-threads-pills .option-pill-btn').forEach(b => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      scarfThread = btn.dataset.thread;
+      scarfThreadName = btn.textContent.trim();
+      updateVerticalSashPreview();
+    });
+  });
+
+  // Fonts
+  document.querySelectorAll('#wiz-fonts-pills .option-pill-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#wiz-fonts-pills .option-pill-btn').forEach(b => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      scarfFont = btn.dataset.font;
+      scarfFontName = btn.textContent.trim();
+      updateVerticalSashPreview();
+    });
+  });
+
+  btnStep3Back.addEventListener('click', () => goToStep(2));
+  btnStep3Next.addEventListener('click', () => goToStep(4));
+
+  // ============================================================
+  // Step 4 Logic: Add to cart & Confirm (Matches Screenshot 3)
+  // ============================================================
+  function addItemToCart() {
+    const dataset = getActiveCutDataset();
+    const cutInfo = dataset[selectedCut] || dataset.regular;
+    const rawCart = localStorage.getItem('khama_cart');
+    let items = [];
+    try { items = JSON.parse(rawCart) || []; } catch {}
+
+    const id = currentProductKind + '_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4);
+
+    if (currentProductKind === 'robe') {
+      const robeEmb = document.getElementById('robe-embroidery-name').value.trim();
+      items.push({
+        id,
+        kind: 'robe',
+        name: `روب إبرة وخيط (${cutInfo.name})`,
+        qty: 1,
+        price: cutInfo.price,
+        priceLabel: Number(cutInfo.price).toLocaleString() + ' د.ع',
+        config: {
+          cut: cutInfo.name,
+          gender: selectedGender,
+          size: selectedSize,
+          sizeNum: selectedSizeNum,
+          height: document.getElementById('detail-height').value,
+          shoulder: document.getElementById('detail-shoulder').value,
+          embroidery: robeEmb || 'بدون تطريز'
+        },
+        addedAt: Date.now()
+      });
+    } else if (currentProductKind === 'cap') {
+      const capNotes = document.getElementById('input-cap-notes') ? document.getElementById('input-cap-notes').value.trim() : '';
+      items.push({
+        id,
+        kind: 'cap',
+        name: `قبعة إبرة وخيط (${cutInfo.name})`,
+        qty: 1,
+        price: cutInfo.price,
+        priceLabel: Number(cutInfo.price).toLocaleString() + ' د.ع',
+        config: {
+          cut: cutInfo.name,
+          type: selectedCut,
+          notes: capNotes || 'بدون طلب خاص (القصة الأصلية والشرابة الذهبية)',
+          size: 'free'
+        },
+        addedAt: Date.now()
+      });
+    } else {
+      items.push({
+        id,
+        kind: 'scarf',
+        name: `وشاح إبرة وخيط (${cutInfo.name})`,
+        qty: 1,
+        price: cutInfo.price,
+        priceLabel: Number(cutInfo.price).toLocaleString() + ' د.ع',
+        config: {
+          name: studentName,
+          gender: selectedGender,
+          size: selectedSize,
+          sizeNum: selectedSizeNum,
+          font: scarfFont,
+          textColor: scarfThread,
+          scarfColor: scarfColor,
+          scarfColorName: scarfColorName,
+          type: selectedCut,
+          length: selectedLength,
+          embroideryEnabled: true
+        },
+        addedAt: Date.now()
+      });
+    }
+
+    localStorage.setItem('khama_cart', JSON.stringify(items));
+    window.dispatchEvent(new CustomEvent('khama:cart-update'));
+  }
+
+  document.getElementById('btn-step4-see-more').addEventListener('click', () => {
+    showCatalogView(true);
+  });
+
+  function updateCalloutWhatsApp() {
+    const dataset = getActiveCutDataset();
+    const cutInfo = dataset[selectedCut] || dataset.regular;
+    const kindLabel = currentProductKind === 'robe' ? 'روب' : (currentProductKind === 'cap' ? 'قبعة' : 'وشاح');
+    const msg = `مرحباً إبرة وخيط، حابب استفسر عن طلب ${kindLabel} تخرج موديل (${cutInfo.name}):`;
+    btnCalloutWa.href = `https://wa.me/${WA_PHONE}?text=` + encodeURIComponent(msg);
+  }
+
+  // View Switchers: Catalog vs Wizard
+  function showCatalogView(push = true) {
+    currentView = 'catalog';
+    viewCatalog.style.display = 'block';
+    viewWizard.style.display = 'none';
+    if (push && window.location.pathname !== '/products') {
+      window.history.pushState(null, '', '/products');
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function showWizard(kind = 'scarf', push = true) {
+    currentView = 'wizard';
+    currentProductKind = kind;
+    viewCatalog.style.display = 'none';
+    viewWizard.style.display = 'block';
+
+    const node2Lbl = document.getElementById('stepper-lbl-step2');
+    const node3Lbl = document.getElementById('stepper-lbl-step3');
+    const node4 = document.getElementById('step-node-4');
+    const line3 = document.getElementById('step-line-3');
+
+    if (kind === 'cap') {
+      document.getElementById('lbl-breadcrumb-curr').textContent = 'قبعة إبرة وخيط';
+      document.getElementById('wizard-title-text').textContent = 'صمم قبعتك';
+      document.getElementById('wizard-sub-text').textContent = 'ثلاث خطوات. اختر النوع، ملاحظاتك، ومراجعة. كل قبعة تتفصل عليك إنت.';
+      if (node2Lbl) node2Lbl.textContent = 'ملاحظاتك';
+      if (node3Lbl) node3Lbl.textContent = 'المراجعة';
+      if (node4) node4.style.display = 'none';
+      if (line3) line3.style.display = 'none';
+      document.getElementById('mobile-bottom-cta-label').textContent = 'صمم قبعتك الآن';
+      selectedCut = 'regular';
+      setupStep1Tabs();
+      renderCutDisplay('regular');
+      if (push && !window.location.pathname.includes('/cap')) {
+        window.history.pushState(null, '', '/products/cap');
+      }
+    } else if (kind === 'robe') {
+      document.getElementById('lbl-breadcrumb-curr').textContent = 'روب إبرة وخيط';
+      document.getElementById('wizard-title-text').textContent = 'صمم روبك';
+      document.getElementById('wizard-sub-text').textContent = 'أربع خطوات. اختر نوع الروب، قياساتك، تفاصيلك، ومراجعة. كل روب يتفصل عليك إنت.';
+      if (node2Lbl) node2Lbl.textContent = 'القياسات';
+      if (node3Lbl) node3Lbl.textContent = 'التفاصيل';
+      if (node4) node4.style.display = 'flex';
+      if (line3) line3.style.display = 'block';
+      document.getElementById('mobile-bottom-cta-label').textContent = 'صمم روبك الآن';
+      selectedCut = 'regular';
+      setupStep1Tabs();
+      renderCutDisplay('regular');
+      if (push && !window.location.pathname.includes('/robe')) {
+        window.history.pushState(null, '', '/products/robe');
+      }
+    } else {
+      document.getElementById('lbl-breadcrumb-curr').textContent = 'وشاح إبرة وخيط';
+      document.getElementById('wizard-title-text').textContent = 'صمم وشاحك';
+      document.getElementById('wizard-sub-text').textContent = 'أربع خطوات. اختر النوع، قياساتك، اسمك على الوشاح، ومراجعة. كل وشاح يتفصل عليك إنت.';
+      if (node2Lbl) node2Lbl.textContent = 'القياسات';
+      if (node3Lbl) node3Lbl.textContent = 'التطريز';
+      if (node4) node4.style.display = 'flex';
+      if (line3) line3.style.display = 'block';
+      document.getElementById('mobile-bottom-cta-label').textContent = 'صمم وشاحك الآن';
+      selectedCut = 'royal';
+      setupStep1Tabs();
+      renderCutDisplay('royal');
+      if (push && !window.location.pathname.includes('/scarf')) {
+        window.history.pushState(null, '', '/products/scarf');
+      }
+    }
+
+    goToStep(1);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Catalog Card Buttons
+  document.getElementById('btn-open-scarf-wizard').addEventListener('click', () => showWizard('scarf', true));
+  document.getElementById('btn-open-robe-wizard').addEventListener('click', () => showWizard('robe', true));
+  document.getElementById('btn-open-cap-wizard').addEventListener('click', () => showWizard('cap', true));
+
+  document.getElementById('btn-breadcrumb-catalog').addEventListener('click', (e) => {
+    e.preventDefault();
+    showCatalogView(true);
+  });
+
+  const mobileBottomMain = document.getElementById('mobile-bottom-main-action');
+  if (mobileBottomMain) {
+    mobileBottomMain.addEventListener('click', () => {
+      const maxStep = currentProductKind === 'cap' ? 3 : 4;
+      if (currentView === 'catalog') showWizard('scarf', true);
+      else if (currentStep < maxStep) goToStep(currentStep + 1);
+      else window.location.href = '/checkout';
+    });
+  }
+
+  // Handle browser back/forward buttons
+  window.addEventListener('popstate', () => {
+    const p = window.location.pathname.toLowerCase();
+    if (p.includes('/robe')) {
+      showWizard('robe', false);
+    } else if (p.includes('/cap')) {
+      showWizard('cap', false);
+    } else if (p.includes('/scarf')) {
+      showWizard('scarf', false);
+    } else {
+      showCatalogView(false);
+    }
+  });
+
+  // URL routing check on page load
+  const path = window.location.pathname.toLowerCase();
+  const search = new URLSearchParams(window.location.search);
+  const item = search.get('item');
+
+  if (path.includes('/robe') || item === 'robe') {
+    showWizard('robe', false);
+  } else if (path.includes('/cap') || item === 'cap') {
+    showWizard('cap', false);
+  } else if (path.includes('/scarf') || item === 'scarf') {
+    showWizard('scarf', false);
+  } else {
+    showCatalogView(false);
+  }
+
+  // Initialize
+  updateSizeFeedback();
+  updateVerticalSashPreview();
+})();
+</script>
+
+</body>
+</html>

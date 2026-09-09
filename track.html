@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تتبع حالة طلبك | إبرة وخيط</title>
+  <meta name="description" content="تتبع حالة تفصيل وتوصيل روب ووشاح وقبعة التخرج مباشرة عبر موقع إبرة وخيط برقم طلبك.">
+  <link rel="icon" href="khamaiq.com/favicon_v=p138.ico">
+  <link rel="stylesheet" href="khamaiq.com/styles_v=p138.css">
+  <link rel="stylesheet" href="khamaiq.com/enhancements.css">
+  <style>
+    :root {
+      --font-display: "Playfair Display", "Amiri", serif;
+      --font-ui: "Alexandria", "Segoe UI", Tahoma, sans-serif;
+      --color-burgundy: #5d022a;
+      --color-gold: #c59b27;
+      --bg-cream: #fbf7f4;
+    }
+    body {
+      background-color: var(--bg-cream);
+      font-family: var(--font-ui);
+      color: #1a0a10;
+      margin: 0;
+      padding: 0;
+    }
+    .track-nav {
+      background: #fff;
+      border-bottom: 1px solid #ebdcd5;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .track-logo-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--color-burgundy);
+      font-weight: 800;
+      font-size: 18px;
+    }
+    .track-wrap {
+      max-width: 720px;
+      margin: 36px auto;
+      padding: 0 16px 60px;
+    }
+    .track-search-card {
+      background: #fff;
+      border-radius: 24px;
+      border: 1px solid #ebdcd5;
+      padding: 32px 24px;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(93, 2, 42, 0.04);
+      margin-bottom: 24px;
+    }
+    .track-heading {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--color-burgundy);
+      margin: 0 0 8px;
+    }
+    .track-sub {
+      color: #666;
+      font-size: 14px;
+      margin: 0 0 24px;
+    }
+    .track-input-row {
+      display: flex;
+      gap: 10px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .track-input {
+      flex: 1;
+      padding: 12px 18px;
+      border: 1.5px solid #d9c4ba;
+      border-radius: 30px;
+      font-size: 15px;
+      font-family: var(--font-ui);
+      outline: none;
+      text-align: center;
+      direction: ltr;
+    }
+    .track-input:focus {
+      border-color: var(--color-burgundy);
+    }
+    .btn-track-search {
+      background: var(--color-burgundy);
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      padding: 12px 26px;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: var(--font-ui);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-track-search:hover {
+      background: #470120;
+    }
+    .track-result-card {
+      background: #fff;
+      border-radius: 24px;
+      border: 1px solid #ebdcd5;
+      padding: 28px;
+      box-shadow: 0 8px 24px rgba(93, 2, 42, 0.04);
+      display: none;
+    }
+    .progress-track-row {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      margin: 34px 10px 30px;
+    }
+    .progress-track-line-bg {
+      position: absolute;
+      top: 15px;
+      right: 25px;
+      left: 25px;
+      height: 4px;
+      background: #e8ded7;
+      z-index: 1;
+    }
+    .progress-track-line-fill {
+      position: absolute;
+      top: 15px;
+      right: 25px;
+      height: 4px;
+      background: #1e874b;
+      z-index: 2;
+      transition: width 0.4s ease;
+      width: 0%;
+    }
+    .progress-step-item {
+      position: relative;
+      z-index: 3;
+      text-align: center;
+      width: 60px;
+    }
+    .step-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid #ccc;
+      color: #999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 8px;
+      font-size: 13px;
+      font-weight: 800;
+      transition: all 0.3s;
+    }
+    .step-circle.active {
+      background: #1e874b;
+      border-color: #1e874b;
+      color: #fff;
+    }
+    .step-circle.current {
+      background: #fff;
+      border-color: var(--color-burgundy);
+      color: var(--color-burgundy);
+      box-shadow: 0 0 0 4px rgba(93, 2, 42, 0.15);
+    }
+    .step-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #777;
+    }
+    .step-title.active {
+      color: #1e874b;
+    }
+    .step-title.current {
+      color: var(--color-burgundy);
+    }
+    .order-invoice-box {
+      background: #fdf8f6;
+      border: 1px solid #f0e5e0;
+      border-radius: 18px;
+      padding: 20px;
+      margin-top: 24px;
+      font-size: 13.5px;
+      line-height: 1.8;
+    }
+    .track-actions-row {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+    .btn-track-action {
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 13.5px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-action-print {
+      background: #fff;
+      border: 1px solid #d9c4ba;
+      color: #333;
+    }
+    .btn-action-shop {
+      background: var(--color-burgundy);
+      border: 1px solid var(--color-burgundy);
+      color: #fff;
+    }
+    @media print {
+      .track-nav, .track-search-card, .track-actions-row {
+        display: none !important;
+      }
+      .track-result-card {
+        display: block !important;
+        box-shadow: none;
+        border: 1px solid #000;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="track-nav">
+    <a href="/" class="track-logo-row">
+      <div style="background:var(--color-burgundy); color:#fff; width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:900;">إ</div>
+      <span>إبرة وخيط</span>
+    </a>
+    <div style="display:flex; gap:12px; align-items:center;">
+      <a href="/products" style="color:var(--color-burgundy); text-decoration:none; font-weight:700; font-size:13.5px;">المنتجات</a>
+      <a href="/class" style="color:#555; text-decoration:none; font-weight:700; font-size:13.5px;">الدفعة</a>
+    </div>
+  </header>
+
+  <main class="track-wrap">
+
+    <div class="track-search-card">
+      <h1 class="track-heading">تتبع حالة طلبك المباشرة</h1>
+      <p class="track-sub">اكتب كود الطلب (مثل KH-260906-8862) أو رقم موبايلك لمشاهدة خط سير تجهيز وتفصيل قطعتك.</p>
+      
+      <form id="track-form" class="track-input-row">
+        <input type="text" class="track-input" id="track-search-val" aria-label="رقم كود الطلب أو رقم الهاتف للتتبع" placeholder="KH-..." required autocomplete="off">
+        <button type="submit" class="btn-track-search" id="btn-do-track">تتبع الآن</button>
+      </form>
+      <div id="track-error-msg" style="color:#c5221f; font-size:13px; margin-top:12px; display:none;"></div>
+    </div>
+
+    <!-- Live Order Result -->
+    <div class="track-result-card" id="track-result-box">
+      
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #ebdcd5; padding-bottom:16px; flex-wrap:wrap; gap:10px;">
+        <div>
+          <span style="font-size:12px; color:#888; display:block;">رقم الطلب</span>
+          <span style="font-size:20px; font-weight:800; color:var(--color-burgundy);" id="res-order-id">KH-260906-8862</span>
+        </div>
+        <div style="text-align:left;">
+          <span style="font-size:12px; color:#888; display:block;">تاريخ التسجيل</span>
+          <span style="font-size:13px; font-weight:700;" id="res-order-date">اليوم</span>
+        </div>
+      </div>
+
+      <!-- 5-Step Visual Timeline -->
+      <div class="progress-track-row">
+        <div class="progress-track-line-bg"></div>
+        <div class="progress-track-line-fill" id="track-line-fill"></div>
+
+        <div class="progress-step-item">
+          <div class="step-circle" id="step-node-1">✓</div>
+          <span class="step-title" id="step-title-1">تم الاستلام</span>
+        </div>
+
+        <div class="progress-step-item">
+          <div class="step-circle" id="step-node-2">🧵</div>
+          <span class="step-title" id="step-title-2">قيد التفصيل</span>
+        </div>
+
+        <div class="progress-step-item">
+          <div class="step-circle" id="step-node-3">📦</div>
+          <span class="step-title" id="step-title-3">التجهيز</span>
+        </div>
+
+        <div class="progress-step-item">
+          <div class="step-circle" id="step-node-4">🚚</div>
+          <span class="step-title" id="step-title-4">في الطريق</span>
+        </div>
+
+        <div class="progress-step-item">
+          <div class="step-circle" id="step-node-5">🎓</div>
+          <span class="step-title" id="step-title-5">تم التسليم</span>
+        </div>
+      </div>
+
+      <div style="text-align:center; margin:16px 0 8px;">
+        <span style="font-size:13px; color:#777;">الحالة الحالية:</span>
+        <strong style="font-size:16px; color:var(--color-burgundy); margin-right:6px;" id="res-current-status-lbl">جديد</strong>
+      </div>
+
+      <!-- Invoice breakdown -->
+      <div class="order-invoice-box" id="res-invoice-box">
+        <!-- Populated by JS -->
+      </div>
+
+      <div class="track-actions-row">
+        <button type="button" class="btn-track-action btn-action-print" onclick="window.print()">🖨️ طباعة الفاتورة</button>
+        <a href="/products" class="btn-track-action btn-action-shop">تسوق المزيد من القطع</a>
+      </div>
+
+    </div>
+
+  </main>
+
+  <script>
+  (function () {
+    'use strict';
+
+    // HTML Sanitizer to defend against DOM XSS
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    const form = document.getElementById('track-form');
+    const input = document.getElementById('track-search-val');
+    const errorMsg = document.getElementById('track-error-msg');
+    const resultBox = document.getElementById('track-result-box');
+    const lineFill = document.getElementById('track-line-fill');
+
+    const STATUS_MAP = {
+      'جديد': { step: 1, pct: '10%' },
+      'قيد التفصيل': { step: 2, pct: '35%' },
+      'جاهز للتوصيل': { step: 3, pct: '60%' },
+      'في الطريق للتوصيل': { step: 4, pct: '85%' },
+      'تم التسليم': { step: 5, pct: '100%' },
+      'ملغي': { step: 0, pct: '0%' }
+    };
+
+    async function queryOrder(query) {
+      if (!query) return;
+      errorMsg.style.display = 'none';
+
+      let order = null;
+
+      // 1. Try server API
+      try {
+        const res = await fetch(`/api/orders/${encodeURIComponent(query)}`);
+        if (res.ok) {
+          order = await res.json();
+        }
+      } catch (_) {}
+
+      // 2. Fallback to localStorage
+      if (!order) {
+        try {
+          const locals = JSON.parse(localStorage.getItem('khama_my_orders') || '[]');
+          order = locals.find(o => o.id === query || o.phone === query);
+        } catch (_) {}
+      }
+
+      if (!order) {
+        errorMsg.textContent = 'لم يتم العثور على طلب بهذا الرقم أو الهاتف. تأكد وحاول مرة أخرى.';
+        errorMsg.style.display = 'block';
+        resultBox.style.display = 'none';
+        return;
+      }
+
+      displayOrder(order);
+    }
+
+    function displayOrder(order) {
+      resultBox.style.display = 'block';
+      document.getElementById('res-order-id').textContent = order.id || '';
+      document.getElementById('res-order-date').textContent = order.createdAt ? new Date(order.createdAt).toLocaleDateString('ar-IQ') : 'اليوم';
+      
+      const st = order.status || 'جديد';
+      document.getElementById('res-current-status-lbl').textContent = st;
+
+      const mapping = STATUS_MAP[st] || { step: 1, pct: '15%' };
+      lineFill.style.width = mapping.pct;
+
+      for (let i = 1; i <= 5; i++) {
+        const node = document.getElementById(`step-node-${i}`);
+        const title = document.getElementById(`step-title-${i}`);
+        node.className = 'step-circle';
+        title.className = 'step-title';
+
+        if (i < mapping.step) {
+          node.classList.add('active');
+          node.textContent = '✓';
+          title.classList.add('active');
+        } else if (i === mapping.step) {
+          node.classList.add('current');
+          title.classList.add('current');
+        }
+      }
+
+      // Invoice breakdown with full escaping
+      let itemsList = (order.items || []).map(it => {
+        const itName = escapeHtml(it.name || it.title || 'قطعة تخرج');
+        const itQty = Math.max(1, parseInt(it.qty, 10) || 1);
+        const itPrice = Math.max(0, parseFloat(it.price) || 35000);
+        return `
+          <div style="display:flex; justify-content:space-between; border-bottom:1px dashed #e5d8d0; padding:6px 0;">
+            <span>• ${itName} (×${itQty})</span>
+            <span style="font-weight:700;">${Number(itPrice * itQty).toLocaleString()} د.ع</span>
+          </div>
+        `;
+      }).join('');
+
+      const safeName = escapeHtml(order.name || 'عميل إبرة وخيط');
+      const safePhone = escapeHtml(order.phone || '');
+      const safeGov = escapeHtml(order.gov || 'العراق');
+      const safeAddress = escapeHtml(order.address || '');
+      const safeNotes = escapeHtml(order.notes || '');
+      const safePayment = escapeHtml(order.paymentMethod || 'عند الاستلام');
+      const safeTotal = Number(order.grandTotal || order.total || 0).toLocaleString();
+
+      document.getElementById('res-invoice-box').innerHTML = `
+        <div style="font-weight:800; color:var(--color-burgundy); margin-bottom:10px; font-size:14.5px;">تفاصيل الفاتورة ومكان التوصيل:</div>
+        <div><strong>العميل:</strong> ${safeName} ${safePhone ? `(${safePhone})` : ''}</div>
+        <div><strong>عنوان التوصيل:</strong> ${safeGov} — ${safeAddress}</div>
+        ${safeNotes ? `<div><strong>ملاحظات:</strong> ${safeNotes}</div>` : ''}
+        <div style="margin-top:12px;">${itemsList}</div>
+        <div style="display:flex; justify-content:space-between; font-weight:800; font-size:15px; color:var(--color-burgundy); border-top:2px solid #e0d5ce; margin-top:10px; padding-top:8px;">
+          <span>الإجمالي النهائي:</span>
+          <span>${safeTotal} د.ع (${safePayment})</span>
+        </div>
+      `;
+
+      resultBox.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const val = input.value.trim();
+      if (val) queryOrder(val);
+    });
+
+    // Check URL params (?id=...)
+    const params = new URLSearchParams(window.location.search);
+    const idParam = params.get('id') || params.get('order');
+    if (idParam) {
+      input.value = idParam;
+      queryOrder(idParam);
+    }
+  })();
+  </script>
+
+</body>
+</html>

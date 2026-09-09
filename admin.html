@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة تحكم إدارة الطلبات | إبرة وخيط</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="khamaiq.com/favicon_v=p138.ico">
+  <link rel="stylesheet" href="khamaiq.com/styles_v=p138.css">
+  <link rel="stylesheet" href="khamaiq.com/enhancements.css">
+  <style>
+    :root {
+      --font-display: "Playfair Display", "Amiri", serif;
+      --font-ui: "Alexandria", "Segoe UI", Tahoma, sans-serif;
+      --color-burgundy: #5d022a;
+      --color-gold: #c59b27;
+      --bg-cream: #fbf7f4;
+    }
+    body {
+      background-color: var(--bg-cream);
+      font-family: var(--font-ui);
+      color: #1a0a10;
+      margin: 0;
+      padding: 0;
+    }
+    .admin-header {
+      background: #fff;
+      border-bottom: 1px solid #ebdcd5;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    }
+    .admin-logo-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .admin-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--color-burgundy);
+      margin: 0;
+    }
+    .admin-sub {
+      font-size: 12px;
+      color: #777;
+      margin: 0;
+    }
+    .admin-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .btn-admin {
+      background: #fdf8f6;
+      border: 1px solid #d9c4ba;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      color: #333;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-admin:hover {
+      background: #f3e9e3;
+      border-color: var(--color-burgundy);
+      color: var(--color-burgundy);
+    }
+    .admin-wrap {
+      max-width: 1200px;
+      margin: 24px auto;
+      padding: 0 16px;
+    }
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .metric-card {
+      background: #fff;
+      border-radius: 20px;
+      border: 1px solid #ebdcd5;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(93, 2, 42, 0.03);
+    }
+    .metric-label {
+      font-size: 13px;
+      color: #777;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .metric-val {
+      font-size: 26px;
+      font-weight: 900;
+      color: var(--color-burgundy);
+      font-family: var(--font-display, serif);
+    }
+    .filter-bar {
+      background: #fff;
+      border-radius: 20px;
+      border: 1px solid #ebdcd5;
+      padding: 16px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+    }
+    .search-input {
+      border: 1px solid #d9c4ba;
+      border-radius: 25px;
+      padding: 10px 18px;
+      font-size: 14px;
+      font-family: var(--font-ui);
+      width: 320px;
+      max-width: 100%;
+      outline: none;
+    }
+    .search-input:focus {
+      border-color: var(--color-burgundy);
+    }
+    .status-pills {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .status-pill {
+      border: 1px solid #d9c4ba;
+      background: #fff;
+      padding: 6px 14px;
+      border-radius: 16px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      color: #666;
+    }
+    .status-pill.active {
+      background: var(--color-burgundy);
+      color: #fff;
+      border-color: var(--color-burgundy);
+    }
+    .orders-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .order-card {
+      background: #fff;
+      border: 1px solid #ebdcd5;
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.03);
+      position: relative;
+    }
+    .order-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      border-bottom: 1px solid #f0e6e0;
+      padding-bottom: 14px;
+      margin-bottom: 16px;
+    }
+    .order-id-badge {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--color-burgundy);
+      letter-spacing: 0.5px;
+    }
+    .order-date-txt {
+      font-size: 12.5px;
+      color: #888;
+    }
+    .order-content-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1.8fr;
+      gap: 20px;
+    }
+    @media (max-width: 768px) {
+      .order-content-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .customer-info-box {
+      background: #fdf8f6;
+      border: 1px solid #f0e5e0;
+      border-radius: 16px;
+      padding: 14px 16px;
+      font-size: 13.5px;
+      line-height: 1.7;
+    }
+    .items-info-box {
+      font-size: 13.5px;
+    }
+    .item-row {
+      border-bottom: 1px dashed #e8ded7;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+    }
+    .item-row:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    .status-select {
+      font-family: var(--font-ui);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 12px;
+      border: 1px solid #d9c4ba;
+      cursor: pointer;
+    }
+    .order-actions-row {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 16px;
+      border-top: 1px solid #f0e6e0;
+      padding-top: 14px;
+    }
+    .empty-orders {
+      text-align: center;
+      padding: 60px 20px;
+      background: #fff;
+      border-radius: 20px;
+      border: 1px dashed #d9c4ba;
+    }
+    @media print {
+      .admin-header, .filter-bar, .metrics-grid, .order-actions-row {
+        display: none !important;
+      }
+      .order-card {
+        border: 1px solid #000;
+        page-break-inside: avoid;
+        box-shadow: none;
+        margin-bottom: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Auth Overlay Modal -->
+  <div id="admin-auth-overlay" style="display:none; position:fixed; inset:0; background:rgba(26,10,16,0.85); z-index:9999; align-items:center; justify-content:center; backdrop-filter:blur(4px); padding:20px;">
+    <div style="background:#fff; border-radius:24px; max-width:400px; width:100%; padding:32px 24px; text-align:center; box-shadow:0 20px 50px rgba(0,0,0,0.3);">
+      <div style="font-size:44px; margin-bottom:12px;">🔒</div>
+      <h2 style="margin:0 0 8px; color:var(--color-burgundy); font-size:20px; font-weight:800;">تسجيل دخول الإدارة</h2>
+      <p style="color:#666; font-size:13px; margin:0 0 20px;">يرجى إدخال رمز الأمان (PIN) للوصول إلى قاعدة بيانات وطلبات المتجر.</p>
+      <form id="admin-auth-form" style="display:flex; flex-direction:column; gap:12px;">
+        <input type="password" id="admin-pin-input" placeholder="رمز PIN (الافتراضي 1234)" style="padding:12px 16px; border:2px solid #ebdcd5; border-radius:12px; font-size:16px; text-align:center; letter-spacing:4px; font-weight:700; outline:none;" autocomplete="current-password" required>
+        <div id="admin-auth-err" style="color:#c5221f; font-size:12.5px; font-weight:700; display:none;">رمز الدخول غير صحيح!</div>
+        <button type="submit" style="background:var(--color-burgundy); color:#fff; border:none; padding:12px; border-radius:12px; font-size:15px; font-weight:800; cursor:pointer;">دخول إلى اللوحة</button>
+      </form>
+    </div>
+  </div>
+
+  <header class="admin-header">
+    <div class="admin-logo-row">
+      <div style="background:var(--color-burgundy); color:#fff; width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-weight:900;">إ</div>
+      <div>
+        <h1 class="admin-title">لوحة تحكم إبرة وخيط</h1>
+        <p class="admin-sub">نظام إدارة ومتابعة طلبيات التخرج وقاعدة البيانات</p>
+      </div>
+    </div>
+    <div class="admin-actions">
+      <button type="button" class="btn-admin" id="btn-refresh-orders">🔄 تحديث</button>
+      <button type="button" class="btn-admin" id="btn-export-csv">📥 تصدير للتوصيل (Excel/CSV)</button>
+      <button type="button" class="btn-admin" id="btn-lock-admin" title="قفل لوحة التحكم">🔒 قفل</button>
+      <a href="/" target="_blank" class="btn-admin">🌐 المتجر</a>
+    </div>
+  </header>
+
+  <main class="admin-wrap">
+
+    <!-- Metrics Bar -->
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-label">إجمالي الطلبات المسجلة</div>
+        <div class="metric-val" id="metric-total-orders">0</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">طلبات جديدة بانتظار التفصيل</div>
+        <div class="metric-val" id="metric-new-orders" style="color:#b06000;">0</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">قيد التفصيل والتجهيز</div>
+        <div class="metric-val" id="metric-tailoring-orders" style="color:#1967d2;">0</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">إجمالي قيمة المبيعات</div>
+        <div class="metric-val" id="metric-revenue" style="color:#137333;">0 د.ع</div>
+      </div>
+    </div>
+
+    <!-- Filter & Search Bar -->
+    <div class="filter-bar">
+      <input type="text" class="search-input" id="admin-search-box" aria-label="ابحث في الطلبات" placeholder="ابحث باسم الزبون، الهاتف، أو كود الطلب...">
+      <div class="status-pills">
+        <button type="button" class="status-pill active" data-status="all">الكل (<span id="count-all">0</span>)</button>
+        <button type="button" class="status-pill" data-status="جديد">جديد</button>
+        <button type="button" class="status-pill" data-status="قيد التفصيل">قيد التفصيل</button>
+        <button type="button" class="status-pill" data-status="جاهز للتوصيل">جاهز للتوصيل</button>
+        <button type="button" class="status-pill" data-status="تم التسليم">تم التسليم</button>
+        <button type="button" class="status-pill" data-status="ملغي">ملغي</button>
+      </div>
+    </div>
+
+    <!-- Orders Container -->
+    <div class="orders-list" id="admin-orders-container">
+      <div class="empty-orders">
+        <p style="font-size:16px; font-weight:700; color:#555;">جاري تحميل الطلبات من قاعدة البيانات...</p>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+  (function () {
+    'use strict';
+
+    // HTML Sanitizer to defend against Stored DOM XSS
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    let allOrders = [];
+    let currentFilter = 'all';
+    let searchQuery = '';
+
+    const container = document.getElementById('admin-orders-container');
+    const searchBox = document.getElementById('admin-search-box');
+    const btnRefresh = document.getElementById('btn-refresh-orders');
+    const btnExport = document.getElementById('btn-export-csv');
+    const btnLock = document.getElementById('btn-lock-admin');
+
+    // Auth Elements
+    const authOverlay = document.getElementById('admin-auth-overlay');
+    const authForm = document.getElementById('admin-auth-form');
+    const pinInput = document.getElementById('admin-pin-input');
+    const authErr = document.getElementById('admin-auth-err');
+    const DEFAULT_PIN = '1234';
+
+    function getAdminPin() {
+      return sessionStorage.getItem('khama_admin_pin') || '';
+    }
+
+    function checkAuth() {
+      const pin = getAdminPin();
+      if (!pin) {
+        authOverlay.style.display = 'flex';
+        pinInput.value = '';
+        pinInput.focus();
+        return false;
+      }
+      authOverlay.style.display = 'none';
+      return true;
+    }
+
+    if (authForm) {
+      authForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const entered = pinInput.value.trim();
+        if (entered === DEFAULT_PIN) {
+          sessionStorage.setItem('khama_admin_pin', entered);
+          authOverlay.style.display = 'none';
+          authErr.style.display = 'none';
+          loadOrders();
+        } else {
+          authErr.style.display = 'block';
+          pinInput.select();
+        }
+      });
+    }
+
+    if (btnLock) {
+      btnLock.addEventListener('click', () => {
+        sessionStorage.removeItem('khama_admin_pin');
+        allOrders = [];
+        updateMetrics();
+        container.innerHTML = '<div class="empty-orders"><p>تم قفل اللوحة. يرجى إدخال رمز الأمان لإعادة الفتح.</p></div>';
+        checkAuth();
+      });
+    }
+
+    // Metrics elements
+    const metricTotal = document.getElementById('metric-total-orders');
+    const metricNew = document.getElementById('metric-new-orders');
+    const metricTailoring = document.getElementById('metric-tailoring-orders');
+    const metricRevenue = document.getElementById('metric-revenue');
+    const countAllEl = document.getElementById('count-all');
+
+    // Load orders from API & localStorage backup
+    async function loadOrders() {
+      if (!checkAuth()) return;
+      container.innerHTML = '<div class="empty-orders"><p>جاري قراءة قاعدة البيانات...</p></div>';
+      let serverOrders = [];
+      try {
+        const res = await fetch('/api/orders', {
+          headers: {
+            'X-Admin-Pin': getAdminPin()
+          }
+        });
+        if (res.ok) {
+          serverOrders = await res.json();
+        } else if (res.status === 401) {
+          sessionStorage.removeItem('khama_admin_pin');
+          checkAuth();
+          return;
+        }
+      } catch (err) {
+        console.warn('[Admin] Server API not reachable, checking local storage:', err);
+      }
+
+      // Merge with local storage orders
+      let localOrders = [];
+      try {
+        localOrders = JSON.parse(localStorage.getItem('khama_my_orders') || '[]');
+      } catch (_) {}
+
+      // Deduplicate by ID
+      const map = new Map();
+      serverOrders.forEach(o => map.set(o.id, o));
+      localOrders.forEach(o => { if (!map.has(o.id)) map.set(o.id, o); });
+
+      allOrders = Array.from(map.values());
+      updateMetrics();
+      renderOrders();
+    }
+
+    function updateMetrics() {
+      const total = allOrders.length;
+      const countNew = allOrders.filter(o => (o.status || 'جديد') === 'جديد').length;
+      const countTailoring = allOrders.filter(o => o.status === 'قيد التفصيل').length;
+      const totalRev = allOrders
+        .filter(o => o.status !== 'ملغي')
+        .reduce((sum, o) => sum + (Number(o.grandTotal) || 0), 0);
+
+      metricTotal.textContent = total;
+      metricNew.textContent = countNew;
+      metricTailoring.textContent = countTailoring;
+      metricRevenue.textContent = Number(totalRev).toLocaleString() + ' د.ع';
+      countAllEl.textContent = total;
+    }
+
+    function renderOrders() {
+      let filtered = allOrders.filter(o => {
+        if (currentFilter !== 'all' && (o.status || 'جديد') !== currentFilter) {
+          return false;
+        }
+        if (searchQuery) {
+          const q = searchQuery.toLowerCase();
+          const matchId = (o.id || '').toLowerCase().includes(q);
+          const matchName = (o.name || '').toLowerCase().includes(q);
+          const matchPhone = (o.phone || '').toLowerCase().includes(q);
+          const matchGov = (o.gov || '').toLowerCase().includes(q);
+          return matchId || matchName || matchPhone || matchGov;
+        }
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="empty-orders">
+            <div style="font-size:36px; margin-bottom:10px;">📦</div>
+            <h3 style="margin:0 0 6px; color:#5d022a;">لا توجد طلبات مطابقة</h3>
+            <p style="color:#777; font-size:13px; margin:0;">لم يتم تسجيل أي طلبات حتى الآن أو لم يتم العثور على نتائج بحث.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = '';
+      filtered.forEach(order => {
+        const card = document.createElement('div');
+        card.className = 'order-card';
+
+        const createdDate = order.createdAt ? new Date(order.createdAt).toLocaleString('ar-IQ') : 'الآن';
+        const st = order.status || 'جديد';
+
+        // Format items with full HTML escaping
+        let itemsHtml = (order.items || []).map((it, idx) => {
+          const c = it.config || {};
+          let tags = [];
+          if (c.cut) tags.push(`قصة: ${escapeHtml(c.cut)}`);
+          if (c.color || c.scarfColor) tags.push(`لون: ${escapeHtml(c.color || c.scarfColor)}`);
+          if (c.embroidery || c.name || c.side1) tags.push(`تطريز: ${escapeHtml(c.embroidery || c.name || c.side1)}`);
+          if (c.height) tags.push(`طول: ${escapeHtml(c.height)} سم`);
+          if (c.shoulder) tags.push(`كتف: ${escapeHtml(c.shoulder)} سم`);
+          if (c.refName) tags.push(`قياس: ${escapeHtml(c.refName)}`);
+
+          const itName = escapeHtml(it.name || it.title || 'قطعة تخرج');
+          const itQty = Math.max(1, parseInt(it.qty, 10) || 1);
+          const itPrice = Math.max(0, parseFloat(it.price) || 35000);
+
+          return `
+            <div class="item-row">
+              <div style="font-weight:700; color:#1a0a10;">${idx + 1}. ${itName} (×${itQty})</div>
+              ${tags.length ? `<div style="color:#666; font-size:12.5px; margin-top:3px;">${tags.join(' · ')}</div>` : ''}
+              <div style="font-size:12.5px; font-weight:700; color:var(--color-burgundy); margin-top:2px;">
+                ${Number(itPrice * itQty).toLocaleString()} د.ع
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        const safeId = escapeHtml(order.id);
+        const safeName = escapeHtml(order.name || 'غير محدد');
+        const safePhone = escapeHtml(order.phone || '');
+        const safeGov = escapeHtml(order.gov || 'بغداد');
+        const safeAddress = escapeHtml(order.address || 'العنوان غير مدخل');
+        const safeNotes = escapeHtml(order.notes || '');
+        const safePayment = escapeHtml(order.paymentMethod || 'عند الاستلام');
+        const safeGrandTotal = Number(order.grandTotal || order.total || 0).toLocaleString();
+
+        card.innerHTML = `
+          <div class="order-card-header">
+            <div>
+              <span class="order-id-badge">${safeId}</span>
+              <span class="order-date-txt" style="margin-right:12px;">📅 ${escapeHtml(createdDate)}</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:13px; font-weight:700;">الحالة:</span>
+              <select class="status-select" data-id="${safeId}">
+                <option value="جديد" ${st === 'جديد' ? 'selected' : ''}>جديد</option>
+                <option value="قيد التفصيل" ${st === 'قيد التفصيل' ? 'selected' : ''}>قيد التفصيل</option>
+                <option value="جاهز للتوصيل" ${st === 'جاهز للتوصيل' ? 'selected' : ''}>جاهز للتوصيل</option>
+                <option value="تم التسليم" ${st === 'تم التسليم' ? 'selected' : ''}>تم التسليم</option>
+                <option value="ملغي" ${st === 'ملغي' ? 'selected' : ''}>ملغي</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="order-content-grid">
+            <div class="customer-info-box">
+              <div style="font-weight:800; color:var(--color-burgundy); margin-bottom:8px; font-size:14px;">👤 بيانات العميل والتوصيل:</div>
+              <div><strong>الاسم:</strong> ${safeName}</div>
+              <div><strong>الهاتف:</strong> <a href="tel:${safePhone}" style="color:var(--color-burgundy); font-weight:700; text-decoration:none;">${safePhone}</a></div>
+              <div><strong>المحافظة:</strong> ${safeGov}</div>
+              <div><strong>العنوان:</strong> ${safeAddress}</div>
+              ${safeNotes ? `<div style="margin-top:6px; color:#555; background:#fff; padding:6px 10px; border-radius:8px; border:1px solid #ebdcd5;"><strong>ملاحظات:</strong> ${safeNotes}</div>` : ''}
+              <div style="margin-top:10px; padding-top:8px; border-top:1px solid #ebdcd5;">
+                <strong>طريقة الدفع:</strong> ${safePayment}
+              </div>
+            </div>
+
+            <div class="items-info-box">
+              <div style="font-weight:800; color:var(--color-burgundy); margin-bottom:8px; font-size:14px;">📦 القطع والمقاسات المطلوبة:</div>
+              <div style="background:#fdf8f6; border:1px solid #f0e5e0; border-radius:16px; padding:14px;">
+                ${itemsHtml || 'لا توجد تفاصيل قطع'}
+                <div style="border-top:2px solid #e8ded7; margin-top:12px; padding-top:10px; display:flex; justify-content:space-between; font-weight:800; font-size:15px;">
+                  <span>الإجمالي مع التوصيل:</span>
+                  <span style="color:var(--color-burgundy);">${safeGrandTotal} د.ع</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="order-actions-row">
+            <button type="button" class="btn-admin btn-print-single" data-id="${safeId}">🖨️ طباعة الفاتورة</button>
+            <button type="button" class="btn-admin btn-delete-single" data-id="${safeId}" style="color:#c5221f; border-color:#f5c2c7;">🗑️ حذف</button>
+          </div>
+        `;
+
+        // Update status handler
+        const selectStatus = card.querySelector('.status-select');
+        selectStatus.addEventListener('change', async (e) => {
+          const newSt = e.target.value;
+          order.status = newSt;
+          try {
+            await fetch(`/api/orders/${encodeURIComponent(order.id)}`, {
+              method: 'PUT',
+              headers: { 
+                'Content-Type': 'application/json',
+                'X-Admin-Pin': getAdminPin()
+              },
+              body: JSON.stringify({ status: newSt })
+            });
+          } catch (_) {}
+          updateMetrics();
+        });
+
+        // Print handler
+        card.querySelector('.btn-print-single').addEventListener('click', () => {
+          window.print();
+        });
+
+        // Delete handler
+        card.querySelector('.btn-delete-single').addEventListener('click', async () => {
+          if (!confirm(`هل أنت متأكد من حذف الطلب رقم ${order.id}؟`)) return;
+          try {
+            await fetch(`/api/orders/${encodeURIComponent(order.id)}`, { 
+              method: 'DELETE',
+              headers: {
+                'X-Admin-Pin': getAdminPin()
+              }
+            });
+          } catch (_) {}
+          allOrders = allOrders.filter(o => o.id !== order.id);
+          updateMetrics();
+          renderOrders();
+        });
+
+        container.appendChild(card);
+      });
+    }
+
+    // Export to CSV for delivery company
+    function exportToCsv() {
+      if (allOrders.length === 0) {
+        alert('لا توجد طلبات لتصديرها.');
+        return;
+      }
+
+      let csv = '\uFEFFرقم الطلب,الاسم,الهاتف,المحافظة,العنوان,الحالة,المجموع الكلي,التاريخ\n';
+      allOrders.forEach(o => {
+        const row = [
+          `"${(o.id || '').replace(/"/g, '""')}"`,
+          `"${(o.name || '').replace(/"/g, '""')}"`,
+          `"${(o.phone || '').replace(/"/g, '""')}"`,
+          `"${(o.gov || '').replace(/"/g, '""')}"`,
+          `"${(o.address || '').replace(/"/g, '""')}"`,
+          `"${(o.status || 'جديد').replace(/"/g, '""')}"`,
+          `"${(o.grandTotal || 0)} د.ع"`,
+          `"${(o.createdAt || '').replace(/"/g, '""')}"`
+        ];
+        csv += row.join(',') + '\n';
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', `طلبيات_إبرة_وخيط_${new Date().toISOString().slice(0,10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // Search Box Listener
+    searchBox.addEventListener('input', (e) => {
+      searchQuery = e.target.value.trim();
+      renderOrders();
+    });
+
+    // Filter Pills Listener
+    document.querySelectorAll('.status-pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.status-pill').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.getAttribute('data-status');
+        renderOrders();
+      });
+    });
+
+    // Refresh & Export
+    btnRefresh.addEventListener('click', loadOrders);
+    btnExport.addEventListener('click', exportToCsv);
+
+    // Init
+    if (checkAuth()) {
+      loadOrders();
+    }
+  })();
+  </script>
+
+</body>
+</html>

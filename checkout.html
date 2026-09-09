@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<base href="/">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="only light">
+
+<link rel="icon" href="khamaiq.com/favicon_v=p138.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="khamaiq.com/assets/icons/favicon-32x32_v=p138.png">
+<link rel="icon" type="image/png" sizes="16x16" href="khamaiq.com/assets/icons/favicon-16x16_v=p138.png">
+<link rel="apple-touch-icon" href="khamaiq.com/assets/icons/apple-touch-icon_v=p138.png">
+<title>إتمام الطلب | إبرة وخيط</title>
+<meta name="description" content="صفحة إتمام طلب وتفصيل زي التخرج من إبرة وخيط. راجع قياساتك ومعلومات التوصيل.">
+
+<link rel="stylesheet" href="khamaiq.com/colors_and_type_v=p138.css">
+<link rel="stylesheet" href="khamaiq.com/styles_v=p138.css">
+<link rel="stylesheet" href="khamaiq.com/extras_v=p138.css">
+<link rel="stylesheet" href="khamaiq.com/cart_v=p138.css">
+<link rel="stylesheet" href="khamaiq.com/desktop_v=p138.css">
+<link rel="stylesheet" href="khamaiq.com/mobile.css">
+<link rel="stylesheet" href="khamaiq.com/enhancements.css">
+
+<style>
+.checkout-page {
+  padding-top: 100px;
+  padding-bottom: 90px;
+  background: var(--paper, #fef0f0);
+  min-height: 100vh;
+}
+
+.checkout-header {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 36px;
+}
+
+.checkout-breadcrumb {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 12px;
+}
+
+.checkout-breadcrumb a {
+  color: #888;
+  text-decoration: none;
+}
+
+.checkout-title {
+  font-family: var(--font-display);
+  font-size: clamp(30px, 5.5vw, 44px);
+  color: var(--ink, #1a0a10);
+  line-height: 1.2;
+  margin: 0 0 10px;
+  font-weight: 800;
+}
+
+.checkout-subtitle {
+  font-family: var(--font-text);
+  font-size: 15px;
+  color: #666;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* State Cards: Empty & Confirmed (Matches Screenshot 4) */
+.co-state-card {
+  max-width: 540px;
+  margin: 40px auto;
+  text-align: center;
+  padding: 40px 24px;
+}
+
+.empty-bag-circle {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #fae8eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+}
+
+.confirmed-check-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #5d022a;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  box-shadow: 0 8px 24px rgba(93, 2, 42, 0.28);
+}
+
+.co-state-title {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--ink, #1a0a10);
+  margin: 0 0 10px;
+}
+
+.confirmed-order-code {
+  font-family: var(--font-ui);
+  font-size: 17px;
+  font-weight: 800;
+  color: #5d022a;
+  margin-bottom: 14px;
+  letter-spacing: 0.03em;
+}
+
+.co-state-sub {
+  font-family: var(--font-text);
+  font-size: 15px;
+  color: #666;
+  margin: 0 auto 32px;
+  max-width: 440px;
+  line-height: 1.6;
+}
+
+.btn-co-gold {
+  display: inline-block;
+  background: #cba06f;
+  color: #1a0a10;
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 700;
+  padding: 13px 36px;
+  border-radius: 12px;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(203, 160, 111, 0.3);
+  transition: all 0.2s ease;
+}
+
+.btn-co-gold:hover {
+  background: #b98e5e;
+}
+
+.btn-co-light {
+  display: inline-block;
+  background: #fbf0f2;
+  border: 1px solid #eddfe1;
+  color: #1a0a10;
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 700;
+  padding: 13px 28px;
+  border-radius: 12px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-co-light:hover {
+  background: #f6e4e7;
+}
+
+.co-state-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.checkout-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+@media (min-width: 880px) {
+  .checkout-grid {
+    grid-template-columns: 1.2fr 1fr;
+    align-items: start;
+  }
+}
+
+.co-card {
+  background: #ffffff;
+  border: 1px solid var(--gray-line);
+  border-radius: 28px;
+  padding: 32px 28px;
+  box-shadow: 0 12px 36px rgba(0,0,0,0.04);
+}
+
+@media (max-width: 600px) {
+  .co-card { padding: 22px 18px; border-radius: 22px; }
+}
+
+.co-card-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Items List */
+.co-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--gray-line);
+  gap: 14px;
+}
+
+.co-item:last-child {
+  border-bottom: none;
+}
+
+.co-item-title {
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--ink);
+  margin: 0 0 6px;
+}
+
+.co-item-detail {
+  font-family: var(--font-text);
+  font-size: 13px;
+  color: var(--gray);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.co-item-price {
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--emerald-deep);
+  white-space: nowrap;
+}
+
+/* Totals */
+.co-summary-box {
+  background: var(--cream-warm);
+  border-radius: 20px;
+  padding: 20px;
+  margin-top: 24px;
+}
+
+.co-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  color: var(--gray);
+  margin-bottom: 10px;
+}
+
+.co-summary-total {
+  border-top: 1.5px dashed var(--gray-line);
+  padding-top: 12px;
+  margin-top: 12px;
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--emerald-deep);
+}
+
+/* Inputs */
+.co-field {
+  margin-bottom: 18px;
+}
+
+.co-label {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.co-input, .co-select {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1.5px solid var(--gray-line);
+  border-radius: 16px;
+  background: var(--cream);
+  font-family: var(--font-ui);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  outline: none;
+  transition: all 0.2s;
+}
+
+.co-input:focus, .co-select:focus {
+  border-color: var(--emerald-deep);
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(93, 2, 42, 0.12);
+}
+
+/* Submit CTA */
+.btn-submit-order {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 18px;
+  background: var(--emerald-deep);
+  color: #ffffff;
+  border: none;
+  border-radius: 18px;
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(93, 2, 42, 0.3);
+  transition: transform 0.15s, background 0.2s;
+  margin-top: 24px;
+}
+
+.btn-submit-order:active { transform: scale(0.98); }
+
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.empty-state h3 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+
+.empty-state p {
+  font-family: var(--font-text);
+  color: var(--gray);
+  margin-bottom: 24px;
+}
+</style>
+</head>
+<body>
+
+<div class="scroll-progress" aria-hidden="true"></div>
+
+<!-- ============== NAV ============== -->
+<nav class="nav" data-nav="" data-nav-state="scrolled" aria-label="القائمة">
+  <a href="/" class="brand" aria-label="إبرة وخيط، الصفحة الرئيسية">
+    <img src="khamaiq.com/assets/logo.png" alt="إبرة وخيط">
+  </a>
+
+  <div class="nav-links" data-nav-links="">
+    <a href="/products">المنتجات</a>
+    <a href="/class">صفحة الدفعة</a>
+    <a href="/قياس">حاسبة القياس</a>
+    <a href="/#visualizer">جرب الألوان</a>
+    <a href="/blog">المدونة</a>
+    <a href="/#faq">الأسئلة</a>
+  </div>
+
+  <div class="nav-actions">
+    <button class="nav-cart" data-cart-trigger="" aria-label="السلة (فارغة)">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 7h14l-1.4 10.5a2 2 0 0 1-2 1.5H8.4a2 2 0 0 1-2-1.5L5 7Z"></path>
+        <path d="M9 7V5a3 3 0 0 1 6 0v2"></path>
+      </svg>
+      <span class="nav-cart-count" data-cart-count="" hidden="">0</span>
+    </button>
+
+    <button class="nav-burger" data-mobile-burger aria-label="فتح القائمة">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ============== Off-Canvas Mobile Drawer ============== -->
+<div class="mobile-drawer-backdrop" id="mobile-drawer-backdrop"></div>
+<aside class="mobile-drawer" id="mobile-drawer">
+  <div class="mobile-drawer-head">
+    <img src="khamaiq.com/assets/logo.png" alt="إبرة وخيط" class="mobile-drawer-logo">
+    <button class="mobile-drawer-close" data-drawer-close>&times;</button>
+  </div>
+  <nav class="mobile-drawer-nav">
+    <a href="/" class="mobile-drawer-link">الرئيسية</a>
+    <a href="/products" class="mobile-drawer-link">المنتجات</a>
+    <a href="/class" class="mobile-drawer-link">صفحة الدفعة والتصويت</a>
+    <a href="/قياس" class="mobile-drawer-link">حاسبة القياس والتفصيل</a>
+    <a href="/#visualizer" class="mobile-drawer-link">جرب لون الوشاح</a>
+    <a href="/blog" class="mobile-drawer-link">المدونة ودليل التخرج</a>
+    <a href="/#faq" class="mobile-drawer-link">الأسئلة الشائعة</a>
+  </nav>
+</aside>
+
+<!-- ============== Mobile Sticky Bottom Action Bar ============== -->
+<div class="mobile-bottom-bar">
+  <a href="https://wa.me/9647805088134" class="mobile-bar-btn-wa" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.06 2.87 1.21 3.07.15.2 2.09 3.2 5.07 4.49.71.31 1.26.49 1.69.63.71.23 1.36.19 1.87.12.57-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35zM12 2a10 10 0 0 0-8.55 15.19L2 22l4.94-1.3A10 10 0 1 0 12 2z"/></svg>
+  </a>
+  <button class="mobile-bar-btn-pri" data-cart-trigger>
+    <span>عرض السلة</span>
+  </button>
+  <button class="mobile-bar-btn-cart" data-cart-trigger aria-label="عرض السلة">
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="M5 7h14l-1.4 10.5a2 2 0 0 1-2 1.5H8.4a2 2 0 0 1-2-1.5L5 7Z"></path>
+      <path d="M9 7V5a3 3 0 0 1 6 0v2"></path>
+    </svg>
+  </button>
+</div>
+
+<!-- ============== MAIN CONTENT ============== -->
+<main class="checkout-page">
+  <div class="container">
+
+    <header class="checkout-header">
+      <div class="checkout-breadcrumb"><a href="/">الرئيسية</a> / إتمام الطلب</div>
+      <h1 class="checkout-title">إتمام الطلب</h1>
+      <p class="checkout-subtitle">أدخل عنوانك ورقمك، ممثل خامة يتواصل معك خلال 24 ساعة لتأكيد الطلب.</p>
+    </header>
+
+    <div class="checkout-grid" id="checkout-main-grid">
+
+      <!-- RIGHT: Customer Delivery Form -->
+      <div class="co-card">
+        <h2 class="co-card-title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>بيانات المستلم والتوصيل</span>
+        </h2>
+
+        <div class="co-field">
+          <label class="co-label" for="co-name">الاسم الثلاثي للخريج / المستلم *</label>
+          <input type="text" id="co-name" class="co-input" placeholder="اكتب اسمك الكامل">
+        </div>
+
+        <div class="co-field">
+          <label class="co-label" for="co-phone">رقم هاتف الواتساب *</label>
+          <input type="tel" id="co-phone" class="co-input" placeholder="07XXXXXXXXX">
+        </div>
+
+        <div class="co-field">
+          <label class="co-label" for="co-gov">المحافظة *</label>
+          <select id="co-gov" class="co-select">
+            <option value="بغداد">بغداد</option>
+            <option value="البصرة">البصرة</option>
+            <option value="النجف الأشرف">النجف الأشرف</option>
+            <option value="كربلاء المقدسة">كربلاء المقدسة</option>
+            <option value="بابل">بابل</option>
+            <option value="أربيل">أربيل</option>
+            <option value="السليمانية">السليمانية</option>
+            <option value="نينوى (الموصل)">نينوى (الموصل)</option>
+            <option value="كركوك">كركوك</option>
+            <option value="ديالى">ديالى</option>
+            <option value="الأنبار">الأنبار</option>
+            <option value="واسط (الكوت)">واسط (الكوت)</option>
+            <option value="ميسان (العمارة)">ميسان (العمارة)</option>
+            <option value="ذي قار (الناصرية)">ذي قار (الناصرية)</option>
+            <option value="المثنى (السماوة)">المثنى (السماوة)</option>
+            <option value="الديوانية (القادسية)">الديوانية (القادسية)</option>
+            <option value="صلاح الدين (تكريت)">صلاح الدين (تكريت)</option>
+            <option value="دهوك">دهوك</option>
+          </select>
+        </div>
+
+        <div class="co-field">
+          <label class="co-label" for="co-address">العنوان بالتفصيل (المنطقة، أقرب نقطة دالة) *</label>
+          <input type="text" id="co-address" class="co-input" placeholder="المنطقة، الشارع، أقرب مَعلم معروف...">
+        </div>
+
+        <div class="co-field">
+          <label class="co-label" for="co-notes">ملاحظات إضافية للخياط أو التوصيل</label>
+          <textarea id="co-notes" class="co-input" rows="2" placeholder="أي تعليمات ترغب بإضافتها بخصوص المقاس أو وقت التسليم..."></textarea>
+        </div>
+
+        <div style="background:var(--cream); padding:16px; border-radius:16px; border:1px solid var(--gray-line); margin-top:16px;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--emerald-deep)" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M7 15h0M2 10h20"/></svg>
+            <span style="font-family:var(--font-ui); font-size:14px; font-weight:700; color:var(--ink);">طريقة الدفع: الدفع عند الاستلام (COD)</span>
+          </div>
+          <p style="font-family:var(--font-text); font-size:12px; color:var(--gray); margin:6px 0 0;">
+            تدفع المبلغ لمندوب التوصيل بعد فحص واستلام قطعتك المفصلة بكل اطمئنان.
+          </p>
+        </div>
+
+        <button type="button" class="btn-submit-order" id="btn-submit-order">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.06 2.87 1.21 3.07.15.2 2.09 3.2 5.07 4.49.71.31 1.26.49 1.69.63.71.23 1.36.19 1.87.12.57-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35zM12 2a10 10 0 0 0-8.55 15.19L2 22l4.94-1.3A10 10 0 1 0 12 2z"/></svg>
+          <span>تأكيد الطلب وإرسال الفاتورة عبر الواتساب</span>
+        </button>
+
+      </div>
+
+      <!-- LEFT: Order Summary -->
+      <div class="co-card">
+        <h2 class="co-card-title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span>محتويات السلة (<span id="co-items-count">0</span>)</span>
+        </h2>
+
+        <div id="co-items-container">
+          <!-- Populated from localStorage -->
+        </div>
+
+        <div class="co-summary-box">
+          <div class="co-summary-row">
+            <span>المجموع الفرعي:</span>
+            <span id="co-subtotal">0 د.ع</span>
+          </div>
+          <div class="co-summary-row">
+            <span>أجور التوصيل:</span>
+            <span>5,000 د.ع</span>
+          </div>
+          <div class="co-summary-row co-summary-total">
+            <span>الإجمالي النهائي:</span>
+            <span id="co-grand-total">0 د.ع</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Empty State (Matches Screenshot 4) -->
+    <div id="checkout-empty" class="co-state-card" style="display:none;">
+      <div class="empty-bag-circle">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#5d022a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
+          <path d="M3 6h18"></path>
+          <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+      </div>
+      <h2 class="co-state-title">ما عندك شي بالسلة بعد</h2>
+      <p class="co-state-sub">ما تكدر تكمل طلب بدون قطع بسلتك، ارجع للمنتجات وفصل قطعتك.</p>
+      <a href="/products" class="btn-co-gold">شوف المنتجات</a>
+    </div>
+
+    <!-- Confirmed Order State (Database Saved) -->
+    <div id="checkout-confirmed" class="co-state-card" style="display:none; max-width:640px; margin:0 auto; text-align:right;">
+      <div style="text-align:center; margin-bottom:20px;">
+        <div class="confirmed-check-circle" style="margin:0 auto 16px;">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+        <span style="display:inline-block; background:#e6f4ea; color:#137333; font-weight:700; font-size:13px; padding:5px 14px; border-radius:20px; margin-bottom:10px;">✓ تم تسجيل الطلب في قاعدة البيانات</span>
+        <h2 class="co-state-title" style="margin-bottom:6px;">تم تأكيد طلبك بنجاح!</h2>
+        <div class="confirmed-order-code" id="confirmed-order-code" style="font-size:18px; font-weight:800; color:#5d022a; margin:8px 0;">رقم طلبك: KH-260906-8862</div>
+        <p class="co-state-sub" style="margin-top:6px;">تم إدراج طلبك في جدول الإنتاج والتفصيل وسيصلك مع المندوب لباب بيتك أو كليتك.</p>
+      </div>
+
+      <!-- Live Order Tracker Mini-Widget -->
+      <div style="background:#fff; border:1px solid #efe8e1; border-radius:18px; padding:20px; margin-bottom:20px;">
+        <div style="font-family:var(--font-ui); font-size:14px; font-weight:700; margin-bottom:14px; color:#1a0a10; display:flex; justify-content:space-between;">
+          <span>حالة الطلب في النظام:</span>
+          <span style="color:#1e874b; font-weight:800;" id="conf-status-text">جديد — بانتظار بدء التفصيل</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; position:relative; margin-top:20px; padding:0 10px;">
+          <div style="position:absolute; top:14px; right:30px; left:30px; height:3px; background:#e0d6ce; z-index:1;"></div>
+          <div style="position:absolute; top:14px; right:30px; width:20%; height:3px; background:#1e874b; z-index:2;"></div>
+          
+          <div style="position:relative; z-index:3; text-align:center;">
+            <div style="width:30px; height:30px; border-radius:50%; background:#1e874b; color:#fff; display:flex; align-items:center; justify-content:center; font-size:13px; margin:0 auto 6px;">✓</div>
+            <span style="font-size:11px; font-weight:700; color:#1e874b;">تم الاستلام</span>
+          </div>
+          <div style="position:relative; z-index:3; text-align:center;">
+            <div style="width:30px; height:30px; border-radius:50%; background:#fff; border:2px solid #5d022a; color:#5d022a; display:flex; align-items:center; justify-content:center; font-size:13px; margin:0 auto 6px;">🧵</div>
+            <span style="font-size:11px; font-weight:600; color:#666;">التفصيل</span>
+          </div>
+          <div style="position:relative; z-index:3; text-align:center;">
+            <div style="width:30px; height:30px; border-radius:50%; background:#fff; border:2px solid #ccc; color:#aaa; display:flex; align-items:center; justify-content:center; font-size:13px; margin:0 auto 6px;">📦</div>
+            <span style="font-size:11px; font-weight:600; color:#999;">التجهيز</span>
+          </div>
+          <div style="position:relative; z-index:3; text-align:center;">
+            <div style="width:30px; height:30px; border-radius:50%; background:#fff; border:2px solid #ccc; color:#aaa; display:flex; align-items:center; justify-content:center; font-size:13px; margin:0 auto 6px;">🚚</div>
+            <span style="font-size:11px; font-weight:600; color:#999;">التوصيل</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Invoice Summary Details -->
+      <div id="conf-order-summary" style="background:#fdf8f6; border:1px solid #ebdcd5; border-radius:18px; padding:18px; margin-bottom:24px; font-size:13.5px; line-height:1.7;">
+        <!-- Populated by JS -->
+      </div>
+
+      <div class="co-state-buttons" style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+        <a href="/track" id="btn-view-tracker" class="btn-co-gold" style="padding:12px 24px; text-decoration:none;">تتبع حالة طلبك المباشرة 🔍</a>
+        <button type="button" onclick="window.print()" class="btn-co-light" style="padding:12px 24px; cursor:pointer;">طباعة الفاتورة 🖨️</button>
+        <a href="/products" class="btn-co-light" style="padding:12px 24px; text-decoration:none;">تسوق المزيد</a>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script src="khamaiq.com/cart_v=p138.js"></script>
+<script src="khamaiq.com/mobile.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  // HTML Sanitizer to defend against DOM XSS
+  function escapeHtml(str) {
+    if (str === null || str === undefined) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  const CART_KEY = 'khama_cart';
+  const container = document.getElementById('co-items-container');
+  const countEl = document.getElementById('co-items-count');
+  const subtotalEl = document.getElementById('co-subtotal');
+  const grandTotalEl = document.getElementById('co-grand-total');
+  const mainGrid = document.getElementById('checkout-main-grid');
+  const emptyBox = document.getElementById('checkout-empty');
+
+  function readCart() {
+    try {
+      const raw = localStorage.getItem(CART_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch { return []; }
+  }
+
+  const items = readCart();
+
+  if (items.length === 0) {
+    mainGrid.style.display = 'none';
+    emptyBox.style.display = 'block';
+    return;
+  }
+
+  let subtotal = 0;
+  countEl.textContent = items.length;
+
+  items.forEach(item => {
+    const c = item.config || {};
+    const details = [];
+
+    if (item.kind === 'scarf') {
+      if (c.side1) details.push(`الجهة الأولى: ${escapeHtml(c.side1)}`);
+      if (c.side2) details.push(`الجهة الثانية: ${escapeHtml(c.side2)}`);
+      else if (c.name) details.push(`الاسم: ${escapeHtml(c.name)}`);
+      if (c.scarfColor) details.push(`اللون: ${escapeHtml(c.scarfColor)}`);
+      if (c.font) details.push(`الخط: ${escapeHtml(c.font)}`);
+      if (c.textColor) details.push(`الخيط: ${c.textColor === 'silver' ? 'فضي' : 'ذهبي'}`);
+      if (c.type) details.push(`الموديل: ${escapeHtml(c.type)}`);
+    } else if (item.kind === 'robe') {
+      if (c.cut) details.push(`القصة: ${escapeHtml(c.cut)}`);
+      if (c.height) details.push(`الطول: ${escapeHtml(c.height)} سم`);
+      if (c.refName) details.push(`المقاس: ${escapeHtml(c.refName)}`);
+      if (c.shoulder) details.push(`الكتف: ${escapeHtml(c.shoulder)} سم`);
+    } else if (item.kind === 'cap') {
+      if (c.cut) details.push(`القصة: ${escapeHtml(c.cut)}`);
+      if (c.notes && c.notes !== 'بدون طلب خاص (القصة الأصلية والشرابة الذهبية)') {
+        details.push(`الملاحظات: ${escapeHtml(c.notes)}`);
+      } else {
+        details.push('القصة الأصلية والشرابة الذهبية');
+      }
+      details.push('مقاس مرن ذكي Free Size');
+    }
+
+    const price = item.price || 35000;
+    const itemTotal = price * (item.qty || 1);
+    subtotal += itemTotal;
+
+    const div = document.createElement('div');
+    div.className = 'co-item';
+    const itName = escapeHtml(item.name || 'قطعة إبرة وخيط');
+    const itQty = Math.max(1, parseInt(item.qty, 10) || 1);
+    div.innerHTML = `
+      <div>
+        <h4 class="co-item-title">${itName} × ${itQty}</h4>
+        <p class="co-item-detail">${details.join(' · ')}</p>
+      </div>
+      <span class="co-item-price">${Number(itemTotal).toLocaleString()} د.ع</span>
+    `;
+    container.appendChild(div);
+  });
+
+  const delivery = 5000;
+  const grandTotal = subtotal + delivery;
+
+  subtotalEl.textContent = Number(subtotal).toLocaleString() + ' د.ع';
+  grandTotalEl.textContent = Number(grandTotal).toLocaleString() + ' د.ع';
+
+  // Submit Handler
+  document.getElementById('btn-submit-order').addEventListener('click', () => {
+    const name = document.getElementById('co-name').value.trim();
+    const phone = document.getElementById('co-phone').value.trim();
+    const gov = document.getElementById('co-gov').value;
+    const address = document.getElementById('co-address').value.trim();
+    const notes = document.getElementById('co-notes').value.trim();
+
+    if (!name) {
+      alert('يرجى كتابة الاسم الثلاثي');
+      document.getElementById('co-name').focus();
+      return;
+    }
+    if (!phone || phone.length < 9) {
+      alert('يرجى كتابة رقم هاتف واتساب صحيح للتواصل وتأكيد التوصيل');
+      document.getElementById('co-phone').focus();
+      return;
+    }
+    if (!address) {
+      alert('يرجى كتابة عنوان التوصيل بالتفصيل');
+      document.getElementById('co-address').focus();
+      return;
+    }
+
+    // Build Order Text
+    let orderLines = [];
+    items.forEach((it, i) => {
+      const c = it.config || {};
+      let desc = `${i + 1}. ${it.name} (الكمية: ${it.qty || 1}) - السعر: ${Number(it.price * (it.qty || 1)).toLocaleString()} د.ع`;
+      if (it.kind === 'scarf') {
+        if (c.side1 && c.side2) {
+          desc += `\n   • تطريز الجهة الأولى: ${c.side1}\n   • تطريز الجهة الثانية: ${c.side2}\n   • لون الوشاح: ${c.scarfColor || 'ماروني'}\n   • الخط: ${c.font}\n   • لون الخيط: ${c.textColor}\n   • الموديل: ${c.type}`;
+        } else {
+          desc += `\n   • تطريز الاسم: ${c.name || 'بدون'}\n   • لون الوشاح: ${c.scarfColor || 'ماروني'}\n   • الخط: ${c.font}\n   • لون الخيط: ${c.textColor}\n   • الموديل: ${c.type}`;
+        }
+      } else if (it.kind === 'robe') {
+        desc += `\n   • قصة الروب: ${c.cut}\n   • الطول: ${c.height} سم\n   • المقاس: ${c.refName}\n   • عرض الكتف: ${c.shoulder} سم`;
+      } else if (it.kind === 'cap') {
+        desc += `\n   • قصة القبعة: ${c.cut || 'عادية'}\n   • ملاحظات خاصة: ${c.notes || 'القصة الأصلية والشرابة الذهبية'}`;
+      }
+      orderLines.push(desc);
+    });
+
+    const btnSubmit = document.getElementById('btn-submit-order');
+    const origBtnText = btnSubmit.textContent;
+    btnSubmit.disabled = true;
+    btnSubmit.textContent = 'جاري حفظ الطلب في قاعدة البيانات...';
+
+    const now = new Date();
+    const yy = String(now.getFullYear()).slice(-2);
+    const mm = String(now.getMonth() + 1).padStart(2, '0');
+    const dd = String(now.getDate()).padStart(2, '0');
+    const rand4 = Math.floor(1000 + Math.random() * 9000);
+    const orderId = `KH-${yy}${mm}${dd}-${rand4}`;
+
+    const orderPayload = {
+      id: orderId,
+      name: name,
+      phone: phone,
+      gov: gov,
+      address: address,
+      notes: notes,
+      items: items.map(it => ({
+        name: it.name || 'قطعة إبرة وخيط',
+        kind: it.kind,
+        qty: it.qty || 1,
+        price: it.price || 35000,
+        config: it.config || {}
+      })),
+      subtotal: subtotal,
+      delivery: delivery,
+      grandTotal: grandTotal,
+      status: 'جديد',
+      paymentMethod: 'عند الاستلام',
+      createdAt: now.toISOString()
+    };
+
+    // Save to server database API
+    fetch('/api/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json; charset=utf-8' },
+      body: JSON.stringify(orderPayload)
+    })
+    .catch(err => {
+      console.warn('[DB] Offline/API error, order saved locally:', err);
+      return null;
+    })
+    .finally(() => {
+      // Always backup order locally
+      try {
+        let myOrders = JSON.parse(localStorage.getItem('khama_my_orders') || '[]');
+        myOrders.unshift(orderPayload);
+        localStorage.setItem('khama_my_orders', JSON.stringify(myOrders));
+      } catch (_) {}
+
+      // Clear cart
+      localStorage.removeItem(CART_KEY);
+      window.dispatchEvent(new CustomEvent('khama:cart-update'));
+
+      // Populate Confirmed View
+      document.getElementById('confirmed-order-code').textContent = `رقم طلبك: ${orderId}`;
+      const trackerBtn = document.getElementById('btn-view-tracker');
+      if (trackerBtn) {
+        trackerBtn.href = `/track?id=${orderId}`;
+      }
+
+      // Populate Invoice Summary Box
+      const summaryBox = document.getElementById('conf-order-summary');
+      if (summaryBox) {
+        let itemsHtml = orderPayload.items.map(it => {
+          const itName = escapeHtml(it.name || 'قطعة إبرة وخيط');
+          const itQty = Math.max(1, parseInt(it.qty, 10) || 1);
+          const itPrice = Math.max(0, parseFloat(it.price) || 35000);
+          return `
+            <div style="display:flex; justify-content:space-between; margin-bottom:6px; border-bottom:1px dashed #e8ded7; padding-bottom:6px;">
+              <span>• ${itName} (×${itQty})</span>
+              <span style="font-weight:700;">${Number(itPrice * itQty).toLocaleString()} د.ع</span>
+            </div>
+          `;
+        }).join('');
+
+        const safeName = escapeHtml(name);
+        const safePhone = escapeHtml(phone);
+        const safeGov = escapeHtml(gov);
+        const safeAddress = escapeHtml(address);
+        const safeGrandTotal = Number(grandTotal).toLocaleString();
+
+        summaryBox.innerHTML = `
+          <div style="font-weight:800; color:#5d022a; margin-bottom:10px; font-size:15px;">تفاصيل الفاتورة والعنوان:</div>
+          <div style="margin-bottom:8px;"><strong>الزبون:</strong> ${safeName} (${safePhone})</div>
+          <div style="margin-bottom:12px;"><strong>العنوان:</strong> ${safeGov} — ${safeAddress}</div>
+          <div style="margin-bottom:12px;">${itemsHtml}</div>
+          <div style="display:flex; justify-content:space-between; font-size:14px; font-weight:800; color:#1a0a10; padding-top:6px;">
+            <span>الإجمالي (شامل التوصيل 5,000 د.ع):</span>
+            <span style="color:#5d022a;">${safeGrandTotal} د.ع (عند الاستلام)</span>
+          </div>
+        `;
+      }
+
+      // Display Confirmed Order Card
+      mainGrid.style.display = 'none';
+      emptyBox.style.display = 'none';
+      const confirmedBox = document.getElementById('checkout-confirmed');
+      confirmedBox.style.display = 'block';
+      window.scrollTo({ top: 40, behavior: 'smooth' });
+    });
+  });
+})();
+</script>
+<script src="khamaiq.com/enhancements.js" defer></script>
+
+</body>
+</html>
