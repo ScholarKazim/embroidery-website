@@ -39,7 +39,7 @@ $mimeTypes = @{
     ".ttf"   = "font/ttf"
 }
 
-$rootDir = (Get-Location).Path
+$rootDir = if ($PSScriptRoot) { $PSScriptRoot } else { (Get-Location).Path }
 $canonicalRoot = [System.IO.Path]::GetFullPath($rootDir)
 $ordersDbPath = Join-Path $rootDir "orders.json"
 $ADMIN_TOKEN = "khama_admin_2026"

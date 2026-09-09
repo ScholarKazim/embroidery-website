@@ -252,6 +252,10 @@
         <input type="text" class="track-input" id="track-search-val" aria-label="رقم كود الطلب أو رقم الهاتف للتتبع" placeholder="KH-..." required autocomplete="off">
         <button type="submit" class="btn-track-search" id="btn-do-track">تتبع الآن</button>
       </form>
+      <div id="recent-orders-bar" style="margin-top:14px; display:none; text-align:right;">
+        <span style="font-size:12.5px; color:#777; margin-left:8px; font-weight:700;">طلباتك المحفوظة:</span>
+        <span id="recent-orders-pills" style="display:inline-flex; flex-wrap:wrap; gap:6px;"></span>
+      </div>
       <div id="track-error-msg" style="color:#c5221f; font-size:13px; margin-top:12px; display:none;"></div>
     </div>
 
@@ -311,6 +315,7 @@
       </div>
 
       <div class="track-actions-row">
+        <a id="btn-track-wa" href="https://wa.me/9647805088134" target="_blank" class="btn-track-action" style="background:#25d366; color:#fff; text-decoration:none; display:inline-flex; align-items:center; justify-content:center; gap:6px;">💬 استفسار عبر واتساب</a>
         <button type="button" class="btn-track-action btn-action-print" onclick="window.print()">🖨️ طباعة الفاتورة</button>
         <a href="/products" class="btn-track-action btn-action-shop">تسوق المزيد من القطع</a>
       </div>
@@ -441,7 +446,38 @@
         </div>
       `;
 
+      // Update WhatsApp Support Link with pre-filled inquiry
+      const btnWa = document.getElementById('btn-track-wa');
+      if (btnWa) {
+        const waText = encodeURIComponent(`مرحباً إبرة وخيط، أود الاستفسار عن حالة طلبي رقم (${order.id || ''}) المسجل باسم (${order.name || ''}).`);
+        btnWa.href = `https://wa.me/9647805088134?text=${waText}`;
+      }
+
       resultBox.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Load recent orders from device
+    function initRecentOrders() {
+      try {
+        const locals = JSON.parse(localStorage.getItem('khama_my_orders') || '[]');
+        const container = document.getElementById('recent-orders-pills');
+        const bar = document.getElementById('recent-orders-bar');
+        if (locals.length > 0 && container && bar) {
+          bar.style.display = 'block';
+          container.innerHTML = '';
+          locals.slice(0, 4).forEach(o => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.textContent = o.id || 'طلب';
+            btn.style.cssText = 'background:#fff; border:1px solid #d9c4ba; border-radius:12px; padding:4px 10px; font-size:12px; font-weight:700; color:var(--color-burgundy); cursor:pointer; font-family:inherit;';
+            btn.addEventListener('click', () => {
+              input.value = o.id;
+              queryOrder(o.id);
+            });
+            container.appendChild(btn);
+          });
+        }
+      } catch (_) {}
     }
 
     form.addEventListener('submit', (e) => {
@@ -457,6 +493,8 @@
       input.value = idParam;
       queryOrder(idParam);
     }
+
+    initRecentOrders();
   })();
   </script>
 

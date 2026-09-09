@@ -551,7 +551,10 @@
         </div>
         <span style="display:inline-block; background:#e6f4ea; color:#137333; font-weight:700; font-size:13px; padding:5px 14px; border-radius:20px; margin-bottom:10px;">✓ تم تسجيل الطلب في قاعدة البيانات</span>
         <h2 class="co-state-title" style="margin-bottom:6px;">تم تأكيد طلبك بنجاح!</h2>
-        <div class="confirmed-order-code" id="confirmed-order-code" style="font-size:18px; font-weight:800; color:#5d022a; margin:8px 0;">رقم طلبك: KH-260906-8862</div>
+        <div style="display:inline-flex; align-items:center; justify-content:center; gap:8px; margin:8px 0; background:#fdf5f2; border:1px solid #eeded7; border-radius:14px; padding:6px 16px;">
+          <span class="confirmed-order-code" id="confirmed-order-code" style="font-size:18px; font-weight:800; color:#5d022a;">رقم طلبك: KH-260906-8862</span>
+          <button type="button" id="btn-copy-code" style="background:#fff; border:1px solid #d9c4ba; border-radius:8px; padding:4px 10px; font-size:12px; font-weight:700; cursor:pointer; font-family:inherit;">📋 نسخ</button>
+        </div>
         <p class="co-state-sub" style="margin-top:6px;">تم إدراج طلبك في جدول الإنتاج والتفصيل وسيصلك مع المندوب لباب بيتك أو كليتك.</p>
       </div>
 
@@ -591,6 +594,7 @@
 
       <div class="co-state-buttons" style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
         <a href="/track" id="btn-view-tracker" class="btn-co-gold" style="padding:12px 24px; text-decoration:none;">تتبع حالة طلبك المباشرة 🔍</a>
+        <a href="https://wa.me/9647805088134" id="btn-conf-wa" target="_blank" class="btn-co-light" style="padding:12px 24px; text-decoration:none; color:#128c7e; border-color:#25d366; font-weight:700;">💬 تواصل واتساب بخصوص طلبك</a>
         <button type="button" onclick="window.print()" class="btn-co-light" style="padding:12px 24px; cursor:pointer;">طباعة الفاتورة 🖨️</button>
         <a href="/products" class="btn-co-light" style="padding:12px 24px; text-decoration:none;">تسوق المزيد</a>
       </div>
@@ -797,6 +801,32 @@
       const trackerBtn = document.getElementById('btn-view-tracker');
       if (trackerBtn) {
         trackerBtn.href = `/track?id=${orderId}`;
+      }
+
+      // WhatsApp direct link for this order
+      const confWaBtn = document.getElementById('btn-conf-wa');
+      if (confWaBtn) {
+        const waText = encodeURIComponent(`مرحباً إبرة وخيط، قمت بإتمام طلبي الآن برقم (${orderId}) بقيمة (${Number(grandTotal).toLocaleString()} د.ع)، أود المتابعة والتأكيد معكم.`);
+        confWaBtn.href = `https://wa.me/9647805088134?text=${waText}`;
+      }
+
+      // Copy Code button handler
+      const copyBtn = document.getElementById('btn-copy-code');
+      if (copyBtn) {
+        copyBtn.onclick = () => {
+          navigator.clipboard.writeText(orderId).then(() => {
+            copyBtn.textContent = 'تم النسخ ✓';
+            copyBtn.style.background = '#e6f4ea';
+            copyBtn.style.color = '#137333';
+            setTimeout(() => {
+              copyBtn.textContent = '📋 نسخ';
+              copyBtn.style.background = '#fff';
+              copyBtn.style.color = 'inherit';
+            }, 2500);
+          }).catch(() => {
+            prompt('انسخ كود الطلب:', orderId);
+          });
+        };
       }
 
       // Populate Invoice Summary Box

@@ -535,6 +535,15 @@
         const safePayment = escapeHtml(order.paymentMethod || 'عند الاستلام');
         const safeGrandTotal = Number(order.grandTotal || order.total || 0).toLocaleString();
 
+        let cleanPhone = (order.phone || '').replace(/[^0-9]/g, '');
+        if (cleanPhone.startsWith('07')) {
+          cleanPhone = '964' + cleanPhone.substring(1);
+        } else if (cleanPhone.startsWith('7') && cleanPhone.length === 10) {
+          cleanPhone = '964' + cleanPhone;
+        }
+        const waCustomerMsg = encodeURIComponent(`مرحباً ${order.name || 'عزيزي الزبون'}، بخصوص طلبك رقم (${order.id}) لدى متجر إبرة وخيط:\nحالة طلبك الحالية هي: *${st}*.\nرابط تتبع الطلب: ${window.location.origin}/track?id=${order.id}`);
+        const waCustomerUrl = cleanPhone ? `https://wa.me/${cleanPhone}?text=${waCustomerMsg}` : '';
+
         card.innerHTML = `
           <div class="order-card-header">
             <div>
@@ -579,6 +588,7 @@
           </div>
 
           <div class="order-actions-row">
+            ${cleanPhone ? `<a href="${waCustomerUrl}" target="_blank" class="btn-admin" style="color:#128c7e; border-color:#25d366; text-decoration:none; font-weight:700;">💬 مراسلة الزبون واتساب</a>` : ''}
             <button type="button" class="btn-admin btn-print-single" data-id="${safeId}">🖨️ طباعة الفاتورة</button>
             <button type="button" class="btn-admin btn-delete-single" data-id="${safeId}" style="color:#c5221f; border-color:#f5c2c7;">🗑️ حذف</button>
           </div>
