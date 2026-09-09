@@ -1357,17 +1357,23 @@
 
             <!-- Color Swatches Circles -->
             <div class="form-group-item">
-              <label class="form-group-label">لون الوشاح</label>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <label class="form-group-label" style="margin:0;">لون الوشاح: <span id="selected-color-name" style="color:#5d022a; font-weight:700;">ماروني</span></label>
+              </div>
               <div class="color-circles-row" id="wiz-colors-circles">
-                <button type="button" class="color-circle-btn is-active" data-color="burgundy" data-hex="#7a1832" data-name="ماروني" style="background:#7a1832;" aria-label="ماروني"></button>
-                <button type="button" class="color-circle-btn" data-color="red" data-hex="#a81c2f" data-name="أحمر" style="background:#a81c2f;" aria-label="أحمر"></button>
-                <button type="button" class="color-circle-btn" data-color="mauve" data-hex="#7d384e" data-name="موف" style="background:#7d384e;" aria-label="موف"></button>
-                <button type="button" class="color-circle-btn" data-color="emerald" data-hex="#0e4937" data-name="زمردي" style="background:#0e4937;" aria-label="زمردي"></button>
-                <button type="button" class="color-circle-btn" data-color="navy" data-hex="#132247" data-name="كحلي" style="background:#132247;" aria-label="كحلي"></button>
-                <button type="button" class="color-circle-btn" data-color="teal" data-hex="#0b7285" data-name="فيروزي" style="background:#0b7285;" aria-label="فيروزي"></button>
+                <button type="button" class="color-circle-btn is-active" data-color="burgundy" data-hex="#7a1832" data-name="ماروني" style="background:#7a1832;" aria-label="ماروني" title="ماروني"></button>
+                <button type="button" class="color-circle-btn" data-color="black" data-hex="#1a1a1a" data-name="أسود ملكي" style="background:#1a1a1a;" aria-label="أسود ملكي" title="أسود ملكي"></button>
+                <button type="button" class="color-circle-btn" data-color="navy" data-hex="#132247" data-name="كحلي ملكي" style="background:#132247;" aria-label="كحلي ملكي" title="كحلي ملكي"></button>
+                <button type="button" class="color-circle-btn" data-color="emerald" data-hex="#0e4937" data-name="أخضر زمردي" style="background:#0e4937;" aria-label="أخضر زمردي" title="أخضر زمردي"></button>
+                <button type="button" class="color-circle-btn" data-color="red" data-hex="#a81c2f" data-name="أحمر قاني" style="background:#a81c2f;" aria-label="أحمر قاني" title="أحمر قاني"></button>
+                <button type="button" class="color-circle-btn" data-color="purple" data-hex="#4b1e5a" data-name="بنفسجي ملكي" style="background:#4b1e5a;" aria-label="بنفسجي ملكي" title="بنفسجي ملكي"></button>
+                <button type="button" class="color-circle-btn" data-color="mauve" data-hex="#7d384e" data-name="وردي ملكي (موف)" style="background:#7d384e;" aria-label="وردي ملكي" title="وردي ملكي (موف)"></button>
+                <button type="button" class="color-circle-btn" data-color="teal" data-hex="#0b7285" data-name="بترولي (تيل)" style="background:#0b7285;" aria-label="بترولي" title="بترولي (تيل)"></button>
+                <button type="button" class="color-circle-btn" data-color="turquoise" data-hex="#17a2b8" data-name="تركوازي سماوي" style="background:#17a2b8;" aria-label="تركوازي سماوي" title="تركوازي سماوي"></button>
+                <button type="button" class="color-circle-btn" data-color="ivory" data-hex="#e8ded2" data-name="عاجي سكري (أوف وايت)" style="background:#e8ded2; border:1.5px solid #c9b9a6;" aria-label="عاجي سكري" title="عاجي سكري (أوف وايت)"></button>
 
                 <a href="https://wa.me/9647805088134?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%AD%D8%A7%D8%A8%D8%A8%20%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%B1%20%D8%B9%D9%86%20%D8%A3%D9%84%D9%88%D8%A7%D9%86%20%D8%A3%D8%AE%D8%B1%D9%89%20%D9%84%D9%84%D9%88%D8%B4%D8%A7%D8%AD" class="wa-custom-colors-pill" target="_blank" rel="noopener">
-                  <span>تتوفر ألوان أخرى؟ تواصل ع الواتساب</span>
+                  <span>تتوفر ألوان خاصة؟ تواصل ع الواتساب</span>
                   <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.06 2.87 1.21 3.07.15.2 2.09 3.2 5.07 4.49.71.31 1.26.49 1.69.63.71.23 1.36.19 1.87.12.57-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35zM12 2a10 10 0 0 0-8.55 15.19L2 22l4.94-1.3A10 10 0 1 0 12 2z"/></svg>
                 </a>
               </div>
@@ -2057,12 +2063,16 @@
 
     // Card Gradient matching scarf color
     const colorGradients = {
-      burgundy: 'radial-gradient(ellipse at 50% 20%, #8c1439 0%, #5d022a 55%, #340117 100%)',
-      red:      'radial-gradient(ellipse at 50% 20%, #b82136 0%, #871223 55%, #47060f 100%)',
-      mauve:    'radial-gradient(ellipse at 50% 20%, #91455d 0%, #682c3f 55%, #391320 100%)',
-      emerald:  'radial-gradient(ellipse at 50% 20%, #155c46 0%, #0d4232 55%, #052119 100%)',
-      navy:     'radial-gradient(ellipse at 50% 20%, #192d5c 0%, #101e40 55%, #070e1f 100%)',
-      teal:     'radial-gradient(ellipse at 50% 20%, #0f89a0 0%, #0b687a 55%, #05353f 100%)'
+      burgundy:  'radial-gradient(ellipse at 50% 20%, #8c1439 0%, #5d022a 55%, #340117 100%)',
+      black:     'radial-gradient(ellipse at 50% 20%, #3a3a3a 0%, #1e1e1e 55%, #0d0d0d 100%)',
+      navy:      'radial-gradient(ellipse at 50% 20%, #192d5c 0%, #101e40 55%, #070e1f 100%)',
+      emerald:   'radial-gradient(ellipse at 50% 20%, #155c46 0%, #0d4232 55%, #052119 100%)',
+      red:       'radial-gradient(ellipse at 50% 20%, #b82136 0%, #871223 55%, #47060f 100%)',
+      purple:    'radial-gradient(ellipse at 50% 20%, #682c7a 0%, #4b1e5a 55%, #270c30 100%)',
+      mauve:     'radial-gradient(ellipse at 50% 20%, #91455d 0%, #682c3f 55%, #391320 100%)',
+      teal:      'radial-gradient(ellipse at 50% 20%, #0f89a0 0%, #0b687a 55%, #05353f 100%)',
+      turquoise: 'radial-gradient(ellipse at 50% 20%, #1cb5ce 0%, #138496 55%, #0b505c 100%)',
+      ivory:     'radial-gradient(ellipse at 50% 20%, #f7f3ec 0%, #d8c8b4 55%, #a89478 100%)'
     };
     verticalSashCard.style.background = colorGradients[scarfColor] || colorGradients.burgundy;
   }
@@ -2077,6 +2087,8 @@
       scarfColor = btn.dataset.color;
       scarfColorHex = btn.dataset.hex;
       scarfColorName = btn.dataset.name;
+      const selColorNameEl = document.getElementById('selected-color-name');
+      if (selColorNameEl) selColorNameEl.textContent = scarfColorName;
       updateVerticalSashPreview();
     });
   });

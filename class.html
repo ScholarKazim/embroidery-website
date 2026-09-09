@@ -1266,7 +1266,7 @@ body {
     savedVotes = JSON.parse(localStorage.getItem('khama_class_votes') || '{}');
   } catch (_) {}
 
-  // The 6 Official Class Colors (Matches Screenshot 2)
+  // The 10 Official Class Colors
   const CLASS_COLORS = [
     {
       id: 'burgundy',
@@ -1276,39 +1276,67 @@ body {
       image: 'khamaiq.com/assets/images/visualizer-burgundy.jpg'
     },
     {
-      id: 'red',
-      name: 'أحمر عميق',
-      hex: '#a81c2f',
-      votes: typeof savedVotes['red'] === 'number' ? savedVotes['red'] : 0,
-      image: 'khamaiq.com/assets/images/visualizer-red.jpg'
-    },
-    {
-      id: 'mauve',
-      name: 'وردي ملكي',
-      hex: '#7d384e',
-      votes: typeof savedVotes['mauve'] === 'number' ? savedVotes['mauve'] : 0,
-      image: 'khamaiq.com/assets/images/visualizer-mauve.jpg'
-    },
-    {
-      id: 'emerald',
-      name: 'أخضر داكن',
-      hex: '#0e4937',
-      votes: typeof savedVotes['emerald'] === 'number' ? savedVotes['emerald'] : 0,
-      image: 'khamaiq.com/assets/images/visualizer-emerald.jpg'
+      id: 'black',
+      name: 'أسود ملكي',
+      hex: '#1a1a1a',
+      votes: typeof savedVotes['black'] === 'number' ? savedVotes['black'] : 0,
+      image: 'khamaiq.com/assets/images/visualizer-black.jpg'
     },
     {
       id: 'navy',
-      name: 'أزرق داكن',
+      name: 'كحلي ملكي',
       hex: '#132247',
       votes: typeof savedVotes['navy'] === 'number' ? savedVotes['navy'] : 0,
       image: 'khamaiq.com/assets/images/visualizer-navy.jpg'
     },
     {
+      id: 'emerald',
+      name: 'أخضر زمردي',
+      hex: '#0e4937',
+      votes: typeof savedVotes['emerald'] === 'number' ? savedVotes['emerald'] : 0,
+      image: 'khamaiq.com/assets/images/visualizer-emerald.jpg'
+    },
+    {
+      id: 'red',
+      name: 'أحمر قاني',
+      hex: '#a81c2f',
+      votes: typeof savedVotes['red'] === 'number' ? savedVotes['red'] : 0,
+      image: 'khamaiq.com/assets/images/visualizer-red.jpg'
+    },
+    {
+      id: 'purple',
+      name: 'بنفسجي ملكي',
+      hex: '#4b1e5a',
+      votes: typeof savedVotes['purple'] === 'number' ? savedVotes['purple'] : 0,
+      image: 'khamaiq.com/assets/images/visualizer-purple.jpg'
+    },
+    {
+      id: 'mauve',
+      name: 'وردي ملكي (موف)',
+      hex: '#7d384e',
+      votes: typeof savedVotes['mauve'] === 'number' ? savedVotes['mauve'] : 0,
+      image: 'khamaiq.com/assets/images/visualizer-mauve.jpg'
+    },
+    {
       id: 'teal',
-      name: 'أزرق فاتح',
+      name: 'بترولي (تيل)',
       hex: '#0b7285',
       votes: typeof savedVotes['teal'] === 'number' ? savedVotes['teal'] : 0,
       image: 'khamaiq.com/assets/images/visualizer-teal.jpg'
+    },
+    {
+      id: 'turquoise',
+      name: 'تركوازي سماوي',
+      hex: '#17a2b8',
+      votes: typeof savedVotes['turquoise'] === 'number' ? savedVotes['turquoise'] : 0,
+      image: 'khamaiq.com/assets/images/visualizer-turquoise.jpg'
+    },
+    {
+      id: 'ivory',
+      name: 'عاجي سكري',
+      hex: '#e8ded2',
+      votes: typeof savedVotes['ivory'] === 'number' ? savedVotes['ivory'] : 0,
+      image: 'khamaiq.com/assets/images/visualizer-ivory.jpg'
     }
   ];
 

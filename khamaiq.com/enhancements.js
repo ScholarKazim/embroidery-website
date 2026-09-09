@@ -149,10 +149,187 @@
     });
   }
 
+  // 4. Scarf Colors Visualizer (Front & Royal Back Views)
+  function initColorVisualizer() {
+    const swatchesContainer = document.getElementById('swatches');
+    const photoFrame = document.getElementById('vis-photo');
+    const curNameEl = document.getElementById('cur-name');
+    const tabFront = document.getElementById('vis-tab-front');
+    const tabBack = document.getElementById('vis-tab-back');
+
+    if (!swatchesContainer || !photoFrame) return;
+
+    const VIS_COLORS = [
+      {
+        id: 'burgundy',
+        name: 'ماروني خامة',
+        hex: '#7a1832',
+        front: 'khamaiq.com/assets/images/visualizer-burgundy.jpg',
+        back:  'khamaiq.com/assets/images/visualizer-royal-back-burgundy.jpg'
+      },
+      {
+        id: 'black',
+        name: 'أسود ملكي',
+        hex: '#1a1a1a',
+        front: 'khamaiq.com/assets/images/visualizer-black.jpg',
+        back:  'khamaiq.com/assets/images/visualizer-royal-back-black.jpg'
+      },
+      {
+        id: 'navy',
+        name: 'كحلي ملكي',
+        hex: '#132247',
+        front: 'khamaiq.com/assets/images/visualizer-navy.jpg',
+        back:  'khamaiq.com/assets/images/visualizer-royal-back-navy.jpg'
+      },
+      {
+        id: 'emerald',
+        name: 'أخضر زمردي',
+        hex: '#0e4937',
+        front: 'khamaiq.com/assets/images/visualizer-emerald.jpg',
+        back:  'khamaiq.com/assets/images/visualizer-royal-back-emerald.jpg'
+      },
+      {
+        id: 'red',
+        name: 'أحمر قاني',
+        hex: '#a81c2f',
+        front: 'khamaiq.com/assets/images/visualizer-red.jpg',
+        back:  'khamaiq.com/assets/images/visualizer-royal-back-red.jpg'
+      },
+      {
+        id: 'purple',
+        name: 'بنفسجي ملكي',
+        hex: '#4b1e5a',
+        front: 'khamaiq.com/assets/images/visualizer-purple.jpg',
+        back:  'khamaiq.com/assets/images/visualizer-royal-back-purple.jpg'
+      },
+      {
+        id: 'mauve',
+        name: 'وردي ملكي (موف)',
+        hex: '#7d384e',
+        front: 'khamaiq.com/assets/images/visualizer-mauve.jpg',
+        back:  'khamaiq.com/assets/images/visualizer-royal-back-mauve.jpg'
+      },
+      {
+        id: 'teal',
+        name: 'بترولي (تيل)',
+        hex: '#0b7285',
+        front: 'khamaiq.com/assets/images/visualizer-teal.jpg',
+        back:  'khamaiq.com/assets/images/visualizer-royal-back-teal.jpg'
+      },
+      {
+        id: 'turquoise',
+        name: 'تركوازي سماوي',
+        hex: '#17a2b8',
+        front: 'khamaiq.com/assets/images/visualizer-turquoise.jpg',
+        back:  'khamaiq.com/assets/images/visualizer-royal-back.jpg'
+      },
+      {
+        id: 'ivory',
+        name: 'عاجي سكري',
+        hex: '#e8ded2',
+        front: 'khamaiq.com/assets/images/visualizer-ivory.jpg',
+        back:  'khamaiq.com/assets/images/visualizer-royal-back.jpg'
+      }
+    ];
+
+    let currentColor = VIS_COLORS[0];
+    let currentView = 'front';
+
+    const layers = photoFrame.querySelectorAll('.vis-photo-layer');
+    let activeLayerIndex = 0;
+
+    function swapImage(src) {
+      if (layers.length < 2) {
+        if (layers[0]) layers[0].src = src;
+        return;
+      }
+      photoFrame.classList.add('is-changing');
+      const nextIndex = activeLayerIndex === 0 ? 1 : 0;
+      const nextLayer = layers[nextIndex];
+      const activeLayer = layers[activeLayerIndex];
+
+      nextLayer.onload = () => {
+        nextLayer.classList.add('is-active');
+        activeLayer.classList.remove('is-active');
+        activeLayerIndex = nextIndex;
+        setTimeout(() => photoFrame.classList.remove('is-changing'), 400);
+      };
+      nextLayer.src = src;
+    }
+
+    function updateVisualizer() {
+      const src = currentView === 'back' ? (currentColor.back || currentColor.front) : currentColor.front;
+      swapImage(src);
+      if (curNameEl) {
+        const viewLabel = currentView === 'back' ? ' (قصة الظهر الملكية)' : '';
+        curNameEl.textContent = currentColor.name + viewLabel;
+      }
+      document.querySelectorAll('#swatches .swatch').forEach(s => {
+        if (!s.classList.contains('swatch-wa')) {
+          s.classList.toggle('active', s.dataset.id === currentColor.id);
+        }
+      });
+    }
+
+    // Render Swatches
+    swatchesContainer.innerHTML = '';
+    VIS_COLORS.forEach(c => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'swatch' + (c.id === currentColor.id ? ' active' : '');
+      btn.dataset.id = c.id;
+      btn.innerHTML = `
+        <span class="dot" style="background:${c.hex}; ${c.id === 'ivory' ? 'border:1.5px solid #c9b9a6;' : ''}"></span>
+        <span class="nm">${c.name}</span>
+        <span class="hx">${c.hex}</span>
+      `;
+      btn.addEventListener('click', () => {
+        currentColor = c;
+        updateVisualizer();
+      });
+      swatchesContainer.appendChild(btn);
+    });
+
+    // WhatsApp custom color button
+    const waSwatch = document.createElement('a');
+    waSwatch.href = `https://wa.me/${WA_PHONE}?text=` + encodeURIComponent('مرحباً إبرة وخيط، حابب استفسر عن توفر ألوان وشاح إضافية أو قماش مخصص.');
+    waSwatch.className = 'swatch swatch-wa';
+    waSwatch.target = '_blank';
+    waSwatch.rel = 'noopener';
+    waSwatch.innerHTML = `
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.06 2.87 1.21 3.07.15.2 2.09 3.2 5.07 4.49.71.31 1.26.49 1.69.63.71.23 1.36.19 1.87.12.57-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35zM12 2a10 10 0 0 0-8.55 15.19L2 22l4.94-1.3A10 10 0 1 0 12 2z"/></svg>
+      <span class="nm" style="color:#25d366; font-weight:700;">ألوان أو أقمشة خاصة؟ تواصل واتساب</span>
+    `;
+    swatchesContainer.appendChild(waSwatch);
+
+    // Front/Back tabs
+    if (tabFront && tabBack) {
+      tabFront.addEventListener('click', () => {
+        currentView = 'front';
+        tabFront.classList.add('is-active');
+        tabBack.classList.remove('is-active');
+        updateVisualizer();
+      });
+      tabBack.addEventListener('click', () => {
+        currentView = 'back';
+        tabBack.classList.add('is-active');
+        tabFront.classList.remove('is-active');
+        updateVisualizer();
+      });
+    }
+
+    // Preload visualizer photos
+    VIS_COLORS.forEach(c => {
+      if (c.front) { const imgF = new Image(); imgF.src = c.front; }
+      if (c.back)  { const imgB = new Image(); imgB.src = c.back; }
+    });
+  }
+
   // Run on page load
   function init() {
     initDeliveryEstimator();
     initWhatsAppConcierge();
+    initColorVisualizer();
   }
 
   if (document.readyState === 'loading') {

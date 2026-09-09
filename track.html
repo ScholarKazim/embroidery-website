@@ -421,6 +421,7 @@
         const cfg = it.config || {};
         let extraInfo = [];
         if (cfg.cut) extraInfo.push(`قصة: ${escapeHtml(cfg.cut)}`);
+        if (cfg.scarfColorName || cfg.scarfColor || cfg.color) extraInfo.push(`اللون: ${escapeHtml(cfg.scarfColorName || cfg.scarfColor || cfg.color)}`);
         if (cfg.name) extraInfo.push(`الاسم: ${escapeHtml(cfg.name)}`);
         if (cfg.backText) extraInfo.push(`تطريز الظهر: ${escapeHtml(cfg.backText)}`);
         return `

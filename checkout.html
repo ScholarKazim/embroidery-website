@@ -656,7 +656,7 @@
       else if (c.name) details.push(`الاسم: ${escapeHtml(c.name)}`);
       if (c.backText) details.push(`تطريز الظهر: ${escapeHtml(c.backText)}`);
       if (c.referenceImage) details.push(`📷 مرفق صورة نموذج`);
-      if (c.scarfColor) details.push(`اللون: ${escapeHtml(c.scarfColor)}`);
+      if (c.scarfColorName || c.scarfColor) details.push(`اللون: ${escapeHtml(c.scarfColorName || c.scarfColor)}`);
       if (c.font) details.push(`الخط: ${escapeHtml(c.font)}`);
       if (c.textColor) details.push(`الخيط: ${c.textColor === 'silver' ? 'فضي' : 'ذهبي'}`);
       if (c.type) details.push(`الموديل: ${escapeHtml(c.type)}`);
@@ -843,6 +843,7 @@
           const itPrice = Math.max(0, parseFloat(it.price) || 35000);
           const cfg = it.config || {};
           let extraInfo = [];
+          if (cfg.scarfColorName || cfg.scarfColor) extraInfo.push(`اللون: ${escapeHtml(cfg.scarfColorName || cfg.scarfColor)}`);
           if (cfg.backText) extraInfo.push(`تطريز الظهر: ${escapeHtml(cfg.backText)}`);
           if (cfg.referenceImage) extraInfo.push(`📷 نموذج مرفق`);
           return `

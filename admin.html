@@ -505,7 +505,7 @@
           const c = it.config || {};
           let tags = [];
           if (c.cut) tags.push(`قصة: ${escapeHtml(c.cut)}`);
-          if (c.color || c.scarfColor) tags.push(`لون: ${escapeHtml(c.color || c.scarfColor)}`);
+          if (c.scarfColorName || c.color || c.scarfColor) tags.push(`لون: ${escapeHtml(c.scarfColorName || c.color || c.scarfColor)}`);
           if (c.embroidery || c.name || c.side1) tags.push(`تطريز: ${escapeHtml(c.embroidery || c.name || c.side1)}`);
           if (c.backText) tags.push(`🧵 تطريز الظهر: <strong style="color:var(--color-burgundy);">${escapeHtml(c.backText)}</strong>`);
           if (c.height) tags.push(`طول: ${escapeHtml(c.height)} سم`);
