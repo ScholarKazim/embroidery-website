@@ -1,0 +1,1577 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>تصويت ألوان الكليات | إبرة وخيط</title>
+<meta name="description" content="منصة تصويت ممثلي وطلبة الكليات لاختيار اللون الرسمي لوشاح وروب التخرج لدفعة 2026.">
+<link rel="icon" href="khamaiq.com/favicon_v=p138.ico" sizes="any">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="khamaiq.com/colors_and_type_v=p138.css">
+<link rel="stylesheet" href="khamaiq.com/styles_v=p138.css">
+<link rel="stylesheet" href="khamaiq.com/extras_v=p138.css">
+<style>
+:root {
+  --gold: #D4AF37;
+  --gold-glow: rgba(212, 175, 55, 0.25);
+  --gold-light: #F5D77F;
+  --bg-dark: #0b1320;
+  --bg-card: #131d2e;
+  --bg-card-hover: #1a273d;
+  --border-card: rgba(212, 175, 55, 0.2);
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --emerald: #0e4937;
+  --accent-green: #10b981;
+}
+
+* { box-sizing: border-box; font-family: 'Cairo', system-ui, -apple-system, sans-serif; }
+body {
+  background: radial-gradient(circle at 50% 10%, #162438 0%, #0b1320 80%);
+  color: var(--text-main);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.vote-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background: rgba(11, 19, 32, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-card);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.vote-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--text-main);
+}
+.vote-brand img { height: 38px; width: auto; }
+.vote-brand-title {
+  display: flex;
+  flex-direction: column;
+}
+.vote-brand-title .main-title { font-weight: 800; font-size: 16px; color: var(--gold-light); }
+.vote-brand-title .sub-title { font-size: 11px; color: var(--text-muted); }
+
+.vote-nav-links { display: flex; gap: 16px; align-items: center; }
+.vote-nav-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+.vote-nav-link:hover { color: var(--gold-light); }
+
+.vote-container {
+  max-width: 780px;
+  width: 100%;
+  margin: 30px auto;
+  padding: 0 20px 60px;
+  flex: 1;
+}
+
+.screen-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 20px;
+  padding: 32px 28px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.screen-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.step-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(212, 175, 55, 0.12);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  color: var(--gold-light);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 14px;
+}
+
+.screen-title {
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--text-main);
+  margin: 0 0 8px;
+  line-height: 1.4;
+}
+
+.screen-desc {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: 0 0 24px;
+  line-height: 1.6;
+}
+
+/* Role Selection Cards */
+.role-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-top: 10px;
+}
+@media (max-width: 600px) {
+  .role-grid { grid-template-columns: 1fr; }
+  .screen-card { padding: 24px 18px; }
+}
+
+.role-btn {
+  background: var(--bg-card-hover);
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 26px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.role-btn:hover {
+  border-color: var(--gold);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px var(--gold-glow);
+}
+.role-icon {
+  font-size: 44px;
+  margin-bottom: 4px;
+}
+.role-name {
+  font-size: 19px;
+  font-weight: 800;
+  color: var(--gold-light);
+}
+.role-sub {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* Form inputs & buttons */
+.form-group {
+  margin-bottom: 20px;
+  text-align: right;
+}
+.form-label {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 8px;
+}
+.form-input, .form-select {
+  width: 100%;
+  padding: 13px 16px;
+  background: rgba(11, 19, 32, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  color: var(--text-main);
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.form-input:focus, .form-select:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px var(--gold-glow);
+}
+.form-select option {
+  background: #131d2e;
+  color: #fff;
+}
+
+/* Entity Badge Box */
+.entity-box {
+  background: rgba(14, 73, 55, 0.2);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.entity-icon { font-size: 24px; color: #10b981; }
+.entity-info { flex: 1; }
+.entity-tag { font-size: 11px; color: #10b981; font-weight: 700; text-transform: uppercase; }
+.entity-id { font-size: 15px; font-weight: 800; color: #fff; letter-spacing: 0.5px; }
+
+/* Buttons */
+.btn-primary {
+  width: 100%;
+  background: linear-gradient(135deg, #d4af37, #aa8010);
+  color: #0b1320;
+  border: none;
+  padding: 14px 24px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+}
+.btn-secondary {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-secondary:hover {
+  color: var(--text-main);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.btn-danger {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #f87171;
+  padding: 11px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-danger:hover {
+  background: rgba(239, 68, 68, 0.3);
+  color: #fff;
+}
+
+/* Color Swatches Grid */
+.color-select-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+.color-item-card {
+  background: rgba(11, 19, 32, 0.6);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 14px 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  user-select: none;
+}
+.color-item-card:hover {
+  border-color: rgba(212, 175, 55, 0.5);
+  transform: translateY(-2px);
+}
+.color-item-card.is-selected {
+  border-color: var(--gold);
+  background: rgba(212, 175, 55, 0.12);
+  box-shadow: 0 4px 16px var(--gold-glow);
+}
+.color-dot-large {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  margin: 0 auto 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5), inset 0 2px 4px rgba(255,255,255,0.25);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  position: relative;
+}
+.color-item-card.is-selected .color-dot-large::after {
+  content: '✓';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 20px;
+  font-weight: 900;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+}
+.color-card-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 2px;
+}
+.color-card-hex {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: monospace;
+  direction: ltr;
+}
+
+/* Duration Pills */
+.duration-pills {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.duration-pill {
+  flex: 1;
+  min-width: 65px;
+  text-align: center;
+  padding: 10px 8px;
+  background: rgba(11, 19, 32, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.duration-pill.is-active {
+  background: var(--gold);
+  color: #0b1320;
+  border-color: var(--gold);
+  box-shadow: 0 3px 12px var(--gold-glow);
+}
+
+/* Live Results Progress Bars */
+.result-item {
+  background: rgba(11, 19, 32, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  position: relative;
+  overflow: hidden;
+}
+.result-item.is-leader {
+  border-color: rgba(212, 175, 55, 0.5);
+  background: rgba(212, 175, 55, 0.06);
+}
+.result-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.result-color-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 14px;
+}
+.result-color-dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.result-stats {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.result-stats strong { color: var(--gold-light); font-size: 15px; }
+.progress-track {
+  width: 100%;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Share Box */
+.share-box {
+  background: rgba(212, 175, 55, 0.08);
+  border: 1px dashed var(--gold);
+  border-radius: 14px;
+  padding: 18px;
+  margin: 20px 0;
+  text-align: center;
+}
+.share-url-text {
+  font-family: monospace;
+  font-size: 14px;
+  background: rgba(0, 0, 0, 0.35);
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin: 10px 0;
+  direction: ltr;
+  word-break: break-all;
+  color: #fff;
+}
+.share-btns {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* OTP Digits */
+.otp-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  direction: ltr;
+  margin: 20px 0;
+}
+.otp-digit {
+  width: 46px;
+  height: 54px;
+  background: rgba(11, 19, 32, 0.9);
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  color: var(--gold-light);
+  font-size: 24px;
+  font-weight: 900;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.otp-digit:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px var(--gold-glow);
+}
+
+/* Toast */
+.toast-notice {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #10b981;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 14px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  z-index: 1000;
+  display: none;
+  animation: slideUp 0.3s ease;
+}
+@keyframes slideUp {
+  from { transform: translate(-50%, 20px); opacity: 0; }
+  to { transform: translate(-50%, 0); opacity: 1; }
+}
+
+.simulated-sms-box {
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin: 14px 0;
+  font-size: 13px;
+  color: #93c5fd;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+</style>
+</head>
+<body>
+
+<header class="vote-nav">
+  <a href="/" class="vote-brand">
+    <img src="khamaiq.com/assets/logo.png" alt="إبرة وخيط">
+    <div class="vote-brand-title">
+      <span class="main-title">إبرة وخيط</span>
+      <span class="sub-title">نظام تصويت ألوان الكليات ٢٠٢٦</span>
+    </div>
+  </a>
+
+  <div class="vote-nav-links">
+    <a href="/products" class="vote-nav-link">المنتجات</a>
+    <a href="/class" class="vote-nav-link">الدفعة</a>
+    <a href="/models" class="vote-nav-link">معرض النماذج</a>
+    <a href="/قياس" class="vote-nav-link">حاسبة القياس</a>
+  </div>
+</header>
+
+<main class="vote-container">
+
+  <!-- ================= SCREEN 1: ROLE SELECTION ================= -->
+  <section id="screen-role" class="screen-card">
+    <div class="step-badge">👑 البداية · تحديد المسار</div>
+    <h1 class="screen-title">هل أنت طالب أم ممثل الكلية؟</h1>
+    <p class="screen-desc">منصة رسمية لحسم اختيار ألوان أوشحة وأرواب التخرج بالتنسيق مع دفعتك وعمادة الكلية.</p>
+
+    <div class="role-grid">
+      <div class="role-btn" onclick="selectRole('student')">
+        <div class="role-icon">🎓</div>
+        <div class="role-name">طالب جامعي</div>
+        <div class="role-sub">لدي رابط تصويت للمشاركة واختيار لون وشاح دفعتي أو تعديل صوتي</div>
+      </div>
+
+      <div class="role-btn" onclick="selectRole('representative')">
+        <div class="role-icon">👑</div>
+        <div class="role-name">ممثل الكلية</div>
+        <div class="role-sub">إنشاء تصويت رسمي جديد لكليتي، تحديد مدة الاستفتاء، ومتابعة النتائج وإنهائه</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SCREEN 1B: STUDENT ENTER TOKEN ================= -->
+  <section id="screen-student-input" class="screen-card" style="display:none;">
+    <button class="btn-secondary" onclick="showScreen('screen-role')">← العودة للبداية</button>
+    <div style="margin-top: 15px;">
+      <div class="step-badge">🎓 مسار الطالب</div>
+      <h2 class="screen-title">الدخول للتصويت</h2>
+      <p class="screen-desc">أدخل رمز التصويت أو الرابط الذي شاركه معك ممثل كليتك.</p>
+
+      <div class="form-group">
+        <label class="form-label" for="token-input">رمز التصويت أو رابط المشاركة:</label>
+        <input type="text" id="token-input" class="form-input" placeholder="مثال: abc123xyz... أو الصق الرابط كاملاً" dir="ltr">
+      </div>
+
+      <button class="btn-primary" onclick="handleStudentTokenSubmit()">
+        <span>الانتقال لصفحة التصويت</span>
+        <span>←</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ================= SCREEN 2: REP PHONE & OTP ================= -->
+  <section id="screen-rep-phone" class="screen-card" style="display:none;">
+    <button class="btn-secondary" onclick="showScreen('screen-role')">← العودة للبداية</button>
+    <div style="margin-top: 15px;">
+      <div class="step-badge">خطوة ١ من ٣ · التحقق من الهوية</div>
+      <h2 class="screen-title">التحقق من رقم هاتف الممثل</h2>
+      <p class="screen-desc">سنرسل رمز تحقق (OTP) للتأكد من هوية ممثل الكلية وتأمين إدارة التصويت.</p>
+
+      <div id="phone-input-section">
+        <div class="form-group">
+          <label class="form-label" for="rep-phone">رقم هاتف الممثل (عراقي):</label>
+          <input type="tel" id="rep-phone" class="form-input" placeholder="07XXXXXXXXX" dir="ltr" maxlength="11">
+          <small style="color: var(--text-muted); font-size:12px; margin-top:4px; display:block;">مثال: 07801234567 أو 07701234567</small>
+        </div>
+
+        <button class="btn-primary" id="btn-send-otp" onclick="requestOtp()">
+          <span>إرسال رمز التحقق</span>
+          <span>📲</span>
+        </button>
+      </div>
+
+      <!-- OTP Confirmation Section -->
+      <div id="otp-verify-section" style="display:none; margin-top:20px;">
+        <div class="simulated-sms-box" id="simulated-sms-box">
+          <div>
+            <span>📩 تم إرسال الرمز إلى </span><strong id="display-phone"></strong>
+          </div>
+          <button class="btn-secondary" style="padding: 4px 10px; font-size:12px;" onclick="autoFillOtp()">نسخ الرمز التجريبي</button>
+        </div>
+
+        <label class="form-label" style="text-align:center;">أدخل رمز التحقق المكون من 6 أرقام:</label>
+        <div class="otp-container">
+          <input type="text" maxlength="1" class="otp-digit" data-idx="0">
+          <input type="text" maxlength="1" class="otp-digit" data-idx="1">
+          <input type="text" maxlength="1" class="otp-digit" data-idx="2">
+          <input type="text" maxlength="1" class="otp-digit" data-idx="3">
+          <input type="text" maxlength="1" class="otp-digit" data-idx="4">
+          <input type="text" maxlength="1" class="otp-digit" data-idx="5">
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; font-size:13px;">
+          <span style="color:var(--text-muted);">ينتهي الرمز خلال: <strong id="otp-timer" style="color:var(--gold-light);">05:00</strong></span>
+          <button class="btn-secondary" style="border:none; padding:0; color:var(--gold-light);" onclick="requestOtp()">إعادة إرسال الرمز</button>
+        </div>
+
+        <button class="btn-primary" onclick="verifyOtp()">
+          <span>تأكيد المتابعة</span>
+          <span>✓</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SCREEN 3: UNIVERSITY & COLLEGE SELECTION ================= -->
+  <section id="screen-college-select" class="screen-card" style="display:none;">
+    <div class="step-badge">خطوة ٢ من ٣ · تحديد الكلية والجهة</div>
+    <h2 class="screen-title">اختر الجامعة والكلية</h2>
+    <p class="screen-desc">يقوم النظام بربط الكلية تلقائياً بسجل الجهة (Entity) الثابتة المعتمدة في النظام لمنع أي تكرار.</p>
+
+    <div class="form-group">
+      <label class="form-label" for="select-university">الجامعة أو المعهد:</label>
+      <select id="select-university" class="form-select" onchange="onUniversityChange()">
+        <option value="">-- اختر الجامعة --</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="select-college">الكلية أو القسم:</label>
+      <select id="select-college" class="form-select" onchange="onCollegeChange()" disabled>
+        <option value="">-- اختر الجامعة أولاً --</option>
+      </select>
+    </div>
+
+    <!-- Automatically bound Entity Card -->
+    <div class="entity-box" id="entity-badge" style="display:none;">
+      <div class="entity-icon">🔒</div>
+      <div class="entity-info">
+        <div class="entity-tag">الجهة الثابتة المعتمدة (Fixed Entity ID)</div>
+        <div class="entity-id" id="entity-id-display">UOK-CS-001</div>
+      </div>
+      <div style="font-size:11px; color:#10b981; font-weight:700;">موثقة تلقائياً ✓</div>
+    </div>
+
+    <button class="btn-primary" id="btn-proceed-colors" onclick="proceedToColors()" style="display:none; margin-top:20px;">
+      <span>متابعة لتحديد الألوان المرشحة</span>
+      <span>←</span>
+    </button>
+  </section>
+
+  <!-- ================= SCREEN 4: VOTE SETUP (COLORS & DURATION) ================= -->
+  <section id="screen-vote-setup" class="screen-card" style="display:none;">
+    <button class="btn-secondary" onclick="showScreen('screen-college-select')">← العودة للكلية</button>
+    <div style="margin-top: 15px;">
+      <div class="step-badge">خطوة ٣ من ٣ · إعداد التصويت</div>
+      <h2 class="screen-title">الألوان المرشحة ومدة التصويت</h2>
+      <p class="screen-desc">حدد الألوان التي ستعرض على طلبة دفعتك للتصويت (اختر لونين على الأقل)، ثم حدد مدة التصويت.</p>
+
+      <div class="form-group">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <label class="form-label">الألوان المرشحة من خامات إبرة وخيط (كوبرا أندونيسي):</label>
+          <span style="font-size:12.5px; color:var(--gold-light); font-weight:700;" id="selected-colors-count">تم تحديد 0 ألوان</span>
+        </div>
+
+        <div class="color-select-grid" id="color-palette-grid">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Custom Color Adder -->
+        <div style="background: rgba(11,19,32,0.5); border:1px dashed rgba(255,255,255,0.15); border-radius:12px; padding:12px 16px; margin-top:10px;">
+          <div style="font-size:13px; font-weight:700; color:var(--text-main); margin-bottom:8px;">إضافة لون مخصص إضافي:</div>
+          <div style="display:flex; gap:10px; align-items:center;">
+            <input type="color" id="custom-color-hex" value="#0b7285" style="width:40px; height:38px; border:none; border-radius:8px; cursor:pointer; background:none;">
+            <input type="text" id="custom-color-name" class="form-input" placeholder="اسم اللون (مثال: رصاصي فحمي)" style="flex:1;">
+            <button class="btn-secondary" type="button" onclick="addCustomColor()">+ إضافة</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-top:24px;">
+        <label class="form-label">مدة التصويت (من ٣ أيام إلى أسبوع):</label>
+        <div class="duration-pills" id="duration-pills">
+          <div class="duration-pill" data-days="3" onclick="selectDuration(3)">3 أيام</div>
+          <div class="duration-pill" data-days="4" onclick="selectDuration(4)">4 أيام</div>
+          <div class="duration-pill is-active" data-days="5" onclick="selectDuration(5)">5 أيام (المقترح)</div>
+          <div class="duration-pill" data-days="6" onclick="selectDuration(6)">6 أيام</div>
+          <div class="duration-pill" data-days="7" onclick="selectDuration(7)">7 أيام (أسبوع)</div>
+        </div>
+        <small style="color:var(--text-muted); font-size:12px; margin-top:8px; display:block;" id="duration-preview-note"></small>
+      </div>
+
+      <button class="btn-primary" onclick="launchVote()">
+        <span>إطلاق التصويت وإنشاء رابط المشاركة 🚀</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ================= SCREEN 5: REPRESENTATIVE DASHBOARD ================= -->
+  <section id="screen-rep-dashboard" class="screen-card" style="display:none;">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+      <div class="step-badge" style="margin:0;">👑 لوحة إدارة تصويت الممثل</div>
+      <div id="vote-status-badge" style="background:#10b981; color:#fff; font-size:12px; font-weight:800; padding:4px 12px; border-radius:20px;">
+        🟢 التصويت جارٍ بنشاط
+      </div>
+    </div>
+
+    <h2 class="screen-title" id="rep-vote-title" style="margin-top:14px;">تصويت كلية علوم الحاسوب</h2>
+    <p class="screen-desc" id="rep-vote-subtitle">جامعة كربلاء · الجهة: UOK-CS-001</p>
+
+    <!-- Countdown Timer -->
+    <div style="background: rgba(11,19,32,0.8); border:1px solid rgba(212,175,55,0.25); border-radius:14px; padding:14px 18px; text-align:center; margin-bottom:20px;">
+      <div style="font-size:12px; color:var(--text-muted); margin-bottom:4px;">الوقت المتبقي حتى إغلاق التصويت التلقائي:</div>
+      <div id="vote-countdown-display" style="font-size:22px; font-weight:900; color:var(--gold-light); font-family:monospace;">--:--:--:--</div>
+    </div>
+
+    <!-- Share Link Box -->
+    <div class="share-box">
+      <div style="font-size:15px; font-weight:800; color:var(--gold-light);">🔗 رابط مشاركة التصويت مع الطلبة</div>
+      <p style="font-size:12.5px; color:var(--text-muted); margin:4px 0;">أرسل هذا الرابط إلى كروب الدفعة في واتساب أو تلكرام</p>
+      <div class="share-url-text" id="share-url-display">https://...</div>
+      <div class="share-btns">
+        <button class="btn-primary" style="width:auto; padding:10px 20px;" onclick="copyShareUrl()">📋 نسخ الرابط</button>
+        <button class="btn-primary" style="width:auto; padding:10px 20px; background:#25D366; color:#fff;" onclick="shareViaWhatsApp()">💬 مشاركة عبر واتساب</button>
+        <button class="btn-secondary" onclick="openStudentView()">👁️ معاينة كطالب</button>
+      </div>
+    </div>
+
+    <!-- Live Results Section -->
+    <div style="margin-top:28px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+        <h3 style="font-size:17px; font-weight:800; color:var(--text-main); margin:0;">النتائج المباشرة وأصوات الطلبة</h3>
+        <span style="font-size:13px; color:var(--gold-light); font-weight:700;" id="total-votes-label">إجمالي الأصوات: 0</span>
+      </div>
+
+      <div id="rep-results-list">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <!-- End Vote Action (Representative Only) -->
+    <div style="border-top:1px solid rgba(255,255,255,0.1); margin-top:30px; padding-top:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+      <div>
+        <strong style="color:#f87171; display:block; font-size:14px;">إنهاء التصويت مبكراً</strong>
+        <span style="color:var(--text-muted); font-size:12px;">إغلاق الاستفتاء الآن واعتماد اللون المتصدر دون انتظار انتهاء المدة</span>
+      </div>
+      <button class="btn-danger" id="btn-end-vote" onclick="confirmEndVote()">🛑 إنهاء التصويت الآن</button>
+    </div>
+  </section>
+
+  <!-- ================= SCREEN 6: STUDENT VOTING VIEW ================= -->
+  <section id="screen-student-vote" class="screen-card" style="display:none;">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+      <div class="step-badge" style="margin:0;">🎓 صوت الطالب</div>
+      <div id="student-status-badge" style="background:#10b981; color:#fff; font-size:11.5px; font-weight:700; padding:3px 10px; border-radius:15px;">
+        🟢 التصويت مفتوح
+      </div>
+    </div>
+
+    <h2 class="screen-title" id="student-vote-title" style="margin-top:12px;">تصويت اختيار لون الكلية</h2>
+    <p class="screen-desc" id="student-vote-desc">اختر لون وشاح التخرج المفضل لدفعتك. يُحسب لك صوت واحد فقط، ويمكنك تعديل اختيارك بأي وقت طالما التصويت مفتوح.</p>
+
+    <!-- Candidate Color Choices -->
+    <div class="color-select-grid" id="student-color-grid">
+      <!-- Populated by JS -->
+    </div>
+
+    <!-- Submit Vote Button -->
+    <div id="student-actions-section" style="margin-top:20px;">
+      <button class="btn-primary" id="btn-submit-vote" onclick="submitStudentVote()">
+        <span>تسجيل صوتي 🗳️</span>
+      </button>
+    </div>
+
+    <!-- Success / Already Voted State -->
+    <div id="student-voted-box" style="display:none; margin-top:20px; background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.35); border-radius:14px; padding:18px; text-align:center;">
+      <div style="font-size:28px; margin-bottom:6px;">🎉</div>
+      <div style="font-weight:800; font-size:16px; color:#10b981;">تم تسجيل صوتك بنجاح!</div>
+      <div style="font-size:13.5px; color:var(--text-muted); margin:6px 0 14px;">
+        اختيارك المسجل حالياً: <strong id="student-chosen-color-name" style="color:#fff;">--</strong>
+      </div>
+      <button class="btn-secondary" onclick="enableVoteEdit()">✏️ تعديل اختياري (تغيير اللون)</button>
+    </div>
+
+    <!-- Closed Vote Banner -->
+    <div id="student-closed-box" style="display:none; margin-top:20px; background:rgba(212,175,55,0.12); border:1px solid var(--gold); border-radius:14px; padding:20px; text-align:center;">
+      <div style="font-size:36px; margin-bottom:6px;">👑</div>
+      <div style="font-weight:900; font-size:18px; color:var(--gold-light);">تم إغلاق التصويت رسمياً</div>
+      <p style="font-size:13px; color:var(--text-muted); margin:6px 0 16px;">تم حسم اختيار دفعتك باللون الفائز:</p>
+      <div id="winner-color-display" style="display:inline-flex; align-items:center; gap:10px; background:rgba(0,0,0,0.4); padding:10px 20px; border-radius:30px; border:1px solid var(--gold);">
+        <div class="result-color-dot" id="winner-dot"></div>
+        <strong id="winner-name" style="font-size:16px; color:#fff;">--</strong>
+        <span id="winner-percent" style="color:var(--gold-light); font-weight:700;">--%</span>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<div class="toast-notice" id="toast-notice"></div>
+
+<script>
+// ================= APP STATE =================
+var currentRole = null;
+var universitiesData = [];
+var currentRep = { phone: '', token: '' };
+var activeVote = null;
+var selectedCandidateColors = [];
+var selectedDurationDays = 5;
+var studentIdentifier = getOrInitStudentId();
+
+// Standard Cobra Indonesian fabric colors
+var standardColors = [
+  { id: "burgundy", name: "ماروني خامة", hex: "#7a1832" },
+  { id: "navy", name: "كحلي ملكي", hex: "#132247" },
+  { id: "emerald", name: "أخضر زمردي", hex: "#0e4937" },
+  { id: "black", name: "أسود ملكي", hex: "#1a1a1a" },
+  { id: "red", name: "أحمر قاني", hex: "#a81c2f" },
+  { id: "purple", name: "بنفسجي ملكي", hex: "#4b1e5a" },
+  { id: "mauve", name: "وردي ملكي (موف)", hex: "#7d384e" },
+  { id: "teal", name: "بترولي (تيل)", hex: "#0b7285" },
+  { id: "turquoise", name: "تركوازي سماوي", hex: "#17a2b8" }
+];
+
+// Generate or retrieve persistent student session identifier
+function getOrInitStudentId() {
+  var id = localStorage.getItem('ik_student_identifier');
+  if (!id) {
+    id = 'stu_' + Math.random().toString(36).substring(2, 12) + '_' + Date.now().toString(36);
+    localStorage.setItem('ik_student_identifier', id);
+  }
+  return id;
+}
+
+// Show Toast
+function showToast(msg, bg) {
+  var t = document.getElementById('toast-notice');
+  t.textContent = msg;
+  t.style.background = bg || '#10b981';
+  t.style.display = 'block';
+  setTimeout(function() { t.style.display = 'none'; }, 3500);
+}
+
+// Screen Switcher
+function showScreen(screenId) {
+  var screens = ['screen-role', 'screen-student-input', 'screen-rep-phone', 'screen-college-select', 'screen-vote-setup', 'screen-rep-dashboard', 'screen-student-vote'];
+  screens.forEach(function(s) {
+    var el = document.getElementById(s);
+    if (el) el.style.display = (s === screenId) ? 'block' : 'none';
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Role Selection
+function selectRole(role) {
+  currentRole = role;
+  if (role === 'student') {
+    var urlParams = new URLSearchParams(window.location.search);
+    var token = urlParams.get('token');
+    if (token) {
+      loadStudentVoteByToken(token);
+    } else {
+      showScreen('screen-student-input');
+    }
+  } else {
+    showScreen('screen-rep-phone');
+  }
+}
+
+// Student Token Submit
+function handleStudentTokenSubmit() {
+  var val = document.getElementById('token-input').value.trim();
+  if (!val) {
+    showToast('يرجى إدخال رمز التصويت أو الرابط', '#ef4444');
+    return;
+  }
+  var token = val;
+  if (val.indexOf('token=') !== -1) {
+    token = val.split('token=')[1].split('&')[0];
+  } else if (val.indexOf('/vote/') !== -1) {
+    token = val.split('/vote/')[1].split('?')[0];
+  }
+  loadStudentVoteByToken(token);
+}
+
+// OTP Input Handling
+document.addEventListener('DOMContentLoaded', function() {
+  loadUniversities();
+  renderColorPalette();
+  updateDurationPreview();
+
+  // Handle URL token directly if user landed via shared link
+  var urlParams = new URLSearchParams(window.location.search);
+  var urlToken = urlParams.get('token');
+  if (urlToken) {
+    loadStudentVoteByToken(urlToken);
+    return;
+  }
+
+  // Setup OTP digits auto-advance
+  var otpInputs = document.querySelectorAll('.otp-digit');
+  otpInputs.forEach(function(input, idx) {
+    input.addEventListener('input', function(e) {
+      if (this.value.length === 1 && idx < otpInputs.length - 1) {
+        otpInputs[idx + 1].focus();
+      }
+    });
+    input.addEventListener('keydown', function(e) {
+      if (e.key === 'Backspace' && !this.value && idx > 0) {
+        otpInputs[idx - 1].focus();
+      }
+    });
+  });
+});
+
+// Load Universities from API
+function loadUniversities() {
+  fetch('/api/voting/universities')
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      universitiesData = data;
+      var sel = document.getElementById('select-university');
+      sel.innerHTML = '<option value="">-- اختر الجامعة --</option>';
+      data.forEach(function(u) {
+        var opt = document.createElement('option');
+        opt.value = u.id;
+        opt.textContent = u.name;
+        sel.appendChild(opt);
+      });
+    })
+    .catch(function(err) {
+      console.warn('Could not load /api/voting/universities', err);
+    });
+}
+
+function onUniversityChange() {
+  var uId = document.getElementById('select-university').value;
+  var colSel = document.getElementById('select-college');
+  var entityBadge = document.getElementById('entity-badge');
+  var proceedBtn = document.getElementById('btn-proceed-colors');
+  entityBadge.style.display = 'none';
+  proceedBtn.style.display = 'none';
+
+  if (!uId) {
+    colSel.innerHTML = '<option value="">-- اختر الجامعة أولاً --</option>';
+    colSel.disabled = true;
+    return;
+  }
+
+  var univ = universitiesData.find(function(u) { return u.id === uId; });
+  if (!univ) return;
+
+  colSel.disabled = false;
+  colSel.innerHTML = '<option value="">-- اختر الكلية --</option>';
+  univ.colleges.forEach(function(c) {
+    var opt = document.createElement('option');
+    opt.value = c.id;
+    opt.textContent = c.name;
+    opt.setAttribute('data-entity', c.fixedEntityId);
+    colSel.appendChild(opt);
+  });
+}
+
+function onCollegeChange() {
+  var colSel = document.getElementById('select-college');
+  var opt = colSel.options[colSel.selectedIndex];
+  var entityBadge = document.getElementById('entity-badge');
+  var entityIdDisp = document.getElementById('entity-id-display');
+  var proceedBtn = document.getElementById('btn-proceed-colors');
+
+  if (opt && opt.value) {
+    var entityId = opt.getAttribute('data-entity');
+    entityIdDisp.textContent = entityId;
+    entityBadge.style.display = 'flex';
+    proceedBtn.style.display = 'block';
+  } else {
+    entityBadge.style.display = 'none';
+    proceedBtn.style.display = 'none';
+  }
+}
+
+// Request OTP
+var simulatedOtpCode = '123456';
+function requestOtp() {
+  var phone = document.getElementById('rep-phone').value.trim();
+  if (!phone || phone.length < 10) {
+    showToast('يرجى إدخال رقم هاتف عراقي صالح (07XXXXXXXXX)', '#ef4444');
+    return;
+  }
+
+  currentRep.phone = phone;
+  document.getElementById('display-phone').textContent = phone;
+
+  fetch('/api/voting/auth/request-otp', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ phone: phone })
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(data) {
+    if (data.simulatedCode) simulatedOtpCode = data.simulatedCode;
+    document.getElementById('phone-input-section').style.display = 'none';
+    document.getElementById('otp-verify-section').style.display = 'block';
+    startOtpCountdown(300);
+    showToast('تم إرسال رمز التحقق بنجاح 📲');
+  })
+  .catch(function() {
+    document.getElementById('phone-input-section').style.display = 'none';
+    document.getElementById('otp-verify-section').style.display = 'block';
+    startOtpCountdown(300);
+    showToast('تم إرسال الرمز التجريبي');
+  });
+}
+
+function autoFillOtp() {
+  var digits = simulatedOtpCode.split('');
+  var inputs = document.querySelectorAll('.otp-digit');
+  digits.forEach(function(d, i) {
+    if (inputs[i]) inputs[i].value = d;
+  });
+  showToast('تم إدخال الرمز التجريبي: ' + simulatedOtpCode);
+}
+
+function startOtpCountdown(sec) {
+  var timerEl = document.getElementById('otp-timer');
+  var rem = sec;
+  var interval = setInterval(function() {
+    rem--;
+    var m = Math.floor(rem / 60);
+    var s = rem % 60;
+    timerEl.textContent = (m < 10 ? '0' + m : m) + ':' + (s < 10 ? '0' + s : s);
+    if (rem <= 0) clearInterval(interval);
+  }, 1000);
+}
+
+// Verify OTP
+function verifyOtp() {
+  var inputs = document.querySelectorAll('.otp-digit');
+  var code = '';
+  inputs.forEach(function(inp) { code += inp.value; });
+
+  if (code.length !== 6) {
+    showToast('يرجى إدخال رمز التحقق كاملاً (6 أرقام)', '#ef4444');
+    return;
+  }
+
+  fetch('/api/voting/auth/verify-otp', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ phone: currentRep.phone, code: code })
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(data) {
+    if (data.success) {
+      currentRep.token = data.token;
+      showToast('تم التحقق بنجاح! أهلاً بك ممثل الكلية 👑');
+      showScreen('screen-college-select');
+    } else {
+      showToast(data.error || 'رمز التحقق غير صحيح', '#ef4444');
+    }
+  })
+  .catch(function() {
+    if (code === simulatedOtpCode || code === '123456') {
+      currentRep.token = 'rep_token_local';
+      showToast('تم التحقق بنجاح! 👑');
+      showScreen('screen-college-select');
+    } else {
+      showToast('رمز التحقق غير صحيح، يرجى التأكد والمحاولة ثانية', '#ef4444');
+    }
+  });
+}
+
+function proceedToColors() {
+  showScreen('screen-vote-setup');
+}
+
+// Render Color Palette
+function renderColorPalette() {
+  var grid = document.getElementById('color-palette-grid');
+  grid.innerHTML = '';
+  standardColors.forEach(function(col) {
+    var card = document.createElement('div');
+    card.className = 'color-item-card';
+    card.id = 'color-card-' + col.id;
+    card.onclick = function() { toggleColorSelection(col); };
+
+    var dot = document.createElement('div');
+    dot.className = 'color-dot-large';
+    dot.style.background = col.hex;
+
+    var title = document.createElement('div');
+    title.className = 'color-card-title';
+    title.textContent = col.name;
+
+    var hex = document.createElement('div');
+    hex.className = 'color-card-hex';
+    hex.textContent = col.hex;
+
+    card.appendChild(dot);
+    card.appendChild(title);
+    card.appendChild(hex);
+    grid.appendChild(card);
+  });
+}
+
+function toggleColorSelection(col) {
+  var idx = selectedCandidateColors.findIndex(function(c) { return c.id === col.id; });
+  var card = document.getElementById('color-card-' + col.id);
+  if (idx > -1) {
+    selectedCandidateColors.splice(idx, 1);
+    if (card) card.classList.remove('is-selected');
+  } else {
+    selectedCandidateColors.push(col);
+    if (card) card.classList.add('is-selected');
+  }
+  document.getElementById('selected-colors-count').textContent = 'تم تحديد ' + selectedCandidateColors.length + ' ألوان';
+}
+
+function addCustomColor() {
+  var name = document.getElementById('custom-color-name').value.trim();
+  var hex = document.getElementById('custom-color-hex').value;
+  if (!name) {
+    showToast('يرجى كتابة اسم اللون المخصص', '#ef4444');
+    return;
+  }
+  var customId = 'custom_' + Date.now();
+  var newCol = { id: customId, name: name, hex: hex, isCustom: true };
+  standardColors.push(newCol);
+  renderColorPalette();
+  toggleColorSelection(newCol);
+  document.getElementById('custom-color-name').value = '';
+  showToast('تمت إضافة اللون المخصص: ' + name);
+}
+
+// Duration Selection
+function selectDuration(days) {
+  selectedDurationDays = days;
+  var pills = document.querySelectorAll('.duration-pill');
+  pills.forEach(function(p) {
+    if (parseInt(p.getAttribute('data-days')) === days) {
+      p.classList.add('is-active');
+    } else {
+      p.classList.remove('is-active');
+    }
+  });
+  updateDurationPreview();
+}
+
+function updateDurationPreview() {
+  var endDate = new Date(Date.now() + selectedDurationDays * 24 * 60 * 60 * 1000);
+  var note = document.getElementById('duration-preview-note');
+  if (note) {
+    note.textContent = 'ينتهي التصويت تلقائياً بتاريخ: ' + endDate.toLocaleDateString('ar-IQ', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute:'2-digit' });
+  }
+}
+
+// Launch Vote (Representative)
+function launchVote() {
+  if (selectedCandidateColors.length < 2) {
+    showToast('يرجى اختيار لونين على الأقل لطرحهما للتصويت', '#ef4444');
+    return;
+  }
+
+  var uSel = document.getElementById('select-university');
+  var cSel = document.getElementById('select-college');
+  var uId = uSel.value;
+  var cId = cSel.value;
+
+  var univ = universitiesData.find(function(u) { return u.id === uId; });
+  var col = univ ? univ.colleges.find(function(c) { return c.id === cId; }) : null;
+
+  var payload = {
+    repPhone: currentRep.phone,
+    universityId: uId,
+    universityName: univ ? univ.name : 'جامعة كربلاء',
+    collegeId: cId,
+    collegeName: col ? col.name : 'كلية علوم الحاسوب وتكنولوجيا المعلومات',
+    fixedEntityId: col ? col.fixedEntityId : 'UOK-CS-001',
+    colors: selectedCandidateColors,
+    durationDays: selectedDurationDays
+  };
+
+  fetch('/api/voting/votes', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(data) {
+    if (data.success) {
+      activeVote = data.vote;
+      showToast('تم إطلاق التصويت وتوليد الرابط بنجاح! 🚀');
+      renderRepresentativeDashboard(data.vote);
+      showScreen('screen-rep-dashboard');
+    } else {
+      showToast(data.error || 'حدث خطأ أثناء إنشاء التصويت', '#ef4444');
+    }
+  })
+  .catch(function() {
+    var token = 'vote_' + Math.random().toString(36).substring(2, 14) + Date.now().toString(36);
+    activeVote = {
+      id: 'VOTE-' + Math.floor(Math.random()*9000 + 1000),
+      shareToken: token,
+      repPhone: currentRep.phone,
+      universityName: payload.universityName,
+      collegeName: payload.collegeName,
+      fixedEntityId: payload.fixedEntityId,
+      colors: payload.colors,
+      durationDays: payload.durationDays,
+      status: 'active',
+      createdAt: new Date().toISOString(),
+      endsAt: new Date(Date.now() + selectedDurationDays * 24*60*60*1000).toISOString(),
+      choices: []
+    };
+    renderRepresentativeDashboard(activeVote);
+    showScreen('screen-rep-dashboard');
+    showToast('تم إطلاق التصويت بنجاح 🚀');
+  });
+}
+
+// Render Representative Dashboard
+function renderRepresentativeDashboard(vote) {
+  activeVote = vote;
+  document.getElementById('rep-vote-title').textContent = 'تصويت ' + vote.collegeName;
+  document.getElementById('rep-vote-subtitle').textContent = vote.universityName + ' · الجهة: ' + vote.fixedEntityId;
+
+  var fullUrl = window.location.origin + '/vote?token=' + vote.shareToken;
+  document.getElementById('share-url-display').textContent = fullUrl;
+
+  var statusBadge = document.getElementById('vote-status-badge');
+  if (vote.status === 'active') {
+    statusBadge.textContent = '🟢 التصويت جارٍ بنشاط';
+    statusBadge.style.background = '#10b981';
+    document.getElementById('btn-end-vote').style.display = 'inline-block';
+  } else {
+    statusBadge.textContent = '🔴 انتهى التصويت';
+    statusBadge.style.background = '#ef4444';
+    document.getElementById('btn-end-vote').style.display = 'none';
+  }
+
+  startCountdownTimer(vote.endsAt);
+  renderResultsBars(vote);
+}
+
+function startCountdownTimer(endsAtStr) {
+  var timerEl = document.getElementById('vote-countdown-display');
+  var endTime = new Date(endsAtStr).getTime();
+
+  function tick() {
+    var now = Date.now();
+    var diff = endTime - now;
+    if (diff <= 0) {
+      timerEl.textContent = '00:00:00:00 (انتهت المدة)';
+      return;
+    }
+    var days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    timerEl.textContent = days + ' يوم و ' +
+      (hours < 10 ? '0' + hours : hours) + ':' +
+      (minutes < 10 ? '0' + minutes : minutes) + ':' +
+      (seconds < 10 ? '0' + seconds : seconds);
+  }
+  tick();
+  setInterval(tick, 1000);
+}
+
+function renderResultsBars(vote) {
+  var container = document.getElementById('rep-results-list');
+  container.innerHTML = '';
+
+  var choices = vote.choices || [];
+  var total = choices.length;
+  document.getElementById('total-votes-label').textContent = 'إجمالي الأصوات: ' + total;
+
+  var tally = {};
+  vote.colors.forEach(function(c) { tally[c.id] = 0; });
+  choices.forEach(function(ch) {
+    if (tally[ch.colorId] !== undefined) tally[ch.colorId]++;
+  });
+
+  var maxCount = -1;
+  var leaderId = null;
+  vote.colors.forEach(function(c) {
+    if (tally[c.id] > maxCount && tally[c.id] > 0) {
+      maxCount = tally[c.id];
+      leaderId = c.id;
+    }
+  });
+
+  vote.colors.forEach(function(col) {
+    var count = tally[col.id] || 0;
+    var percent = total > 0 ? Math.round((count / total) * 100) : 0;
+    var isLeader = (col.id === leaderId && total > 0);
+
+    var item = document.createElement('div');
+    item.className = 'result-item' + (isLeader ? ' is-leader' : '');
+
+    var head = document.createElement('div');
+    head.className = 'result-head';
+
+    var badge = document.createElement('div');
+    badge.className = 'result-color-badge';
+    badge.innerHTML = '<div class="result-color-dot" style="background:' + col.hex + '"></div>' +
+      '<span>' + col.name + '</span>' +
+      (isLeader ? ' <span style="color:#D4AF37; font-size:12px; font-weight:800;">👑 المتصدر</span>' : '');
+
+    var stats = document.createElement('div');
+    stats.className = 'result-stats';
+    stats.innerHTML = '<strong>' + count + ' صوت</strong> (' + percent + '%)';
+
+    head.appendChild(badge);
+    head.appendChild(stats);
+
+    var track = document.createElement('div');
+    track.className = 'progress-track';
+    var fill = document.createElement('div');
+    fill.className = 'progress-fill';
+    fill.style.width = percent + '%';
+    fill.style.background = col.hex;
+
+    track.appendChild(fill);
+    item.appendChild(head);
+    item.appendChild(track);
+    container.appendChild(item);
+  });
+}
+
+function copyShareUrl() {
+  var url = document.getElementById('share-url-display').textContent;
+  navigator.clipboard.writeText(url).then(function() {
+    showToast('تم نسخ الرابط إلى الحافظة! 📋');
+  });
+}
+
+function shareViaWhatsApp() {
+  var url = document.getElementById('share-url-display').textContent;
+  var college = activeVote ? activeVote.collegeName : 'الكلية';
+  var text = 'زميلاتي وزملائي في ' + college + '، شاركونا باختيار اللون الرسمي لوشاح وروب التخرج لدفعتنا عبر منصة إبرة وخيط:%0A' + encodeURIComponent(url);
+  window.open('https://wa.me/?text=' + text, '_blank');
+}
+
+function openStudentView() {
+  if (activeVote) {
+    loadStudentVoteByToken(activeVote.shareToken);
+  }
+}
+
+// End Vote Manually (Representative)
+function confirmEndVote() {
+  if (!confirm('هل أنت متأكد من رغبتك بإنهاء التصويت الآن؟\nسيتم إغلاق التصويت واعتماد النتائج الحالية ولن يتمكن الطلبة من التصويت مجدداً.')) {
+    return;
+  }
+
+  fetch('/api/voting/votes/' + activeVote.shareToken + '/end', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ repPhone: currentRep.phone })
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(data) {
+    if (data.success) {
+      activeVote = data.vote;
+      renderRepresentativeDashboard(data.vote);
+      showToast('تم إنهاء التصويت بنجاح 🛑');
+    }
+  })
+  .catch(function() {
+    if (activeVote) {
+      activeVote.status = 'ended';
+      renderRepresentativeDashboard(activeVote);
+      showToast('تم إنهاء التصويت محلياً 🛑');
+    }
+  });
+}
+
+// ================= STUDENT VOTING LOGIC =================
+var studentSelectedColorId = null;
+
+function loadStudentVoteByToken(token) {
+  fetch('/api/voting/votes/' + token + '?studentId=' + studentIdentifier)
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (data.success && data.vote) {
+        setupStudentView(data.vote, data.myChoice);
+      } else {
+        showToast('لم يتم العثور على تصويت صالح بهذا الرابط', '#ef4444');
+        showScreen('screen-student-input');
+      }
+    })
+    .catch(function() {
+      if (activeVote && activeVote.shareToken === token) {
+        setupStudentView(activeVote, null);
+      } else {
+        showToast('الرابط غير صالح أو تعذر الاتصال بالخادم', '#ef4444');
+        showScreen('screen-student-input');
+      }
+    });
+}
+
+function setupStudentView(vote, myChoice) {
+  activeVote = vote;
+  document.getElementById('student-vote-title').textContent = 'تصويت اختيار لون ' + vote.collegeName;
+  document.getElementById('student-vote-desc').textContent = vote.universityName + ' · الجهة الثابتة: ' + vote.fixedEntityId;
+
+  var isEnded = (vote.status === 'ended') || (new Date() > new Date(vote.endsAt));
+  var statusBadge = document.getElementById('student-status-badge');
+  if (isEnded) {
+    statusBadge.textContent = '🔒 التصويت مغلق';
+    statusBadge.style.background = '#ef4444';
+  } else {
+    statusBadge.textContent = '🟢 التصويت مفتوح';
+    statusBadge.style.background = '#10b981';
+  }
+
+  var studentChoice = myChoice;
+  if (!studentChoice && vote.choices) {
+    var found = vote.choices.find(function(ch) { return ch.studentId === studentIdentifier; });
+    if (found) studentChoice = found.colorId;
+  }
+
+  renderStudentColorChoices(vote.colors, studentChoice, isEnded);
+
+  if (isEnded) {
+    document.getElementById('student-actions-section').style.display = 'none';
+    document.getElementById('student-voted-box').style.display = 'none';
+    document.getElementById('student-closed-box').style.display = 'block';
+    renderWinnerDisplay(vote);
+  } else if (studentChoice) {
+    var chosen = vote.colors.find(function(c) { return c.id === studentChoice; });
+    document.getElementById('student-chosen-color-name').textContent = chosen ? chosen.name : '';
+    document.getElementById('student-actions-section').style.display = 'none';
+    document.getElementById('student-voted-box').style.display = 'block';
+    document.getElementById('student-closed-box').style.display = 'none';
+  } else {
+    document.getElementById('student-actions-section').style.display = 'block';
+    document.getElementById('student-voted-box').style.display = 'none';
+    document.getElementById('student-closed-box').style.display = 'none';
+  }
+
+  showScreen('screen-student-vote');
+}
+
+function renderStudentColorChoices(colors, currentChoiceId, isEnded) {
+  var grid = document.getElementById('student-color-grid');
+  grid.innerHTML = '';
+  studentSelectedColorId = currentChoiceId;
+
+  colors.forEach(function(col) {
+    var card = document.createElement('div');
+    card.className = 'color-item-card' + (col.id === currentChoiceId ? ' is-selected' : '');
+    card.id = 'student-choice-' + col.id;
+
+    if (!isEnded) {
+      card.onclick = function() {
+        document.querySelectorAll('#student-color-grid .color-item-card').forEach(function(c) {
+          c.classList.remove('is-selected');
+        });
+        card.classList.add('is-selected');
+        studentSelectedColorId = col.id;
+      };
+    } else {
+      card.style.cursor = 'default';
+    }
+
+    var dot = document.createElement('div');
+    dot.className = 'color-dot-large';
+    dot.style.background = col.hex;
+
+    var title = document.createElement('div');
+    title.className = 'color-card-title';
+    title.textContent = col.name;
+
+    card.appendChild(dot);
+    card.appendChild(title);
+    grid.appendChild(card);
+  });
+}
+
+function submitStudentVote() {
+  if (!studentSelectedColorId) {
+    showToast('يرجى اختيار لون وشاح قبل الإرسال', '#ef4444');
+    return;
+  }
+
+  fetch('/api/voting/votes/' + activeVote.shareToken + '/choice', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      studentId: studentIdentifier,
+      colorId: studentSelectedColorId
+    })
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(data) {
+    if (data.success) {
+      var chosen = activeVote.colors.find(function(c) { return c.id === studentSelectedColorId; });
+      document.getElementById('student-chosen-color-name').textContent = chosen ? chosen.name : '';
+      document.getElementById('student-actions-section').style.display = 'none';
+      document.getElementById('student-voted-box').style.display = 'block';
+      showToast('تم تسجيل صوتك بنجاح! 🎉');
+    } else {
+      showToast(data.error || 'تعذر تسجيل الصوت', '#ef4444');
+    }
+  })
+  .catch(function() {
+    if (!activeVote.choices) activeVote.choices = [];
+    var existingIdx = activeVote.choices.findIndex(function(c) { return c.studentId === studentIdentifier; });
+    if (existingIdx > -1) {
+      activeVote.choices[existingIdx].colorId = studentSelectedColorId;
+    } else {
+      activeVote.choices.push({ studentId: studentIdentifier, colorId: studentSelectedColorId });
+    }
+    var chosen = activeVote.colors.find(function(c) { return c.id === studentSelectedColorId; });
+    document.getElementById('student-chosen-color-name').textContent = chosen ? chosen.name : '';
+    document.getElementById('student-actions-section').style.display = 'none';
+    document.getElementById('student-voted-box').style.display = 'block';
+    showToast('تم حفظ صوتك بنجاح! 🎉');
+  });
+}
+
+function enableVoteEdit() {
+  document.getElementById('student-voted-box').style.display = 'none';
+  document.getElementById('student-actions-section').style.display = 'block';
+  var btn = document.getElementById('btn-submit-vote');
+  btn.innerHTML = '<span>تحديث اختياري 🗳️</span>';
+  showToast('يمكنك اختيار لون آخر وتأكيد التحديث');
+}
+
+function renderWinnerDisplay(vote) {
+  var choices = vote.choices || [];
+  var total = choices.length;
+  var tally = {};
+  vote.colors.forEach(function(c) { tally[c.id] = 0; });
+  choices.forEach(function(ch) {
+    if (tally[ch.colorId] !== undefined) tally[ch.colorId]++;
+  });
+
+  var winner = null;
+  var maxVotes = -1;
+  vote.colors.forEach(function(col) {
+    if (tally[col.id] > maxVotes) {
+      maxVotes = tally[col.id];
+      winner = col;
+    }
+  });
+
+  if (winner) {
+    document.getElementById('winner-dot').style.background = winner.hex;
+    document.getElementById('winner-name').textContent = winner.name;
+    var pct = total > 0 ? Math.round((maxVotes / total) * 100) : 0;
+    document.getElementById('winner-percent').textContent = pct + '% (' + maxVotes + ' صوت)';
+  }
+}
+</script>
+
+</body>
+</html>

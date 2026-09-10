@@ -1,4 +1,4 @@
-$listener = New-Object System.Net.HttpListener
+﻿$listener = New-Object System.Net.HttpListener
 $port = 8080
 try {
     $listener.Prefixes.Add("http://localhost:8080/")
@@ -42,15 +42,21 @@ $mimeTypes = @{
 $rootDir = if ($PSScriptRoot) { $PSScriptRoot } else { (Get-Location).Path }
 $canonicalRoot = [System.IO.Path]::GetFullPath($rootDir)
 $ordersDbPath = Join-Path $rootDir "orders.json"
-$ADMIN_TOKEN = "khama_admin_2026"
+$votingDbPath = Join-Path $rootDir "voting.json"
+$unisDbPath   = Join-Path $rootDir "universities.json"
+$ADMIN_TOKEN  = "khama_admin_2026"
 
-# Initialize orders database file if not exists
+# Initialize orders and voting database files if not exists
 if (-not [System.IO.File]::Exists($ordersDbPath)) {
     [System.IO.File]::WriteAllText($ordersDbPath, "[]", [System.Text.Encoding]::UTF8)
 }
+if (-not [System.IO.File]::Exists($votingDbPath)) {
+    [System.IO.File]::WriteAllText($votingDbPath, '{"votes":[],"otps":[],"representatives":[]}', [System.Text.Encoding]::UTF8)
+}
 
-# Mutex for thread-safe atomic database read/writes
-$dbMutex = New-Object System.Threading.Mutex($false, "Global\KhamaOrdersDbMutex")
+# Mutexes for thread-safe atomic database read/writes
+$dbMutex     = New-Object System.Threading.Mutex($false, "Global\KhamaOrdersDbMutex")
+$votingMutex = New-Object System.Threading.Mutex($false, "Global\KhamaVotingDbMutex")
 
 Write-Host "========================================="
 Write-Host "  Ibra Wa Kheit Hardened Web & DB Server"
@@ -87,6 +93,324 @@ while ($listener.IsListening) {
             $response.StatusCode = 204
             $response.OutputStream.Close()
             continue
+        }
+
+        # -----------------------------------------------------------------
+        # API ROUTE: /api/voting/*
+        # -----------------------------------------------------------------
+        if ($relPath.StartsWith("api/voting") -or $relPath -eq "api/voting") {
+            $response.ContentType = "application/json; charset=utf-8"
+            $response.AddHeader("Cache-Control", "no-store, no-cache, must-revalidate")
+            $subPath = if ($relPath.Length -gt 10) { $relPath.Substring(10).Trim('/') } else { "" }
+
+            # 1. GET /api/voting/universities
+            if ($subPath -eq "universities" -and ($request.HttpMethod -eq "GET" -or $request.HttpMethod -eq "HEAD")) {
+                $uBytes = if ([System.IO.File]::Exists($unisDbPath)) { [System.IO.File]::ReadAllBytes($unisDbPath) } else { [System.Text.Encoding]::UTF8.GetBytes("[]") }
+                $response.StatusCode = 200
+                $response.ContentLength64 = $uBytes.Length
+                if ($request.HttpMethod -ne "HEAD") { $response.OutputStream.Write($uBytes, 0, $uBytes.Length) }
+                $response.OutputStream.Close()
+                continue
+            }
+
+            # Helper to read request body as JSON
+            function Get-RequestBody($req) {
+                try {
+                    if ($req.ContentLength64 -le 0) { return $null }
+                    $ms = New-Object System.IO.MemoryStream
+                    $buf = New-Object byte[] 4096
+                    $total = 0
+                    while ($total -lt $req.ContentLength64) {
+                        $toRead = [Math]::Min(4096, [int]($req.ContentLength64 - $total))
+                        $readCount = $req.InputStream.Read($buf, 0, $toRead)
+                        if ($readCount -le 0) { break }
+                        $ms.Write($buf, 0, $readCount)
+                        $total += $readCount
+                    }
+                    $txt = [System.Text.Encoding]::UTF8.GetString($ms.ToArray())
+                    if ([string]::IsNullOrWhiteSpace($txt)) { return $null }
+                    return ConvertFrom-Json $txt
+                } catch {
+                    return $null
+                }
+            }
+
+            # Helper to load voting DB safely
+            function Get-VotingDb {
+                [void]$votingMutex.WaitOne(5000)
+                try {
+                    $raw = [System.IO.File]::ReadAllText($votingDbPath, [System.Text.Encoding]::UTF8)
+                    if ([string]::IsNullOrWhiteSpace($raw)) {
+                        return [PSCustomObject]@{ votes = @(); otps = @(); representatives = @() }
+                    }
+                    return ConvertFrom-Json $raw
+                } finally {
+                    $votingMutex.ReleaseMutex()
+                }
+            }
+
+            # Helper to save voting DB safely
+            function Save-VotingDb($dbObj) {
+                [void]$votingMutex.WaitOne(5000)
+                try {
+                    $jsonStr = ConvertTo-Json $dbObj -Depth 10
+                    [System.IO.File]::WriteAllText($votingDbPath, $jsonStr, [System.Text.Encoding]::UTF8)
+                } finally {
+                    $votingMutex.ReleaseMutex()
+                }
+            }
+
+            # 2. POST /api/voting/auth/request-otp
+            if ($subPath -eq "auth/request-otp" -and $request.HttpMethod -eq "POST") {
+                $body = Get-RequestBody $request
+                $phone = if ($body -and $body.phone) { ($body.phone -replace '[^\d+]', '').Trim() } else { $null }
+                if (-not $phone -or $phone.Length -lt 10) {
+                    $response.StatusCode = 400
+                    $err = [System.Text.Encoding]::UTF8.GetBytes('{"success":false,"error":"يرجى إدخال رقم هاتف عراقي صالح"}')
+                    $response.OutputStream.Write($err, 0, $err.Length)
+                    $response.OutputStream.Close()
+                    continue
+                }
+
+                $code = (Get-Random -Minimum 100000 -Maximum 999999).ToString()
+                $exp = (Get-Date).AddMinutes(5).ToString("o")
+
+                $db = Get-VotingDb
+                $otps = @($db.otps | Where-Object { $_.phone -ne $phone })
+                $newOtp = [PSCustomObject]@{
+                    phone = $phone
+                    code = $code
+                    expiresAt = $exp
+                    attempts = 0
+                }
+                $db.otps = @($otps) + @($newOtp)
+                Save-VotingDb $db
+
+                $resObj = @{
+                    success = $true
+                    message = "تم إرسال رمز التحقق إلى رقم هاتفك بنجاح"
+                    simulatedCode = $code
+                    expiresIn = 300
+                }
+                $outBytes = [System.Text.Encoding]::UTF8.GetBytes((ConvertTo-Json $resObj))
+                $response.StatusCode = 200
+                $response.OutputStream.Write($outBytes, 0, $outBytes.Length)
+                $response.OutputStream.Close()
+                continue
+            }
+
+            # 3. POST /api/voting/auth/verify-otp
+            if ($subPath -eq "auth/verify-otp" -and $request.HttpMethod -eq "POST") {
+                $body = Get-RequestBody $request
+                $phone = if ($body -and $body.phone) { ($body.phone -replace '[^\d+]', '').Trim() } else { $null }
+                $code = if ($body -and $body.code) { $body.code.Trim() } else { $null }
+
+                $db = Get-VotingDb
+                $otpEntry = $db.otps | Where-Object { $_.phone -eq $phone } | Select-Object -First 1
+
+                if (-not $otpEntry) {
+                    $response.StatusCode = 400
+                    $err = [System.Text.Encoding]::UTF8.GetBytes('{"success":false,"error":"لم يتم العثور على رمز تحقق لهذا الرقم أو انتهت صلاحيته"}')
+                    $response.OutputStream.Write($err, 0, $err.Length)
+                    $response.OutputStream.Close()
+                    continue
+                }
+
+                if ([DateTime]::UtcNow -gt [DateTime]::Parse($otpEntry.expiresAt).ToUniversalTime()) {
+                    $response.StatusCode = 400
+                    $err = [System.Text.Encoding]::UTF8.GetBytes('{"success":false,"error":"انتهت صلاحية رمز التحقق (5 دقائق)، يرجى طلب رمز جديد"}')
+                    $response.OutputStream.Write($err, 0, $err.Length)
+                    $response.OutputStream.Close()
+                    continue
+                }
+
+                if ($otpEntry.attempts -ge 3) {
+                    $response.StatusCode = 429
+                    $err = [System.Text.Encoding]::UTF8.GetBytes('{"success":false,"error":"تم تجاوز الحد الأقصى للمحاولات (3 محاولات)، يرجى طلب رمز جديد"}')
+                    $response.OutputStream.Write($err, 0, $err.Length)
+                    $response.OutputStream.Close()
+                    continue
+                }
+
+                if ($otpEntry.code -ne $code) {
+                    $otpEntry.attempts++
+                    Save-VotingDb $db
+                    $response.StatusCode = 400
+                    $err = [System.Text.Encoding]::UTF8.GetBytes('{"success":false,"error":"رمز التحقق غير صحيح، حاول مرة أخرى"}')
+                    $response.OutputStream.Write($err, 0, $err.Length)
+                    $response.OutputStream.Close()
+                    continue
+                }
+
+                # Verified: clear OTP, register representative
+                $db.otps = @($db.otps | Where-Object { $_.phone -ne $phone })
+                $rep = $db.representatives | Where-Object { $_.phone -eq $phone } | Select-Object -First 1
+                if (-not $rep) {
+                    $rep = [PSCustomObject]@{
+                        id = "rep_" + (Get-Random -Minimum 100000 -Maximum 999999)
+                        phone = $phone
+                        verifiedAt = (Get-Date).ToString("o")
+                    }
+                    $db.representatives = @($db.representatives) + @($rep)
+                }
+                Save-VotingDb $db
+
+                $token = "rep_token_" + (-join ((65..90) + (97..122) + (48..57) | Get-Random -Count 20 | ForEach-Object {[char]$_}))
+                $resObj = @{ success = $true; token = $token; rep = $rep }
+                $outBytes = [System.Text.Encoding]::UTF8.GetBytes((ConvertTo-Json $resObj))
+                $response.StatusCode = 200
+                $response.OutputStream.Write($outBytes, 0, $outBytes.Length)
+                $response.OutputStream.Close()
+                continue
+            }
+
+            # 4. POST /api/voting/votes (Create Vote)
+            if ($subPath -eq "votes" -and $request.HttpMethod -eq "POST") {
+                $body = Get-RequestBody $request
+                if (-not $body.colors -or $body.colors.Count -lt 2) {
+                    $response.StatusCode = 400
+                    $err = [System.Text.Encoding]::UTF8.GetBytes('{"success":false,"error":"يرجى اختيار لونين على الأقل للتصويت"}')
+                    $response.OutputStream.Write($err, 0, $err.Length)
+                    $response.OutputStream.Close()
+                    continue
+                }
+
+                $durationDays = if ($body.durationDays -ge 3 -and $body.durationDays -le 7) { [int]$body.durationDays } else { 5 }
+                $token = -join ((65..90) + (97..122) + (48..57) | Get-Random -Count 24 | ForEach-Object {[char]$_})
+                $createdAt = (Get-Date).ToString("o")
+                $endsAt = (Get-Date).AddDays($durationDays).ToString("o")
+
+                $newVote = [PSCustomObject]@{
+                    id = "VOTE-" + (Get-Random -Minimum 1000 -Maximum 9999)
+                    shareToken = $token
+                    repPhone = $body.repPhone
+                    universityId = $body.universityId
+                    universityName = $body.universityName
+                    collegeId = $body.collegeId
+                    collegeName = $body.collegeName
+                    fixedEntityId = $body.fixedEntityId
+                    durationDays = $durationDays
+                    status = "active"
+                    createdAt = $createdAt
+                    endsAt = $endsAt
+                    colors = $body.colors
+                    choices = @()
+                }
+
+                $db = Get-VotingDb
+                $db.votes = @($db.votes) + @($newVote)
+                Save-VotingDb $db
+
+                $resObj = @{ success = $true; vote = $newVote; shareUrl = "/vote?token=" + $token }
+                $outBytes = [System.Text.Encoding]::UTF8.GetBytes((ConvertTo-Json $resObj -Depth 10))
+                $response.StatusCode = 201
+                $response.OutputStream.Write($outBytes, 0, $outBytes.Length)
+                $response.OutputStream.Close()
+                continue
+            }
+
+            # 5. /api/voting/votes/{token} (GET, POST choice, POST end)
+            if ($subPath.StartsWith("votes/")) {
+                $voteParts = $subPath.Substring(6).Split('/')
+                $vToken = $voteParts[0]
+                $action = if ($voteParts.Length -ge 2) { $voteParts[1] } else { $null }
+
+                $db = Get-VotingDb
+                $voteObj = $db.votes | Where-Object { $_.shareToken -eq $vToken -or $_.id -eq $vToken } | Select-Object -First 1
+
+                if (-not $voteObj) {
+                    $response.StatusCode = 404
+                    $err = [System.Text.Encoding]::UTF8.GetBytes('{"success":false,"error":"لم يتم العثور على هذا التصويت"}')
+                    $response.OutputStream.Write($err, 0, $err.Length)
+                    $response.OutputStream.Close()
+                    continue
+                }
+
+                # Auto-check expiration
+                if ($voteObj.status -eq "active" -and ([DateTime]::UtcNow -gt [DateTime]::Parse($voteObj.endsAt).ToUniversalTime())) {
+                    $voteObj.status = "ended"
+                    Save-VotingDb $db
+                }
+
+                # 5A. End Vote Manually
+                if ($action -eq "end" -and $request.HttpMethod -eq "POST") {
+                    $voteObj.status = "ended"
+                    $voteObj | Add-Member -NotePropertyName "endedAt" -NotePropertyValue ((Get-Date).ToString("o")) -Force
+                    Save-VotingDb $db
+                    $resObj = @{ success = $true; message = "تم إنهاء التصويت بنجاح"; vote = $voteObj }
+                    $outBytes = [System.Text.Encoding]::UTF8.GetBytes((ConvertTo-Json $resObj -Depth 10))
+                    $response.StatusCode = 200
+                    $response.OutputStream.Write($outBytes, 0, $outBytes.Length)
+                    $response.OutputStream.Close()
+                    continue
+                }
+
+                # 5B. Cast / Update Student Choice
+                if ($action -eq "choice" -and $request.HttpMethod -eq "POST") {
+                    if ($voteObj.status -ne "active") {
+                        $response.StatusCode = 400
+                        $err = [System.Text.Encoding]::UTF8.GetBytes('{"success":false,"error":"عذراً، انتهت فترة التصويت ولا يمكن استقبال أصوات جديدة"}')
+                        $response.OutputStream.Write($err, 0, $err.Length)
+                        $response.OutputStream.Close()
+                        continue
+                    }
+
+                    $body = Get-RequestBody $request
+                    $stuId = if ($body -and $body.studentId) { $body.studentId.Trim() } else { $null }
+                    $colorId = if ($body -and $body.colorId) { $body.colorId.Trim() } else { $null }
+
+                    if (-not $stuId -or -not $colorId) {
+                        $response.StatusCode = 400
+                        $err = [System.Text.Encoding]::UTF8.GetBytes('{"success":false,"error":"بيانات التصويت غير مكتملة"}')
+                        $response.OutputStream.Write($err, 0, $err.Length)
+                        $response.OutputStream.Close()
+                        continue
+                    }
+
+                    # Upsert student choice
+                    if (-not $voteObj.choices) { $voteObj | Add-Member -NotePropertyName "choices" -NotePropertyValue @() -Force }
+                    $existing = $voteObj.choices | Where-Object { $_.studentId -eq $stuId } | Select-Object -First 1
+                    if ($existing) {
+                        $existing.colorId = $colorId
+                        $existing.updatedAt = (Get-Date).ToString("o")
+                    } else {
+                        $newChoice = [PSCustomObject]@{
+                            studentId = $stuId
+                            colorId = $colorId
+                            createdAt = (Get-Date).ToString("o")
+                            updatedAt = (Get-Date).ToString("o")
+                        }
+                        $voteObj.choices = @($voteObj.choices) + @($newChoice)
+                    }
+
+                    Save-VotingDb $db
+
+                    $resObj = @{ success = $true; message = "تم تسجيل اختيارك بنجاح"; vote = $voteObj }
+                    $outBytes = [System.Text.Encoding]::UTF8.GetBytes((ConvertTo-Json $resObj -Depth 10))
+                    $response.StatusCode = 200
+                    $response.OutputStream.Write($outBytes, 0, $outBytes.Length)
+                    $response.OutputStream.Close()
+                    continue
+                }
+
+                # 5C. GET Vote Details
+                if ($request.HttpMethod -eq "GET" -or $request.HttpMethod -eq "HEAD") {
+                    $stuQuery = $request.QueryString["studentId"]
+                    $myChoice = $null
+                    if ($stuQuery -and $voteObj.choices) {
+                        $found = $voteObj.choices | Where-Object { $_.studentId -eq $stuQuery } | Select-Object -First 1
+                        if ($found) { $myChoice = $found.colorId }
+                    }
+
+                    $resObj = @{ success = $true; vote = $voteObj; myChoice = $myChoice }
+                    $outBytes = [System.Text.Encoding]::UTF8.GetBytes((ConvertTo-Json $resObj -Depth 10))
+                    $response.StatusCode = 200
+                    $response.ContentLength64 = $outBytes.Length
+                    if ($request.HttpMethod -ne "HEAD") { $response.OutputStream.Write($outBytes, 0, $outBytes.Length) }
+                    $response.OutputStream.Close()
+                    continue
+                }
+            }
         }
 
         # -----------------------------------------------------------------
@@ -306,8 +630,15 @@ while ($listener.IsListening) {
             $filePath = Join-Path $rootDir "admin.html"
         } elseif ($relPath.StartsWith("track")) {
             $filePath = Join-Path $rootDir "track.html"
+        } elseif ($relPath.StartsWith("models") -or $relPath -like "*نماذج*" -or $rawPath -like "*%D9%86%D9%85%D8%A7%D8%B0%D8%AC*") {
+            $filePath = Join-Path $rootDir "models.html"
+        } elseif ($relPath.StartsWith("vote") -or $relPath -like "*تصويت*" -or $rawPath -like "*%D8%AA%D8%B5%D9%88%D9%8A%D8%AA*") {
+            $filePath = Join-Path $rootDir "vote.html"
         } elseif ($relPath.StartsWith("blog")) {
-            $filePath = Join-Path $rootDir "blog.html"
+            $response.StatusCode = 301
+            $response.RedirectLocation = "/"
+            $response.OutputStream.Close()
+            continue
         } elseif ($relPath -like "*قياس*" -or $relPath.StartsWith("size") -or $rawPath -like "*%D9%82%D9%8A%D8%A7%D8%B3*") {
             if ([System.IO.File]::Exists((Join-Path $rootDir "قياس.html"))) {
                 $filePath = Join-Path $rootDir "قياس.html"

@@ -1,0 +1,101 @@
+﻿[
+  {
+    "id": "uob",
+    "name": "جامعة بغداد",
+    "colleges": [
+      { "id": "uob-med", "name": "كلية الطب", "fixedEntityId": "UOB-MED-001" },
+      { "id": "uob-eng", "name": "كلية الهندسة", "fixedEntityId": "UOB-ENG-002" },
+      { "id": "uob-pharm", "name": "كلية الصيدلة", "fixedEntityId": "UOB-PHARM-003" },
+      { "id": "uob-dent", "name": "كلية طب الأسنان", "fixedEntityId": "UOB-DENT-004" },
+      { "id": "uob-cs", "name": "كلية علوم الحاسوب وتكنولوجيا المعلومات", "fixedEntityId": "UOB-CS-005" },
+      { "id": "uob-sci", "name": "كلية العلوم", "fixedEntityId": "UOB-SCI-006" },
+      { "id": "uob-law", "name": "كلية القانون", "fixedEntityId": "UOB-LAW-007" },
+      { "id": "uob-eco", "name": "كلية الإدارة والاقتصاد", "fixedEntityId": "UOB-ECO-008" },
+      { "id": "uob-arts", "name": "كلية الآداب", "fixedEntityId": "UOB-ARTS-009" },
+      { "id": "uob-edu", "name": "كلية التربية", "fixedEntityId": "UOB-EDU-010" }
+    ]
+  },
+  {
+    "id": "uok",
+    "name": "جامعة كربلاء",
+    "colleges": [
+      { "id": "uok-cs", "name": "كلية علوم الحاسوب وتكنولوجيا المعلومات", "fixedEntityId": "UOK-CS-001" },
+      { "id": "uok-med", "name": "كلية الطب البشري", "fixedEntityId": "UOK-MED-002" },
+      { "id": "uok-pharm", "name": "كلية الصيدلة", "fixedEntityId": "UOK-PHARM-003" },
+      { "id": "uok-eng", "name": "كلية الهندسة", "fixedEntityId": "UOK-ENG-004" },
+      { "id": "uok-sci", "name": "كلية العلوم", "fixedEntityId": "UOK-SCI-005" },
+      { "id": "uok-law", "name": "كلية القانون", "fixedEntityId": "UOK-LAW-006" },
+      { "id": "uok-eco", "name": "كلية الإدارة والاقتصاد", "fixedEntityId": "UOK-ECO-007" },
+      { "id": "uok-islam", "name": "كلية العلوم الإسلامية", "fixedEntityId": "UOK-ISLAM-008" },
+      { "id": "uok-nurs", "name": "كلية التمريض", "fixedEntityId": "UOK-NURS-009" }
+    ]
+  },
+  {
+    "id": "uobab",
+    "name": "جامعة بابل",
+    "colleges": [
+      { "id": "uobab-it", "name": "كلية تكنولوجيا المعلومات", "fixedEntityId": "UOBAB-IT-001" },
+      { "id": "uobab-eng", "name": "كلية الهندسة", "fixedEntityId": "UOBAB-ENG-002" },
+      { "id": "uobab-med", "name": "كلية الطب", "fixedEntityId": "UOBAB-MED-003" },
+      { "id": "uobab-pharm", "name": "كلية الصيدلة", "fixedEntityId": "UOBAB-PHARM-004" },
+      { "id": "uobab-dent", "name": "كلية طب الأسنان", "fixedEntityId": "UOBAB-DENT-005" },
+      { "id": "uobab-sci", "name": "كلية العلوم", "fixedEntityId": "UOBAB-SCI-006" },
+      { "id": "uobab-law", "name": "كلية القانون", "fixedEntityId": "UOBAB-LAW-007" }
+    ]
+  },
+  {
+    "id": "uot",
+    "name": "الجامعة التكنولوجية",
+    "colleges": [
+      { "id": "uot-cs", "name": "قسم علوم الحاسوب", "fixedEntityId": "UOT-CS-001" },
+      { "id": "uot-swe", "name": "قسم هندسة البرمجيات والذكاء الاصطناعي", "fixedEntityId": "UOT-SWE-002" },
+      { "id": "uot-ee", "name": "قسم الهندسة الكهربائية", "fixedEntityId": "UOT-EE-003" },
+      { "id": "uot-ce", "name": "قسم الهندسة المدنية", "fixedEntityId": "UOT-CE-004" },
+      { "id": "uot-arch", "name": "قسم هندسة العمارة", "fixedEntityId": "UOT-ARCH-005" },
+      { "id": "uot-cse", "name": "قسم هندسة السيطرة والنظم", "fixedEntityId": "UOT-CSE-006" }
+    ]
+  },
+  {
+    "id": "uom",
+    "name": "جامعة الموصل",
+    "colleges": [
+      { "id": "uom-med", "name": "كلية الطب", "fixedEntityId": "UOM-MED-001" },
+      { "id": "uom-eng", "name": "كلية الهندسة", "fixedEntityId": "UOM-ENG-002" },
+      { "id": "uom-cs", "name": "كلية علوم الحاسوب والرياضيات", "fixedEntityId": "UOM-CS-003" },
+      { "id": "uom-pharm", "name": "كلية الصيدلة", "fixedEntityId": "UOM-PHARM-004" },
+      { "id": "uom-dent", "name": "كلية طب الأسنان", "fixedEntityId": "UOM-DENT-005" }
+    ]
+  },
+  {
+    "id": "uobas",
+    "name": "جامعة البصرة",
+    "colleges": [
+      { "id": "uobas-med", "name": "كلية الطب", "fixedEntityId": "UOBAS-MED-001" },
+      { "id": "uobas-eng", "name": "كلية الهندسة", "fixedEntityId": "UOBAS-ENG-002" },
+      { "id": "uobas-cs", "name": "كلية علوم الحاسوب وتكنولوجيا المعلومات", "fixedEntityId": "UOBAS-CS-003" },
+      { "id": "uobas-pharm", "name": "كلية الصيدلة", "fixedEntityId": "UOBAS-PHARM-004" },
+      { "id": "uobas-law", "name": "كلية القانون", "fixedEntityId": "UOBAS-LAW-005" }
+    ]
+  },
+  {
+    "id": "uokuf",
+    "name": "جامعة الكوفة",
+    "colleges": [
+      { "id": "uokuf-med", "name": "كلية الطب", "fixedEntityId": "UOKUF-MED-001" },
+      { "id": "uokuf-pharm", "name": "كلية الصيدلة", "fixedEntityId": "UOKUF-PHARM-002" },
+      { "id": "uokuf-eng", "name": "كلية الهندسة", "fixedEntityId": "UOKUF-ENG-003" },
+      { "id": "uokuf-cs", "name": "كلية علوم الحاسوب والرياضيات", "fixedEntityId": "UOKUF-CS-004" }
+    ]
+  },
+  {
+    "id": "uon",
+    "name": "جامعة النهرين",
+    "colleges": [
+      { "id": "uon-eng", "name": "كلية الهندسة", "fixedEntityId": "UON-ENG-001" },
+      { "id": "uon-med", "name": "كلية الطب", "fixedEntityId": "UON-MED-002" },
+      { "id": "uon-pharm", "name": "كلية الصيدلة", "fixedEntityId": "UON-PHARM-003" },
+      { "id": "uon-bit", "name": "كلية معلوماتية الأعمال", "fixedEntityId": "UON-BIT-004" },
+      { "id": "uon-sci", "name": "كلية العلوم", "fixedEntityId": "UON-SCI-005" }
+    ]
+  }
+]

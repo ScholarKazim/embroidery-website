@@ -1,0 +1,54 @@
+﻿{
+    "votes":  [
+                  {
+                      "id":  "VOTE-7807",
+                      "shareToken":  "ECVtboyPL8eR2DxqFlUSikZm",
+                      "repPhone":  "07801234567",
+                      "universityId":  "uok",
+                      "universityName":  "جامعة كربلاء",
+                      "collegeId":  "uok-cs",
+                      "collegeName":  "كلية علوم الحاسوب وتكنولوجيا المعلومات",
+                      "fixedEntityId":  "UOK-CS-001",
+                      "durationDays":  5,
+                      "status":  "ended",
+                      "createdAt":  "2026-09-10T10:52:48.4776749+03:00",
+                      "endsAt":  "2026-09-15T10:52:48.4781912+03:00",
+                      "colors":  [
+                                     {
+                                         "id":  "col_maroon",
+                                         "name":  "ماروني ملكي",
+                                         "hex":  "#5B121A"
+                                     },
+                                     {
+                                         "id":  "col_navy",
+                                         "name":  "كحلي دبلوماسي",
+                                         "hex":  "#1B2A4A"
+                                     },
+                                     {
+                                         "id":  "col_emerald",
+                                         "name":  "زمردي فاخر",
+                                         "hex":  "#0F382A"
+                                     }
+                                 ],
+                      "choices":  [
+                                      {
+                                          "studentId":  "student_iq_001",
+                                          "colorId":  "col_navy",
+                                          "createdAt":  "2026-09-10T10:52:48.5490687+03:00",
+                                          "updatedAt":  "2026-09-10T10:52:48.5843327+03:00"
+                                      }
+                                  ],
+                      "endedAt":  "2026-09-10T10:52:48.6042869+03:00"
+                  }
+              ],
+    "otps":  [
+
+             ],
+    "representatives":  [
+                            {
+                                "id":  "rep_164555",
+                                "phone":  "07801234567",
+                                "verifiedAt":  "2026-09-10T10:52:48.4329597+03:00"
+                            }
+                        ]
+}

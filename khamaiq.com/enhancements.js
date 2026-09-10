@@ -26,64 +26,6 @@
     }, duration);
   };
 
-  // 2. University Delivery Estimator
-  function initDeliveryEstimator() {
-    const uniSelect = document.getElementById('calc-uni-select');
-    const orderTypeSelect = document.getElementById('calc-order-type');
-    const resTime = document.getElementById('calc-res-time');
-    const resPoint = document.getElementById('calc-res-point');
-    const resPrice = document.getElementById('calc-res-price');
-    const btnWa = document.getElementById('btn-delivery-calc-wa');
-
-    if (!uniSelect || !resTime || !resPoint || !resPrice) return;
-
-    // Fast delivery zones
-    const fastUnis = ['جامعة بغداد', 'الجامعة المستنصرية', 'جامعة النهرين', 'الجامعة التكنولوجية', 'جامعة بابل', 'جامعة كربلاء', 'جامعة الكوفة', 'جامعة القادسية', 'جامعة الفراهيدي', 'جامعة المستقبل', 'جامعة الزهراء للبنات', 'جامعة وارث الأنبياء', 'جامعة العميد'];
-
-    function calculateDelivery() {
-      const selectedUniName = uniSelect.options[uniSelect.selectedIndex] ? uniSelect.options[uniSelect.selectedIndex].text : '';
-      const isBatch = orderTypeSelect ? orderTypeSelect.value === 'batch' : false;
-
-      let estTime = '24 - 48 ساعة';
-      let pickup = 'بوابة الحرم الجامعي / سنتر الكلية';
-      let cost = isBatch ? 'توصيل مجاني للدفعة 🎁' : '5,000 د.ع فقط (لباب البيت أو الكلية)';
-
-      if (selectedUniName && !fastUnis.some(u => selectedUniName.includes(u))) {
-        estTime = '48 - 72 ساعة';
-      }
-
-      if (isBatch) {
-        pickup = 'تسليم مباشر لممثل الدفعة داخل الكلية';
-      }
-
-      resTime.textContent = estTime;
-      resPoint.textContent = pickup;
-      resPrice.textContent = cost;
-
-      if (btnWa) {
-        const msg = `مرحباً إبرة وخيط، حابب استفسر عن توصيل طلب تخرج:
-• الوجهة: ${selectedUniName || 'جامعة عراقية'}
-• نوع الطلب: ${isBatch ? 'طقم دفعة كاملة (10+ طلاب)' : 'طلب فردي'}
-• مدة التوصيل المتوقعة: ${estTime}
-• التكلفة: ${cost}`;
-        btnWa.href = `https://wa.me/${WA_PHONE}?text=` + encodeURIComponent(msg);
-      }
-    }
-
-    // Populate from KhamaUniDirectory if empty
-    if (uniSelect.options.length <= 1 && window.KhamaUniDirectory && window.KhamaUniDirectory.unis) {
-      window.KhamaUniDirectory.unis.forEach(u => {
-        const opt = document.createElement('option');
-        opt.value = u.name;
-        opt.textContent = u.name;
-        uniSelect.appendChild(opt);
-      });
-    }
-
-    uniSelect.addEventListener('change', calculateDelivery);
-    if (orderTypeSelect) orderTypeSelect.addEventListener('change', calculateDelivery);
-    calculateDelivery();
-  }
 
   // 3. Floating WhatsApp Concierge
   function initWhatsAppConcierge() {
@@ -222,14 +164,7 @@
         name: 'تركوازي سماوي',
         hex: '#17a2b8',
         front: 'khamaiq.com/assets/images/visualizer-turquoise.jpg',
-        back:  'khamaiq.com/assets/images/visualizer-royal-back.jpg'
-      },
-      {
-        id: 'ivory',
-        name: 'عاجي سكري',
-        hex: '#e8ded2',
-        front: 'khamaiq.com/assets/images/visualizer-ivory.jpg',
-        back:  'khamaiq.com/assets/images/visualizer-royal-back.jpg'
+        back:  'khamaiq.com/assets/images/visualizer-royal-back-turquoise.jpg'
       }
     ];
 
@@ -280,7 +215,7 @@
       btn.className = 'swatch' + (c.id === currentColor.id ? ' active' : '');
       btn.dataset.id = c.id;
       btn.innerHTML = `
-        <span class="dot" style="background:${c.hex}; ${c.id === 'ivory' ? 'border:1.5px solid #c9b9a6;' : ''}"></span>
+        <span class="dot" style="background:${c.hex};"></span>
         <span class="nm">${c.name}</span>
         <span class="hx">${c.hex}</span>
       `;
@@ -293,13 +228,13 @@
 
     // WhatsApp custom color button
     const waSwatch = document.createElement('a');
-    waSwatch.href = `https://wa.me/${WA_PHONE}?text=` + encodeURIComponent('مرحباً إبرة وخيط، حابب استفسر عن توفر ألوان وشاح إضافية أو قماش مخصص.');
+    waSwatch.href = `https://wa.me/${WA_PHONE}?text=` + encodeURIComponent('مرحباً إبرة وخيط، حابب استفسر عن توفر ألوان وشاح إضافية.');
     waSwatch.className = 'swatch swatch-wa';
     waSwatch.target = '_blank';
     waSwatch.rel = 'noopener';
     waSwatch.innerHTML = `
       <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.06 2.87 1.21 3.07.15.2 2.09 3.2 5.07 4.49.71.31 1.26.49 1.69.63.71.23 1.36.19 1.87.12.57-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35zM12 2a10 10 0 0 0-8.55 15.19L2 22l4.94-1.3A10 10 0 1 0 12 2z"/></svg>
-      <span class="nm" style="color:#25d366; font-weight:700;">ألوان أو أقمشة خاصة؟ تواصل واتساب</span>
+      <span class="nm" style="color:#25d366; font-weight:700;">ألوان أو طلبات خاصة؟ تواصل واتساب</span>
     `;
     swatchesContainer.appendChild(waSwatch);
 
@@ -328,7 +263,6 @@
 
   // Run on page load
   function init() {
-    initDeliveryEstimator();
     initWhatsAppConcierge();
     initColorVisualizer();
   }

@@ -61,7 +61,6 @@
     if (/\/class-voting/.test(p))    return 'class_voting';
     if (/\/class/.test(p))           return 'class';
     if (/\/checkout/.test(p))        return 'checkout';
-    if (/\/blog/.test(p))            return 'blog';
     if (p === '/' || /\/index\.html$/.test(p)) return 'home';
     return 'other';
   }

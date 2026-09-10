@@ -953,9 +953,10 @@ body {
   <div class="nav-links" data-nav-links="">
     <a href="/products">المنتجات</a>
     <a href="/class" class="is-active" style="color:var(--emerald-deep); font-weight:700;">صفحة الدفعة</a>
+    <a href="/vote">تصويت الألوان</a>
+    <a href="/models">النماذج</a>
     <a href="/قياس">حاسبة القياس</a>
     <a href="/#visualizer">جرب الألوان</a>
-    <a href="/blog">المدونة</a>
     <a href="/#faq">الأسئلة</a>
   </div>
 
@@ -983,10 +984,11 @@ body {
   <nav class="mobile-drawer-nav">
     <a href="/" class="mobile-drawer-link">الرئيسية</a>
     <a href="/products" class="mobile-drawer-link">المنتجات</a>
-    <a href="/class" class="mobile-drawer-link" style="color:var(--emerald-deep);">صفحة الدفعة والتصويت</a>
+    <a href="/class" class="mobile-drawer-link" style="color:var(--emerald-deep);">صفحة الدفعة</a>
+    <a href="/vote" class="mobile-drawer-link">تصويت ألوان الكليات (جديد)</a>
+    <a href="/models" class="mobile-drawer-link">معرض نماذج الخريجين</a>
     <a href="/قياس" class="mobile-drawer-link">حاسبة القياس والتفصيل</a>
     <a href="/#visualizer" class="mobile-drawer-link">جرب لون الوشاح</a>
-    <a href="/blog" class="mobile-drawer-link">المدونة ودليل التخرج</a>
     <a href="/#faq" class="mobile-drawer-link">الأسئلة الشائعة</a>
   </nav>
 </aside>
@@ -1330,13 +1332,6 @@ body {
       hex: '#17a2b8',
       votes: typeof savedVotes['turquoise'] === 'number' ? savedVotes['turquoise'] : 0,
       image: 'khamaiq.com/assets/images/visualizer-turquoise.jpg'
-    },
-    {
-      id: 'ivory',
-      name: 'عاجي سكري',
-      hex: '#e8ded2',
-      votes: typeof savedVotes['ivory'] === 'number' ? savedVotes['ivory'] : 0,
-      image: 'khamaiq.com/assets/images/visualizer-ivory.jpg'
     }
   ];
 
@@ -1519,7 +1514,7 @@ body {
       cardRepNeeded.innerHTML = `
         <span class="hub-rep-tag" style="color:#1e874b; font-weight:800;">✓ أنت ممثل الدفعة المعتمد</span>
         <h3 class="hub-rep-title">لوحة تحكم ممثل الدفعة 👑</h3>
-        <p class="hub-rep-desc">بصفتك ممثل الدفعة، تقدر تحدد موعد إغلاق التصويت، تطلب عينات الأقمشة، وتعتمد اللون النهائي.</p>
+        <p class="hub-rep-desc">بصفتك ممثل الدفعة، تقدر تحدد موعد إغلاق التصويت، تطلب عينات قماش كوبرا إندونيسي، وتعتمد اللون النهائي.</p>
         <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
           <a href="https://wa.me/9647805088134?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D8%A5%D8%A8%D8%B1%D8%A9%20%D9%88%D8%AE%D9%8A%D8%B7%D8%8C%20%D8%A3%D9%86%D8%A7%20%D9%85%D9%85%D8%AB%D9%84%20%D8%AF%D9%81%D8%B9%D8%A9%20%D9%83%D9%84%D9%8A%D8%A9%20%D8%A7%D9%84%D8%B7%D8%A8%20%D8%AC%D8%A7%D9%85%D8%B9%D8%A9%20%D8%A8%D8%BA%D8%AF%D8%A7%D8%AF" target="_blank" rel="noopener" class="btn-camel-action" style="font-size:13px; padding:10px 18px;">تواصل كمنسق ع الواتساب</a>
           <button type="button" id="btn-lock-voting" class="btn-camel-action" style="background:#5d022a; color:#fff; font-size:13px; padding:10px 18px;">إغلاق التصويت الآن</button>

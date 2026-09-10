@@ -1,0 +1,114 @@
+// Prisma Schema for College Colors Voting System
+// Designed for PostgreSQL (compatible with CockroachDB / SQLite for local testing)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model University {
+  id        String    @id @default(uuid()) @db.Uuid
+  name      String    @db.VarChar(255)
+  createdAt DateTime  @default(now()) @map("created_at")
+  colleges  College[]
+
+  @@map("universities")
+}
+
+model College {
+  id            String     @id @default(uuid()) @db.Uuid
+  universityId  String     @map("university_id") @db.Uuid
+  name          String     @db.VarChar(255)
+  fixedEntityId String     @map("fixed_entity_id") @db.VarChar(100)
+  createdAt     DateTime   @default(now()) @map("created_at")
+  university    University @relation(fields: [universityId], references: [id], onDelete: Cascade)
+  votes         Vote[]
+
+  @@index([universityId])
+  @@map("colleges")
+}
+
+model Representative {
+  id          String    @id @default(uuid()) @db.Uuid
+  phoneNumber String    @unique @map("phone_number") @db.VarChar(20)
+  isVerified  Boolean   @default(false) @map("is_verified")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  otpCodes    OtpCode[]
+  votes       Vote[]
+
+  @@index([phoneNumber])
+  @@map("representatives")
+}
+
+model OtpCode {
+  id               String         @id @default(uuid()) @db.Uuid
+  representativeId String         @map("representative_id") @db.Uuid
+  codeHash         String         @map("code_hash") @db.VarChar(255)
+  expiresAt        DateTime       @map("expires_at")
+  attempts         Int            @default(0)
+  createdAt        DateTime       @default(now()) @map("created_at")
+  representative   Representative @relation(fields: [representativeId], references: [id], onDelete: Cascade)
+
+  @@index([representativeId])
+  @@map("otp_codes")
+}
+
+enum VoteStatus {
+  active
+  ended
+}
+
+model Vote {
+  id               String        @id @default(uuid()) @db.Uuid
+  collegeId        String        @map("college_id") @db.Uuid
+  representativeId String        @map("representative_id") @db.Uuid
+  fixedEntityId    String        @map("fixed_entity_id") @db.VarChar(100)
+  durationDays     Int           @map("duration_days")
+  status           VoteStatus    @default(active)
+  shareToken       String        @unique @default(uuid()) @map("share_token") @db.VarChar(64)
+  startsAt         DateTime      @default(now()) @map("starts_at")
+  endsAt           DateTime      @map("ends_at")
+  createdAt        DateTime      @default(now()) @map("created_at")
+  college          College       @relation(fields: [collegeId], references: [id], onDelete: Cascade)
+  representative   Representative @relation(fields: [representativeId], references: [id], onDelete: Cascade)
+  colors           VoteColor[]
+  choices          VoteChoice[]
+
+  @@index([shareToken])
+  @@index([collegeId])
+  @@index([representativeId])
+  @@index([status])
+  @@map("votes")
+}
+
+model VoteColor {
+  id        String       @id @default(uuid()) @db.Uuid
+  voteId    String       @map("vote_id") @db.Uuid
+  colorHex  String       @map("color_hex") @db.VarChar(7)
+  label     String?      @db.VarChar(100)
+  vote      Vote         @relation(fields: [voteId], references: [id], onDelete: Cascade)
+  choices   VoteChoice[]
+
+  @@index([voteId])
+  @@map("vote_colors")
+}
+
+model VoteChoice {
+  id                String    @id @default(uuid()) @db.Uuid
+  voteId            String    @map("vote_id") @db.Uuid
+  studentIdentifier String    @map("student_identifier") @db.VarChar(255)
+  selectedColorId   String    @map("selected_color_id") @db.Uuid
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+  vote              Vote      @relation(fields: [voteId], references: [id], onDelete: Cascade)
+  selectedColor     VoteColor @relation(fields: [selectedColorId], references: [id], onDelete: Cascade)
+
+  @@unique([voteId, studentIdentifier], name: "vote_student_unique")
+  @@index([voteId])
+  @@index([selectedColorId])
+  @@map("vote_choices")
+}
