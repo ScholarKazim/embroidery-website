@@ -160,6 +160,18 @@ while ($listener.IsListening) {
                 }
             }
 
+            # 1B. GET /api/voting/all (All Votes)
+            if ($subPath -eq "all" -and ($request.HttpMethod -eq "GET" -or $request.HttpMethod -eq "HEAD")) {
+                $db = Get-VotingDb
+                $resObj = @{ success = $true; votes = $db.votes }
+                $outBytes = [System.Text.Encoding]::UTF8.GetBytes((ConvertTo-Json $resObj -Depth 10))
+                $response.StatusCode = 200
+                $response.ContentLength64 = $outBytes.Length
+                if ($request.HttpMethod -ne "HEAD") { $response.OutputStream.Write($outBytes, 0, $outBytes.Length) }
+                $response.OutputStream.Close()
+                continue
+            }
+
             # 2. POST /api/voting/auth/request-otp
             if ($subPath -eq "auth/request-otp" -and $request.HttpMethod -eq "POST") {
                 $body = Get-RequestBody $request

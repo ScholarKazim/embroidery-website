@@ -282,8 +282,10 @@
     <div class="admin-actions">
       <button type="button" class="btn-admin" id="btn-refresh-orders">🔄 تحديث</button>
       <button type="button" class="btn-admin" id="btn-export-csv">📥 تصدير للتوصيل (Excel/CSV)</button>
-      <button type="button" class="btn-admin" id="btn-lock-admin" title="قفل لوحة التحكم">🔒 قفل</button>
+      <a href="/vote" target="_blank" class="btn-admin">🗳️ نظام التصويت</a>
+      <a href="/models" target="_blank" class="btn-admin">📸 النماذج</a>
       <a href="/" target="_blank" class="btn-admin">🌐 المتجر</a>
+      <button type="button" class="btn-admin" id="btn-lock-admin" title="قفل لوحة التحكم">🔒 قفل</button>
     </div>
   </header>
 
@@ -326,6 +328,25 @@
     <div class="orders-list" id="admin-orders-container">
       <div class="empty-orders">
         <p style="font-size:16px; font-weight:700; color:#555;">جاري تحميل الطلبات من قاعدة البيانات...</p>
+      </div>
+    </div>
+
+    <!-- College Voting Sessions Section -->
+    <div style="margin-top:36px; background:#fff; border-radius:24px; border:1px solid #ebdcd5; padding:26px; box-shadow:0 4px 18px rgba(93, 2, 42, 0.03);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:10px;">
+        <div>
+          <h2 style="font-size:19px; font-weight:800; color:var(--color-burgundy); margin:0 0 4px; display:flex; align-items:center; gap:8px;">
+            <span>🗳️</span> جلسات تصويت ألوان الكليات
+          </h2>
+          <p style="margin:0; font-size:12.5px; color:#777;">متابعة التصويتات المنشأة من ممثلي الكليات ونسب التصويت واللون المتصدر</p>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button type="button" class="btn-admin" id="btn-refresh-votes" style="font-size:12.5px;">🔄 تحديث الجلسات</button>
+          <a href="/vote" target="_blank" class="btn-admin" style="font-size:12.5px; background:var(--color-burgundy); color:#fff; border-color:var(--color-burgundy);">+ إنشاء تصويت جديد</a>
+        </div>
+      </div>
+      <div id="admin-votes-container">
+        <p style="color:#777; font-size:13.5px; text-align:center; padding:20px 0;">جاري تحميل جلسات التصويت...</p>
       </div>
     </div>
 
@@ -696,13 +717,79 @@
       });
     });
 
+    // Load College Votes
+    async function loadVotes() {
+      const votesBox = document.getElementById('admin-votes-container');
+      if (!votesBox) return;
+      try {
+        const res = await fetch('/api/voting/all');
+        if (!res.ok) throw new Error('Network response not ok');
+        const data = await res.json();
+        const votes = data.votes || [];
+        if (votes.length === 0) {
+          votesBox.innerHTML = '<p style="color:#777; font-size:13.5px; text-align:center; padding:20px 0;">لا توجد جلسات تصويت مسجلة حالياً.</p>';
+          return;
+        }
+
+        let html = '<div style="overflow-x:auto;"><table style="width:100%; border-collapse:collapse; font-size:13.5px; text-align:right;">' +
+          '<thead><tr style="background:#fdf8f6; border-bottom:2px solid #ebdcd5; color:#5d022a; font-weight:800;">' +
+          '<th style="padding:12px 14px;">الكلية والجامعة</th>' +
+          '<th style="padding:12px 14px;">الجهة الثابتة</th>' +
+          '<th style="padding:12px 14px;">الحالة</th>' +
+          '<th style="padding:12px 14px;">الأصوات</th>' +
+          '<th style="padding:12px 14px;">الخيارات المرشحة</th>' +
+          '<th style="padding:12px 14px; text-align:center;">إجراء</th>' +
+          '</tr></thead><tbody>';
+
+        votes.forEach(v => {
+          const totalChoices = (v.choices || []).length;
+          const isEnded = v.status === 'ended';
+          const statusBadge = isEnded
+            ? '<span style="background:#fee2e2; color:#b91c1c; padding:3px 10px; border-radius:999px; font-size:12px; font-weight:700;">منتهي</span>'
+            : '<span style="background:#dcfce7; color:#15803d; padding:3px 10px; border-radius:999px; font-size:12px; font-weight:700;">نشط 🟢</span>';
+
+          const colorsChips = (v.colors || []).map(c => 
+            `<span style="display:inline-flex; align-items:center; gap:4px; background:#f1f5f9; padding:2px 8px; border-radius:8px; font-size:11.5px; margin:2px;"><span style="width:9px; height:9px; border-radius:50%; background:${c.hex}; display:inline-block;"></span>${escapeHtml(c.name)}</span>`
+          ).join('');
+
+          html += `<tr style="border-bottom:1px solid #f1e7e2;">
+            <td style="padding:12px 14px; font-weight:700;">
+              <div>${escapeHtml(v.collegeName || '')}</div>
+              <div style="font-size:12px; color:#777; font-weight:400;">${escapeHtml(v.universityName || '')}</div>
+            </td>
+            <td style="padding:12px 14px; font-family:monospace; color:#ba8d5d; font-weight:700;">${escapeHtml(v.fixedEntityId || '—')}</td>
+            <td style="padding:12px 14px;">${statusBadge}</td>
+            <td style="padding:12px 14px; font-weight:700;">${totalChoices} صوت</td>
+            <td style="padding:12px 14px;">${colorsChips}</td>
+            <td style="padding:12px 14px; text-align:center;">
+              <a href="/vote?token=${encodeURIComponent(v.shareToken || '')}" target="_blank" style="display:inline-block; background:#5d022a; color:#fff; padding:6px 14px; border-radius:8px; text-decoration:none; font-size:12px; font-weight:700;">فتح النتائج ↗</a>
+            </td>
+          </tr>`;
+        });
+
+        html += '</tbody></table></div>';
+        votesBox.innerHTML = html;
+      } catch (e) {
+        votesBox.innerHTML = '<p style="color:#c5221f; font-size:13px; text-align:center; padding:16px 0;">تعذر تحميل جلسات التصويت من الخادم.</p>';
+      }
+    }
+
     // Refresh & Export
-    btnRefresh.addEventListener('click', loadOrders);
+    btnRefresh.addEventListener('click', () => {
+      loadOrders();
+      loadVotes();
+    });
     btnExport.addEventListener('click', exportToCsv);
+
+    const btnRefreshVotes = document.getElementById('btn-refresh-votes');
+    if (btnRefreshVotes) {
+      btnRefreshVotes.addEventListener('click', loadVotes);
+    }
 
     // Init
     if (checkAuth()) {
       loadOrders();
+      loadVotes();
     }
   })();
   </script>
