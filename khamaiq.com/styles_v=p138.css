@@ -383,12 +383,9 @@ body::after {
 }
 
 .hero-actions {
-  display: flex; flex-direction: column;
-  /* One confident primary plaque sized to its own content (no longer stretched
-     to a full-width rectangle), with the scarf path demoted to a quiet text
-     link beneath it — a single clear hero action, right-anchored in RTL. */
-  align-items: flex-start;
-  gap: 20px;
+  display: flex; flex-direction: row; flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
   width: auto; max-width: 100%;
   opacity: 0;
   animation: hero-fade .95s var(--ease-out) both;
@@ -422,10 +419,6 @@ body::after {
   font-weight: 600;
   font-size: 16px;
   letter-spacing: .03em;
-  /* A confident plaque sized to sit right under the slogan: generous padding
-     makes the action read as substantial, while the outline's RIGHT edge stays
-     anchored to the same right guide as the slogan above (the block right-aligns
-     in RTL, so the extra width grows leftward, never past the slogan's edge). */
   padding: 15px 28px;
   background: transparent;
   border: 1px solid rgba(246, 225, 189, .5);
@@ -439,6 +432,24 @@ body::after {
   transform: translateY(-1px);
 }
 .hero-cta--primary:active { transform: translateY(0) scale(.985); }
+
+.hero-cta--secondary {
+  color: #f6e1bd;
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: .02em;
+  padding: 15px 24px;
+  background: rgba(246, 225, 189, 0.06);
+  border: 1px solid rgba(246, 225, 189, 0.28);
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(8px);
+}
+.hero-cta--secondary:hover {
+  border-color: rgba(246, 225, 189, 0.7);
+  background: rgba(246, 225, 189, 0.14);
+  transform: translateY(-1px);
+}
+.hero-cta--secondary:active { transform: translateY(0) scale(.985); }
 
 @keyframes hero-fade {
   from { opacity: 0; transform: translateY(8px); }
