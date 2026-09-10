@@ -16,7 +16,7 @@ jobs:
 
       - name: Validate JSON files
         run: |
-          python3 -c "import json; json.load(open('orders.json', encoding='utf-8'))"
+          python3 -c "import json; json.load(open('orders.json', encoding='utf-8-sig'))"
           echo "orders.json is valid JSON."
 
       - name: Audit HTML for baseline tags
@@ -44,35 +44,48 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Start PowerShell Web Server
+      - name: Start Server and Run Automated Tests
         shell: powershell
         run: |
-          $proc = Start-Process powershell -ArgumentList "-ExecutionPolicy Bypass -File server.ps1" -PassThru
-          Start-Sleep -Seconds 4
-          $proc.Id | Out-File -FilePath server_pid.txt
+          $proc = Start-Process powershell -ArgumentList "-ExecutionPolicy Bypass -File server.ps1" -WorkingDirectory $PWD -PassThru
+          try {
+            $base = "http://localhost:8080"
+            $ready = $false
+            for ($i = 0; $i -lt 15; $i++) {
+              Start-Sleep -Seconds 1
+              try {
+                $check = Invoke-WebRequest -Uri "$base/" -UseBasicParsing -TimeoutSec 2
+                if ($check.StatusCode -eq 200) { $ready = $true; break }
+              } catch { }
+            }
+            if (-not $ready) {
+              throw "Server failed to start or become responsive within 15 seconds."
+            }
+            Write-Host "Server is up and listening on port 8080."
 
-      - name: Run Endpoint Health & Security Tests
-        shell: powershell
-        run: |
-          $base = "http://localhost:8080"
-          $routes = @("/", "/products", "/class", "/track", "/admin", "/checkout")
-          foreach ($r in $routes) {
-            $resp = Invoke-WebRequest -Uri "$base$r" -UseBasicParsing
-            if ($resp.StatusCode -ne 200) {
-              throw "Route $r returned status $($resp.StatusCode)"
+            $routes = @("/", "/products", "/class", "/track", "/admin", "/checkout")
+            foreach ($r in $routes) {
+              $resp = Invoke-WebRequest -Uri "$base$r" -UseBasicParsing
+              if ($resp.StatusCode -ne 200) {
+                throw "Route $r returned status $($resp.StatusCode)"
+              }
+            }
+            Write-Host "All core routes returned 200 OK."
+
+            try {
+              $resp = Invoke-WebRequest -Uri "$base/../../Windows/win.ini" -UseBasicParsing
+              throw "Path traversal attack was not blocked!"
+            } catch {
+              Write-Host "Path traversal blocked."
+            }
+
+            $homeResp = Invoke-WebRequest -Uri "$base/" -UseBasicParsing
+            if (-not $homeResp.Headers["X-Content-Type-Options"]) {
+              throw "Missing X-Content-Type-Options header!"
+            }
+            Write-Host "Security headers confirmed."
+          } finally {
+            if ($proc -and -not $proc.HasExited) {
+              Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue
             }
           }
-          Write-Host "All core routes returned 200 OK."
-
-          try {
-            $resp = Invoke-WebRequest -Uri "$base/../../Windows/win.ini" -UseBasicParsing
-            throw "Path traversal attack was not blocked!"
-          } catch {
-            Write-Host "Path traversal blocked."
-          }
-
-          $homeResp = Invoke-WebRequest -Uri "$base/" -UseBasicParsing
-          if (-not $homeResp.Headers["X-Content-Type-Options"]) {
-            throw "Missing X-Content-Type-Options header!"
-          }
-          Write-Host "Security headers confirmed."
