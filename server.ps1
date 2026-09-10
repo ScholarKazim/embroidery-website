@@ -694,14 +694,8 @@ while ($listener.IsListening) {
 
             $response.ContentType = $mime
 
-            # Cache-Control Strategy
-            if ($ext -in @(".png", ".jpg", ".jpeg", ".webp", ".svg", ".ico", ".woff2", ".woff", ".ttf")) {
-                $response.AddHeader("Cache-Control", "public, max-age=31536000, immutable")
-            } elseif ($ext -in @(".css", ".js")) {
-                $response.AddHeader("Cache-Control", "public, max-age=86400")
-            } else {
-                $response.AddHeader("Cache-Control", "no-cache, must-revalidate")
-            }
+            # Cache-Control Strategy (no-cache to allow immediate visual updates)
+            $response.AddHeader("Cache-Control", "no-cache, must-revalidate")
 
             $bytes = [System.IO.File]::ReadAllBytes($filePath)
             $response.ContentLength64 = $bytes.Length
