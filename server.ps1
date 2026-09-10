@@ -80,6 +80,7 @@ while ($listener.IsListening) {
         # -----------------------------------------------------------------
         $response.AddHeader("X-Content-Type-Options", "nosniff")
         $response.AddHeader("X-Frame-Options", "SAMEORIGIN")
+        $response.AddHeader("X-XSS-Protection", "1; mode=block")
         $response.AddHeader("Referrer-Policy", "strict-origin-when-cross-origin")
         $response.AddHeader("Permissions-Policy", "geolocation=(), camera=(), microphone=()")
 
@@ -184,15 +185,30 @@ while ($listener.IsListening) {
                     continue
                 }
 
+                $db = Get-VotingDb
+                $existingOtp = $db.otps | Where-Object { $_.phone -eq $phone } | Select-Object -First 1
+                if ($existingOtp -and $existingOtp.lastRequestedAt) {
+                    $timeSinceLast = (Get-Date) - [DateTime]::Parse($existingOtp.lastRequestedAt)
+                    if ($timeSinceLast.TotalSeconds -lt 45) {
+                        $remaining = [Math]::Ceiling(45 - $timeSinceLast.TotalSeconds)
+                        $response.StatusCode = 429
+                        $err = [System.Text.Encoding]::UTF8.GetBytes(('{"success":false,"error":"يرجى الانتظار ' + $remaining + ' ثانية قبل طلب رمز جديد"}'))
+                        $response.OutputStream.Write($err, 0, $err.Length)
+                        $response.OutputStream.Close()
+                        continue
+                    }
+                }
+
                 $code = (Get-Random -Minimum 100000 -Maximum 999999).ToString()
                 $exp = (Get-Date).AddMinutes(5).ToString("o")
+                $nowStr = (Get-Date).ToString("o")
 
-                $db = Get-VotingDb
                 $otps = @($db.otps | Where-Object { $_.phone -ne $phone })
                 $newOtp = [PSCustomObject]@{
                     phone = $phone
                     code = $code
                     expiresAt = $exp
+                    lastRequestedAt = $nowStr
                     attempts = 0
                 }
                 $db.otps = @($otps) + @($newOtp)
@@ -268,7 +284,7 @@ while ($listener.IsListening) {
                 Save-VotingDb $db
 
                 $token = "rep_token_" + (-join ((65..90) + (97..122) + (48..57) | Get-Random -Count 20 | ForEach-Object {[char]$_}))
-                $resObj = @{ success = $true; token = $token; rep = $rep }
+                $resObj = @{ success = $true; token = $token; sessionToken = $token; rep = $rep }
                 $outBytes = [System.Text.Encoding]::UTF8.GetBytes((ConvertTo-Json $resObj))
                 $response.StatusCode = 200
                 $response.OutputStream.Write($outBytes, 0, $outBytes.Length)
@@ -632,15 +648,15 @@ while ($listener.IsListening) {
         # -----------------------------------------------------------------
         if ([string]::IsNullOrWhiteSpace($relPath) -or $relPath -eq "index") {
             $filePath = Join-Path $rootDir "index.html"
-        } elseif ($relPath.StartsWith("products")) {
+        } elseif ($relPath.StartsWith("products") -or $relPath -like "*منتجات*" -or $rawPath -like "*%D9%85%D9%86%D8%AA%D8%AC%D8%A7%D8%AA*") {
             $filePath = Join-Path $rootDir "products.html"
-        } elseif ($relPath.StartsWith("class")) {
+        } elseif ($relPath.StartsWith("class") -or $relPath -like "*دفعة*" -or $relPath -like "*دفعه*" -or $rawPath -like "*%D8%AF%D9%81%D8%B9*") {
             $filePath = Join-Path $rootDir "class.html"
-        } elseif ($relPath.StartsWith("checkout")) {
+        } elseif ($relPath.StartsWith("checkout") -or $relPath -like "*طلب*" -or $rawPath -like "*%D8%B7%D9%84%D8%A8*") {
             $filePath = Join-Path $rootDir "checkout.html"
-        } elseif ($relPath.StartsWith("admin")) {
+        } elseif ($relPath.StartsWith("admin") -or $relPath -like "*ادارة*" -or $relPath -like "*إدارة*") {
             $filePath = Join-Path $rootDir "admin.html"
-        } elseif ($relPath.StartsWith("track")) {
+        } elseif ($relPath.StartsWith("track") -or $relPath -like "*تتبع*" -or $rawPath -like "*%D8%AA%D8%AA%D8%A8%D8%B9*") {
             $filePath = Join-Path $rootDir "track.html"
         } elseif ($relPath.StartsWith("models") -or $relPath -like "*نماذج*" -or $rawPath -like "*%D9%86%D9%85%D8%A7%D8%B0%D8%AC*") {
             $filePath = Join-Path $rootDir "models.html"
@@ -705,8 +721,14 @@ while ($listener.IsListening) {
             $response.StatusCode = 200
         } else {
             $response.StatusCode = 404
-            $errBytes = [System.Text.Encoding]::UTF8.GetBytes("404 Not Found")
-            $response.ContentType = "text/plain"
+            $notFoundPath = Join-Path $rootDir "404.html"
+            if ([System.IO.File]::Exists($notFoundPath)) {
+                $errBytes = [System.IO.File]::ReadAllBytes($notFoundPath)
+                $response.ContentType = "text/html; charset=utf-8"
+            } else {
+                $errBytes = [System.Text.Encoding]::UTF8.GetBytes("404 Not Found")
+                $response.ContentType = "text/plain; charset=utf-8"
+            }
             $response.ContentLength64 = $errBytes.Length
             if ($request.HttpMethod -ne "HEAD") {
                 $response.OutputStream.Write($errBytes, 0, $errBytes.Length)
