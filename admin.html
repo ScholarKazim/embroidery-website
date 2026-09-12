@@ -8,6 +8,7 @@
   <link rel="icon" href="khamaiq.com/favicon_v=p138.ico">
   <link rel="stylesheet" href="khamaiq.com/styles_v=p138.css">
   <link rel="stylesheet" href="khamaiq.com/enhancements.css">
+  <script src="khamaiq.com/qrcode.min.js"></script>
   <style>
     :root {
       --font-display: "Playfair Display", "Amiri", serif;
@@ -282,6 +283,8 @@
     <div class="admin-actions">
       <button type="button" class="btn-admin" id="btn-refresh-orders">🔄 تحديث</button>
       <button type="button" class="btn-admin" id="btn-export-csv">📥 تصدير للتوصيل (Excel/CSV)</button>
+      <a href="#batches-section" class="btn-admin" style="background:#fdf2f4; color:var(--color-burgundy); border-color:#e8b4c0;">🎓 دفعات التخرج</a>
+      <a href="/class" target="_blank" class="btn-admin">👥 بوابة الممثلين</a>
       <a href="/vote" target="_blank" class="btn-admin">🗳️ نظام التصويت</a>
       <a href="/models" target="_blank" class="btn-admin">📸 النماذج</a>
       <a href="/" target="_blank" class="btn-admin">🌐 المتجر</a>
@@ -331,6 +334,54 @@
       </div>
     </div>
 
+    <!-- Graduation Batches Management Section -->
+    <section id="batches-section" style="margin-top:36px; background:#fff; border-radius:24px; border:1px solid #ebdcd5; padding:26px; box-shadow:0 4px 18px rgba(93, 2, 42, 0.03);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:12px;">
+        <div>
+          <h2 style="font-size:19px; font-weight:800; color:var(--color-burgundy); margin:0 0 4px; display:flex; align-items:center; gap:8px;">
+            <span>🎓</span> دفعات التخرج الجماعية (بوابة الممثلين والورشة)
+          </h2>
+          <p style="margin:0; font-size:12.5px; color:#777;">متابعة تسجيل الدفعات، قوائم الطلاب، نسب الخصم وتصدير جداول الورشة للتفصيل والتطريز</p>
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button type="button" class="btn-admin" id="btn-refresh-batches" style="font-size:12.5px;">🔄 تحديث الدفعات</button>
+          <button type="button" class="btn-admin" id="btn-export-all-batches-csv" style="font-size:12.5px;">📥 تصدير كل الطلاب (CSV)</button>
+          <a href="/class" target="_blank" class="btn-admin" style="font-size:12.5px; background:var(--color-burgundy); color:#fff; border-color:var(--color-burgundy);">+ إنشاء دفعة جديدة ↗</a>
+        </div>
+      </div>
+
+      <!-- Batch Metrics Mini-Grid -->
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:12px; margin-bottom:20px;">
+        <div style="background:#fdf8f6; border:1px solid #ebdcd5; border-radius:14px; padding:12px 16px;">
+          <div style="font-size:12px; color:#777; font-weight:600;">إجمالي الدفعات المسجلة</div>
+          <div id="batch-stat-total" style="font-size:22px; font-weight:900; color:var(--color-burgundy);">0</div>
+        </div>
+        <div style="background:#fdf8f6; border:1px solid #ebdcd5; border-radius:14px; padding:12px 16px;">
+          <div style="font-size:12px; color:#777; font-weight:600;">إجمالي الطلاب المسجلين بالدفعات</div>
+          <div id="batch-stat-students" style="font-size:22px; font-weight:900; color:#1967d2;">0</div>
+        </div>
+        <div style="background:#fdf8f6; border:1px solid #ebdcd5; border-radius:14px; padding:12px 16px;">
+          <div style="font-size:12px; color:#777; font-weight:600;">الدفعات المؤهلة للتخفيض</div>
+          <div id="batch-stat-discounted" style="font-size:22px; font-weight:900; color:#137333;">0</div>
+        </div>
+      </div>
+
+      <!-- Filter Bar for Batches -->
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:16px; flex-wrap:wrap;">
+        <input type="text" id="batch-search-box" placeholder="ابحث باسم الدفعة، الكلية، الجامعة، أو الممثل..." style="padding:9px 16px; border:1px solid #d9c4ba; border-radius:20px; font-size:13px; font-family:var(--font-ui); width:320px; max-width:100%; outline:none;">
+        <div class="status-pills" id="batch-status-pills">
+          <button type="button" class="status-pill active" data-bstatus="all">جميع الدفعات (<span id="batch-count-all">0</span>)</button>
+          <button type="button" class="status-pill" data-bstatus="مفتوح للتسجيل">مفتوحة للتسجيل</button>
+          <button type="button" class="status-pill" data-bstatus="مكتمل">مكتملة</button>
+        </div>
+      </div>
+
+      <!-- Batches Container -->
+      <div id="admin-batches-container">
+        <p style="color:#777; font-size:13.5px; text-align:center; padding:20px 0;">جاري تحميل دفعات التخرج...</p>
+      </div>
+    </section>
+
     <!-- College Voting Sessions Section -->
     <div style="margin-top:36px; background:#fff; border-radius:24px; border:1px solid #ebdcd5; padding:26px; box-shadow:0 4px 18px rgba(93, 2, 42, 0.03);">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:10px;">
@@ -349,6 +400,52 @@
         <p style="color:#777; font-size:13.5px; text-align:center; padding:20px 0;">جاري تحميل جلسات التصويت...</p>
       </div>
     </div>
+
+    <!-- Thermal Receipt Modal (80mm / A6) -->
+    <div id="modal-thermal-slip" style="display:none; position:fixed; inset:0; background:rgba(26,10,16,0.8); z-index:10000; align-items:center; justify-content:center; backdrop-filter:blur(4px); padding:16px;">
+      <div style="background:#fff; border-radius:22px; max-width:460px; width:100%; max-height:92vh; display:flex; flex-direction:column; box-shadow:0 25px 60px rgba(0,0,0,0.35); overflow:hidden;">
+        <div style="padding:16px 20px; background:var(--color-burgundy); color:#fff; display:flex; justify-content:space-between; align-items:center;">
+          <h3 style="margin:0; font-size:16px; font-weight:800; display:flex; align-items:center; gap:8px;">
+            <span>🧾</span> وصل ورشة وتجهيز حراري (80mm)
+          </h3>
+          <button type="button" id="btn-close-thermal" style="background:transparent; border:none; color:#fff; font-size:24px; cursor:pointer; line-height:1;">&times;</button>
+        </div>
+        <div id="thermal-preview-body" style="padding:18px; overflow-y:auto; flex:1; background:#faf7f5; font-family:'Alexandria', 'Segoe UI', Tahoma, sans-serif;">
+          <!-- Filled dynamically -->
+        </div>
+        <div style="padding:14px 20px; background:#fff; border-top:1px solid #ebdcd5; display:flex; justify-content:space-between; gap:10px;">
+          <button type="button" id="btn-print-thermal-action" style="flex:1; background:var(--color-burgundy); color:#fff; border:none; padding:11px 18px; border-radius:12px; font-weight:800; font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;">
+            <span>🖨️</span> طباعة الإيصال الحراري الآن
+          </button>
+          <button type="button" id="btn-cancel-thermal" class="btn-admin" style="padding:10px 16px;">إغلاق</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Batch Roster Modal -->
+    <div id="modal-batch-roster" style="display:none; position:fixed; inset:0; background:rgba(26,10,16,0.8); z-index:10000; align-items:center; justify-content:center; backdrop-filter:blur(4px); padding:16px;">
+      <div style="background:#fff; border-radius:24px; max-width:1050px; width:100%; max-height:92vh; display:flex; flex-direction:column; box-shadow:0 25px 60px rgba(0,0,0,0.35); overflow:hidden;">
+        <div style="padding:18px 24px; background:var(--color-burgundy); color:#fff; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <h3 id="modal-roster-title" style="margin:0 0 4px; font-size:18px; font-weight:800;">سجل طلاب الدفعة</h3>
+            <p id="modal-roster-sub" style="margin:0; font-size:12.5px; opacity:0.85;"></p>
+          </div>
+          <button type="button" id="btn-close-roster" style="background:transparent; border:none; color:#fff; font-size:26px; cursor:pointer; line-height:1;">&times;</button>
+        </div>
+        <div style="padding:14px 24px; background:#fdf8f6; border-bottom:1px solid #ebdcd5; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+          <input type="text" id="roster-search-input" placeholder="ابحث باسم الطالب أو هاتفه أو الاسم المطرز..." style="padding:9px 16px; border:1px solid #d9c4ba; border-radius:12px; font-size:13px; font-family:var(--font-ui); width:320px; outline:none;">
+          <div style="display:flex; gap:8px;">
+            <button type="button" class="btn-admin" id="btn-export-roster-csv" style="font-size:12.5px;">📥 كشف الورشة (CSV)</button>
+            <button type="button" class="btn-admin" id="btn-print-roster" style="font-size:12.5px; background:var(--color-burgundy); color:#fff; border-color:var(--color-burgundy);">🖨️ طباعة مانيفست الورشة</button>
+          </div>
+        </div>
+        <div id="roster-table-container" style="padding:18px 24px; overflow-y:auto; flex:1;">
+          <!-- Filled dynamically -->
+        </div>
+      </div>
+    </div>
+
+    <iframe id="thermal-print-frame" style="display:none; position:fixed; right:0; bottom:0; width:0; height:0; border:none;"></iframe>
 
   </main>
 
@@ -621,6 +718,7 @@
 
           <div class="order-actions-row">
             ${cleanPhone ? `<a href="${waCustomerUrl}" target="_blank" class="btn-admin" style="color:#128c7e; border-color:#25d366; text-decoration:none; font-weight:700;">💬 مراسلة الزبون واتساب</a>` : ''}
+            <button type="button" class="btn-admin btn-thermal-slip" data-id="${safeId}" style="background:#5d022a; color:#fff; border-color:#5d022a;">🧾 وصل ورشة حراري (80mm)</button>
             <button type="button" class="btn-admin btn-print-single" data-id="${safeId}">🖨️ طباعة الفاتورة</button>
             <button type="button" class="btn-admin btn-delete-single" data-id="${safeId}" style="color:#c5221f; border-color:#f5c2c7;">🗑️ حذف</button>
           </div>
@@ -643,6 +741,14 @@
           } catch (_) {}
           updateMetrics();
         });
+
+        // Thermal slip handler
+        const btnThermal = card.querySelector('.btn-thermal-slip');
+        if (btnThermal) {
+          btnThermal.addEventListener('click', () => {
+            openThermalSlip(order);
+          });
+        }
 
         // Print handler
         card.querySelector('.btn-print-single').addEventListener('click', () => {
@@ -774,9 +880,777 @@
       }
     }
 
+    // =================================================================
+    // THERMAL SLIP (80mm / A6) & PACKING MANIFEST GENERATOR
+    // =================================================================
+    let currentThermalOrder = null;
+    const modalThermal = document.getElementById('modal-thermal-slip');
+    const thermalBody = document.getElementById('thermal-preview-body');
+    const btnCloseThermal = document.getElementById('btn-close-thermal');
+    const btnCancelThermal = document.getElementById('btn-cancel-thermal');
+    const btnPrintThermalAction = document.getElementById('btn-print-thermal-action');
+
+    function closeThermalModal() {
+      if (modalThermal) modalThermal.style.display = 'none';
+      currentThermalOrder = null;
+    }
+
+    if (btnCloseThermal) btnCloseThermal.addEventListener('click', closeThermalModal);
+    if (btnCancelThermal) btnCancelThermal.addEventListener('click', closeThermalModal);
+
+    function buildThermalSlipHtml(order) {
+      const createdDate = order.createdAt ? new Date(order.createdAt).toLocaleString('ar-IQ') : 'الآن';
+      const safeId = escapeHtml(order.id);
+      const safeName = escapeHtml(order.name || 'زبون غير محدد');
+      const safePhone = escapeHtml(order.phone || '—');
+      const safeGov = escapeHtml(order.gov || 'بغداد');
+      const safeAddress = escapeHtml(order.address || 'العنوان غير مدخل');
+      const safeNotes = escapeHtml(order.notes || '');
+      const safePayment = escapeHtml(order.paymentMethod || 'الدفع عند الاستلام');
+      const safeGrandTotal = Number(order.grandTotal || order.total || 0).toLocaleString();
+
+      const itemsRows = (order.items || []).map((it, idx) => {
+        const c = it.config || {};
+        let tags = [];
+        if (c.cut) tags.push(`قصة: ${escapeHtml(c.cut)}`);
+        if (c.scarfColorName || c.color || c.scarfColor) tags.push(`لون: ${escapeHtml(c.scarfColorName || c.color || c.scarfColor)}`);
+        if (c.embroidery || c.name || c.side1) tags.push(`تطريز صدر: [${escapeHtml(c.embroidery || c.name || c.side1)}]`);
+        if (c.backText) tags.push(`تطريز ظهر: [${escapeHtml(c.backText)}]`);
+        if (c.height) tags.push(`طول: ${escapeHtml(c.height)} سم`);
+        if (c.shoulder) tags.push(`كتف: ${escapeHtml(c.shoulder)} سم`);
+        if (c.refName) tags.push(`قياس: ${escapeHtml(c.refName)}`);
+
+        const itName = escapeHtml(it.name || it.title || 'قطعة تخرج');
+        const itQty = Math.max(1, parseInt(it.qty, 10) || 1);
+        const itPrice = Math.max(0, parseFloat(it.price) || 35000);
+
+        return `
+          <div style="border-bottom:1px dashed #000; padding:6px 0;">
+            <div style="font-weight:900; font-size:12px;">${idx + 1}. ${itName} (×${itQty}) — ${Number(itPrice * itQty).toLocaleString()} د.ع</div>
+            <div style="font-size:10.5px; color:#222; margin-top:2px; line-height:1.4;">${tags.join(' | ') || 'تفصيل قياسي'}</div>
+          </div>
+        `;
+      }).join('');
+
+      return `
+        <div id="thermal-slip-content" style="max-width:320px; margin:0 auto; background:#fff; padding:14px 10px; border:1px solid #ccc; font-family:'Alexandria', 'Courier New', monospace; color:#000; direction:rtl;">
+          <div style="text-align:center;">
+            <div style="font-size:15px; font-weight:900; letter-spacing:0.5px;">إبرة وخيط للخياطة الراقية</div>
+            <div style="font-size:11px; margin-top:2px;">أرواب ووشاحات التخرج الملكية</div>
+            <div style="font-size:10px; color:#333; margin-top:2px;">بغداد - العراق | إدارة الورشة: 07700000000</div>
+            <div style="border-top:1px dashed #000; margin:8px 0;"></div>
+            <div style="font-size:16px; font-weight:900; letter-spacing:1px; background:#000; color:#fff; padding:3px 8px; display:inline-block; border-radius:4px;">${safeId}</div>
+            <div style="font-size:10.5px; margin-top:4px;">تاريخ الطلب: ${escapeHtml(createdDate)}</div>
+          </div>
+
+          <div style="text-align:center; margin:10px 0 6px;">
+            <div id="thermal-qr-canvas" style="display:inline-block; padding:4px; background:#fff; border:1px solid #000;"></div>
+            <div style="font-size:9.5px; margin-top:3px; font-weight:700;">امسح بالهاتف لتتبع مسار التجهيز والشحن</div>
+          </div>
+
+          <div style="border-top:1px dashed #000; margin:8px 0;"></div>
+
+          <div style="font-size:11px; line-height:1.5;">
+            <div><strong>الزبون:</strong> ${safeName}</div>
+            <div><strong>الهاتف:</strong> ${safePhone}</div>
+            <div><strong>المحافظة:</strong> ${safeGov}</div>
+            <div><strong>العنوان:</strong> ${safeAddress}</div>
+            ${safeNotes ? `<div style="margin-top:3px; font-size:10.5px; background:#f0f0f0; padding:3px 6px;"><strong>ملاحظات:</strong> ${safeNotes}</div>` : ''}
+          </div>
+
+          <div style="border-top:1px dashed #000; margin:8px 0;"></div>
+
+          <div style="font-size:11px;">
+            <div style="font-weight:900; text-align:center; margin-bottom:4px; background:#e8ded7; padding:2px 0;">مواصفات الفصال والتطريز للورشة</div>
+            ${itemsRows || '<div style="text-align:center; padding:6px 0;">تفاصيل قياسية</div>'}
+          </div>
+
+          <div style="border-top:2px solid #000; margin:8px 0;"></div>
+
+          <div style="font-size:11.5px; line-height:1.6;">
+            <div style="display:flex; justify-content:space-between; font-weight:900; font-size:13px;">
+              <span>المجموع الكلي:</span>
+              <span>${safeGrandTotal} د.ع</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:10.5px;">
+              <span>طريقة الدفع:</span>
+              <span>${safePayment}</span>
+            </div>
+          </div>
+
+          <div style="border-top:1px dashed #000; margin:8px 0;"></div>
+
+          <div style="font-size:10.5px; line-height:1.6;">
+            <div style="font-weight:800; margin-bottom:2px;">بطاقة الفحص والاعتماد بالورشة:</div>
+            <div>[  ] 1. التفصيل وقص القماش</div>
+            <div>[  ] 2. برمجة وتطريز الأسماء</div>
+            <div>[  ] 3. الكوي والتشطيب بالبخار</div>
+            <div>[  ] 4. المطابقة والتغليف النهائي</div>
+          </div>
+
+          <div style="border-top:1px dashed #000; margin:8px 0;"></div>
+          <div style="text-align:center; font-size:10px; font-weight:700;">
+            مبارك التخرج 🎓 — إبرة وخيط
+          </div>
+        </div>
+      `;
+    }
+
+    function openThermalSlip(order) {
+      currentThermalOrder = order;
+      if (!thermalBody || !modalThermal) return;
+      thermalBody.innerHTML = buildThermalSlipHtml(order);
+
+      // Render QR code
+      const qrEl = document.getElementById('thermal-qr-canvas');
+      if (qrEl) {
+        qrEl.innerHTML = '';
+        try {
+          if (typeof QRCode !== 'undefined') {
+            new QRCode(qrEl, {
+              text: window.location.origin + '/track?id=' + encodeURIComponent(order.id),
+              width: 90,
+              height: 90,
+              colorDark: '#000000',
+              colorLight: '#ffffff',
+              correctLevel: QRCode.CorrectLevel.M
+            });
+          } else {
+            qrEl.innerHTML = `<span style="font-family:monospace; font-size:11px; font-weight:900;">${escapeHtml(order.id)}</span>`;
+          }
+        } catch (_) {
+          qrEl.innerHTML = `<span style="font-family:monospace; font-size:11px; font-weight:900;">${escapeHtml(order.id)}</span>`;
+        }
+      }
+
+      modalThermal.style.display = 'flex';
+    }
+
+    function printThermalReceipt(order) {
+      if (!order) return;
+      const html = buildThermalSlipHtml(order);
+      let frame = document.getElementById('thermal-print-frame');
+      if (!frame) {
+        frame = document.createElement('iframe');
+        frame.id = 'thermal-print-frame';
+        frame.style.position = 'fixed';
+        frame.style.right = '0';
+        frame.style.bottom = '0';
+        frame.style.width = '0';
+        frame.style.height = '0';
+        frame.style.border = 'none';
+        document.body.appendChild(frame);
+      }
+
+      const doc = frame.contentWindow.document;
+      doc.open();
+      doc.write(`
+        <!DOCTYPE html>
+        <html lang="ar" dir="rtl">
+        <head>
+          <meta charset="utf-8">
+          <title>وصل ورشة حراري - ${escapeHtml(order.id)}</title>
+          <style>
+            @page {
+              size: 80mm auto;
+              margin: 0;
+            }
+            body {
+              margin: 0;
+              padding: 6px 4px;
+              width: 76mm;
+              font-family: 'Alexandria', 'Segoe UI', Tahoma, monospace, sans-serif;
+              color: #000;
+              background: #fff;
+              font-size: 11px;
+              line-height: 1.35;
+              direction: rtl;
+            }
+            * { box-sizing: border-box; }
+          </style>
+          <script src="/khamaiq.com/qrcode.min.js"><\/script>
+        </head>
+        <body>
+          ${html}
+          <script>
+            try {
+              var el = document.getElementById('thermal-qr-canvas');
+              if (el && typeof QRCode !== 'undefined') {
+                el.innerHTML = '';
+                new QRCode(el, {
+                  text: "${window.location.origin}/track?id=${encodeURIComponent(order.id)}",
+                  width: 90,
+                  height: 90,
+                  colorDark: '#000000',
+                  colorLight: '#ffffff',
+                  correctLevel: QRCode.CorrectLevel.M
+                });
+              }
+            } catch(e) {}
+          <\/script>
+        </body>
+        </html>
+      `);
+      doc.close();
+
+      setTimeout(() => {
+        try {
+          frame.contentWindow.focus();
+          frame.contentWindow.print();
+        } catch (_) {}
+      }, 350);
+    }
+
+    if (btnPrintThermalAction) {
+      btnPrintThermalAction.addEventListener('click', () => {
+        if (currentThermalOrder) {
+          printThermalReceipt(currentThermalOrder);
+        }
+      });
+    }
+
+    // =================================================================
+    // GRADUATION BATCHES (بوابة دفعات التخرج الجماعية)
+    // =================================================================
+    let allBatches = [];
+    let currentBatchFilter = 'all';
+    let batchSearchQuery = '';
+    let currentRosterBatch = null;
+
+    const batchesContainer = document.getElementById('admin-batches-container');
+    const batchSearchBox = document.getElementById('batch-search-box');
+    const btnRefreshBatches = document.getElementById('btn-refresh-batches');
+    const btnExportAllBatchesCsv = document.getElementById('btn-export-all-batches-csv');
+
+    // Batch Stats Elements
+    const statTotalBatches = document.getElementById('batch-stat-total');
+    const statTotalStudents = document.getElementById('batch-stat-students');
+    const statDiscountedBatches = document.getElementById('batch-stat-discounted');
+    const batchCountAllEl = document.getElementById('batch-count-all');
+
+    // Batch Roster Modal Elements
+    const modalRoster = document.getElementById('modal-batch-roster');
+    const modalRosterTitle = document.getElementById('modal-roster-title');
+    const modalRosterSub = document.getElementById('modal-roster-sub');
+    const rosterSearchInput = document.getElementById('roster-search-input');
+    const rosterContainer = document.getElementById('roster-table-container');
+    const btnCloseRoster = document.getElementById('btn-close-roster');
+    const btnExportRosterCsv = document.getElementById('btn-export-roster-csv');
+    const btnPrintRoster = document.getElementById('btn-print-roster');
+
+    function closeRosterModal() {
+      if (modalRoster) modalRoster.style.display = 'none';
+      currentRosterBatch = null;
+    }
+
+    if (btnCloseRoster) btnCloseRoster.addEventListener('click', closeRosterModal);
+
+    async function loadBatches() {
+      if (!batchesContainer) return;
+      batchesContainer.innerHTML = '<p style="color:#777; font-size:13.5px; text-align:center; padding:20px 0;">جاري قراءة دفعات التخرج...</p>';
+      try {
+        const res = await fetch('/api/batch/all');
+        if (!res.ok) throw new Error('Network response not ok');
+        const data = await res.json();
+        const rawBatches = Array.isArray(data.batches) ? data.batches : (data.batches ? [data.batches] : []);
+        allBatches = rawBatches;
+        updateBatchMetrics();
+        renderBatches();
+      } catch (err) {
+        console.warn('[Admin] Failed to load batches:', err);
+        batchesContainer.innerHTML = '<p style="color:#c5221f; font-size:13.5px; text-align:center; padding:20px 0;">تعذر تحميل الدفعات من الخادم.</p>';
+      }
+    }
+
+    function updateBatchMetrics() {
+      const total = allBatches.length;
+      let totalSt = 0;
+      let discountedCount = 0;
+
+      allBatches.forEach(b => {
+        const count = (b.students || []).length;
+        totalSt += count;
+        if (count >= 20) discountedCount++;
+      });
+
+      if (statTotalBatches) statTotalBatches.textContent = total;
+      if (statTotalStudents) statTotalStudents.textContent = totalSt;
+      if (statDiscountedBatches) statDiscountedBatches.textContent = discountedCount;
+      if (batchCountAllEl) batchCountAllEl.textContent = total;
+    }
+
+    function renderBatches() {
+      if (!batchesContainer) return;
+      let filtered = allBatches.filter(b => {
+        if (currentBatchFilter !== 'all' && (b.status || 'مفتوح للتسجيل') !== currentBatchFilter) {
+          return false;
+        }
+        if (batchSearchQuery) {
+          const q = batchSearchQuery.toLowerCase();
+          const mId = (b.id || '').toLowerCase().includes(q);
+          const mTitle = (b.title || '').toLowerCase().includes(q);
+          const mCollege = (b.college || '').toLowerCase().includes(q);
+          const mUni = (b.university || '').toLowerCase().includes(q);
+          const mRep = (b.repName || '').toLowerCase().includes(q);
+          const mPhone = (b.repPhone || '').toLowerCase().includes(q);
+          return mId || mTitle || mCollege || mUni || mRep || mPhone;
+        }
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        batchesContainer.innerHTML = `
+          <div style="text-align:center; padding:36px 20px; background:#fdf8f6; border-radius:18px; border:1px dashed #d9c4ba;">
+            <div style="font-size:32px; margin-bottom:8px;">🎓</div>
+            <h4 style="margin:0 0 6px; color:var(--color-burgundy);">لا توجد دفعات مطابقة</h4>
+            <p style="margin:0; font-size:13px; color:#777;">لم يتم إنشاء أي دفعات تخرج حتى الآن أو لم يتم العثور على نتائج بحث.</p>
+          </div>
+        `;
+        return;
+      }
+
+      let html = '<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(360px, 1fr)); gap:18px;">';
+
+      filtered.forEach(b => {
+        const stCount = (b.students || []).length;
+        const target = Math.max(1, parseInt(b.targetQty, 10) || 50);
+        const percent = Math.min(100, Math.round((stCount / target) * 100));
+
+        let discountTier = '0%';
+        let tierColor = '#777';
+        let tierDesc = `متبقي ${Math.max(0, 20 - stCount)} طالب للتخفيض 10%`;
+
+        if (stCount >= 60) {
+          discountTier = '20% تخفيض ملكي';
+          tierColor = '#137333';
+          tierDesc = 'أعلى تخفيض جماعي محقق (60+ طالب)';
+        } else if (stCount >= 40) {
+          discountTier = '15% تخفيض متميز';
+          tierColor = '#137333';
+          tierDesc = `متبقي ${60 - stCount} طالب للوصول إلى 20%`;
+        } else if (stCount >= 20) {
+          discountTier = '10% تخفيض دفعة';
+          tierColor = '#1967d2';
+          tierDesc = `متبقي ${40 - stCount} طالب للوصول إلى 15%`;
+        }
+
+        let cleanRepPhone = (b.repPhone || '').replace(/[^0-9]/g, '');
+        if (cleanRepPhone.startsWith('07')) cleanRepPhone = '964' + cleanRepPhone.substring(1);
+        else if (cleanRepPhone.startsWith('7') && cleanRepPhone.length === 10) cleanRepPhone = '964' + cleanRepPhone;
+        const repWaMsg = encodeURIComponent(`مرحباً أستاذ ${b.repName || 'ممثل الدفعة'}، بخصوص دفعة (${b.title || b.college}) على منصة إبرة وخيط:\nعدد الطلاب المسجلين حالياً: ${stCount} طالب.\nرابط الدفعة: ${window.location.origin}/class?batch=${b.id}`);
+        const repWaUrl = cleanRepPhone ? `https://wa.me/${cleanRepPhone}?text=${repWaMsg}` : '';
+
+        const colorHexMap = {
+          burgundy: '#5d022a',
+          emerald: '#0d4a36',
+          navy: '#1b2a4a',
+          gold: '#c59b27',
+          black: '#111111',
+          royal: '#1a365d'
+        };
+        const swatchColor = colorHexMap[b.color] || '#5d022a';
+
+        html += `
+          <div style="background:#fff; border:1px solid #ebdcd5; border-radius:20px; padding:20px; box-shadow:0 3px 12px rgba(0,0,0,0.03); display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px; gap:8px;">
+                <div>
+                  <span style="display:inline-block; font-family:monospace; font-size:12px; font-weight:800; color:var(--color-burgundy); background:#fdf2f4; padding:2px 8px; border-radius:8px; border:1px solid #ebdcd5;">${escapeHtml(b.id)}</span>
+                  <h3 style="margin:6px 0 2px; font-size:16px; font-weight:800; color:#1a0a10;">${escapeHtml(b.title || b.college)}</h3>
+                  <div style="font-size:12.5px; color:#666;">${escapeHtml(b.university || '')} — ${escapeHtml(b.college || '')}</div>
+                </div>
+                <span style="font-size:11.5px; font-weight:700; padding:3px 10px; border-radius:999px; background:#dcfce7; color:#15803d; white-space:nowrap;">
+                  ${escapeHtml(b.status || 'مفتوح للتسجيل')}
+                </span>
+              </div>
+
+              <!-- Color & Rep -->
+              <div style="background:#fdf8f6; border-radius:14px; padding:10px 14px; margin-bottom:14px; font-size:12.5px; display:flex; flex-direction:column; gap:6px;">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <span style="color:#666;">لون الوشاح:</span>
+                  <span style="font-weight:700; display:inline-flex; align-items:center; gap:6px;">
+                    <span style="width:12px; height:12px; border-radius:50%; background:${swatchColor}; display:inline-block; border:1px solid rgba(0,0,0,0.1);"></span>
+                    ${escapeHtml(b.colorName || b.color || 'ماروني')}
+                  </span>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <span style="color:#666;">الممثل:</span>
+                  <span style="font-weight:700;">${escapeHtml(b.repName || '—')} (${escapeHtml(b.repPhone || '—')})</span>
+                </div>
+              </div>
+
+              <!-- Progress Bar -->
+              <div style="margin-bottom:14px;">
+                <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:700; margin-bottom:4px;">
+                  <span>الطلاب المسجلين: <strong style="color:var(--color-burgundy); font-size:14px;">${stCount}</strong> من ${target}</span>
+                  <span style="color:${tierColor}; font-weight:800;">${discountTier}</span>
+                </div>
+                <div style="height:8px; background:#f0e6e0; border-radius:999px; overflow:hidden;">
+                  <div style="height:100%; width:${percent}%; background:linear-gradient(90deg, #5d022a, #c59b27); border-radius:999px; transition:width 0.4s ease;"></div>
+                </div>
+                <div style="font-size:11px; color:#888; margin-top:4px;">${tierDesc}</div>
+              </div>
+            </div>
+
+            <!-- Card Actions -->
+            <div style="border-top:1px solid #f0e6e0; padding-top:12px; display:flex; flex-wrap:wrap; gap:6px; justify-content:flex-end;">
+              ${cleanRepPhone ? `<a href="${repWaUrl}" target="_blank" class="btn-admin" style="font-size:12px; padding:6px 12px; color:#128c7e; border-color:#25d366;">💬 الممثل</a>` : ''}
+              <button type="button" class="btn-admin btn-copy-batch-link" data-id="${escapeHtml(b.id)}" style="font-size:12px; padding:6px 12px;" title="نسخ رابط التسجيل للطلاب">🔗 الرابط</button>
+              <button type="button" class="btn-admin btn-batch-csv" data-id="${escapeHtml(b.id)}" style="font-size:12px; padding:6px 12px;">📥 CSV</button>
+              <button type="button" class="btn-admin btn-print-batch" data-id="${escapeHtml(b.id)}" style="font-size:12px; padding:6px 12px;">🖨️ مانيفست</button>
+              <button type="button" class="btn-admin btn-view-roster" data-id="${escapeHtml(b.id)}" style="font-size:12px; padding:6px 12px; background:var(--color-burgundy); color:#fff; border-color:var(--color-burgundy);">📋 سجل الطلاب (${stCount})</button>
+            </div>
+          </div>
+        `;
+      });
+
+      html += '</div>';
+      batchesContainer.innerHTML = html;
+
+      // Bind Batch Actions
+      batchesContainer.querySelectorAll('.btn-view-roster').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const bId = btn.getAttribute('data-id');
+          openBatchRoster(bId);
+        });
+      });
+
+      batchesContainer.querySelectorAll('.btn-batch-csv').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const bId = btn.getAttribute('data-id');
+          exportBatchCsv(bId);
+        });
+      });
+
+      batchesContainer.querySelectorAll('.btn-print-batch').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const bId = btn.getAttribute('data-id');
+          printBatchManifest(bId);
+        });
+      });
+
+      batchesContainer.querySelectorAll('.btn-copy-batch-link').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const bId = btn.getAttribute('data-id');
+          const shareUrl = `${window.location.origin}/class?batch=${encodeURIComponent(bId)}`;
+          navigator.clipboard.writeText(shareUrl).then(() => {
+            alert(`تم نسخ رابط التسجيل للدفعة بنجاح:\n${shareUrl}`);
+          }).catch(() => {
+            prompt('انسخ الرابط التالي:', shareUrl);
+          });
+        });
+      });
+    }
+
+    function openBatchRoster(batchId) {
+      const batch = allBatches.find(b => b.id === batchId);
+      if (!batch || !modalRoster) return;
+      currentRosterBatch = batch;
+
+      if (modalRosterTitle) modalRosterTitle.textContent = `سجل طلاب ${batch.title || batch.college}`;
+      if (modalRosterSub) modalRosterSub.textContent = `كود الدفعة: ${batch.id} | الجامعة: ${batch.university} | الممثل: ${batch.repName} (${batch.repPhone})`;
+      if (rosterSearchInput) rosterSearchInput.value = '';
+
+      renderRosterTable(batch.students || []);
+      modalRoster.style.display = 'flex';
+    }
+
+    function renderRosterTable(students) {
+      if (!rosterContainer) return;
+      if (!students || students.length === 0) {
+        rosterContainer.innerHTML = '<p style="text-align:center; color:#777; padding:30px 0; font-size:14px;">لا يوجد طلاب مسجلين في هذه الدفعة حتى الآن.</p>';
+        return;
+      }
+
+      let q = (rosterSearchInput ? rosterSearchInput.value.trim().toLowerCase() : '');
+      let filtered = students.filter(s => {
+        if (!q) return true;
+        const mName = (s.name || '').toLowerCase().includes(q);
+        const mPhone = (s.phone || '').toLowerCase().includes(q);
+        const mEmb = (s.embroideryName || '').toLowerCase().includes(q);
+        return mName || mPhone || mEmb;
+      });
+
+      let html = '<div style="overflow-x:auto;"><table style="width:100%; border-collapse:collapse; font-size:13px; text-align:right;">' +
+        '<thead><tr style="background:#fdf8f6; border-bottom:2px solid #ebdcd5; color:#5d022a; font-weight:800;">' +
+        '<th style="padding:10px 12px;">#</th>' +
+        '<th style="padding:10px 12px;">اسم الطالب</th>' +
+        '<th style="padding:10px 12px;">الهاتف</th>' +
+        '<th style="padding:10px 12px;">الجنس</th>' +
+        '<th style="padding:10px 12px;">المقاس</th>' +
+        '<th style="padding:10px 12px;">الطول</th>' +
+        '<th style="padding:10px 12px;">الاسم للتطريز</th>' +
+        '<th style="padding:10px 12px;">الخط والخيط</th>' +
+        '<th style="padding:10px 12px;">ملاحظات</th>' +
+        '<th style="padding:10px 12px; text-align:center;">واتساب</th>' +
+        '</tr></thead><tbody>';
+
+      filtered.forEach((st, idx) => {
+        let cleanStPhone = (st.phone || '').replace(/[^0-9]/g, '');
+        if (cleanStPhone.startsWith('07')) cleanStPhone = '964' + cleanStPhone.substring(1);
+        else if (cleanStPhone.startsWith('7') && cleanStPhone.length === 10) cleanStPhone = '964' + cleanStPhone;
+        const stWaUrl = cleanStPhone ? `https://wa.me/${cleanStPhone}?text=${encodeURIComponent(`مرحباً ${st.name}، نؤكد استلام تسجيلك في دفعة ${currentRosterBatch ? currentRosterBatch.title : ''} للتخرج لدى إبرة وخيط.`)}` : '';
+
+        const calligLabels = { thuluth: 'ثلث', ruqaa: 'رقعة', naskh: 'نسخ', diwani: 'ديواني' };
+        const threadLabels = { gold: 'ذهبي لامع', silver: 'فضي حريري', white: 'أبيض', black: 'أسود' };
+
+        html += `
+          <tr style="border-bottom:1px solid #f1e7e2;">
+            <td style="padding:10px 12px; font-weight:700; color:#888;">${idx + 1}</td>
+            <td style="padding:10px 12px; font-weight:700; color:#1a0a10;">${escapeHtml(st.name)}</td>
+            <td style="padding:10px 12px; font-family:monospace; direction:ltr; text-align:right;">${escapeHtml(st.phone)}</td>
+            <td style="padding:10px 12px;">${st.gender === 'women' ? 'طالبة 👩' : 'طالب 👨'}</td>
+            <td style="padding:10px 12px; font-weight:800; color:var(--color-burgundy);">${escapeHtml(st.sizeLetter || '')} (${escapeHtml(st.sizeNumber || '')})</td>
+            <td style="padding:10px 12px;">${escapeHtml(st.height || '')} سم</td>
+            <td style="padding:10px 12px; font-weight:800; color:#5d022a; font-family:'Amiri', serif; font-size:14px;">${escapeHtml(st.embroideryName || st.name)}</td>
+            <td style="padding:10px 12px; font-size:12px; color:#555;">${calligLabels[st.calligraphy] || st.calligraphy || 'ثلث'} · ${threadLabels[st.thread] || st.thread || 'ذهبي'}</td>
+            <td style="padding:10px 12px; font-size:11.5px; color:#666; max-width:180px;">${escapeHtml(st.notes || '—')}</td>
+            <td style="padding:10px 12px; text-align:center;">
+              ${cleanStPhone ? `<a href="${stWaUrl}" target="_blank" style="text-decoration:none; font-size:16px;">💬</a>` : '—'}
+            </td>
+          </tr>
+        `;
+      });
+
+      html += '</tbody></table></div>';
+      rosterContainer.innerHTML = html;
+    }
+
+    if (rosterSearchInput) {
+      rosterSearchInput.addEventListener('input', () => {
+        if (currentRosterBatch) {
+          renderRosterTable(currentRosterBatch.students || []);
+        }
+      });
+    }
+
+    function exportBatchCsv(batchId) {
+      const batch = allBatches.find(b => b.id === batchId);
+      if (!batch || !(batch.students || []).length) {
+        alert('لا يوجد طلاب مسجلين في هذه الدفعة لتصديرهم.');
+        return;
+      }
+
+      let csv = '\uFEFFت,كود الدفعة,الجامعة,الكلية,اسم الطالب,الهاتف,الجنس,المقاس حرف,المقاس رقم,الطول سم,الاسم المطرز,نوع الخط,لون الخيط,ملاحظات خاصة,تاريخ التسجيل\n';
+      batch.students.forEach((st, idx) => {
+        const row = [
+          idx + 1,
+          `"${batch.id}"`,
+          `"${(batch.university || '').replace(/"/g, '""')}"`,
+          `"${(batch.college || '').replace(/"/g, '""')}"`,
+          `"${(st.name || '').replace(/"/g, '""')}"`,
+          `"${(st.phone || '').replace(/"/g, '""')}"`,
+          `"${st.gender === 'women' ? 'إناث' : 'ذكور'}"`,
+          `"${st.sizeLetter || ''}"`,
+          `"${st.sizeNumber || ''}"`,
+          `"${st.height || ''}"`,
+          `"${(st.embroideryName || st.name || '').replace(/"/g, '""')}"`,
+          `"${st.calligraphy || 'thuluth'}"`,
+          `"${st.thread || 'gold'}"`,
+          `"${(st.notes || '').replace(/"/g, '""')}"`,
+          `"${(st.joinedAt || '').replace(/"/g, '""')}"`
+        ];
+        csv += row.join(',') + '\n';
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', `كشف_ورشة_${batch.college || batch.id}_${new Date().toISOString().slice(0,10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function exportAllBatchesCsv() {
+      if (!allBatches.length) {
+        alert('لا توجد دفعات لتصديرها.');
+        return;
+      }
+
+      let csv = '\uFEFFت,كود الدفعة,الجامعة,الكلية,لون الوشاح,اسم الممثل,هاتف الممثل,اسم الطالب,الهاتف,الجنس,المقاس حرف,المقاس رقم,الطول سم,الاسم المطرز,نوع الخط,لون الخيط,ملاحظات خاصة,تاريخ التسجيل\n';
+      let count = 0;
+      allBatches.forEach(batch => {
+        (batch.students || []).forEach(st => {
+          count++;
+          const row = [
+            count,
+            `"${batch.id}"`,
+            `"${(batch.university || '').replace(/"/g, '""')}"`,
+            `"${(batch.college || '').replace(/"/g, '""')}"`,
+            `"${(batch.colorName || batch.color || '').replace(/"/g, '""')}"`,
+            `"${(batch.repName || '').replace(/"/g, '""')}"`,
+            `"${(batch.repPhone || '').replace(/"/g, '""')}"`,
+            `"${(st.name || '').replace(/"/g, '""')}"`,
+            `"${(st.phone || '').replace(/"/g, '""')}"`,
+            `"${st.gender === 'women' ? 'إناث' : 'ذكور'}"`,
+            `"${st.sizeLetter || ''}"`,
+            `"${st.sizeNumber || ''}"`,
+            `"${st.height || ''}"`,
+            `"${(st.embroideryName || st.name || '').replace(/"/g, '""')}"`,
+            `"${st.calligraphy || 'thuluth'}"`,
+            `"${st.thread || 'gold'}"`,
+            `"${(st.notes || '').replace(/"/g, '""')}"`,
+            `"${(st.joinedAt || '').replace(/"/g, '""')}"`
+          ];
+          csv += row.join(',') + '\n';
+        });
+      });
+
+      if (count === 0) {
+        alert('لا يوجد أي طلاب مسجلين في الدفعات حتى الآن.');
+        return;
+      }
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', `كشف_شامل_طلاب_الدفعات_${new Date().toISOString().slice(0,10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function printBatchManifest(batchId) {
+      const batch = allBatches.find(b => b.id === batchId);
+      if (!batch || !(batch.students || []).length) {
+        alert('لا يوجد طلاب مسجلين في هذه الدفعة لطباعة المانيفست.');
+        return;
+      }
+
+      const rowsHtml = batch.students.map((st, idx) => `
+        <tr style="border-bottom:1px solid #ddd;">
+          <td style="padding:6px 8px; font-weight:700; text-align:center;">${idx + 1}</td>
+          <td style="padding:6px 8px; font-weight:700;">${escapeHtml(st.name)}</td>
+          <td style="padding:6px 8px; font-family:monospace; direction:ltr; text-align:right;">${escapeHtml(st.phone)}</td>
+          <td style="padding:6px 8px; text-align:center;">${st.sizeLetter || ''} (${st.sizeNumber || ''})</td>
+          <td style="padding:6px 8px; text-align:center;">${st.height || ''} سم</td>
+          <td style="padding:6px 8px; font-weight:800; color:#5d022a;">${escapeHtml(st.embroideryName || st.name)}</td>
+          <td style="padding:6px 8px; font-size:11px;">${escapeHtml(st.calligraphy || 'ثلث')} / ${escapeHtml(st.thread || 'ذهبي')}</td>
+          <td style="padding:6px 8px; font-size:11px;">${escapeHtml(st.notes || '—')}</td>
+          <td style="padding:6px 8px; text-align:center; border:1px solid #ccc; width:45px;">[  ]</td>
+          <td style="padding:6px 8px; text-align:center; border:1px solid #ccc; width:45px;">[  ]</td>
+          <td style="padding:6px 8px; text-align:center; border:1px solid #ccc; width:45px;">[  ]</td>
+        </tr>
+      `).join('');
+
+      let frame = document.getElementById('thermal-print-frame');
+      if (!frame) {
+        frame = document.createElement('iframe');
+        frame.id = 'thermal-print-frame';
+        frame.style.position = 'fixed';
+        frame.style.right = '0';
+        frame.style.bottom = '0';
+        frame.style.width = '0';
+        frame.style.height = '0';
+        frame.style.border = 'none';
+        document.body.appendChild(frame);
+      }
+
+      const doc = frame.contentWindow.document;
+      doc.open();
+      doc.write(`
+        <!DOCTYPE html>
+        <html lang="ar" dir="rtl">
+        <head>
+          <meta charset="utf-8">
+          <title>مانيفست ورشة عمل - ${escapeHtml(batch.title || batch.college)}</title>
+          <style>
+            @page { size: A4 landscape; margin: 10mm; }
+            body { font-family: 'Alexandria', 'Segoe UI', Tahoma, sans-serif; font-size: 11.5px; color: #000; direction: rtl; }
+            table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+            th { background: #5d022a; color: #fff; padding: 7px 8px; text-align: right; font-size: 11.5px; border: 1px solid #5d022a; }
+            td { border: 1px solid #bbb; font-size: 11px; }
+          </style>
+        </head>
+        <body>
+          <div style="display:flex; justify-content:space-between; align-items:flex-end; border-bottom:2px solid #5d022a; padding-bottom:8px; margin-bottom:8px;">
+            <div>
+              <h2 style="margin:0 0 4px; font-size:17px; color:#5d022a;">إبرة وخيط — أمر تشغيل ومانيفست ورشة التطريز والتفصيل</h2>
+              <div style="font-size:13px; font-weight:700;">${escapeHtml(batch.title || batch.college)} — ${escapeHtml(batch.university || '')}</div>
+              <div style="font-size:11.5px; color:#555;">لون الوشاح المعتمد: <strong>${escapeHtml(batch.colorName || batch.color || 'ماروني')}</strong> | ممثل الدفعة: ${escapeHtml(batch.repName || '')} (${escapeHtml(batch.repPhone || '')})</div>
+            </div>
+            <div style="text-align:left;">
+              <div style="font-size:12px; font-weight:800; font-family:monospace;">كود: ${escapeHtml(batch.id)}</div>
+              <div style="font-size:11px; color:#666;">إجمالي الطلاب: ${batch.students.length} طالب</div>
+              <div style="font-size:10.5px; color:#888;">تاريخ الطباعة: ${new Date().toLocaleDateString('ar-IQ')}</div>
+            </div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th style="width:25px; text-align:center;">ت</th>
+                <th>اسم الطالب</th>
+                <th>الهاتف</th>
+                <th style="text-align:center;">القياس</th>
+                <th style="text-align:center;">الطول</th>
+                <th>الاسم للتطريز</th>
+                <th>نوع الخط والخيط</th>
+                <th>ملاحظات</th>
+                <th style="text-align:center; width:45px;">الفصال</th>
+                <th style="text-align:center; width:45px;">التطريز</th>
+                <th style="text-align:center; width:45px;">التغليف</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rowsHtml}
+            </tbody>
+          </table>
+        </body>
+        </html>
+      `);
+      doc.close();
+
+      setTimeout(() => {
+        try {
+          frame.contentWindow.focus();
+          frame.contentWindow.print();
+        } catch (_) {}
+      }, 350);
+    }
+
+    if (btnExportRosterCsv) {
+      btnExportRosterCsv.addEventListener('click', () => {
+        if (currentRosterBatch) exportBatchCsv(currentRosterBatch.id);
+      });
+    }
+
+    if (btnPrintRoster) {
+      btnPrintRoster.addEventListener('click', () => {
+        if (currentRosterBatch) printBatchManifest(currentRosterBatch.id);
+      });
+    }
+
+    if (btnRefreshBatches) {
+      btnRefreshBatches.addEventListener('click', loadBatches);
+    }
+
+    if (btnExportAllBatchesCsv) {
+      btnExportAllBatchesCsv.addEventListener('click', exportAllBatchesCsv);
+    }
+
+    if (batchSearchBox) {
+      batchSearchBox.addEventListener('input', (e) => {
+        batchSearchQuery = e.target.value.trim();
+        renderBatches();
+      });
+    }
+
+    document.querySelectorAll('#batch-status-pills .status-pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#batch-status-pills .status-pill').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentBatchFilter = btn.getAttribute('data-bstatus');
+        renderBatches();
+      });
+    });
+
     // Refresh & Export
     btnRefresh.addEventListener('click', () => {
       loadOrders();
+      loadBatches();
       loadVotes();
     });
     btnExport.addEventListener('click', exportToCsv);
@@ -789,6 +1663,7 @@
     // Init
     if (checkAuth()) {
       loadOrders();
+      loadBatches();
       loadVotes();
     }
   })();

@@ -1,0 +1,29 @@
+[{
+    "id":  "BATCH-260912-459",
+    "title":  "دفعة كلية الطب — جامعة بغداد",
+    "university":  "جامعة بغداد",
+    "college":  "كلية الطب",
+    "repName":  "حيدر الكعبي",
+    "repPhone":  "+9647801234567",
+    "color":  "burgundy",
+    "colorName":  "ماروني خامة",
+    "targetQty":  60,
+    "status":  "مفتوح للتسجيل",
+    "createdAt":  "2026-09-12T11:37:00",
+    "students":  [
+                     {
+                         "id":  "ST-3709-73",
+                         "name":  "علي مرتضى الموسوي",
+                         "phone":  "07709876543",
+                         "gender":  "men",
+                         "sizeLetter":  "XL",
+                         "sizeNumber":  54,
+                         "height":  176,
+                         "embroideryName":  "د. علي الموسوي",
+                         "calligraphy":  "thuluth",
+                         "thread":  "gold",
+                         "notes":  "يرجى كتابة سنة 2026 تحت الاسم",
+                         "joinedAt":  "2026-09-12T11:37:09"
+                     }
+                 ]
+}]

@@ -45,7 +45,10 @@ $routeAliases = @(
     @{ Path = "/%D8%AA%D8%B5%D9%88%D9%8A%D8%AA"; Name = "Arabic Vote (tasweet)" },
     @{ Path = "/%D9%82%D9%8A%D8%A7%D8%B3"; Name = "Arabic Size (qiyas)" },
     @{ Path = "/%D8%B7%D9%84%D8%A8"; Name = "Arabic Checkout (talab)" },
-    @{ Path = "/%D8%AA%D8%AA%D8%A8%D8%B9"; Name = "Arabic Track (tatabbu)" }
+    @{ Path = "/%D8%AA%D8%AA%D8%A8%D8%B9"; Name = "Arabic Track (tatabbu)" },
+    @{ Path = "/manifest.json"; Name = "PWA Web App Manifest" },
+    @{ Path = "/sw.js"; Name = "PWA Service Worker" },
+    @{ Path = "/khamaiq.com/qrcode.min.js"; Name = "Offline QR Code Engine" }
 )
 
 foreach ($ra in $routeAliases) {
@@ -261,6 +264,43 @@ if ([System.IO.File]::Exists("voting.json")) {
     $bugResults += "PASS: voting.json valid ($($vData.votes.Count) votes, $($vData.representatives.Count) reps)"
 } else {
     $bugResults += "FAIL: voting.json missing"
+}
+
+# Check batches.json (Graduation Batches Database)
+if ([System.IO.File]::Exists("batches.json")) {
+    $bData = Get-Content "batches.json" -Raw -Encoding UTF8 | ConvertFrom-Json
+    $bCount = if ($bData -is [array]) { $bData.Count } elseif ($bData) { 1 } else { 0 }
+    $bugResults += "PASS: batches.json valid ($bCount graduation batches stored)"
+} else {
+    $bugResults += "FAIL: batches.json missing"
+}
+
+# Check PWA Manifest & SW files
+if ([System.IO.File]::Exists("manifest.json")) {
+    $mObj = Get-Content "manifest.json" -Raw -Encoding UTF8 | ConvertFrom-Json
+    $bugResults += "PASS: manifest.json valid (PWA Name: '$($mObj.name)')"
+} else {
+    $bugResults += "FAIL: manifest.json missing"
+}
+
+if ([System.IO.File]::Exists("sw.js")) {
+    $swBytes = [System.IO.File]::ReadAllBytes("sw.js")
+    $bugResults += "PASS: sw.js valid Service Worker ($($swBytes.Length) bytes)"
+} else {
+    $bugResults += "FAIL: sw.js missing"
+}
+
+# Test Batch API
+try {
+    $bResp = Invoke-WebRequest -Uri "$base/api/batch/all" -UseBasicParsing
+    $bJson = $bResp.Content | ConvertFrom-Json
+    if ($bJson.success -eq $true) {
+        $bugResults += "PASS: GET /api/batch/all operational (Returned $($bJson.count) batches)"
+    } else {
+        $bugResults += "FAIL: GET /api/batch/all returned success=false"
+    }
+} catch {
+    $bugResults += "FAIL: GET /api/batch/all error: $_"
 }
 
 $bugResults | ForEach-Object { Write-Host "  $_" }

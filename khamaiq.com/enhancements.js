@@ -259,12 +259,291 @@
       if (c.front) { const imgF = new Image(); imgF.src = c.front; }
       if (c.back)  { const imgB = new Image(); imgB.src = c.back; }
     });
+
+    initLiveEmbroideryEngine(photoFrame, () => currentColor);
+  }
+
+  // 5. Live Embroidery & Graduation Story Card Generator
+  function initLiveEmbroideryEngine(photoFrame, getCurrentColor) {
+    if (!photoFrame || document.getElementById('live-embroidery-panel')) return;
+
+    let state = {
+      name: 'محمد علي سعد',
+      font: 'thuluth', // 'thuluth', 'ruqah', 'naskh', 'diwani'
+      thread: 'gold'   // 'gold', 'silver'
+    };
+
+    // 1. Create floating overlay badge on the visualizer photo
+    let overlay = photoFrame.querySelector('.vis-photo-embroidery-overlay');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.className = 'vis-photo-embroidery-overlay';
+      photoFrame.appendChild(overlay);
+    }
+
+    function renderOverlay() {
+      const threadClass = state.thread === 'gold' ? 'sash-ribbon-gold' : 'sash-ribbon-silver';
+      const fontFamilies = {
+        thuluth: '"Amiri", serif',
+        ruqah: '"Aref Ruqaa", cursive, serif',
+        naskh: '"Cairo", sans-serif',
+        diwani: '"Amiri", serif'
+      };
+      const chosenFont = fontFamilies[state.font] || fontFamilies.thuluth;
+
+      overlay.innerHTML = `
+        <span class="vis-overlay-tag">✨ معاينة التطريز الحي (دفعة 2026)</span>
+        <div class="vis-overlay-name ${threadClass}" style="font-family:${chosenFont};">
+          ${escapeHtml(state.name || 'محمد علي سعد')}
+        </div>
+      `;
+    }
+
+    // 2. Create the customization toolbar below the visualizer controls
+    const controlsContainer = document.querySelector('.tester-controls') || photoFrame.parentElement;
+    if (!controlsContainer) return;
+
+    const panel = document.createElement('div');
+    panel.id = 'live-embroidery-panel';
+    panel.className = 'live-embroidery-panel';
+    panel.innerHTML = `
+      <div class="live-emb-header">
+        <h4 class="live-emb-title"><span>🧵</span> خصص تطريز اسمك على الوشاح</h4>
+        <span class="live-emb-tag">معاينة مباشرة حية</span>
+      </div>
+
+      <div class="live-emb-input-wrap">
+        <input type="text" class="live-emb-input" id="live-emb-name-input" value="${state.name}" maxlength="26" placeholder="اكتب اسمك للمعاينة (مثال: د. علي الكعبي)">
+      </div>
+
+      <div class="live-emb-pill-row">
+        <span class="live-emb-pill-label">نوع الخط:</span>
+        <button type="button" class="live-pill-btn is-active" data-font="thuluth">الثلث الملكي</button>
+        <button type="button" class="live-pill-btn" data-font="ruqah">الرقعة</button>
+        <button type="button" class="live-pill-btn" data-font="naskh">النسخ</button>
+        <button type="button" class="live-pill-btn" data-font="diwani">الديواني</button>
+      </div>
+
+      <div class="live-emb-pill-row">
+        <span class="live-emb-pill-label">نوع الخيط:</span>
+        <button type="button" class="live-pill-btn is-active" data-thread="gold">قصب ذهبي لامع ✨</button>
+        <button type="button" class="live-pill-btn" data-thread="silver">حرير فضي فاخر 🪡</button>
+      </div>
+
+      <div class="live-emb-actions">
+        <button type="button" class="btn-card-story" id="btn-download-story-card">
+          <span>📸</span>
+          <span>تنزيل بطاقة تخرجي للستوري (Instagram / WhatsApp)</span>
+        </button>
+        <a href="#" target="_blank" rel="noopener" class="btn-share-vis-wa" id="btn-share-vis-wa">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.06 2.87 1.21 3.07.15.2 2.09 3.2 5.07 4.49.71.31 1.26.49 1.69.63.71.23 1.36.19 1.87.12.57-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35zM12 2a10 10 0 0 0-8.55 15.19L2 22l4.94-1.3A10 10 0 1 0 12 2z"/></svg>
+          <span>شارك تصميمك واتساب</span>
+        </a>
+      </div>
+    `;
+
+    controlsContainer.appendChild(panel);
+    renderOverlay();
+
+    // Event listeners
+    const nameInput = panel.querySelector('#live-emb-name-input');
+    const waShareBtn = panel.querySelector('#btn-share-vis-wa');
+    const downloadBtn = panel.querySelector('#btn-download-story-card');
+
+    function updateWaLink() {
+      const curColor = getCurrentColor();
+      const colorTitle = curColor ? curColor.name : 'ماروني خامة';
+      const text = `مرحباً، صممت وشاح تخرجي من متجر إبرة وخيط بلون (${colorTitle}) واسمي (${state.name}) مطرزاً بالقصب الذهبي! تقدر تشوف التفاصيل وتصمم قطعتك هنا: ${window.location.origin}`;
+      waShareBtn.href = `https://wa.me/?text=${encodeURIComponent(text)}`;
+    }
+
+    nameInput.addEventListener('input', () => {
+      state.name = nameInput.value.trim() || 'اسم الخريج';
+      renderOverlay();
+      updateWaLink();
+    });
+
+    panel.querySelectorAll('[data-font]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        panel.querySelectorAll('[data-font]').forEach(b => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+        state.font = btn.dataset.font;
+        renderOverlay();
+      });
+    });
+
+    panel.querySelectorAll('[data-thread]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        panel.querySelectorAll('[data-thread]').forEach(b => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+        state.thread = btn.dataset.thread;
+        renderOverlay();
+      });
+    });
+
+    updateWaLink();
+
+    // Generate High-Res 1080x1350 Story Card on Canvas
+    downloadBtn.addEventListener('click', () => {
+      downloadBtn.disabled = true;
+      downloadBtn.innerHTML = `<span>⏳</span><span>جاري إنشاء بطاقة التخرج...</span>`;
+
+      const curColor = getCurrentColor();
+      const activeLayer = photoFrame.querySelector('.vis-photo-layer.is-active') || photoFrame.querySelector('.vis-photo-layer');
+      
+      const canvas = document.createElement('canvas');
+      canvas.width = 1080;
+      canvas.height = 1350;
+      const ctx = canvas.getContext('2d');
+
+      // 1. Background radial luxury gradient
+      const bgGrad = ctx.createRadialGradient(540, 400, 100, 540, 675, 800);
+      bgGrad.addColorStop(0, '#162438');
+      bgGrad.addColorStop(0.6, '#0b1320');
+      bgGrad.addColorStop(1, '#050a12');
+      ctx.fillStyle = bgGrad;
+      ctx.fillRect(0, 0, 1080, 1350);
+
+      // 2. Luxury Gold Outer and Inner Border Frame
+      ctx.strokeStyle = 'rgba(212, 175, 55, 0.4)';
+      ctx.lineWidth = 4;
+      ctx.strokeRect(30, 30, 1020, 1290);
+
+      ctx.strokeStyle = '#ba8d5d';
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(40, 40, 1000, 1270);
+
+      // Corner gold accents
+      const drawCorner = (x, y, dx, dy) => {
+        ctx.beginPath();
+        ctx.moveTo(x, y + dy * 25);
+        ctx.lineTo(x, y);
+        ctx.lineTo(x + dx * 25, y);
+        ctx.strokeStyle = '#f6e1bd';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+      };
+      drawCorner(44, 44, 1, 1);
+      drawCorner(1036, 44, -1, 1);
+      drawCorner(44, 1306, 1, -1);
+      drawCorner(1036, 1306, -1, -1);
+
+      // 3. Top Branding Header
+      ctx.fillStyle = '#ba8d5d';
+      ctx.font = 'bold 24px -apple-system, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('🎓 إبرة وخيط — الفخامة الأكاديمية الملكية', 540, 95);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 36px "Amiri", serif';
+      ctx.fillText('دفعة تخرج 2026 — مبارك التخرج', 540, 145);
+
+      // 4. Draw Graduate Scarf Photo
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => {
+        // Draw centered photo
+        const pWidth = 720;
+        const pHeight = 900;
+        const px = (1080 - pWidth) / 2;
+        const py = 180;
+
+        // Clip rounded rectangle for image
+        ctx.save();
+        ctx.beginPath();
+        ctx.roundRect(px, py, pWidth, pHeight, 28);
+        ctx.clip();
+        ctx.drawImage(img, px, py, pWidth, pHeight);
+        ctx.restore();
+
+        // Border around photo
+        ctx.strokeStyle = 'rgba(212, 175, 55, 0.6)';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.roundRect(px, py, pWidth, pHeight, 28);
+        ctx.stroke();
+
+        // 5. Embroidery Bottom Banner
+        const bannerH = 140;
+        const bannerY = py + pHeight - bannerH - 24;
+        ctx.fillStyle = 'rgba(11, 19, 32, 0.88)';
+        ctx.beginPath();
+        ctx.roundRect(px + 30, bannerY, pWidth - 60, bannerH, 20);
+        ctx.fill();
+        ctx.strokeStyle = '#d4af37';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Tag: Color & Cut
+        ctx.fillStyle = '#ba8d5d';
+        ctx.font = 'bold 20px -apple-system, sans-serif';
+        ctx.textAlign = 'right';
+        ctx.fillText(`اللون الرسمي: ${curColor ? curColor.name : 'ماروني خامة'} · قصة ملكية`, px + pWidth - 60, bannerY + 40);
+
+        // Student Embroidered Name
+        ctx.fillStyle = state.thread === 'gold' ? '#f5d77f' : '#e0e6ed';
+        ctx.font = 'bold 46px "Amiri", serif';
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+        ctx.shadowBlur = 10;
+        ctx.fillText(state.name || 'محمد علي سعد', px + pWidth - 60, bannerY + 100);
+        ctx.shadowBlur = 0;
+
+        // 6. Footer Signature
+        ctx.fillStyle = '#8a99ad';
+        ctx.font = '20px -apple-system, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('تم التصميم عبر منصة إبرة وخيط · khama.iq', 540, 1260);
+
+        // Convert to Download
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.92);
+        const link = document.createElement('a');
+        link.download = `بطاقة_تخرج_${state.name.replace(/\s+/g, '_')}_2026.jpg`;
+        link.href = dataUrl;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        downloadBtn.disabled = false;
+        downloadBtn.innerHTML = `<span>✓</span><span>تم التنزيل بنجاح!</span>`;
+        if (window.showIkToast) {
+          window.showIkToast('🎉 تم حفظ بطاقة تخرجك بنجاح! شاركها الآن على ستوري انستغرام أو واتساب');
+        }
+        setTimeout(() => {
+          downloadBtn.innerHTML = `<span>📸</span><span>تنزيل بطاقة تخرجي للستوري (Instagram / WhatsApp)</span>`;
+        }, 3000);
+      };
+
+      img.onerror = () => {
+        downloadBtn.disabled = false;
+        downloadBtn.innerHTML = `<span>📸</span><span>تنزيل بطاقة تخرجي للستوري (Instagram / WhatsApp)</span>`;
+        alert('حدث خطأ أثناء تحميل صورة النموذج للتصدير.');
+      };
+
+      img.src = activeLayer ? activeLayer.src : (curColor ? curColor.front : 'khamaiq.com/assets/images/visualizer-burgundy.jpg');
+    });
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' })[m]);
+    }
+  }
+
+  // 6. Register PWA Service Worker
+  function initPwa() {
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch((err) => {
+          console.warn('PWA: Service Worker registration skipped:', err);
+        });
+      });
+    }
   }
 
   // Run on page load
   function init() {
     initWhatsAppConcierge();
     initColorVisualizer();
+    initPwa();
   }
 
   if (document.readyState === 'loading') {
@@ -273,3 +552,4 @@
     init();
   }
 })();
+

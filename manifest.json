@@ -1,0 +1,54 @@
+{
+  "name": "إبرة وخيط | أرواب وأوشحة التخرج الجامعي 2026",
+  "short_name": "إبرة وخيط",
+  "description": "منصة تفصيل أرواب وأوشحة التخرج الجامعي وتطريز الأسماء بالخط العربي الفاخر",
+  "start_url": "/?source=pwa",
+  "display": "standalone",
+  "background_color": "#0b1320",
+  "theme_color": "#5d022a",
+  "orientation": "portrait",
+  "dir": "rtl",
+  "lang": "ar",
+  "icons": [
+    {
+      "src": "/khamaiq.com/assets/icons/favicon-32x32_v=p138.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/khamaiq.com/assets/icons/apple-touch-icon_v=p138.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/khamaiq.com/assets/icons/apple-touch-icon_v=p138.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "معرض المنتجات",
+      "short_name": "المنتجات",
+      "description": "استعراض وتفصيل أرواب وأوشحة التخرج",
+      "url": "/products",
+      "icons": [{ "src": "/khamaiq.com/assets/icons/apple-touch-icon_v=p138.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "تصويت ألوان الكليات",
+      "short_name": "التصويت",
+      "description": "تصويت ممثلي وطلبة الكليات لاختيار اللون الرسمي",
+      "url": "/vote",
+      "icons": [{ "src": "/khamaiq.com/assets/icons/apple-touch-icon_v=p138.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "تتبع حالة الطلب",
+      "short_name": "تتبع الطلب",
+      "description": "متابعة مراحل تفصيل وتطريز وشحن طلبك",
+      "url": "/track",
+      "icons": [{ "src": "/khamaiq.com/assets/icons/apple-touch-icon_v=p138.png", "sizes": "192x192" }]
+    }
+  ]
+}

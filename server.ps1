@@ -41,11 +41,12 @@ $mimeTypes = @{
 
 $rootDir = if ($PSScriptRoot) { $PSScriptRoot } else { (Get-Location).Path }
 $canonicalRoot = [System.IO.Path]::GetFullPath($rootDir)
-$ordersDbPath = Join-Path $rootDir "orders.json"
-$votingDbPath = Join-Path $rootDir "voting.json"
-$unisDbPath   = Join-Path $rootDir "universities.json"
-$ADMIN_TOKEN  = "khama_admin_2026"
-$utf8NoBom    = New-Object System.Text.UTF8Encoding($false)
+$ordersDbPath  = Join-Path $rootDir "orders.json"
+$votingDbPath  = Join-Path $rootDir "voting.json"
+$batchesDbPath = Join-Path $rootDir "batches.json"
+$unisDbPath    = Join-Path $rootDir "universities.json"
+$ADMIN_TOKEN   = "khama_admin_2026"
+$utf8NoBom     = New-Object System.Text.UTF8Encoding($false)
 
 # Initialize orders and voting database files if not exists
 if (-not [System.IO.File]::Exists($ordersDbPath)) {
@@ -54,18 +55,42 @@ if (-not [System.IO.File]::Exists($ordersDbPath)) {
 if (-not [System.IO.File]::Exists($votingDbPath)) {
     [System.IO.File]::WriteAllText($votingDbPath, '{"votes":[],"otps":[],"representatives":[]}', $utf8NoBom)
 }
+if (-not [System.IO.File]::Exists($batchesDbPath)) {
+    [System.IO.File]::WriteAllText($batchesDbPath, "[]", $utf8NoBom)
+}
 
 # Mutexes for thread-safe atomic database read/writes
 $dbMutex     = New-Object System.Threading.Mutex($false, "Global\KhamaOrdersDbMutex")
 $votingMutex = New-Object System.Threading.Mutex($false, "Global\KhamaVotingDbMutex")
+$batchMutex  = New-Object System.Threading.Mutex($false, "Global\KhamaBatchDbMutex")
 
 Write-Host "========================================="
 Write-Host "  Ibra Wa Kheit Hardened Web & DB Server"
 Write-Host "  Store:  http://localhost:$port/"
 Write-Host "  Admin:  http://localhost:$port/admin"
 Write-Host "  Track:  http://localhost:$port/track"
-Write-Host "  API:    http://localhost:$port/api/orders"
 Write-Host "========================================="
+
+function Get-RequestBody($req) {
+    try {
+        if ($req.ContentLength64 -le 0) { return $null }
+        $ms = New-Object System.IO.MemoryStream
+        $buf = New-Object byte[] 4096
+        $total = 0
+        while ($total -lt $req.ContentLength64) {
+            $toRead = [Math]::Min(4096, [int]($req.ContentLength64 - $total))
+            $readCount = $req.InputStream.Read($buf, 0, $toRead)
+            if ($readCount -le 0) { break }
+            $ms.Write($buf, 0, $readCount)
+            $total += $readCount
+        }
+        $txt = [System.Text.Encoding]::UTF8.GetString($ms.ToArray())
+        if ([string]::IsNullOrWhiteSpace($txt)) { return $null }
+        return ConvertFrom-Json $txt
+    } catch {
+        return $null
+    }
+}
 
 while ($listener.IsListening) {
     try {
@@ -113,28 +138,6 @@ while ($listener.IsListening) {
                 if ($request.HttpMethod -ne "HEAD") { $response.OutputStream.Write($uBytes, 0, $uBytes.Length) }
                 $response.OutputStream.Close()
                 continue
-            }
-
-            # Helper to read request body as JSON
-            function Get-RequestBody($req) {
-                try {
-                    if ($req.ContentLength64 -le 0) { return $null }
-                    $ms = New-Object System.IO.MemoryStream
-                    $buf = New-Object byte[] 4096
-                    $total = 0
-                    while ($total -lt $req.ContentLength64) {
-                        $toRead = [Math]::Min(4096, [int]($req.ContentLength64 - $total))
-                        $readCount = $req.InputStream.Read($buf, 0, $toRead)
-                        if ($readCount -le 0) { break }
-                        $ms.Write($buf, 0, $readCount)
-                        $total += $readCount
-                    }
-                    $txt = [System.Text.Encoding]::UTF8.GetString($ms.ToArray())
-                    if ([string]::IsNullOrWhiteSpace($txt)) { return $null }
-                    return ConvertFrom-Json $txt
-                } catch {
-                    return $null
-                }
             }
 
             # Helper to load voting DB safely
@@ -436,6 +439,182 @@ while ($listener.IsListening) {
                     $response.StatusCode = 200
                     $response.ContentLength64 = $outBytes.Length
                     if ($request.HttpMethod -ne "HEAD") { $response.OutputStream.Write($outBytes, 0, $outBytes.Length) }
+                    $response.OutputStream.Close()
+                    continue
+                }
+            }
+        }
+
+        # -----------------------------------------------------------------
+        # API ROUTE: /api/batch/* (Batch Representative Portal)
+        # -----------------------------------------------------------------
+        if ($relPath.StartsWith("api/batch") -or $relPath -eq "api/batch") {
+            $response.ContentType = "application/json; charset=utf-8"
+            $response.AddHeader("Cache-Control", "no-store, no-cache, must-revalidate")
+            $subPath = if ($relPath.Length -gt 9) { $relPath.Substring(9).Trim('/') } else { "" }
+
+            # Helper to load batches
+            function Get-BatchesDb {
+                [void]$batchMutex.WaitOne(5000)
+                try {
+                    $raw = if ([System.IO.File]::Exists($batchesDbPath)) { [System.IO.File]::ReadAllText($batchesDbPath, [System.Text.Encoding]::UTF8) } else { "[]" }
+                    if ([string]::IsNullOrWhiteSpace($raw)) { return @() }
+                    $p = ConvertFrom-Json $raw
+                    if ($p -is [PSCustomObject] -and $p.PSObject.Properties['value']) { return @($p.value) } else { return @($p) }
+                } finally {
+                    $batchMutex.ReleaseMutex()
+                }
+            }
+
+            # Helper to save batches
+            function Save-BatchesDb($arr) {
+                [void]$batchMutex.WaitOne(5000)
+                try {
+                    $jsonStr = if ($arr.Count -eq 0) { "[]" } elseif ($arr.Count -eq 1) { "[" + (ConvertTo-Json $arr[0] -Depth 10) + "]" } else { ConvertTo-Json $arr -Depth 10 }
+                    [System.IO.File]::WriteAllText($batchesDbPath, $jsonStr, $utf8NoBom)
+                } finally {
+                    $batchMutex.ReleaseMutex()
+                }
+            }
+
+            # 1. GET /api/batch/all
+            if ($subPath -eq "all" -and ($request.HttpMethod -eq "GET" -or $request.HttpMethod -eq "HEAD")) {
+                $bList = @(Get-BatchesDb)
+                $jsonString = ""
+                if ($bList.Count -eq 0) {
+                    $jsonString = '{"success":true,"count":0,"batches":[]}'
+                } elseif ($bList.Count -eq 1) {
+                    $itemJson = ConvertTo-Json $bList[0] -Depth 10
+                    $jsonString = '{"success":true,"count":1,"batches":[' + $itemJson + ']}'
+                } else {
+                    $resObj = @{ success = $true; count = $bList.Count; batches = $bList }
+                    $jsonString = ConvertTo-Json $resObj -Depth 10
+                }
+                $outBytes = [System.Text.Encoding]::UTF8.GetBytes($jsonString)
+                $response.StatusCode = 200
+                $response.ContentLength64 = $outBytes.Length
+                if ($request.HttpMethod -ne "HEAD") { $response.OutputStream.Write($outBytes, 0, $outBytes.Length) }
+                $response.OutputStream.Close()
+                continue
+            }
+
+            # 2. POST /api/batch/create
+            if ($subPath -eq "create" -and $request.HttpMethod -eq "POST") {
+                $body = Get-RequestBody $request
+                if (-not $body -or -not $body.university -or -not $body.college -or -not $body.repName -or -not $body.repPhone) {
+                    $response.StatusCode = 400
+                    $err = [System.Text.Encoding]::UTF8.GetBytes('{"success":false,"error":"يرجى إكمال بيانات الجامعة والكلية واسم وهاتف الممثل"}')
+                    $response.ContentLength64 = $err.Length
+                    $response.OutputStream.Write($err, 0, $err.Length)
+                    $response.OutputStream.Close()
+                    continue
+                }
+
+                $randId = "BATCH-" + (Get-Date).ToString("yyMMdd") + "-" + (Get-Random -Minimum 100 -Maximum 999)
+                $newBatch = [PSCustomObject]@{
+                    id = $randId
+                    title = if ($body.title) { $body.title } else { "دفعة " + $body.college + " — " + $body.university }
+                    university = $body.university
+                    college = $body.college
+                    repName = $body.repName
+                    repPhone = $body.repPhone
+                    color = if ($body.color) { $body.color } else { "burgundy" }
+                    colorName = if ($body.colorName) { $body.colorName } else { "ماروني خامة" }
+                    targetQty = if ($body.targetQty) { [int]$body.targetQty } else { 50 }
+                    status = "مفتوح للتسجيل"
+                    createdAt = (Get-Date).ToString("yyyy-MM-ddTHH:mm:ss")
+                    students = @()
+                }
+
+                $bList = @(Get-BatchesDb)
+                $bList = @($newBatch) + @($bList)
+                Save-BatchesDb $bList
+
+                $resObj = @{ success = $true; message = "تم إنشاء بوابة الدفعة بنجاح"; batchId = $randId; batch = $newBatch }
+                $outBytes = [System.Text.Encoding]::UTF8.GetBytes((ConvertTo-Json $resObj -Depth 10))
+                $response.StatusCode = 201
+                $response.ContentLength64 = $outBytes.Length
+                $response.OutputStream.Write($outBytes, 0, $outBytes.Length)
+                $response.OutputStream.Close()
+                continue
+            }
+
+            # 3. POST /api/batch/:id/join
+            if ($subPath -match '^([a-zA-Z0-9\-_]+)/join$' -and $request.HttpMethod -eq "POST") {
+                $batchId = $Matches[1]
+                $body = Get-RequestBody $request
+                if (-not $body -or -not $body.name -or -not $body.phone) {
+                    $response.StatusCode = 400
+                    $err = [System.Text.Encoding]::UTF8.GetBytes('{"success":false,"error":"يرجى إدخال اسم الطالب ورقم هاتفه"}')
+                    $response.ContentLength64 = $err.Length
+                    $response.OutputStream.Write($err, 0, $err.Length)
+                    $response.OutputStream.Close()
+                    continue
+                }
+
+                $bList = @(Get-BatchesDb)
+                $found = $null
+                for ($i = 0; $i -lt $bList.Count; $i++) {
+                    if ($bList[$i].id -eq $batchId) {
+                        $found = $bList[$i]
+                        $stId = "ST-" + (Get-Date).ToString("mmss") + "-" + (Get-Random -Minimum 10 -Maximum 99)
+                        $newStudent = [PSCustomObject]@{
+                            id = $stId
+                            name = $body.name.Trim()
+                            phone = $body.phone.Trim()
+                            gender = if ($body.gender) { $body.gender } else { "men" }
+                            sizeLetter = if ($body.sizeLetter) { $body.sizeLetter } else { "L" }
+                            sizeNumber = if ($body.sizeNumber) { [int]$body.sizeNumber } else { 52 }
+                            height = if ($body.height) { [int]$body.height } else { 170 }
+                            embroideryName = if ($body.embroideryName) { $body.embroideryName } else { $body.name.Trim() }
+                            calligraphy = if ($body.calligraphy) { $body.calligraphy } else { "thuluth" }
+                            thread = if ($body.thread) { $body.thread } else { "gold" }
+                            notes = if ($body.notes) { $body.notes } else { "" }
+                            joinedAt = (Get-Date).ToString("yyyy-MM-ddTHH:mm:ss")
+                        }
+                        $curSt = @($bList[$i].students)
+                        $bList[$i].students = @($curSt) + @($newStudent)
+                        break
+                    }
+                }
+
+                if (-not $found) {
+                    $response.StatusCode = 404
+                    $err = [System.Text.Encoding]::UTF8.GetBytes('{"success":false,"error":"دفعة التخرج غير موجودة"}')
+                    $response.ContentLength64 = $err.Length
+                    $response.OutputStream.Write($err, 0, $err.Length)
+                    $response.OutputStream.Close()
+                    continue
+                }
+
+                Save-BatchesDb $bList
+                $resObj = @{ success = $true; message = "تم تسجيلك في الدفعة بنجاح"; student = $newStudent }
+                $outBytes = [System.Text.Encoding]::UTF8.GetBytes((ConvertTo-Json $resObj -Depth 10))
+                $response.StatusCode = 200
+                $response.ContentLength64 = $outBytes.Length
+                $response.OutputStream.Write($outBytes, 0, $outBytes.Length)
+                $response.OutputStream.Close()
+                continue
+            }
+
+            # 4. GET /api/batch/:id
+            if ($subPath -match '^([a-zA-Z0-9\-_]+)$' -and ($request.HttpMethod -eq "GET" -or $request.HttpMethod -eq "HEAD")) {
+                $batchId = $Matches[1]
+                $bList = @(Get-BatchesDb)
+                $found = $bList | Where-Object { $_.id -eq $batchId } | Select-Object -First 1
+                if ($found) {
+                    $resObj = @{ success = $true; batch = $found }
+                    $outBytes = [System.Text.Encoding]::UTF8.GetBytes((ConvertTo-Json $resObj -Depth 10))
+                    $response.StatusCode = 200
+                    $response.ContentLength64 = $outBytes.Length
+                    if ($request.HttpMethod -ne "HEAD") { $response.OutputStream.Write($outBytes, 0, $outBytes.Length) }
+                    $response.OutputStream.Close()
+                    continue
+                } else {
+                    $response.StatusCode = 404
+                    $err = [System.Text.Encoding]::UTF8.GetBytes('{"success":false,"error":"دفعة التخرج غير موجودة"}')
+                    $response.ContentLength64 = $err.Length
+                    $response.OutputStream.Write($err, 0, $err.Length)
                     $response.OutputStream.Close()
                     continue
                 }

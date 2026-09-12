@@ -1071,7 +1071,186 @@ body {
         <a id="btn-scroll-to-guide" class="link-explainer-guide">شوف كيف تصوت دفعتك</a>
       </div>
 
+      <!-- ============================================================
+           SMART BATCH ROSTER & REPRESENTATIVE PORTAL
+           ============================================================ -->
+      <div class="batch-portal-card" id="batch-portal-card">
+        <div class="batch-portal-header">
+          <div class="batch-portal-title-row">
+            <span class="batch-portal-icon">🎓</span>
+            <div>
+              <h3 class="batch-portal-title" id="bp-title">بوابة تسجيل قياسات الدفعة الجماعية</h3>
+              <p class="batch-portal-sub" id="bp-sub">سجل قياسات روبك وتطريز وشاحك بنفسك ضمن دفعتك لتحصلوا على الخصم الجماعي</p>
+            </div>
+          </div>
+          <button type="button" class="btn-create-batch-modal" id="btn-open-create-batch">+ إنشاء رابط دفعة جديدة</button>
+        </div>
+
+        <!-- Active Batch Container -->
+        <div id="bp-active-batch-view" style="display:none;">
+          <!-- Batch Stats Bar -->
+          <div class="bp-stats-bar">
+            <div class="bp-stat-box">
+              <span class="bp-stat-lbl">الطلاب المسجلون</span>
+              <span class="bp-stat-val" id="bp-count-registered">0 / 50</span>
+            </div>
+            <div class="bp-stat-box">
+              <span class="bp-stat-lbl">الخصم المكتسب للدفعة</span>
+              <span class="bp-stat-val bp-discount-tag" id="bp-discount-val">10% خصم</span>
+            </div>
+            <div class="bp-stat-box">
+              <span class="bp-stat-lbl">ممثل الدفعة</span>
+              <span class="bp-stat-val" id="bp-rep-name">حيدر الكعبي</span>
+            </div>
+          </div>
+
+          <!-- Progress Bar -->
+          <div class="bp-progress-track">
+            <div class="bp-progress-fill" id="bp-progress-bar" style="width: 0%;"></div>
+          </div>
+
+          <!-- Share & Actions Row -->
+          <div class="bp-actions-strip">
+            <a href="#" target="_blank" rel="noopener" class="bp-btn bp-btn-wa" id="bp-btn-share-wa">
+              <span>📲 مشاركة الرابط بالواتساب</span>
+            </a>
+            <button type="button" class="bp-btn bp-btn-outline" id="bp-btn-copy-link">
+              <span>📋 نسخ الرابط</span>
+            </button>
+            <button type="button" class="bp-btn bp-btn-outline" id="bp-btn-print-roster">
+              <span>🖨️ طباعة كشف الورشة</span>
+            </button>
+            <button type="button" class="bp-btn bp-btn-outline" id="bp-btn-export-csv">
+              <span>📥 تصدير كشف Excel (CSV)</span>
+            </button>
+          </div>
+
+          <!-- Student Registration Form Box -->
+          <div class="bp-student-form-box">
+            <h4 class="bp-form-title">📝 تسجيل طالب جديد ضمن الدفعة:</h4>
+            <form id="bp-student-form" class="bp-student-form-grid">
+              <div class="bp-form-group">
+                <label>اسم الطالب الثلاثي *</label>
+                <input type="text" id="bp-in-name" placeholder="مثال: أحمد قاسم علي" required>
+              </div>
+              <div class="bp-form-group">
+                <label>رقم هاتف الطالب *</label>
+                <input type="tel" id="bp-in-phone" placeholder="07801234567" required>
+              </div>
+              <div class="bp-form-group">
+                <label>الجنس</label>
+                <select id="bp-in-gender">
+                  <option value="men">طالب (رجالي)</option>
+                  <option value="women">طالبة (نسائي)</option>
+                </select>
+              </div>
+              <div class="bp-form-group">
+                <label>قياس الروب</label>
+                <select id="bp-in-size">
+                  <option value="S">S (طول 115-120 سم)</option>
+                  <option value="M">M (طول 120-125 سم)</option>
+                  <option value="L" selected>L (طول 125-130 سم)</option>
+                  <option value="XL">XL (طول 130-135 سم)</option>
+                  <option value="XXL">XXL (طول 135-140 سم)</option>
+                  <option value="3XL">3XL (طول 140+ سم)</option>
+                </select>
+              </div>
+              <div class="bp-form-group">
+                <label>الاسم المطلوب تطريزه على الوشاح *</label>
+                <input type="text" id="bp-in-embroidery" placeholder="مثال: د. أحمد قاسم" required>
+              </div>
+              <div class="bp-form-group">
+                <label>نوع خط التطريز</label>
+                <select id="bp-in-calligraphy">
+                  <option value="thuluth" selected>خط الثلث الملكي</option>
+                  <option value="ruqah">خط الرقعة</option>
+                  <option value="naskh">خط النسخ</option>
+                  <option value="diwani">خط الديواني</option>
+                </select>
+              </div>
+              <div class="bp-form-group bp-form-full">
+                <button type="submit" class="btn-bp-submit" id="btn-submit-bp-student">
+                  <span>✓ تأكيد إضافتي لكشف الدفعة</span>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Live Roster Table -->
+          <div class="bp-roster-table-wrap">
+            <h4 class="bp-form-title" style="margin-bottom:12px;">📋 كشف أسماء ومقاسات طلاب الدفعة المسجلين:</h4>
+            <div style="overflow-x:auto;">
+              <table class="bp-table" id="bp-students-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>اسم الطالب</th>
+                    <th>الهاتف</th>
+                    <th>القياس</th>
+                    <th>نص تطريز الوشاح</th>
+                    <th>الخط</th>
+                    <th>وقت التسجيل</th>
+                  </tr>
+                </thead>
+                <tbody id="bp-students-tbody">
+                  <!-- Dynamic rows -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- No Active Batch Selected View -->
+        <div id="bp-no-batch-view" style="text-align:center; padding:30px 10px;">
+          <div style="font-size:48px; margin-bottom:12px;">👥</div>
+          <h4 style="margin:0 0 8px; font-size:18px; color:#5d022a; font-weight:800;">هل تود تنظيم وتجميع طلب دفعتك؟</h4>
+          <p style="color:#666; font-size:13.5px; max-width:440px; margin:0 auto 20px; line-height:1.6;">
+            أنشئ رابط دفعتك في دقيقة واحدة، وشاركه مع زملائك على الواتساب ليسجل كل طالب مقاساته واسم تطريزه بنفسه، وستحصلون على خصم جماعي يصل إلى 20% مع كشف جاهز للورشة.
+          </p>
+          <button type="button" class="btn-create-batch-modal" id="btn-open-create-batch-hero" style="font-size:15px; padding:12px 24px;">+ ابدأ إنشاء رابط دفعتك الآن</button>
+        </div>
+      </div>
+
     </section>
+
+    <!-- Modal: Create New Batch Session -->
+    <div id="modal-create-batch" style="display:none; position:fixed; inset:0; background:rgba(26,10,16,0.85); z-index:9999; align-items:center; justify-content:center; backdrop-filter:blur(4px); padding:20px;">
+      <div style="background:#fff; border-radius:24px; max-width:460px; width:100%; padding:28px 24px; text-align:right; box-shadow:0 20px 50px rgba(0,0,0,0.3); position:relative;">
+        <button type="button" id="btn-close-create-batch" style="position:absolute; top:16px; left:16px; background:none; border:none; font-size:24px; cursor:pointer; color:#888;">&times;</button>
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+          <span style="font-size:28px;">🎓</span>
+          <div>
+            <h3 style="margin:0; color:#5d022a; font-size:18px; font-weight:800;">إنشاء بوابة دفعة جديدة</h3>
+            <p style="margin:0; font-size:12px; color:#777;">توليد رابط تسجيل تفاعلي للدفعة</p>
+          </div>
+        </div>
+        <form id="form-create-batch" style="display:flex; flex-direction:column; gap:12px;">
+          <div>
+            <label style="font-size:12.5px; font-weight:700; color:#444;">اسم الجامعة *</label>
+            <input type="text" id="cb-university" placeholder="مثال: جامعة بغداد" required style="width:100%; padding:10px 12px; border:1.5px solid #d9c4ba; border-radius:10px; font-size:14px; box-sizing:border-box;">
+          </div>
+          <div>
+            <label style="font-size:12.5px; font-weight:700; color:#444;">اسم الكلية والفرع *</label>
+            <input type="text" id="cb-college" placeholder="مثال: كلية الهندسة - قسم المدني" required style="width:100%; padding:10px 12px; border:1.5px solid #d9c4ba; border-radius:10px; font-size:14px; box-sizing:border-box;">
+          </div>
+          <div>
+            <label style="font-size:12.5px; font-weight:700; color:#444;">اسم ممثل الدفعة *</label>
+            <input type="text" id="cb-rep-name" placeholder="اسمك الكامل" required style="width:100%; padding:10px 12px; border:1.5px solid #d9c4ba; border-radius:10px; font-size:14px; box-sizing:border-box;">
+          </div>
+          <div>
+            <label style="font-size:12.5px; font-weight:700; color:#444;">رقم هاتف الممثل *</label>
+            <input type="tel" id="cb-rep-phone" placeholder="07801234567" required style="width:100%; padding:10px 12px; border:1.5px solid #d9c4ba; border-radius:10px; font-size:14px; box-sizing:border-box;">
+          </div>
+          <div>
+            <label style="font-size:12.5px; font-weight:700; color:#444;">العدد المتوقع للطلبة</label>
+            <input type="number" id="cb-target-qty" value="50" min="10" max="500" style="width:100%; padding:10px 12px; border:1.5px solid #d9c4ba; border-radius:10px; font-size:14px; box-sizing:border-box;">
+          </div>
+          <button type="submit" id="btn-submit-create-batch" style="background:#5d022a; color:#fff; border:none; padding:12px; border-radius:12px; font-size:15px; font-weight:800; cursor:pointer; margin-top:8px;">
+            إنشاء الرابط ومشاركته الآن 🚀
+          </button>
+        </form>
+      </div>
+    </div>
 
     <!-- ============================================================
          SECTION B: EXPLAINER GUIDE (Matches Screenshot 1)
@@ -1737,6 +1916,248 @@ body {
     updateRepCard();
     renderMembersList();
   });
+
+  // ============================================================
+  // SMART BATCH ROSTER & REPRESENTATIVE PORTAL LOGIC
+  // ============================================================
+  (function initBatchPortal() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const batchIdParam = urlParams.get('batch');
+
+    const activeView = document.getElementById('bp-active-batch-view');
+    const noBatchView = document.getElementById('bp-no-batch-view');
+    const modalCreate = document.getElementById('modal-create-batch');
+    const btnOpenCreate = document.getElementById('btn-open-create-batch');
+    const btnOpenCreateHero = document.getElementById('btn-open-create-batch-hero');
+    const btnCloseCreate = document.getElementById('btn-close-create-batch');
+    const formCreate = document.getElementById('form-create-batch');
+    const formStudent = document.getElementById('bp-student-form');
+
+    let currentBatch = null;
+
+    function openCreateModal() {
+      if (modalCreate) {
+        modalCreate.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      }
+    }
+    function closeCreateModal() {
+      if (modalCreate) {
+        modalCreate.style.display = 'none';
+        document.body.style.overflow = '';
+      }
+    }
+
+    if (btnOpenCreate) btnOpenCreate.addEventListener('click', openCreateModal);
+    if (btnOpenCreateHero) btnOpenCreateHero.addEventListener('click', openCreateModal);
+    if (btnCloseCreate) btnCloseCreate.addEventListener('click', closeCreateModal);
+
+    // Form: Create new batch
+    if (formCreate) {
+      formCreate.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitBtn = document.getElementById('btn-submit-create-batch');
+        const origTxt = submitBtn.textContent;
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'جاري إنشاء الرابط...';
+
+        const payload = {
+          university: document.getElementById('cb-university').value.trim(),
+          college: document.getElementById('cb-college').value.trim(),
+          repName: document.getElementById('cb-rep-name').value.trim(),
+          repPhone: document.getElementById('cb-rep-phone').value.trim(),
+          targetQty: parseInt(document.getElementById('cb-target-qty').value, 10) || 50,
+          color: 'burgundy',
+          colorName: 'ماروني خامة'
+        };
+
+        try {
+          const resp = await fetch('/api/batch/create', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json; charset=utf-8' },
+            body: JSON.stringify(payload)
+          });
+          const data = await resp.json();
+          if (data.success && data.batchId) {
+            closeCreateModal();
+            window.location.search = `?batch=${encodeURIComponent(data.batchId)}`;
+          } else {
+            alert(data.error || 'تعذر إنشاء الدفعة. يرجى التحقق من البيانات.');
+          }
+        } catch (err) {
+          alert('حدث خطأ بالاتصال بالسيرفر: ' + err.message);
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = origTxt;
+        }
+      });
+    }
+
+    // Load batch by ID
+    async function loadBatch(batchId) {
+      try {
+        const resp = await fetch(`/api/batch/${encodeURIComponent(batchId)}`);
+        const data = await resp.json();
+        if (data.success && data.batch) {
+          currentBatch = data.batch;
+          renderBatchView(currentBatch);
+        } else {
+          if (noBatchView) noBatchView.style.display = 'block';
+          if (activeView) activeView.style.display = 'none';
+        }
+      } catch (err) {
+        console.error('Error loading batch:', err);
+      }
+    }
+
+    function renderBatchView(b) {
+      if (!b) return;
+      if (noBatchView) noBatchView.style.display = 'none';
+      if (activeView) activeView.style.display = 'block';
+
+      document.getElementById('bp-title').textContent = b.title || 'بوابة تسجيل طلاب الدفعة';
+      document.getElementById('bp-sub').textContent = `${b.university} · ${b.college} — بإشراف الممثل: ${b.repName}`;
+      document.getElementById('bp-rep-name').textContent = b.repName;
+
+      const students = b.students || [];
+      const count = students.length;
+      const target = b.targetQty || 50;
+      document.getElementById('bp-count-registered').textContent = `${count} / ${target} طالب`;
+
+      const pct = Math.min(100, Math.round((count / target) * 100));
+      document.getElementById('bp-progress-bar').style.width = `${pct}%`;
+
+      // Discount calculation
+      let discountTxt = '10% خصم';
+      if (count >= 50) {
+        discountTxt = '20% خصم ملكي 👑';
+      } else if (count >= 25) {
+        discountTxt = '15% خصم مميز ✨';
+      }
+      document.getElementById('bp-discount-val').textContent = discountTxt;
+
+      // WhatsApp Share Link
+      const shareUrl = `${window.location.origin}/class?batch=${encodeURIComponent(b.id)}`;
+      const waMsg = `زملائي الأعزاء بدفعة (${b.college} - ${b.university}) 🎓:\nيرجى الدخول على الرابط لتسجيل قياس روب وتطريز وشاح التخرج لدفعة 2026 قبل إغلاق الكشف:\n${shareUrl}`;
+      document.getElementById('bp-btn-share-wa').href = `https://wa.me/?text=${encodeURIComponent(waMsg)}`;
+
+      // Copy link button
+      document.getElementById('bp-btn-copy-link').onclick = () => {
+        navigator.clipboard.writeText(shareUrl).then(() => {
+          if (window.showIkToast) window.showIkToast('✓ تم نسخ رابط الدفعة للحافظة بنجاح!');
+          else alert('تم نسخ رابط الدفعة!');
+        });
+      };
+
+      // Print Roster
+      document.getElementById('bp-btn-print-roster').onclick = () => {
+        window.print();
+      };
+
+      // Export CSV
+      document.getElementById('bp-btn-export-csv').onclick = () => {
+        let csv = '\uFEFF#;اسم الطالب;الهاتف;الجنس;القياس;نص التطريز;الخط;تاريخ التسجيل\n';
+        students.forEach((st, idx) => {
+          csv += `${idx + 1};"${st.name}";"${st.phone}";"${st.gender === 'women' ? 'طالبة' : 'طالب'}";"${st.sizeLetter}";"${st.embroideryName}";"${st.calligraphy}";"${st.joinedAt}"\n`;
+        });
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `كشف_تطريز_دفعة_${b.id}.csv`;
+        link.click();
+      };
+
+      // Render Students Table
+      const tbody = document.getElementById('bp-students-tbody');
+      if (!tbody) return;
+      if (students.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#888; padding:20px;">لا يوجد طلاب مسجلون بعد. كن أول من يسجل بالاستمارة أدناه!</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = students.map((st, idx) => `
+        <tr>
+          <td style="font-weight:700;">${idx + 1}</td>
+          <td style="font-weight:700; color:#5d022a;">${escapeHtml(st.name)}</td>
+          <td style="direction:ltr; text-align:right;">${escapeHtml(st.phone)}</td>
+          <td><span style="background:#f4eae5; padding:2px 8px; border-radius:6px; font-weight:700;">${escapeHtml(st.sizeLetter)}</span></td>
+          <td style="font-weight:700; color:#1a0a10;">${escapeHtml(st.embroideryName)}</td>
+          <td style="color:#666; font-size:12px;">${escapeHtml(st.calligraphy)}</td>
+          <td style="color:#888; font-size:11.5px;">${st.joinedAt ? new Date(st.joinedAt).toLocaleTimeString('ar-IQ', { hour:'2-digit', minute:'2-digit' }) : ''}</td>
+        </tr>
+      `).join('');
+    }
+
+    // Form: Student Join
+    if (formStudent) {
+      formStudent.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!currentBatch || !currentBatch.id) {
+          alert('يرجى إنشاء أو فتح دفعة أولاً.');
+          return;
+        }
+
+        const submitBtn = document.getElementById('btn-submit-bp-student');
+        const origTxt = submitBtn.textContent;
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'جاري تسجيل بياناتك...';
+
+        const payload = {
+          name: document.getElementById('bp-in-name').value.trim(),
+          phone: document.getElementById('bp-in-phone').value.trim(),
+          gender: document.getElementById('bp-in-gender').value,
+          sizeLetter: document.getElementById('bp-in-size').value,
+          embroideryName: document.getElementById('bp-in-embroidery').value.trim(),
+          calligraphy: document.getElementById('bp-in-calligraphy').value
+        };
+
+        try {
+          const resp = await fetch(`/api/batch/${encodeURIComponent(currentBatch.id)}/join`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json; charset=utf-8' },
+            body: JSON.stringify(payload)
+          });
+          const data = await resp.json();
+          if (data.success && data.student) {
+            formStudent.reset();
+            if (window.showIkToast) {
+              window.showIkToast(`✓ تم تسجيلك في كشف الدفعة بنجاح يا ${data.student.name}!`);
+            } else {
+              alert(`✓ تم تسجيلك في كشف الدفعة بنجاح يا ${data.student.name}!`);
+            }
+            loadBatch(currentBatch.id);
+          } else {
+            alert(data.error || 'حدث خطأ أثناء التسجيل.');
+          }
+        } catch (err) {
+          alert('تعذر الاتصال بالسيرفر: ' + err.message);
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = origTxt;
+        }
+      });
+    }
+
+    if (batchIdParam) {
+      loadBatch(batchIdParam);
+    } else {
+      fetch('/api/batch/all').then(r => r.json()).then(d => {
+        if (d.success && d.batches && d.batches.length > 0) {
+          currentBatch = d.batches[0];
+          renderBatchView(currentBatch);
+        } else {
+          if (noBatchView) noBatchView.style.display = 'block';
+          if (activeView) activeView.style.display = 'none';
+        }
+      }).catch(() => {
+        if (noBatchView) noBatchView.style.display = 'block';
+      });
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' })[m]);
+    }
+  })();
 
   // Initialize
   renderColorsGrid();
