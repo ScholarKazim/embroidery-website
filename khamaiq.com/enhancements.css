@@ -726,4 +726,257 @@
   background: #fdfaf9;
 }
 
+/* ============================================================
+   ENHANCED BATCH PORTAL STYLES (class.html)
+   ============================================================ */
+
+/* Batch Quick Switcher in Header */
+.bp-header-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.bp-switcher-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bp-switcher-select {
+  background: #fdf8f6;
+  border: 1.5px solid #d9c4ba;
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-family: var(--font-ui, sans-serif);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-burgundy, #5d022a);
+  outline: none;
+  cursor: pointer;
+}
+
+.bp-switcher-select:focus {
+  border-color: #5d022a;
+}
+
+/* Milestone Discount Cards Grid */
+.bp-milestones-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.bp-milestone-card {
+  background: #ffffff;
+  border: 1.5px solid #ebdcd5;
+  border-radius: 16px;
+  padding: 12px 14px;
+  text-align: center;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.bp-milestone-card.is-reached {
+  border-color: #1e874b;
+  background: #f0fdf4;
+  box-shadow: 0 4px 14px rgba(30, 135, 75, 0.12);
+}
+
+.bp-milestone-card.is-next {
+  border-color: #c59b27;
+  background: #fffdf7;
+  box-shadow: 0 4px 14px rgba(197, 155, 39, 0.15);
+}
+
+.bp-milestone-target {
+  font-size: 11px;
+  font-weight: 700;
+  color: #777;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.bp-milestone-pct {
+  font-size: 18px;
+  font-weight: 900;
+  color: #1a0a10;
+  display: block;
+}
+
+.bp-milestone-card.is-reached .bp-milestone-pct {
+  color: #1e874b;
+}
+
+.bp-milestone-card.is-next .bp-milestone-pct {
+  color: #ba8d5d;
+}
+
+.bp-milestone-saving {
+  font-size: 11px;
+  color: #555;
+  display: block;
+  margin-top: 2px;
+}
+
+/* Tabs Navigation */
+.bp-tabs-nav {
+  display: flex;
+  background: #f4eae5;
+  padding: 6px;
+  border-radius: 18px;
+  gap: 6px;
+  margin: 20px 0 24px;
+  overflow-x: auto;
+}
+
+.bp-tab-btn {
+  flex: 1;
+  min-width: 130px;
+  background: transparent;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-family: var(--font-ui, sans-serif);
+  font-size: 13px;
+  font-weight: 800;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.bp-tab-btn:hover {
+  color: #5d022a;
+  background: rgba(255,255,255,0.5);
+}
+
+.bp-tab-btn.is-active {
+  background: #ffffff;
+  color: #5d022a;
+  box-shadow: 0 3px 10px rgba(93, 2, 42, 0.08);
+}
+
+.bp-tab-panel {
+  display: none;
+  animation: bpFadeIn 0.3s ease;
+}
+
+.bp-tab-panel.is-active {
+  display: block;
+}
+
+@keyframes bpFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Live Ribbon Preview */
+.bp-ribbon-showcase {
+  background: #fff;
+  border: 1.5px solid #ebdcd5;
+  border-radius: 18px;
+  padding: 18px;
+  margin: 16px 0;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.03);
+}
+
+.bp-ribbon-band {
+  height: 84px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.4), 0 4px 15px rgba(0,0,0,0.15);
+  border: 1px solid rgba(255,255,255,0.2);
+  margin: 10px 0;
+}
+
+.bp-ribbon-embroidery-text {
+  font-size: clamp(22px, 5vw, 34px);
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  z-index: 2;
+  text-align: center;
+  padding: 0 20px;
+  transition: all 0.3s ease;
+}
+
+/* Sizing Breakdown Chips */
+.bp-chips-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 14px 0 18px;
+}
+
+.bp-chip {
+  background: #ffffff;
+  border: 1px solid #d9c4ba;
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #444;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bp-chip strong {
+  color: #5d022a;
+}
+
+/* Color Swatch Picker in Modal */
+.bp-color-pick-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 8px;
+  margin: 6px 0 12px;
+}
+
+.bp-color-pick-btn {
+  background: #ffffff;
+  border: 1.5px solid #d9c4ba;
+  border-radius: 12px;
+  padding: 8px 6px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s;
+}
+
+.bp-color-pick-btn.is-active {
+  border-color: #5d022a;
+  background: #fdf2f4;
+  box-shadow: 0 0 0 2px #5d022a;
+}
+
+.bp-color-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid rgba(0,0,0,0.15);
+}
+
+.bp-color-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #333;
+}
+
 

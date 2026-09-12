@@ -460,6 +460,25 @@ while ($listener.IsListening) {
         }
 
         # -----------------------------------------------------------------
+        # API ROUTE: /api/universities
+        # -----------------------------------------------------------------
+        if ($relPath -eq "api/universities" -or $relPath -eq "api/universities/") {
+            $response.ContentType = "application/json; charset=utf-8"
+            $response.AddHeader("Cache-Control", "public, max-age=3600")
+            $unisPath = Join-Path $PSScriptRoot "universities.json"
+            $rawUnis = if ([System.IO.File]::Exists($unisPath)) { [System.IO.File]::ReadAllText($unisPath, [System.Text.Encoding]::UTF8) } else { "[]" }
+            $jsonOut = "{""success"":true,""universities"":$rawUnis}"
+            $bytes = [System.Text.Encoding]::UTF8.GetBytes($jsonOut)
+            $response.StatusCode = 200
+            $response.ContentLength64 = $bytes.Length
+            if ($request.HttpMethod -ne "HEAD") {
+                $response.OutputStream.Write($bytes, 0, $bytes.Length)
+            }
+            $response.OutputStream.Close()
+            continue
+        }
+
+        # -----------------------------------------------------------------
         # API ROUTE: /api/batch/* (Batch Representative Portal)
         # -----------------------------------------------------------------
         if ($relPath.StartsWith("api/batch") -or $relPath -eq "api/batch") {
@@ -582,7 +601,8 @@ while ($listener.IsListening) {
                             height = if ($body.height) { [int]$body.height } else { 170 }
                             embroideryName = if ($body.embroideryName) { $body.embroideryName } else { $body.name.Trim() }
                             calligraphy = if ($body.calligraphy) { $body.calligraphy } else { "thuluth" }
-                            thread = if ($body.thread) { $body.thread } else { "gold" }
+                            thread = if ($body.thread) { $body.thread } elseif ($body.threadColor) { $body.threadColor } else { "gold" }
+                            threadColor = if ($body.threadColor) { $body.threadColor } elseif ($body.thread) { $body.thread } else { "gold" }
                             notes = if ($body.notes) { $body.notes } else { "" }
                             joinedAt = (Get-Date).ToString("yyyy-MM-ddTHH:mm:ss")
                         }

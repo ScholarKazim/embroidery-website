@@ -34,7 +34,7 @@ body {
 }
 
 .class-content-box {
-  max-width: 540px;
+  max-width: 880px;
   margin: 0 auto;
   padding: 0 16px;
 }
@@ -1000,214 +1000,306 @@ body {
     <!-- ============================================================
          SECTION A: CLASS HUB & VOTING (Matches Screenshot 2)
          ============================================================ -->
+    <!-- ============================================================
+         SMART GRADUATION BATCH PORTAL (ULTRA-LUXURY)
+         ============================================================ -->
     <section id="section-class-hub">
 
-      <!-- Top Header Card -->
-      <div class="hub-header-card">
-        <span class="hub-top-tag">صفحة الدفعة</span>
-        <h1 class="hub-college-title" id="hub-college-lbl">كلية الطب</h1>
-        <p class="hub-uni-sub" id="hub-uni-lbl">جامعة بغداد - دفعة 2026</p>
-        <div class="hub-meta-row">
-          <span id="hub-members-count-lbl">0 أعضاء</span>
+      <!-- Top Hero Card with Batch Switcher -->
+      <div class="hub-header-card" id="bp-hero-card">
+        <div class="bp-header-top-row">
+          <span class="hub-top-tag" style="margin-bottom:0;">🎓 بوابة دفعات التخرج الجماعية 2026</span>
+          <div class="bp-switcher-wrap">
+            <label for="bp-batch-picker" style="font-size:12px; font-weight:700; color:#777;">الدفعة:</label>
+            <select id="bp-batch-picker" class="bp-switcher-select" aria-label="اختر دفعة تخرج">
+              <option value="">جاري تحميل الدفعات...</option>
+            </select>
+            <button type="button" class="btn-create-batch-modal" id="btn-open-create-batch" style="padding:6px 14px; font-size:12px;">+ دفعة جديدة</button>
+          </div>
+        </div>
+
+        <h1 class="hub-college-title" id="bp-hero-college">دفعة كلية الطب</h1>
+        <p class="hub-uni-sub" id="bp-hero-sub">جامعة بغداد — بإشراف ممثل الدفعة: حيدر الكعبي</p>
+
+        <!-- Meta Row -->
+        <div class="hub-meta-row" style="flex-wrap:wrap; gap:10px;">
+          <span id="bp-meta-count" style="color:var(--color-burgundy); font-size:14px; font-weight:800;">1 طالب مسجل</span>
           <span>•</span>
-          <span id="hub-votes-count-lbl">0 صوت</span>
+          <span id="bp-meta-color" style="display:inline-flex; align-items:center; gap:6px;">
+            <span id="bp-meta-swatch" style="width:12px; height:12px; border-radius:50%; background:#5d022a; display:inline-block; border:1px solid rgba(0,0,0,0.15);"></span>
+            <span id="bp-meta-color-name">ماروني خامة</span>
+          </span>
           <span>•</span>
-          <span class="hub-status-badge" id="hub-vote-status">التصويت مفتوح</span>
+          <span>الممثل: <strong id="bp-meta-rep">حيدر الكعبي</strong></span>
+          <span>•</span>
+          <span class="hub-status-badge" id="bp-meta-status">التسجيل مفتوح 🟢</span>
         </div>
-      </div>
 
-      <!-- Main Voting Card -->
-      <div class="hub-voting-card">
-        <h2 class="hub-card-heading">صوت ع لون دفعتك</h2>
-        <p class="hub-card-sub" id="hub-vote-summary-sub">صوتك يحسب. كن أول من يصوت لدفعتك!</p>
-
-        <!-- Model Showcase Box -->
-        <div class="hub-showcase-container">
-          <img src="khamaiq.com/assets/images/visualizer-mauve.jpg" alt="معاينة لون الوشاح" class="hub-showcase-img" id="hub-model-img" width="800" height="1000" loading="lazy" decoding="async">
-          <div class="hub-color-pill-overlay">
-            <span class="hub-color-tag-lbl">اللون المتصدر</span>
-            <h3 class="hub-color-name-lbl" id="hub-lead-color-name">وردي ملكي</h3>
+        <!-- Tiered Discount Milestone Tracker -->
+        <div class="bp-milestones-grid">
+          <div class="bp-milestone-card" id="ms-tier-1">
+            <span class="bp-milestone-target">🥉 20 طالب</span>
+            <span class="bp-milestone-pct">10% خصم</span>
+            <span class="bp-milestone-saving">توفير 3,500 د.ع للقطعة</span>
+          </div>
+          <div class="bp-milestone-card" id="ms-tier-2">
+            <span class="bp-milestone-target">🥈 40 طالب</span>
+            <span class="bp-milestone-pct">15% خصم</span>
+            <span class="bp-milestone-saving">توفير 5,250 د.ع للقطعة</span>
+          </div>
+          <div class="bp-milestone-card" id="ms-tier-3">
+            <span class="bp-milestone-target">👑 60 طالب فما فوق</span>
+            <span class="bp-milestone-pct">20% خصم ملكي</span>
+            <span class="bp-milestone-saving">توفير 7,000 د.ع للقطعة</span>
           </div>
         </div>
 
-        <!-- 6 Colors Voting Grid -->
-        <div class="hub-vote-grid" id="hub-colors-grid">
-          <!-- Populated by JavaScript -->
-        </div>
-
-        <p class="hub-vote-deadline-note" id="hub-deadline-note">لم يحدد ممثل الدفعة موعد إغلاق.</p>
-      </div>
-
-      <!-- Card 3: Rep Needed (Dashed Card) -->
-      <div class="hub-rep-dashed-card" id="card-rep-needed">
-        <span class="hub-rep-tag">الدفعة بدون ممثل</span>
-        <h3 class="hub-rep-title">دفعتكم تحتاج ممثل</h3>
-        <p class="hub-rep-desc">إذا أنت ممثل الدفعة، أكد رقم موبايلك بكود SMS حتى تدير لون الدفعة وطلابها.</p>
-        <button type="button" class="btn-camel-action" id="btn-trigger-rep-modal">أنت ممثل الدفعة؟</button>
-      </div>
-
-      <!-- Card 4: Share Link with Classmates -->
-      <div class="hub-share-card">
-        <h3 class="hub-share-title">شارك الرابط مع دفعتك</h3>
-        <p class="hub-share-sub">كل واحد ينقر الرابط راح يدخل لنفس الصفحة هاي.</p>
-        <div class="hub-link-copy-row">
-          <button type="button" class="btn-copy-link" id="btn-copy-class-link">انسخ الرابط</button>
-          <input type="text" class="hub-link-input" id="input-class-link" readonly value="https://khamaiq.com/class">
-        </div>
-      </div>
-
-      <!-- Card 5: Class Members -->
-      <div class="hub-members-card">
-        <h3 class="hub-members-heading">أعضاء الدفعة</h3>
-        <div class="hub-members-list" id="hub-members-tags">
-          <!-- Populated by JavaScript -->
-        </div>
-      </div>
-
-      <!-- Bottom CTA Area -->
-      <div class="hub-bottom-area">
-        <p class="hub-bottom-sub">لما يتحدد لون الدفعة، تظهر هنا استمارة القياسات حتى تكمل طلبك.</p>
-        <a href="/products" class="btn-bottom-order">صمم طقمك</a>
-        <a id="btn-scroll-to-guide" class="link-explainer-guide">شوف كيف تصوت دفعتك</a>
-      </div>
-
-      <!-- ============================================================
-           SMART BATCH ROSTER & REPRESENTATIVE PORTAL
-           ============================================================ -->
-      <div class="batch-portal-card" id="batch-portal-card">
-        <div class="batch-portal-header">
-          <div class="batch-portal-title-row">
-            <span class="batch-portal-icon">🎓</span>
-            <div>
-              <h3 class="batch-portal-title" id="bp-title">بوابة تسجيل قياسات الدفعة الجماعية</h3>
-              <p class="batch-portal-sub" id="bp-sub">سجل قياسات روبك وتطريز وشاحك بنفسك ضمن دفعتك لتحصلوا على الخصم الجماعي</p>
-            </div>
+        <!-- Progress Bar Track -->
+        <div style="margin-top:14px;">
+          <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:700; margin-bottom:5px;">
+            <span>نسبة إنجاز الكشف: <strong id="bp-progress-text" style="color:var(--color-burgundy);">1 من 50 طالب</strong></span>
+            <span id="bp-discount-level-badge" style="color:#1e874b; font-weight:800;">خصم الدفعة: 10%</span>
           </div>
-          <button type="button" class="btn-create-batch-modal" id="btn-open-create-batch">+ إنشاء رابط دفعة جديدة</button>
-        </div>
-
-        <!-- Active Batch Container -->
-        <div id="bp-active-batch-view" style="display:none;">
-          <!-- Batch Stats Bar -->
-          <div class="bp-stats-bar">
-            <div class="bp-stat-box">
-              <span class="bp-stat-lbl">الطلاب المسجلون</span>
-              <span class="bp-stat-val" id="bp-count-registered">0 / 50</span>
-            </div>
-            <div class="bp-stat-box">
-              <span class="bp-stat-lbl">الخصم المكتسب للدفعة</span>
-              <span class="bp-stat-val bp-discount-tag" id="bp-discount-val">10% خصم</span>
-            </div>
-            <div class="bp-stat-box">
-              <span class="bp-stat-lbl">ممثل الدفعة</span>
-              <span class="bp-stat-val" id="bp-rep-name">حيدر الكعبي</span>
-            </div>
-          </div>
-
-          <!-- Progress Bar -->
           <div class="bp-progress-track">
-            <div class="bp-progress-fill" id="bp-progress-bar" style="width: 0%;"></div>
+            <div class="bp-progress-fill" id="bp-progress-bar" style="width: 2%;"></div>
+          </div>
+          <div id="bp-remaining-msg" style="font-size:11.5px; color:#ba8d5d; font-weight:700; text-align:center;">متبقي 19 طالباً لفتح خصم 10%!</div>
+        </div>
+
+        <!-- Action Strip -->
+        <div class="bp-actions-strip" style="margin-top:18px; margin-bottom:0; justify-content:center;">
+          <a href="#" target="_blank" rel="noopener" class="bp-btn bp-btn-wa" id="bp-btn-share-wa">
+            <span>📲 مشاركة الدعوة بالواتساب</span>
+          </a>
+          <button type="button" class="bp-btn bp-btn-outline" id="bp-btn-copy-link">
+            <span>📋 نسخ الرابط للكروبات</span>
+          </button>
+          <button type="button" class="bp-btn bp-btn-outline" id="bp-btn-print-roster">
+            <span>🖨️ طباعة مانيفست الورشة</span>
+          </button>
+          <button type="button" class="bp-btn bp-btn-outline" id="bp-btn-export-csv">
+            <span>📥 تصدير كشف Excel</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Tabs Navigation -->
+      <div class="bp-tabs-nav" role="tablist">
+        <button type="button" class="bp-tab-btn is-active" data-tab="register">
+          <span>📝 تسجيل قياساتي والتطريز</span>
+        </button>
+        <button type="button" class="bp-tab-btn" data-tab="roster">
+          <span>📋 كشف الطلاب ومقاسات الدفعة</span>
+        </button>
+        <button type="button" class="bp-tab-btn" data-tab="rep">
+          <span>👑 لوحة ممثل الدفعة</span>
+        </button>
+        <button type="button" class="bp-tab-btn" data-tab="colors">
+          <span>🎨 معاينة الوشاح والتصويت</span>
+        </button>
+      </div>
+
+      <!-- TAB 1: Student Registration Form & Live Ribbon -->
+      <div class="bp-tab-panel is-active" id="tab-panel-register">
+        <div class="bp-student-form-box" style="background:#fff; border:1px solid #ebdcd5; box-shadow:0 6px 20px rgba(0,0,0,0.03);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
+            <h3 class="bp-form-title" style="margin:0; font-size:18px;">📝 استمارة تسجيل قياسات وتطريز الطالب</h3>
+            <span style="font-size:12px; background:#f4eae5; color:#5d022a; padding:3px 10px; border-radius:8px; font-weight:700;">ضمن الخصم الجماعي المعتمد</span>
           </div>
 
-          <!-- Share & Actions Row -->
-          <div class="bp-actions-strip">
-            <a href="#" target="_blank" rel="noopener" class="bp-btn bp-btn-wa" id="bp-btn-share-wa">
-              <span>📲 مشاركة الرابط بالواتساب</span>
-            </a>
-            <button type="button" class="bp-btn bp-btn-outline" id="bp-btn-copy-link">
-              <span>📋 نسخ الرابط</span>
-            </button>
-            <button type="button" class="bp-btn bp-btn-outline" id="bp-btn-print-roster">
-              <span>🖨️ طباعة كشف الورشة</span>
-            </button>
-            <button type="button" class="bp-btn bp-btn-outline" id="bp-btn-export-csv">
-              <span>📥 تصدير كشف Excel (CSV)</span>
-            </button>
-          </div>
+          <form id="bp-student-form">
+            <div class="bp-student-form-grid">
+              <div class="bp-form-group">
+                <label for="bp-in-name">اسم الطالب الثلاثي *</label>
+                <input type="text" id="bp-in-name" placeholder="مثال: علي مرتضى الموسوي" required autocomplete="name">
+              </div>
 
-          <!-- Student Registration Form Box -->
-          <div class="bp-student-form-box">
-            <h4 class="bp-form-title">📝 تسجيل طالب جديد ضمن الدفعة:</h4>
-            <form id="bp-student-form" class="bp-student-form-grid">
               <div class="bp-form-group">
-                <label>اسم الطالب الثلاثي *</label>
-                <input type="text" id="bp-in-name" placeholder="مثال: أحمد قاسم علي" required>
+                <label for="bp-in-phone">رقم هاتف الطالب (واتساب للتأكيد) *</label>
+                <input type="tel" id="bp-in-phone" placeholder="07801234567" required autocomplete="tel">
               </div>
+
               <div class="bp-form-group">
-                <label>رقم هاتف الطالب *</label>
-                <input type="tel" id="bp-in-phone" placeholder="07801234567" required>
-              </div>
-              <div class="bp-form-group">
-                <label>الجنس</label>
+                <label for="bp-in-gender">الجنس</label>
                 <select id="bp-in-gender">
-                  <option value="men">طالب (رجالي)</option>
-                  <option value="women">طالبة (نسائي)</option>
+                  <option value="men">طالب (قصة رجالية 👨)</option>
+                  <option value="women">طالبة (قصة نسائية 👩)</option>
                 </select>
               </div>
+
               <div class="bp-form-group">
-                <label>قياس الروب</label>
+                <label for="bp-in-height">الطول بالسنتمتر (لحساب مقاس الروب تلقائياً)</label>
+                <input type="number" id="bp-in-height" placeholder="مثال: 175" min="140" max="210">
+                <span id="bp-size-hint" style="font-size:11px; color:#ba8d5d; font-weight:700; margin-top:2px;">أدخل طولك لاقتراح القياس المناسب</span>
+              </div>
+
+              <div class="bp-form-group">
+                <label for="bp-in-size">قياس الروب المطلوب</label>
                 <select id="bp-in-size">
-                  <option value="S">S (طول 115-120 سم)</option>
-                  <option value="M">M (طول 120-125 سم)</option>
-                  <option value="L" selected>L (طول 125-130 سم)</option>
-                  <option value="XL">XL (طول 130-135 سم)</option>
-                  <option value="XXL">XXL (طول 135-140 سم)</option>
-                  <option value="3XL">3XL (طول 140+ سم)</option>
+                  <option value="S">S — طول 115-120 سم (طول القامة 150-160 سم)</option>
+                  <option value="M">M — طول 120-125 سم (طول القامة 161-168 سم)</option>
+                  <option value="L" selected>L — طول 125-130 سم (طول القامة 169-176 سم)</option>
+                  <option value="XL">XL — طول 130-135 سم (طول القامة 177-184 سم)</option>
+                  <option value="XXL">XXL — طول 135-140 سم (طول القامة 185-190 سم)</option>
+                  <option value="3XL">3XL — طول 140+ سم (طول القامة 191+ سم)</option>
                 </select>
               </div>
+
               <div class="bp-form-group">
-                <label>الاسم المطلوب تطريزه على الوشاح *</label>
-                <input type="text" id="bp-in-embroidery" placeholder="مثال: د. أحمد قاسم" required>
+                <label for="bp-in-embroidery">الاسم أو اللقب المطلوب تطريزه على الوشاح *</label>
+                <input type="text" id="bp-in-embroidery" placeholder="مثال: د. علي الموسوي" required>
               </div>
+
               <div class="bp-form-group">
-                <label>نوع خط التطريز</label>
+                <label for="bp-in-calligraphy">نوع الخط العربي للتطريز</label>
                 <select id="bp-in-calligraphy">
-                  <option value="thuluth" selected>خط الثلث الملكي</option>
-                  <option value="ruqah">خط الرقعة</option>
-                  <option value="naskh">خط النسخ</option>
-                  <option value="diwani">خط الديواني</option>
+                  <option value="thuluth" selected>خط الثلث الملكي الأصيل</option>
+                  <option value="ruqaa">خط الرقعة العصري</option>
+                  <option value="naskh">خط النسخ الكلاسيكي</option>
+                  <option value="diwani">خط الديواني التراثي</option>
                 </select>
               </div>
-              <div class="bp-form-group bp-form-full">
-                <button type="submit" class="btn-bp-submit" id="btn-submit-bp-student">
-                  <span>✓ تأكيد إضافتي لكشف الدفعة</span>
-                </button>
+
+              <div class="bp-form-group">
+                <label for="bp-in-thread">لون خيط التطريز</label>
+                <select id="bp-in-thread">
+                  <option value="gold" selected>✨ خيط ذهبي ملكي لامع (Metallic Gold)</option>
+                  <option value="silver">🪡 خيط فضي حريري (Silk Silver)</option>
+                  <option value="white">⚪ خيط أبيض ناصع</option>
+                  <option value="black">⚫ خيط أسود أنيق</option>
+                </select>
               </div>
-            </form>
+
+              <div class="bp-form-group bp-form-full">
+                <label for="bp-in-notes">ملاحظات خاصة بالتفصيل (اختياري)</label>
+                <input type="text" id="bp-in-notes" placeholder="مثال: كتابة دفعة 2026 تحت الاسم، أو تعديل بسيط بالكتف">
+              </div>
+            </div>
+
+            <!-- LIVE EMBROIDERY RIBBON PREVIEW -->
+            <div class="bp-ribbon-showcase">
+              <div style="display:flex; justify-content:space-between; align-items:center; font-size:12px; font-weight:700; color:#555; margin-bottom:4px;">
+                <span>🧵 معاينة شريط التطريز المباشرة على وشاح الدفعة:</span>
+                <span id="bp-live-ribbon-details" style="color:var(--color-burgundy);">خط الثلث — خيط ذهبي</span>
+              </div>
+              <div class="bp-ribbon-band" id="bp-live-ribbon-band" style="background: linear-gradient(135deg, #5d022a 0%, #3e011b 100%);">
+                <div class="bp-ribbon-embroidery-text sash-ribbon-gold" id="bp-live-ribbon-text" style="font-family:'Amiri', serif;">
+                  د. علي الموسوي
+                </div>
+              </div>
+              <div style="font-size:11px; color:#888; margin-top:4px;">
+                يتم تطريز الاسم بدقة خيوط ألمانية عالية اللمعان ومقاومة للغسيل والبهتان.
+              </div>
+            </div>
+
+            <div class="bp-form-full">
+              <button type="submit" class="btn-bp-submit" id="btn-submit-bp-student">
+                <span>✓ تأكيد تسجيل قياساتي في كشف الدفعة الآن</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- TAB 2: Classmate Roster & Sizing Breakdown -->
+      <div class="bp-tab-panel" id="tab-panel-roster">
+        <div style="background:#fff; border:1px solid #ebdcd5; border-radius:20px; padding:22px; box-shadow:0 6px 20px rgba(0,0,0,0.03);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
+            <div>
+              <h3 class="bp-form-title" style="margin:0 0 4px; font-size:18px;">📋 كشف طلاب ومقاسات الدفعة</h3>
+              <p style="margin:0; font-size:12.5px; color:#777;">سجل مفصل بأسماء ومقاسات الطلاب المسجلين بالدفعة حتى الآن</p>
+            </div>
+            <input type="text" id="bp-roster-search" placeholder="ابحث باسم الطالب أو الهاتف أو الاسم المطرز..." style="padding:8px 14px; border:1px solid #d9c4ba; border-radius:12px; font-size:13px; font-family:var(--font-ui); width:260px; outline:none;">
           </div>
 
-          <!-- Live Roster Table -->
-          <div class="bp-roster-table-wrap">
-            <h4 class="bp-form-title" style="margin-bottom:12px;">📋 كشف أسماء ومقاسات طلاب الدفعة المسجلين:</h4>
-            <div style="overflow-x:auto;">
-              <table class="bp-table" id="bp-students-table">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>اسم الطالب</th>
-                    <th>الهاتف</th>
-                    <th>القياس</th>
-                    <th>نص تطريز الوشاح</th>
-                    <th>الخط</th>
-                    <th>وقت التسجيل</th>
-                  </tr>
-                </thead>
-                <tbody id="bp-students-tbody">
-                  <!-- Dynamic rows -->
-                </tbody>
-              </table>
+          <!-- Sizing Breakdown Chips -->
+          <div class="bp-chips-grid" id="bp-sizing-chips">
+            <!-- Populated dynamically -->
+          </div>
+
+          <div style="overflow-x:auto;">
+            <table class="bp-table" id="bp-students-table">
+              <thead>
+                <tr>
+                  <th style="width:30px;">#</th>
+                  <th>اسم الطالب</th>
+                  <th>الهاتف</th>
+                  <th>الجنس</th>
+                  <th>القياس</th>
+                  <th>الطول</th>
+                  <th>الاسم للتطريز</th>
+                  <th>الخط والخيط</th>
+                  <th>ملاحظات</th>
+                  <th style="text-align:center;">واتساب</th>
+                </tr>
+              </thead>
+              <tbody id="bp-students-tbody">
+                <!-- Dynamic rows -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: Representative Hub & Broadcast -->
+      <div class="bp-tab-panel" id="tab-panel-rep">
+        <div style="background:#fff; border:1px solid #ebdcd5; border-radius:20px; padding:24px; box-shadow:0 6px 20px rgba(0,0,0,0.03);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:10px;">
+            <div>
+              <h3 class="bp-form-title" style="margin:0 0 4px; font-size:18px;">👑 لوحة تحكم ممثل الدفعة</h3>
+              <p style="margin:0; font-size:12.5px; color:#777;">أدوات مشاركة الرابط، كشف الورشة، ومتابعة تسجيل الزملاء</p>
+            </div>
+            <span style="font-size:12px; font-weight:700; background:#f0fdf4; color:#1e874b; padding:4px 12px; border-radius:999px; border:1px solid #c7f0d8;">
+              الممثل المعتمد: <strong id="rep-ctrl-name">—</strong>
+            </span>
+          </div>
+
+          <!-- WhatsApp Broadcast Box -->
+          <div style="background:#fdf8f6; border:1.5px dashed #ebdcd5; border-radius:16px; padding:18px; margin-bottom:20px;">
+            <h4 style="margin:0 0 8px; font-size:14px; font-weight:800; color:var(--color-burgundy);">📲 رسالة دعوة الزملاء للكروبات:</h4>
+            <p style="margin:0 0 10px; font-size:12px; color:#666;">يمكنك تعديل الرسالة أو النقر مباشرة لإرسالها لكروب التليكرام أو الواتساب الخاص بدفعتك:</p>
+            <textarea id="bp-broadcast-text" rows="3" style="width:100%; border:1px solid #d9c4ba; border-radius:10px; padding:10px; font-size:13px; font-family:var(--font-ui); box-sizing:border-box; outline:none; resize:vertical;"></textarea>
+            <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:10px;">
+              <button type="button" class="btn-admin" id="btn-copy-broadcast">📋 نسخ نص الرسالة</button>
+              <a href="#" target="_blank" class="btn-admin" id="btn-send-broadcast-wa" style="background:#25d366; color:#fff; border-color:#25d366;">💬 إرسال عبر الواتساب</a>
+            </div>
+          </div>
+
+          <!-- Workshop Production Actions -->
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:14px;">
+            <div style="border:1px solid #ebdcd5; border-radius:14px; padding:14px; background:#fff;">
+              <div style="font-weight:800; font-size:14px; margin-bottom:4px; color:#1a0a10;">🖨️ مانيفست ورشة العمل</div>
+              <p style="font-size:12px; color:#666; margin:0 0 12px;">طباعة كشف الإنتاج المعتمد للقص والتطريز والتشطيب مع خانات الفحص.</p>
+              <button type="button" class="btn-admin btn-print-roster-direct" style="width:100%; justify-content:center;">طباعة المانيفست 🖨️</button>
+            </div>
+            <div style="border:1px solid #ebdcd5; border-radius:14px; padding:14px; background:#fff;">
+              <div style="font-weight:800; font-size:14px; margin-bottom:4px; color:#1a0a10;">📥 كشف Excel (CSV)</div>
+              <p style="font-size:12px; color:#666; margin:0 0 12px;">تصدير ملف إكسل شامل بجميع الأسماء والأرقام والمقاسات باللغة العربية.</p>
+              <button type="button" class="btn-admin btn-export-csv-direct" style="width:100%; justify-content:center;">تحميل ملف Excel 📥</button>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- No Active Batch Selected View -->
-        <div id="bp-no-batch-view" style="text-align:center; padding:30px 10px;">
-          <div style="font-size:48px; margin-bottom:12px;">👥</div>
-          <h4 style="margin:0 0 8px; font-size:18px; color:#5d022a; font-weight:800;">هل تود تنظيم وتجميع طلب دفعتك؟</h4>
-          <p style="color:#666; font-size:13.5px; max-width:440px; margin:0 auto 20px; line-height:1.6;">
-            أنشئ رابط دفعتك في دقيقة واحدة، وشاركه مع زملائك على الواتساب ليسجل كل طالب مقاساته واسم تطريزه بنفسه، وستحصلون على خصم جماعي يصل إلى 20% مع كشف جاهز للورشة.
-          </p>
-          <button type="button" class="btn-create-batch-modal" id="btn-open-create-batch-hero" style="font-size:15px; padding:12px 24px;">+ ابدأ إنشاء رابط دفعتك الآن</button>
+      <!-- TAB 4: Scarf Visualizer & Color Vote -->
+      <div class="bp-tab-panel" id="tab-panel-colors">
+        <div class="hub-voting-card" style="margin-top:0;">
+          <h2 class="hub-card-heading">معاينة وشاح الدفعة واستطلاع الألوان</h2>
+          <p class="hub-card-sub" id="bp-visualizer-color-desc">تم اعتماد هذا اللون رسمياً لدفعتكم، ويمكن للطلبة تجربة باقي الألوان للاستئناس.</p>
+
+          <!-- Model Showcase Box -->
+          <div class="hub-showcase-container">
+            <img src="khamaiq.com/assets/images/visualizer-burgundy.jpg" alt="معاينة لون الوشاح" class="hub-showcase-img" id="bp-showcase-img" width="800" height="1000" loading="lazy" decoding="async">
+            <div class="hub-color-pill-overlay">
+              <span class="hub-color-tag-lbl">لون وشاح دفعتكم</span>
+              <h3 class="hub-color-name-lbl" id="bp-showcase-color-name">ماروني خامة</h3>
+            </div>
+          </div>
+
+          <!-- 9 Colors Grid -->
+          <div class="hub-vote-grid" id="hub-colors-grid">
+            <!-- Populated by JavaScript -->
+          </div>
         </div>
       </div>
 
@@ -1215,36 +1307,59 @@ body {
 
     <!-- Modal: Create New Batch Session -->
     <div id="modal-create-batch" style="display:none; position:fixed; inset:0; background:rgba(26,10,16,0.85); z-index:9999; align-items:center; justify-content:center; backdrop-filter:blur(4px); padding:20px;">
-      <div style="background:#fff; border-radius:24px; max-width:460px; width:100%; padding:28px 24px; text-align:right; box-shadow:0 20px 50px rgba(0,0,0,0.3); position:relative;">
+      <div style="background:#fff; border-radius:24px; max-width:480px; width:100%; padding:28px 24px; text-align:right; box-shadow:0 20px 50px rgba(0,0,0,0.3); position:relative; max-height:92vh; overflow-y:auto;">
         <button type="button" id="btn-close-create-batch" style="position:absolute; top:16px; left:16px; background:none; border:none; font-size:24px; cursor:pointer; color:#888;">&times;</button>
-        <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
-          <span style="font-size:28px;">🎓</span>
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+          <span style="font-size:30px;">🎓</span>
           <div>
             <h3 style="margin:0; color:#5d022a; font-size:18px; font-weight:800;">إنشاء بوابة دفعة جديدة</h3>
-            <p style="margin:0; font-size:12px; color:#777;">توليد رابط تسجيل تفاعلي للدفعة</p>
+            <p style="margin:0; font-size:12px; color:#777;">توليد رابط تسجيل تفاعلي للدفعة مع خصم جماعي</p>
           </div>
         </div>
+
         <form id="form-create-batch" style="display:flex; flex-direction:column; gap:12px;">
           <div>
             <label style="font-size:12.5px; font-weight:700; color:#444;">اسم الجامعة *</label>
-            <input type="text" id="cb-university" placeholder="مثال: جامعة بغداد" required style="width:100%; padding:10px 12px; border:1.5px solid #d9c4ba; border-radius:10px; font-size:14px; box-sizing:border-box;">
+            <select id="cb-uni-select" style="width:100%; padding:10px 12px; border:1.5px solid #d9c4ba; border-radius:10px; font-size:14px; box-sizing:border-box; outline:none; background:#fff; margin-bottom:6px;">
+              <option value="">اختر جامعتك...</option>
+              <!-- Filled from /api/universities -->
+              <option value="other">أخرى (كتابة يدوية)...</option>
+            </select>
+            <input type="text" id="cb-university" placeholder="اسم الجامعة (إذا لم تكن بالقائمة)" style="width:100%; padding:10px 12px; border:1.5px solid #d9c4ba; border-radius:10px; font-size:14px; box-sizing:border-box; display:none;">
           </div>
+
           <div>
-            <label style="font-size:12.5px; font-weight:700; color:#444;">اسم الكلية والفرع *</label>
+            <label style="font-size:12.5px; font-weight:700; color:#444;">الكلية والفرع *</label>
+            <select id="cb-col-select" style="width:100%; padding:10px 12px; border:1.5px solid #d9c4ba; border-radius:10px; font-size:14px; box-sizing:border-box; outline:none; background:#fff; margin-bottom:6px;">
+              <option value="">اختر كليتك أولاً من الجامعة أعلاه...</option>
+            </select>
             <input type="text" id="cb-college" placeholder="مثال: كلية الهندسة - قسم المدني" required style="width:100%; padding:10px 12px; border:1.5px solid #d9c4ba; border-radius:10px; font-size:14px; box-sizing:border-box;">
           </div>
+
+          <div>
+            <label style="font-size:12.5px; font-weight:700; color:#444;">لون وشاح التخرج المعتمد للدفعة *</label>
+            <div class="bp-color-pick-grid" id="cb-color-picker-grid">
+              <!-- Rendered dynamically -->
+            </div>
+            <input type="hidden" id="cb-selected-color" value="burgundy">
+            <input type="hidden" id="cb-selected-color-name" value="ماروني ملكي">
+          </div>
+
           <div>
             <label style="font-size:12.5px; font-weight:700; color:#444;">اسم ممثل الدفعة *</label>
             <input type="text" id="cb-rep-name" placeholder="اسمك الكامل" required style="width:100%; padding:10px 12px; border:1.5px solid #d9c4ba; border-radius:10px; font-size:14px; box-sizing:border-box;">
           </div>
+
           <div>
-            <label style="font-size:12.5px; font-weight:700; color:#444;">رقم هاتف الممثل *</label>
+            <label style="font-size:12.5px; font-weight:700; color:#444;">رقم هاتف الممثل (واتساب) *</label>
             <input type="tel" id="cb-rep-phone" placeholder="07801234567" required style="width:100%; padding:10px 12px; border:1.5px solid #d9c4ba; border-radius:10px; font-size:14px; box-sizing:border-box;">
           </div>
+
           <div>
-            <label style="font-size:12.5px; font-weight:700; color:#444;">العدد المتوقع للطلبة</label>
+            <label style="font-size:12.5px; font-weight:700; color:#444;">العدد المتوقع لطلاب الدفعة</label>
             <input type="number" id="cb-target-qty" value="50" min="10" max="500" style="width:100%; padding:10px 12px; border:1.5px solid #d9c4ba; border-radius:10px; font-size:14px; box-sizing:border-box;">
           </div>
+
           <button type="submit" id="btn-submit-create-batch" style="background:#5d022a; color:#fff; border:none; padding:12px; border-radius:12px; font-size:15px; font-weight:800; cursor:pointer; margin-top:8px;">
             إنشاء الرابط ومشاركته الآن 🚀
           </button>
@@ -1934,6 +2049,19 @@ body {
     const formStudent = document.getElementById('bp-student-form');
 
     let currentBatch = null;
+    let currentStudentsList = [];
+
+    const PALETTE_COLORS = [
+      { id: 'burgundy', name: 'ماروني ملكي', hex: '#5d022a', gradient: 'linear-gradient(135deg, #5d022a 0%, #3e011b 100%)' },
+      { id: 'emerald', name: 'أخضر زمردي', hex: '#0b3b24', gradient: 'linear-gradient(135deg, #0b3b24 0%, #051e12 100%)' },
+      { id: 'navy', name: 'كحلي ليلي', hex: '#0a192f', gradient: 'linear-gradient(135deg, #0a192f 0%, #050d1a 100%)' },
+      { id: 'black', name: 'أسود ملكي', hex: '#111111', gradient: 'linear-gradient(135deg, #1f1f1f 0%, #0d0d0d 100%)' },
+      { id: 'gold', name: 'ذهبي خردلي', hex: '#b8860b', gradient: 'linear-gradient(135deg, #b8860b 0%, #7d5b06 100%)' },
+      { id: 'red', name: 'أحمر قاني', hex: '#800000', gradient: 'linear-gradient(135deg, #800000 0%, #4a0000 100%)' },
+      { id: 'purple', name: 'بنفسجي ملكي', hex: '#3d0c3d', gradient: 'linear-gradient(135deg, #3d0c3d 0%, #200420 100%)' },
+      { id: 'mauve', name: 'موف خريفي', hex: '#5c3a4d', gradient: 'linear-gradient(135deg, #5c3a4d 0%, #341e2b 100%)' },
+      { id: 'teal', name: 'بترولي فاخر', hex: '#004d4d', gradient: 'linear-gradient(135deg, #004d4d 0%, #002626 100%)' }
+    ];
 
     function openCreateModal() {
       if (modalCreate) {
@@ -1952,7 +2080,501 @@ body {
     if (btnOpenCreateHero) btnOpenCreateHero.addEventListener('click', openCreateModal);
     if (btnCloseCreate) btnCloseCreate.addEventListener('click', closeCreateModal);
 
-    // Form: Create new batch
+    // ==========================================
+    // 1. DYNAMIC UNIVERSITIES & COLLEGES LOADER
+    // ==========================================
+    let universitiesList = [];
+    async function initUniversitiesDropdown() {
+      const uniSelect = document.getElementById('cb-uni-select');
+      const colSelect = document.getElementById('cb-col-select');
+      const uniInput = document.getElementById('cb-university');
+      const colInput = document.getElementById('cb-college');
+      if (!uniSelect) return;
+
+      try {
+        const res = await fetch('/api/universities').catch(() => fetch('/universities.json'));
+        const data = await res.json();
+        universitiesList = Array.isArray(data) ? data : (data.universities || []);
+
+        uniSelect.innerHTML = '<option value="">اختر جامعتك من القائمة...</option>' +
+          universitiesList.map(u => `<option value="${escapeHtml(u.name)}">${escapeHtml(u.name)}</option>`).join('') +
+          '<option value="other">🏛️ جامعة أخرى (كتابة يدوية)...</option>';
+      } catch (err) {
+        console.warn('Could not load universities:', err);
+      }
+
+      uniSelect.addEventListener('change', () => {
+        const val = uniSelect.value;
+        if (val === 'other') {
+          if (uniInput) {
+            uniInput.style.display = 'block';
+            uniInput.required = true;
+            uniInput.value = '';
+            uniInput.focus();
+          }
+          if (colSelect) {
+            colSelect.innerHTML = '<option value="">أدخل كليتك يدوياً بالأسفل...</option>';
+            colSelect.disabled = true;
+          }
+          if (colInput) colInput.value = '';
+        } else {
+          if (uniInput) {
+            uniInput.style.display = 'none';
+            uniInput.required = false;
+            uniInput.value = val;
+          }
+          const foundUni = universitiesList.find(u => u.name === val);
+          if (foundUni && colSelect) {
+            colSelect.disabled = false;
+            colSelect.innerHTML = '<option value="">اختر كليتك من القائمة...</option>' +
+              (foundUni.colleges || []).map(c => `<option value="${escapeHtml(c.name)}">${escapeHtml(c.name)}</option>`).join('') +
+              '<option value="other">قسم / كلية أخرى (كتابة يدوية)...</option>';
+          } else if (colSelect) {
+            colSelect.disabled = true;
+            colSelect.innerHTML = '<option value="">اختر كليتك أولاً من الجامعة أعلاه...</option>';
+          }
+          if (colInput) colInput.value = '';
+        }
+      });
+
+      if (colSelect) {
+        colSelect.addEventListener('change', () => {
+          if (colSelect.value && colSelect.value !== 'other' && colInput) {
+            colInput.value = colSelect.value;
+          } else if (colInput && colSelect.value === 'other') {
+            colInput.value = '';
+            colInput.focus();
+          }
+        });
+      }
+    }
+
+    // ==========================================
+    // 2. MODAL COLOR SWATCH PICKER
+    // ==========================================
+    function initColorPickerGrid() {
+      const grid = document.getElementById('cb-color-picker-grid');
+      const hiddenColor = document.getElementById('cb-selected-color');
+      const hiddenName = document.getElementById('cb-selected-color-name');
+      if (!grid) return;
+
+      grid.innerHTML = PALETTE_COLORS.map(c => `
+        <button type="button" class="bp-color-pick-btn ${c.id === 'burgundy' ? 'selected' : ''}" data-color="${c.id}" data-name="${c.name}" title="${c.name}">
+          <span class="bp-color-dot" style="background:${c.hex};"></span>
+          <span class="bp-color-label">${c.name}</span>
+        </button>
+      `).join('');
+
+      grid.querySelectorAll('.bp-color-pick-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          grid.querySelectorAll('.bp-color-pick-btn').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          if (hiddenColor) hiddenColor.value = btn.dataset.color;
+          if (hiddenName) hiddenName.value = btn.dataset.name;
+        });
+      });
+    }
+
+    // ==========================================
+    // 3. TABS NAVIGATION SWITCHER
+    // ==========================================
+    function initTabsNavigation() {
+      const tabBtns = document.querySelectorAll('.bp-tab-btn');
+      const tabPanels = document.querySelectorAll('.bp-tab-panel');
+
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const targetId = btn.dataset.tab;
+          if (!targetId) return;
+
+          tabBtns.forEach(b => b.classList.remove('active'));
+          tabPanels.forEach(p => p.classList.remove('active'));
+
+          btn.classList.add('active');
+          const panel = document.getElementById(`tab-panel-${targetId}`);
+          if (panel) panel.classList.add('active');
+        });
+      });
+    }
+
+    // ==========================================
+    // 4. LIVE EMBROIDERY RIBBON PREVIEW
+    // ==========================================
+    function initLiveRibbonPreview() {
+      const embInput = document.getElementById('bp-in-embroidery');
+      const calSelect = document.getElementById('bp-in-calligraphy');
+      const threadSelect = document.getElementById('bp-in-thread');
+      const ribbonText = document.getElementById('bp-live-ribbon-text');
+      const ribbonDetails = document.getElementById('bp-live-ribbon-details');
+
+      function refreshRibbon() {
+        if (!ribbonText) return;
+        const textVal = embInput && embInput.value.trim() ? embInput.value.trim() : 'د. علي الموسوي';
+        ribbonText.textContent = textVal;
+
+        const calligraphy = calSelect ? calSelect.value : 'thuluth';
+        if (calligraphy === 'thuluth') {
+          ribbonText.style.fontFamily = "'Amiri', serif";
+          ribbonText.style.fontWeight = '700';
+        } else if (calligraphy === 'ruqaa') {
+          ribbonText.style.fontFamily = "'Aref Ruqaa', 'Amiri', serif";
+          ribbonText.style.fontWeight = '700';
+        } else if (calligraphy === 'naskh') {
+          ribbonText.style.fontFamily = "'Amiri', serif";
+          ribbonText.style.fontWeight = '400';
+        } else {
+          ribbonText.style.fontFamily = "'Amiri', cursive, serif";
+          ribbonText.style.fontWeight = '700';
+        }
+
+        const thread = threadSelect ? threadSelect.value : 'gold';
+        ribbonText.className = 'bp-ribbon-embroidery-text';
+        if (thread === 'gold') {
+          ribbonText.classList.add('sash-ribbon-gold');
+        } else if (thread === 'silver') {
+          ribbonText.classList.add('sash-ribbon-silver');
+        } else if (thread === 'white') {
+          ribbonText.classList.add('sash-ribbon-white');
+        } else if (thread === 'black') {
+          ribbonText.classList.add('sash-ribbon-black');
+        }
+
+        if (ribbonDetails && calSelect && threadSelect) {
+          const cTxt = calSelect.options[calSelect.selectedIndex]?.text?.split(' ')[1] || 'الثلث';
+          const tTxt = threadSelect.options[threadSelect.selectedIndex]?.text?.split(' ')[1] || 'ذهبي';
+          ribbonDetails.textContent = `خط ${cTxt} — خيط ${tTxt}`;
+        }
+      }
+
+      if (embInput) embInput.addEventListener('input', refreshRibbon);
+      if (calSelect) calSelect.addEventListener('change', refreshRibbon);
+      if (threadSelect) threadSelect.addEventListener('change', refreshRibbon);
+      refreshRibbon();
+    }
+
+    // ==========================================
+    // 5. SMART HEIGHT TO SIZE ESTIMATOR
+    // ==========================================
+    function initHeightEstimator() {
+      const heightInput = document.getElementById('bp-in-height');
+      const sizeSelect = document.getElementById('bp-in-size');
+      if (!heightInput || !sizeSelect) return;
+
+      heightInput.addEventListener('input', () => {
+        const h = parseInt(heightInput.value, 10);
+        if (!h || isNaN(h) || h < 100) return;
+        if (h < 158) {
+          sizeSelect.value = 'S';
+        } else if (h <= 168) {
+          sizeSelect.value = 'M';
+        } else if (h <= 178) {
+          sizeSelect.value = 'L';
+        } else if (h <= 188) {
+          sizeSelect.value = 'XL';
+        } else {
+          sizeSelect.value = 'XXL';
+        }
+      });
+    }
+
+    // ==========================================
+    // 6. BATCH PICKER DROPDOWN
+    // ==========================================
+    async function loadBatchPicker(selectedId) {
+      const picker = document.getElementById('bp-batch-picker');
+      if (!picker) return;
+      try {
+        const resp = await fetch('/api/batch/all');
+        const data = await resp.json();
+        const batches = data.batches || [];
+        if (batches.length === 0) {
+          picker.innerHTML = '<option value="">لا توجد دفعات منشأة بعد</option>';
+          return;
+        }
+
+        picker.innerHTML = batches.map(b => `
+          <option value="${escapeHtml(b.id)}" ${b.id === selectedId ? 'selected' : ''}>
+            🎓 ${escapeHtml(b.title || `${b.college} - ${b.university}`)}
+          </option>
+        `).join('');
+
+        picker.onchange = () => {
+          const chosen = picker.value;
+          if (chosen) {
+            window.history.pushState({}, '', `?batch=${encodeURIComponent(chosen)}`);
+            loadBatch(chosen);
+          }
+        };
+      } catch (err) {
+        console.warn('Could not populate batch picker:', err);
+      }
+    }
+
+    // ==========================================
+    // 7. ROSTER RENDERING, CHIPS & SEARCH FILTER
+    // ==========================================
+    function renderSizingChips(students) {
+      const container = document.getElementById('bp-sizing-chips');
+      if (!container) return;
+      const counts = { S: 0, M: 0, L: 0, XL: 0, XXL: 0, Custom: 0 };
+      students.forEach(st => {
+        const s = (st.sizeLetter || 'M').toUpperCase();
+        if (counts[s] !== undefined) counts[s]++;
+        else counts.Custom++;
+      });
+
+      const chips = [
+        { label: 'إجمالي المسجلين', count: students.length, color: '#5d022a' },
+        { label: 'S (صغير)', count: counts.S, color: '#444' },
+        { label: 'M (وسط)', count: counts.M, color: '#444' },
+        { label: 'L (كبير)', count: counts.L, color: '#444' },
+        { label: 'XL (كبير جداً)', count: counts.XL, color: '#444' },
+        { label: 'XXL (خاص)', count: counts.XXL, color: '#444' }
+      ];
+
+      container.innerHTML = chips.map(c => `
+        <div style="background:#fff; border:1px solid #ebdcd5; border-radius:10px; padding:6px 12px; font-size:12px; font-weight:700; display:flex; align-items:center; gap:6px;">
+          <span style="color:${c.color};">${c.label}:</span>
+          <span style="background:#f4eae5; color:#5d022a; padding:1px 7px; border-radius:6px; font-size:11.5px; font-weight:800;">${c.count}</span>
+        </div>
+      `).join('');
+    }
+
+    function renderStudentsTable(students) {
+      const tbody = document.getElementById('bp-students-tbody');
+      if (!tbody) return;
+      if (!students || students.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="10" style="text-align:center; color:#888; padding:24px; font-size:13px;">لا يوجد طلاب مسجلون بعد. سجل قياساتك بالتبويب الأول لتكون بداية الكشف!</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = students.map((st, idx) => {
+        const phoneClean = (st.phone || '').replace(/[^0-9+]/g, '');
+        const waLink = phoneClean ? `https://wa.me/${phoneClean.startsWith('0') ? '964' + phoneClean.substring(1) : phoneClean}` : '#';
+        const threadBadge = st.threadColor === 'silver' ? '🪡 فضي' : (st.threadColor === 'white' ? '⚪ أبيض' : (st.threadColor === 'black' ? '⚫ أسود' : '✨ ذهبي'));
+        return `
+          <tr>
+            <td style="font-weight:700; color:#888;">${idx + 1}</td>
+            <td style="font-weight:800; color:#5d022a;">${escapeHtml(st.name)}</td>
+            <td style="direction:ltr; text-align:right; font-family:monospace; font-size:12.5px;">${escapeHtml(st.phone)}</td>
+            <td>${st.gender === 'women' ? 'طالبة' : 'طالب'}</td>
+            <td><span style="background:#f4eae5; color:#5d022a; padding:2px 8px; border-radius:6px; font-weight:800; font-size:12px;">${escapeHtml(st.sizeLetter || 'M')}</span></td>
+            <td style="font-size:12px; color:#555;">${st.height ? st.height + ' سم' : '—'}</td>
+            <td style="font-weight:800; color:#1a0a10;">${escapeHtml(st.embroideryName || st.name)}</td>
+            <td style="font-size:11.5px; color:#666;">${escapeHtml(st.calligraphy || 'خط الثلث')} · ${threadBadge}</td>
+            <td style="font-size:11.5px; color:#777;">${escapeHtml(st.notes || '—')}</td>
+            <td style="text-align:center;">
+              ${phoneClean ? `<a href="${waLink}" target="_blank" title="مراسلة واتساب" style="display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; background:#25d366; color:#fff; border-radius:50%; text-decoration:none; font-size:13px; font-weight:bold;">💬</a>` : '—'}
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function initRosterSearch() {
+      const searchInput = document.getElementById('bp-roster-search');
+      if (!searchInput) return;
+      searchInput.addEventListener('input', () => {
+        const q = searchInput.value.trim().toLowerCase();
+        if (!q) {
+          renderStudentsTable(currentStudentsList);
+          return;
+        }
+        const filtered = currentStudentsList.filter(st => {
+          const n = (st.name || '').toLowerCase();
+          const p = (st.phone || '').toLowerCase();
+          const e = (st.embroideryName || '').toLowerCase();
+          const s = (st.sizeLetter || '').toLowerCase();
+          return n.includes(q) || p.includes(q) || e.includes(q) || s.includes(q);
+        });
+        renderStudentsTable(filtered);
+      });
+    }
+
+    function exportBatchCsv(b) {
+      const students = b.students || [];
+      let csv = '\uFEFF#;اسم الطالب;الهاتف;الجنس;القياس;الطول;الاسم للتطريز;نوع الخط;لون الخيط;الملاحظات;تاريخ التسجيل\n';
+      students.forEach((st, idx) => {
+        csv += `${idx + 1};"${st.name || ''}";"${st.phone || ''}";"${st.gender === 'women' ? 'طالبة' : 'طالب'}";"${st.sizeLetter || ''}";"${st.height || ''}";"${st.embroideryName || ''}";"${st.calligraphy || ''}";"${st.threadColor || 'gold'}";"${st.notes || ''}";"${st.joinedAt || ''}"\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `كشف_تطريز_دفعة_${b.id}.csv`;
+      link.click();
+    }
+
+    // ==========================================
+    // 8. RENDER BATCH VIEW & PROGRESS
+    // ==========================================
+    function renderBatchView(b) {
+      if (!b) return;
+      if (noBatchView) noBatchView.style.display = 'none';
+      if (activeView) activeView.style.display = 'block';
+
+      const uniColText = `${b.university} · ${b.college}`;
+      document.getElementById('bp-title').textContent = b.title || 'بوابة تسجيل طلاب ومقاسات الدفعة';
+      document.getElementById('bp-sub').textContent = `${uniColText} — بإشراف الممثل: ${b.repName}`;
+      document.getElementById('bp-rep-name').textContent = b.repName;
+
+      const students = b.students || [];
+      currentStudentsList = students;
+      const count = students.length;
+      const target = b.targetQty || 50;
+
+      // Update count & progress bar
+      const pCount = document.getElementById('bp-count-registered');
+      if (pCount) pCount.textContent = `${count} / ${target} طالب`;
+
+      const pct = Math.min(100, Math.round((count / target) * 100));
+      const pBar = document.getElementById('bp-progress-bar');
+      if (pBar) pBar.style.width = `${pct}%`;
+
+      // Milestone cards logic
+      const m1 = document.getElementById('milestone-card-1');
+      const m2 = document.getElementById('milestone-card-2');
+      const m3 = document.getElementById('milestone-card-3');
+      if (m1) m1.className = 'bp-milestone-card';
+      if (m2) m2.className = 'bp-milestone-card';
+      if (m3) m3.className = 'bp-milestone-card';
+
+      let currentDiscount = 0;
+      let nextTarget = 20;
+
+      if (count >= 60) {
+        currentDiscount = 20;
+        if (m1) m1.classList.add('is-reached');
+        if (m2) m2.classList.add('is-reached');
+        if (m3) m3.classList.add('is-reached');
+      } else if (count >= 40) {
+        currentDiscount = 15;
+        nextTarget = 60;
+        if (m1) m1.classList.add('is-reached');
+        if (m2) m2.classList.add('is-reached');
+        if (m3) m3.classList.add('is-next');
+      } else if (count >= 20) {
+        currentDiscount = 10;
+        nextTarget = 40;
+        if (m1) m1.classList.add('is-reached');
+        if (m2) m2.classList.add('is-next');
+      } else {
+        currentDiscount = 5;
+        nextTarget = 20;
+        if (m1) m1.classList.add('is-next');
+      }
+
+      const discVal = document.getElementById('bp-discount-val');
+      if (discVal) {
+        discVal.textContent = currentDiscount > 0 ? `${currentDiscount}% خصم للجميع 🎁` : 'خصم ترحيبي 5%';
+      }
+
+      const savingsHint = document.getElementById('bp-savings-hint');
+      if (savingsHint) {
+        if (currentDiscount >= 20) {
+          savingsHint.textContent = '🎉 مبروك! حققتم أعلى نسبة خصم ملكي (20%) — تم توفير 20,000 د.ع لكل طالب!';
+        } else {
+          const diff = nextTarget - count;
+          savingsHint.textContent = `🎯 باقي ${diff} طالب للوصول إلى الخصم التالي (${currentDiscount <= 5 ? '10%' : currentDiscount === 10 ? '15%' : '20%'}) وتوفير مالي أكبر!`;
+        }
+      }
+
+      // Share URLs
+      const shareUrl = `${window.location.origin}/class?batch=${encodeURIComponent(b.id)}`;
+      const waShareMsg = `زملائي الأعزاء بدفعة (${b.college} - ${b.university}) 🎓:\nيرجى الدخول على الرابط لتسجيل قياس روب وتطريز وشاح التخرج لدفعة 2026 قبل إغلاق الكشف:\n${shareUrl}`;
+      const btnShareWa = document.getElementById('bp-btn-share-wa');
+      if (btnShareWa) btnShareWa.href = `https://wa.me/?text=${encodeURIComponent(waShareMsg)}`;
+
+      const btnCopyLink = document.getElementById('bp-btn-copy-link');
+      if (btnCopyLink) {
+        btnCopyLink.onclick = () => {
+          navigator.clipboard.writeText(shareUrl).then(() => {
+            if (window.showIkToast) window.showIkToast('✓ تم نسخ رابط الدفعة للحافظة بنجاح!');
+            else alert('✓ تم نسخ رابط الدفعة!');
+          });
+        };
+      }
+
+      // Tab 3: Representative Broadcast Hub
+      const repCtrlName = document.getElementById('rep-ctrl-name');
+      if (repCtrlName) repCtrlName.textContent = b.repName;
+
+      const broadcastTxt = `🎓 زملائي الأعزاء بدفعة (${b.college} - ${b.university}):\n\nنود إعلامكم بفتح رابط تسجيل كشف التخرج لدفعة 2026 الخاص بنا لتثبيت مقاسات الروب وتطريز الأسماء على الوشاح:\n${shareUrl}\n\nيرجى الدخول وتعبئة بياناتك قبل إغلاق الكشف، ومع زيادة المسجلين نحصل على خصم جماعي يصل لـ 20%!\n— ممثل الدفعة: ${b.repName}`;
+      const broadcastBox = document.getElementById('bp-broadcast-text');
+      if (broadcastBox) broadcastBox.value = broadcastTxt;
+
+      const btnCopyBc = document.getElementById('btn-copy-broadcast');
+      if (btnCopyBc) {
+        btnCopyBc.onclick = () => {
+          navigator.clipboard.writeText(broadcastBox.value).then(() => {
+            if (window.showIkToast) window.showIkToast('✓ تم نسخ نص رسالة الإعلان للحافظة بنجاح!');
+            else alert('✓ تم نسخ رسالة الإعلان!');
+          });
+        };
+      }
+
+      const btnSendBcWa = document.getElementById('btn-send-broadcast-wa');
+      if (btnSendBcWa) {
+        btnSendBcWa.href = `https://wa.me/?text=${encodeURIComponent(broadcastTxt)}`;
+      }
+
+      // Workshop Print & Export CSV bindings
+      const printBtnHero = document.getElementById('bp-btn-print-roster');
+      if (printBtnHero) printBtnHero.onclick = () => window.print();
+
+      const exportBtnHero = document.getElementById('bp-btn-export-csv');
+      if (exportBtnHero) exportBtnHero.onclick = () => exportBatchCsv(b);
+
+      document.querySelectorAll('.btn-print-roster-direct').forEach(btn => {
+        btn.onclick = () => window.print();
+      });
+
+      document.querySelectorAll('.btn-export-csv-direct').forEach(btn => {
+        btn.onclick = () => exportBatchCsv(b);
+      });
+
+      // Tab 4: Color showcase & scarf visualizer
+      const bColor = b.color || 'burgundy';
+      const bColorObj = PALETTE_COLORS.find(c => c.id === bColor) || PALETTE_COLORS[0];
+      const showcaseImg = document.getElementById('bp-showcase-img');
+      const showcaseName = document.getElementById('bp-showcase-color-name');
+      const visualizerDesc = document.getElementById('bp-visualizer-color-desc');
+      const liveRibbonBand = document.getElementById('bp-live-ribbon-band');
+
+      if (showcaseImg) showcaseImg.src = `khamaiq.com/assets/images/visualizer-${bColor}.jpg`;
+      if (showcaseName) showcaseName.textContent = b.colorName || bColorObj.name;
+      if (visualizerDesc) visualizerDesc.textContent = `تم اعتماد هذا اللون رسمياً لدفعتكم (${b.colorName || bColorObj.name})، ويمكن للطلبة تجربة باقي الألوان للاستئناس.`;
+      if (liveRibbonBand) liveRibbonBand.style.background = bColorObj.gradient;
+
+      // Render Roster & Chips
+      renderSizingChips(students);
+      renderStudentsTable(students);
+
+      // Sync batch picker selection
+      loadBatchPicker(b.id);
+    }
+
+    // ==========================================
+    // 9. LOAD BATCH BY ID
+    // ==========================================
+    async function loadBatch(batchId) {
+      try {
+        const resp = await fetch(`/api/batch/${encodeURIComponent(batchId)}`);
+        const data = await resp.json();
+        if (data.success && data.batch) {
+          currentBatch = data.batch;
+          renderBatchView(currentBatch);
+        } else {
+          if (noBatchView) noBatchView.style.display = 'block';
+          if (activeView) activeView.style.display = 'none';
+        }
+      } catch (err) {
+        console.error('Error loading batch:', err);
+      }
+    }
+
+    // ==========================================
+    // 10. FORM: CREATE BATCH
+    // ==========================================
     if (formCreate) {
       formCreate.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -1961,14 +2583,19 @@ body {
         submitBtn.disabled = true;
         submitBtn.textContent = 'جاري إنشاء الرابط...';
 
+        const uniVal = (document.getElementById('cb-university')?.value || document.getElementById('cb-uni-select')?.value || '').trim();
+        const colVal = (document.getElementById('cb-college')?.value || document.getElementById('cb-col-select')?.value || '').trim();
+        const colorVal = document.getElementById('cb-selected-color')?.value || 'burgundy';
+        const colorNameVal = document.getElementById('cb-selected-color-name')?.value || 'ماروني ملكي';
+
         const payload = {
-          university: document.getElementById('cb-university').value.trim(),
-          college: document.getElementById('cb-college').value.trim(),
+          university: uniVal,
+          college: colVal,
           repName: document.getElementById('cb-rep-name').value.trim(),
           repPhone: document.getElementById('cb-rep-phone').value.trim(),
           targetQty: parseInt(document.getElementById('cb-target-qty').value, 10) || 50,
-          color: 'burgundy',
-          colorName: 'ماروني خامة'
+          color: colorVal,
+          colorName: colorNameVal
         };
 
         try {
@@ -1993,106 +2620,14 @@ body {
       });
     }
 
-    // Load batch by ID
-    async function loadBatch(batchId) {
-      try {
-        const resp = await fetch(`/api/batch/${encodeURIComponent(batchId)}`);
-        const data = await resp.json();
-        if (data.success && data.batch) {
-          currentBatch = data.batch;
-          renderBatchView(currentBatch);
-        } else {
-          if (noBatchView) noBatchView.style.display = 'block';
-          if (activeView) activeView.style.display = 'none';
-        }
-      } catch (err) {
-        console.error('Error loading batch:', err);
-      }
-    }
-
-    function renderBatchView(b) {
-      if (!b) return;
-      if (noBatchView) noBatchView.style.display = 'none';
-      if (activeView) activeView.style.display = 'block';
-
-      document.getElementById('bp-title').textContent = b.title || 'بوابة تسجيل طلاب الدفعة';
-      document.getElementById('bp-sub').textContent = `${b.university} · ${b.college} — بإشراف الممثل: ${b.repName}`;
-      document.getElementById('bp-rep-name').textContent = b.repName;
-
-      const students = b.students || [];
-      const count = students.length;
-      const target = b.targetQty || 50;
-      document.getElementById('bp-count-registered').textContent = `${count} / ${target} طالب`;
-
-      const pct = Math.min(100, Math.round((count / target) * 100));
-      document.getElementById('bp-progress-bar').style.width = `${pct}%`;
-
-      // Discount calculation
-      let discountTxt = '10% خصم';
-      if (count >= 50) {
-        discountTxt = '20% خصم ملكي 👑';
-      } else if (count >= 25) {
-        discountTxt = '15% خصم مميز ✨';
-      }
-      document.getElementById('bp-discount-val').textContent = discountTxt;
-
-      // WhatsApp Share Link
-      const shareUrl = `${window.location.origin}/class?batch=${encodeURIComponent(b.id)}`;
-      const waMsg = `زملائي الأعزاء بدفعة (${b.college} - ${b.university}) 🎓:\nيرجى الدخول على الرابط لتسجيل قياس روب وتطريز وشاح التخرج لدفعة 2026 قبل إغلاق الكشف:\n${shareUrl}`;
-      document.getElementById('bp-btn-share-wa').href = `https://wa.me/?text=${encodeURIComponent(waMsg)}`;
-
-      // Copy link button
-      document.getElementById('bp-btn-copy-link').onclick = () => {
-        navigator.clipboard.writeText(shareUrl).then(() => {
-          if (window.showIkToast) window.showIkToast('✓ تم نسخ رابط الدفعة للحافظة بنجاح!');
-          else alert('تم نسخ رابط الدفعة!');
-        });
-      };
-
-      // Print Roster
-      document.getElementById('bp-btn-print-roster').onclick = () => {
-        window.print();
-      };
-
-      // Export CSV
-      document.getElementById('bp-btn-export-csv').onclick = () => {
-        let csv = '\uFEFF#;اسم الطالب;الهاتف;الجنس;القياس;نص التطريز;الخط;تاريخ التسجيل\n';
-        students.forEach((st, idx) => {
-          csv += `${idx + 1};"${st.name}";"${st.phone}";"${st.gender === 'women' ? 'طالبة' : 'طالب'}";"${st.sizeLetter}";"${st.embroideryName}";"${st.calligraphy}";"${st.joinedAt}"\n`;
-        });
-        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = `كشف_تطريز_دفعة_${b.id}.csv`;
-        link.click();
-      };
-
-      // Render Students Table
-      const tbody = document.getElementById('bp-students-tbody');
-      if (!tbody) return;
-      if (students.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#888; padding:20px;">لا يوجد طلاب مسجلون بعد. كن أول من يسجل بالاستمارة أدناه!</td></tr>`;
-        return;
-      }
-      tbody.innerHTML = students.map((st, idx) => `
-        <tr>
-          <td style="font-weight:700;">${idx + 1}</td>
-          <td style="font-weight:700; color:#5d022a;">${escapeHtml(st.name)}</td>
-          <td style="direction:ltr; text-align:right;">${escapeHtml(st.phone)}</td>
-          <td><span style="background:#f4eae5; padding:2px 8px; border-radius:6px; font-weight:700;">${escapeHtml(st.sizeLetter)}</span></td>
-          <td style="font-weight:700; color:#1a0a10;">${escapeHtml(st.embroideryName)}</td>
-          <td style="color:#666; font-size:12px;">${escapeHtml(st.calligraphy)}</td>
-          <td style="color:#888; font-size:11.5px;">${st.joinedAt ? new Date(st.joinedAt).toLocaleTimeString('ar-IQ', { hour:'2-digit', minute:'2-digit' }) : ''}</td>
-        </tr>
-      `).join('');
-    }
-
-    // Form: Student Join
+    // ==========================================
+    // 11. FORM: STUDENT JOIN & SIZING
+    // ==========================================
     if (formStudent) {
       formStudent.addEventListener('submit', async (e) => {
         e.preventDefault();
         if (!currentBatch || !currentBatch.id) {
-          alert('يرجى إنشاء أو فتح دفعة أولاً.');
+          alert('يرجى اختيار أو إنشاء دفعة أولاً.');
           return;
         }
 
@@ -2106,8 +2641,11 @@ body {
           phone: document.getElementById('bp-in-phone').value.trim(),
           gender: document.getElementById('bp-in-gender').value,
           sizeLetter: document.getElementById('bp-in-size').value,
+          height: parseInt(document.getElementById('bp-in-height')?.value, 10) || null,
           embroideryName: document.getElementById('bp-in-embroidery').value.trim(),
-          calligraphy: document.getElementById('bp-in-calligraphy').value
+          calligraphy: document.getElementById('bp-in-calligraphy').value,
+          threadColor: document.getElementById('bp-in-thread')?.value || 'gold',
+          notes: document.getElementById('bp-in-notes')?.value.trim() || ''
         };
 
         try {
@@ -2119,12 +2657,17 @@ body {
           const data = await resp.json();
           if (data.success && data.student) {
             formStudent.reset();
+            initLiveRibbonPreview();
             if (window.showIkToast) {
               window.showIkToast(`✓ تم تسجيلك في كشف الدفعة بنجاح يا ${data.student.name}!`);
             } else {
               alert(`✓ تم تسجيلك في كشف الدفعة بنجاح يا ${data.student.name}!`);
             }
             loadBatch(currentBatch.id);
+
+            // Auto-switch to Roster tab so student sees their entry
+            const rosterTabBtn = document.querySelector('.bp-tab-btn[data-tab="roster"]');
+            if (rosterTabBtn) rosterTabBtn.click();
           } else {
             alert(data.error || 'حدث خطأ أثناء التسجيل.');
           }
@@ -2136,6 +2679,16 @@ body {
         }
       });
     }
+
+    // ==========================================
+    // 12. INITIALIZATION ROUTINES
+    // ==========================================
+    initUniversitiesDropdown();
+    initColorPickerGrid();
+    initTabsNavigation();
+    initLiveRibbonPreview();
+    initHeightEstimator();
+    initRosterSearch();
 
     if (batchIdParam) {
       loadBatch(batchIdParam);
