@@ -1,26 +1,94 @@
-[{
-    "id":  "KH-260906-9999",
-    "name":  "مروان طارق",
-    "phone":  "+9647805088134",
-    "gov":  "النجف الأشرف",
-    "address":  "حي الحنانة قرب سنتر المدينة",
-    "notes":  "تطريز اسم مروان مع سنة 2026",
-    "items":  [
-                  {
-                      "name":  "طقم تخرج كامل (روب + وشاح + قبعة)",
-                      "qty":  1,
-                      "price":  65000,
-                      "config":  {
-                                     "cut":  "ملكي",
-                                     "height":  175,
-                                     "color":  "ماروني خامة"
-                                 }
-                  }
-              ],
-    "subtotal":  65000,
-    "delivery":  5000,
-    "grandTotal":  70000,
-    "status":  "جديد",
-    "paymentMethod":  "عند الاستلام",
-    "createdAt":  "2026-09-06T14:40:00"
-}]
+[
+    {
+        "id":  "KH-260910-8940",
+        "name":  "غلض",
+        "phone":  "7077272782782",
+        "gov":  "بابل",
+        "address":  "0",
+        "notes":  "لا",
+        "items":  [
+                      {
+                          "name":  "روب تخرج إبرة وخيط (رجالي - XL)",
+                          "kind":  "robe",
+                          "qty":  1,
+                          "price":  40000,
+                          "config":  {
+                                         "gender":  "men",
+                                         "sizeLetter":  "XL",
+                                         "sizeNumber":  54,
+                                         "shoulder":  "56",
+                                         "length":  "130",
+                                         "sleeve":  "59",
+                                         "scarfLength":  125,
+                                         "notes":  "تفصيل حسب حاسبة القياس: كود IK-XL-54-M"
+                                     }
+                      },
+                      {
+                          "name":  "وشاح إبرة وخيط (أمريكي)",
+                          "kind":  "scarf",
+                          "qty":  1,
+                          "price":  20000,
+                          "config":  {
+                                         "name":  "احسان وحيدر",
+                                         "backText":  "الله",
+                                         "referenceImage":  null,
+                                         "gender":  "male",
+                                         "size":  "XL",
+                                         "sizeNum":  52,
+                                         "font":  "thuluth",
+                                         "textColor":  "gold",
+                                         "scarfColor":  "navy",
+                                         "scarfColorName":  "كحلي ملكي",
+                                         "type":  "american",
+                                         "length":  165,
+                                         "embroideryEnabled":  true
+                                     }
+                      },
+                      {
+                          "name":  "قبعة إبرة وخيط (ملكية)",
+                          "kind":  "cap",
+                          "qty":  1,
+                          "price":  25000,
+                          "config":  {
+                                         "cut":  "ملكية",
+                                         "type":  "royal",
+                                         "notes":  "عير",
+                                         "size":  "free",
+                                         "referenceImage":  null
+                                     }
+                      }
+                  ],
+        "subtotal":  85000,
+        "delivery":  5000,
+        "grandTotal":  90000,
+        "status":  "جديد",
+        "paymentMethod":  "عند الاستلام",
+        "createdAt":  "2026-09-10T13:21:54.322Z"
+    },
+    {
+        "id":  "KH-260906-9999",
+        "name":  "مروان طارق",
+        "phone":  "+9647805088134",
+        "gov":  "النجف الأشرف",
+        "address":  "حي الحنانة قرب سنتر المدينة",
+        "notes":  "تطريز اسم مروان مع سنة 2026",
+        "items":  [
+                      {
+                          "name":  "طقم تخرج كامل (روب + وشاح + قبعة)",
+                          "qty":  1,
+                          "price":  65000,
+                          "config":  {
+                                         "cut":  "ملكي",
+                                         "height":  175,
+                                         "color":  "ماروني خامة"
+                                     }
+                      }
+                  ],
+        "subtotal":  65000,
+        "delivery":  5000,
+        "grandTotal":  70000,
+        "status":  "جديد",
+        "paymentMethod":  "عند الاستلام",
+        "createdAt":  "2026-09-06T14:40:00"
+    }
+]

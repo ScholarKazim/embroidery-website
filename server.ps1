@@ -45,13 +45,14 @@ $ordersDbPath = Join-Path $rootDir "orders.json"
 $votingDbPath = Join-Path $rootDir "voting.json"
 $unisDbPath   = Join-Path $rootDir "universities.json"
 $ADMIN_TOKEN  = "khama_admin_2026"
+$utf8NoBom    = New-Object System.Text.UTF8Encoding($false)
 
 # Initialize orders and voting database files if not exists
 if (-not [System.IO.File]::Exists($ordersDbPath)) {
-    [System.IO.File]::WriteAllText($ordersDbPath, "[]", [System.Text.Encoding]::UTF8)
+    [System.IO.File]::WriteAllText($ordersDbPath, "[]", $utf8NoBom)
 }
 if (-not [System.IO.File]::Exists($votingDbPath)) {
-    [System.IO.File]::WriteAllText($votingDbPath, '{"votes":[],"otps":[],"representatives":[]}', [System.Text.Encoding]::UTF8)
+    [System.IO.File]::WriteAllText($votingDbPath, '{"votes":[],"otps":[],"representatives":[]}', $utf8NoBom)
 }
 
 # Mutexes for thread-safe atomic database read/writes
@@ -155,7 +156,7 @@ while ($listener.IsListening) {
                 [void]$votingMutex.WaitOne(5000)
                 try {
                     $jsonStr = ConvertTo-Json $dbObj -Depth 10
-                    [System.IO.File]::WriteAllText($votingDbPath, $jsonStr, [System.Text.Encoding]::UTF8)
+                    [System.IO.File]::WriteAllText($votingDbPath, $jsonStr, $utf8NoBom)
                 } finally {
                     $votingMutex.ReleaseMutex()
                 }
@@ -557,7 +558,7 @@ while ($listener.IsListening) {
                     $updatedList = @($newOrder) + @($ordersList)
                     $arr = @($updatedList)
                     $jsonDb = if ($arr.Count -eq 1) { "[" + (ConvertTo-Json $arr[0] -Depth 10) + "]" } else { ConvertTo-Json $arr -Depth 10 }
-                    [System.IO.File]::WriteAllText($ordersDbPath, $jsonDb, [System.Text.Encoding]::UTF8)
+                    [System.IO.File]::WriteAllText($ordersDbPath, $jsonDb, $utf8NoBom)
                 } finally {
                     $dbMutex.ReleaseMutex()
                 }
@@ -599,7 +600,7 @@ while ($listener.IsListening) {
                     if ($updated) {
                         $arr = @($ordersList)
                         $jsonDb = if ($arr.Count -eq 1) { "[" + (ConvertTo-Json $arr[0] -Depth 10) + "]" } else { ConvertTo-Json $arr -Depth 10 }
-                        [System.IO.File]::WriteAllText($ordersDbPath, $jsonDb, [System.Text.Encoding]::UTF8)
+                        [System.IO.File]::WriteAllText($ordersDbPath, $jsonDb, $utf8NoBom)
                         $response.StatusCode = 200
                         $bytes = [System.Text.Encoding]::UTF8.GetBytes('{"success":true,"message":"تم تحديث حالة الطلب"}')
                     } else {
@@ -630,7 +631,7 @@ while ($listener.IsListening) {
                     $filtered = @($ordersList | Where-Object { $_.id -ne $orderId })
                     $arr = @($filtered)
                     $jsonDb = if ($arr.Count -eq 0) { "[]" } elseif ($arr.Count -eq 1) { "[" + (ConvertTo-Json $arr[0] -Depth 10) + "]" } else { ConvertTo-Json $arr -Depth 10 }
-                    [System.IO.File]::WriteAllText($ordersDbPath, $jsonDb, [System.Text.Encoding]::UTF8)
+                    [System.IO.File]::WriteAllText($ordersDbPath, $jsonDb, $utf8NoBom)
                 } finally {
                     $dbMutex.ReleaseMutex()
                 }
