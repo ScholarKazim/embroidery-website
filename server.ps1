@@ -123,6 +123,20 @@ while ($listener.IsListening) {
         }
 
         # -----------------------------------------------------------------
+        # API ROUTE: /api/universities
+        # -----------------------------------------------------------------
+        if ($relPath -eq "api/universities" -and ($request.HttpMethod -eq "GET" -or $request.HttpMethod -eq "HEAD")) {
+            $response.ContentType = "application/json; charset=utf-8"
+            $response.AddHeader("Cache-Control", "public, max-age=3600")
+            $uBytes = if ([System.IO.File]::Exists($unisDbPath)) { [System.IO.File]::ReadAllBytes($unisDbPath) } else { [System.Text.Encoding]::UTF8.GetBytes("[]") }
+            $response.StatusCode = 200
+            $response.ContentLength64 = $uBytes.Length
+            if ($request.HttpMethod -ne "HEAD") { $response.OutputStream.Write($uBytes, 0, $uBytes.Length) }
+            $response.OutputStream.Close()
+            continue
+        }
+
+        # -----------------------------------------------------------------
         # API ROUTE: /api/voting/*
         # -----------------------------------------------------------------
         if ($relPath.StartsWith("api/voting") -or $relPath -eq "api/voting") {
