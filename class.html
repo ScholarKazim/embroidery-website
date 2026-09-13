@@ -2384,23 +2384,22 @@ body {
       return;
     }
 
+    // Try Google Identity Services OAuth popup directly in parallel
     if (googleTokenClient) {
       try {
         googleTokenClient.requestAccessToken({ prompt: '' });
-        return;
       } catch (e) {
         console.warn('GIS token request error:', e);
       }
     } else if (window.google && window.google.accounts && window.google.accounts.id) {
       try {
         window.google.accounts.id.prompt();
-        return;
       } catch (e) {
         console.warn('Google One Tap prompt error:', e);
       }
     }
 
-    // Fallback: Open Google setup modal immediately
+    // ALWAYS open Google modal immediately so the user sees the interactive dialog
     pendingGoogleUser = {
       uid: 'goog_' + Date.now(),
       name: '',
