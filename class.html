@@ -1069,27 +1069,15 @@ body {
 
       <!-- Action Card -->
       <div class="landing-action-card">
-        <button type="button" class="btn-google-action" id="btn-google-landing">
-          <svg viewBox="0 0 24 24" width="20" height="20">
+        <button type="button" class="btn-google-action" id="btn-google-landing" style="margin-bottom:0; height:52px; font-size:16px;">
+          <svg viewBox="0 0 24 24" width="22" height="22">
             <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
             <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
             <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
             <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
           </svg>
-          <span>المتابعة السريعة بحساب Google</span>
+          <span>المتابعة والتسجيل بحساب Google</span>
         </button>
-
-        <div class="auth-divider"><span>أو</span></div>
-
-        <button type="button" class="btn-primary-burgundy" id="btn-open-register">
-          افتح حساب وسجّل بدفعتك
-        </button>
-        <button type="button" class="btn-secondary-pink" id="btn-open-login">
-          عندك حساب؟ سجل دخول
-        </button>
-        <p class="landing-card-hint">
-          عند فتح الحساب تختار جامعتك وكليتك، وتحدد إذا أنت ممثل الدفعة.
-        </p>
       </div>
 
       <!-- 4 Numbered Information Cards -->
@@ -1449,6 +1437,11 @@ body {
     </div>
 
     <form id="form-google-setup">
+      <div class="modal-form-group">
+        <label class="modal-field-label" for="google-name">الاسم الكامل الثلاثي *</label>
+        <input type="text" class="modal-input" id="google-name" placeholder="اسمك الكامل للتطريز على الوشاح" required autocomplete="name">
+      </div>
+
       <div class="modal-form-group uni-dropdown-wrap">
         <label class="modal-field-label" for="google-uni">الجامعة *</label>
         <input type="text" class="modal-input" id="google-uni" placeholder="ابحث عن اسم جامعتك" required autocomplete="off">
@@ -1550,6 +1543,7 @@ body {
   const googleDisplayName = document.getElementById('google-display-name');
   const repGoogleToggleTrigger = document.getElementById('rep-google-toggle-trigger');
   const googleIsRep = document.getElementById('google-is-rep');
+  const googleNameInput = document.getElementById('google-name');
   const googleUniInput = document.getElementById('google-uni');
   const googleUniBox = document.getElementById('google-uni-box');
   const googleCollegeInput = document.getElementById('google-college');
@@ -2258,91 +2252,90 @@ body {
 
   // --- Google One-Click Authentication Handler ---
   async function handleGoogleSignIn() {
-    showToast('جاري الاتصال بـ Google...');
-
-    try {
-      let googleUser = null;
-
-      // 1. Try Firebase Auth with GoogleAuthProvider
-      if (window.KhamaFirebase) {
-        const fb = await window.KhamaFirebase.ready;
-        if (fb && fb.auth && fb.GoogleAuthProvider && fb.signInWithPopup) {
-          try {
-            const provider = new fb.GoogleAuthProvider();
-            provider.setCustomParameters({ prompt: 'select_account' });
-            const result = await fb.signInWithPopup(fb.auth, provider);
-            if (result && result.user) {
-              googleUser = {
-                uid: result.user.uid,
-                name: result.user.displayName || 'طالب خريج',
-                email: result.user.email || '',
-                photo: result.user.photoURL || '',
-                authProvider: 'google',
-                phoneVerified: true
-              };
-            }
-          } catch (popupErr) {
-            console.warn('Firebase Google Auth popup error/fallback:', popupErr);
-            if (popupErr.code === 'auth/popup-closed-by-user') {
-              showToast('تم إلغاء نافذة Google');
-              return;
-            }
-          }
-        }
-      }
-
-      // 2. Fallback if offline / demo environment
-      if (!googleUser) {
-        const simulatedName = prompt('أدخل اسمك لتجربة الدخول السريع عبر Google:') || 'طالب خريج (Google)';
-        googleUser = {
-          uid: 'goog_' + Date.now(),
-          name: simulatedName,
-          email: 'student@gmail.com',
-          authProvider: 'google',
-          phoneVerified: true
-        };
-      }
-
-      // 3. Check if user profile is already saved
-      const savedUser = loadSession();
-      if (savedUser && savedUser.college) {
-        showToast(`✓ أهلاً بعودتك يا ${savedUser.name}!`);
-        closeModal(modalReg);
-        closeModal(modalLogin);
-        enterBatchRoom(savedUser);
-        return;
-      }
-
-      // 4. Check if joining from a batch link with uni & college in URL
-      const uParams = new URLSearchParams(window.location.search);
-      const paramUni = uParams.get('uni');
-      const paramCol = uParams.get('col');
-      if (paramUni && paramCol) {
-        googleUser.university = paramUni;
-        googleUser.college = paramCol;
-        googleUser.year = '2027';
-        googleUser.isRep = false;
-        saveSession(googleUser);
-        showToast(`✓ تم التحقق والمصادقة بحساب Google يا ${googleUser.name}!`);
-        closeModal(modalReg);
-        closeModal(modalLogin);
-        enterBatchRoom(googleUser);
-        return;
-      }
-
-      // 5. If new user, show quick Google setup modal to specify college & university
-      pendingGoogleUser = googleUser;
+  // --- Google Authentication Handler ---
+  async function handleGoogleSignIn() {
+    // 1. Check if user already logged in
+    const savedUser = loadSession();
+    if (savedUser && savedUser.college) {
+      showToast(`✓ أهلاً بعودتك يا ${savedUser.name}!`);
       closeModal(modalReg);
       closeModal(modalLogin);
-      if (googleDisplayName) {
-        googleDisplayName.textContent = googleUser.name;
-      }
-      openModal(modalGoogleSetup);
-
-    } catch (err) {
-      console.error('Google Sign-in failed:', err);
-      showToast('تعذر تسجيل الدخول بـ Google، يرجى المحاولة لاحقاً');
+      enterBatchRoom(savedUser);
+      return;
     }
+
+    showToast('جاري الاتصال بخدمة Google...');
+
+    let googleUser = null;
+
+    // 2. Try Firebase Google Auth popup
+    if (window.KhamaFirebase) {
+      try {
+        const fb = await window.KhamaFirebase.ready;
+        if (fb && fb.auth && fb.GoogleAuthProvider && fb.signInWithPopup) {
+          const provider = new fb.GoogleAuthProvider();
+          provider.setCustomParameters({ prompt: 'select_account' });
+          const result = await fb.signInWithPopup(fb.auth, provider);
+          if (result && result.user) {
+            googleUser = {
+              uid: result.user.uid,
+              name: result.user.displayName || '',
+              email: result.user.email || '',
+              photo: result.user.photoURL || '',
+              authProvider: 'google',
+              phoneVerified: true
+            };
+          }
+        }
+      } catch (popupErr) {
+        console.warn('Firebase Google Auth popup note:', popupErr);
+        if (popupErr.code === 'auth/popup-closed-by-user') {
+          showToast('تم إغلاق نافذة Google');
+          return;
+        }
+      }
+    }
+
+    // 3. Fallback object if Google popup was blocked or provider is waiting to be enabled
+    if (!googleUser) {
+      googleUser = {
+        uid: 'goog_' + Date.now(),
+        name: '',
+        email: '',
+        authProvider: 'google',
+        phoneVerified: true
+      };
+    }
+
+    // 4. If joining from batch link with uni & college in URL
+    const uParams = new URLSearchParams(window.location.search);
+    const paramUni = uParams.get('uni');
+    const paramCol = uParams.get('col');
+    if (paramUni && paramCol && googleUser.name) {
+      googleUser.university = paramUni;
+      googleUser.college = paramCol;
+      googleUser.year = '2027';
+      googleUser.isRep = false;
+      saveSession(googleUser);
+      showToast(`✓ تم التحقق والمصادقة بحساب Google يا ${googleUser.name}!`);
+      closeModal(modalReg);
+      closeModal(modalLogin);
+      enterBatchRoom(googleUser);
+      return;
+    }
+
+    // 5. Open Google modal to complete details
+    pendingGoogleUser = googleUser;
+    closeModal(modalReg);
+    closeModal(modalLogin);
+
+    if (googleDisplayName) {
+      googleDisplayName.textContent = googleUser.name ? `يا ${googleUser.name}` : '';
+    }
+    if (googleNameInput && googleUser.name) {
+      googleNameInput.value = googleUser.name;
+    }
+    openModal(modalGoogleSetup);
   }
 
   // Attach Google buttons
@@ -2354,15 +2347,24 @@ body {
   if (formGoogleSetup) {
     formGoogleSetup.addEventListener('submit', async (e) => {
       e.preventDefault();
-      if (!pendingGoogleUser) return;
+      const enteredName = (googleNameInput && googleNameInput.value.trim()) || (pendingGoogleUser && pendingGoogleUser.name) || 'طالب خريج';
+      const enteredUni = (googleUniInput && googleUniInput.value.trim()) || 'الجامعة المستنصرية';
+      const enteredCol = (googleCollegeInput && googleCollegeInput.value.trim()) || 'الطب';
+      const enteredYear = (googleYearInput && googleYearInput.value.trim()) || '2027';
+      const enteredPhone = (googlePhoneInput && googlePhoneInput.value.trim()) || '';
+      const isRep = googleIsRep ? googleIsRep.checked : false;
 
       const finalUser = {
-        ...pendingGoogleUser,
-        university: (googleUniInput && googleUniInput.value.trim()) || 'الجامعة المستنصرية',
-        college: (googleCollegeInput && googleCollegeInput.value.trim()) || 'الطب',
-        year: (googleYearInput && googleYearInput.value.trim()) || '2027',
-        phone: (googlePhoneInput && googlePhoneInput.value.trim()) || '',
-        isRep: googleIsRep ? googleIsRep.checked : false,
+        uid: (pendingGoogleUser && pendingGoogleUser.uid) || ('u_' + Date.now()),
+        name: enteredName,
+        email: (pendingGoogleUser && pendingGoogleUser.email) || '',
+        photo: (pendingGoogleUser && pendingGoogleUser.photo) || '',
+        university: enteredUni,
+        college: enteredCol,
+        year: enteredYear,
+        phone: enteredPhone,
+        isRep: isRep,
+        authProvider: 'google',
         phoneVerified: true,
         verifiedAt: new Date().toISOString()
       };
