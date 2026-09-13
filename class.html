@@ -2328,24 +2328,33 @@ body {
     } catch (e) { console.warn('[GIS] JWT parse error:', e); }
   }
 
-  // Called when user selects account via OAuth2 Token Client (access token)
+  // Called when OAuth succeeds — update the already-open modal with real data
   async function onTokenResponse(resp) {
     if (!resp || !resp.access_token) return;
     try {
-      showToast('جاري جلب بيانات حسابك…');
       const info = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
         headers: { Authorization: 'Bearer ' + resp.access_token }
       }).then(r => r.json());
 
-      fillAndOpenModal({
-        uid   : info.sub,
+      // Update pending user with real Google data
+      pendingGoogleUser = Object.assign(pendingGoogleUser || {}, {
+        uid   : info.sub   || pendingGoogleUser.uid,
         name  : info.name  || '',
         email : info.email || '',
-        photo : info.picture || ''
+        photo : info.picture || '',
+        authProvider  : 'google',
+        phoneVerified : true
       });
+
+      // Pre-fill the modal (it's already open)
+      if (googleNameInput  && info.name)  googleNameInput.value  = info.name;
+      if (googleEmailInput && info.email) googleEmailInput.value = info.email;
+      if (googleDisplayName && info.name) googleDisplayName.textContent = `أهلاً ${info.name}`;
+
+      showToast(`✓ تم التعرف على حسابك: ${info.email}`);
     } catch (e) {
       console.warn('[GIS] userinfo error:', e);
-      openModal(modalGoogleSetup); // fallback
+      // Modal is already open — user fills manually
     }
   }
 
@@ -2360,7 +2369,9 @@ body {
     openModal(modalGoogleSetup);
   }
 
-  // Main button click handler
+  // Main button click handler — dual-track approach:
+  // 1. Open modal IMMEDIATELY (user never sees a blank/error screen)
+  // 2. Try Google OAuth in background — if it succeeds, pre-fill name & email
   function handleGoogleSignIn() {
     // Already logged in → go straight to batch room
     const saved = loadSession();
@@ -2370,26 +2381,27 @@ body {
       return;
     }
 
+    // 1️⃣ Open the modal right away — guaranteed to work everywhere
+    pendingGoogleUser = {
+      uid: 'g_' + Date.now(), name: '', email: '',
+      authProvider: 'google', phoneVerified: true
+    };
+    closeModal(modalReg);
+    closeModal(modalLogin);
+    openModal(modalGoogleSetup);
+
+    // 2️⃣ Try OAuth popup in background to get real Google name/email
     if (gisReady && googleTokenClient) {
-      // Show real Google account picker popup
-      googleTokenClient.requestAccessToken({ prompt: 'select_account' });
-    } else if (gisReady && window.google && window.google.accounts && window.google.accounts.id) {
-      // Try One-Tap
-      window.google.accounts.id.prompt((notification) => {
-        if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-          // One-tap blocked → open manual form
-          pendingGoogleUser = { uid: 'g_' + Date.now(), name:'', email:'', authProvider:'google', phoneVerified:true };
-          openModal(modalGoogleSetup);
-        }
-      });
-    } else {
-      // GIS not loaded yet → open form directly
-      pendingGoogleUser = { uid: 'g_' + Date.now(), name:'', email:'', authProvider:'google', phoneVerified:true };
-      closeModal(modalReg);
-      closeModal(modalLogin);
-      openModal(modalGoogleSetup);
+      try {
+        googleTokenClient.requestAccessToken({ prompt: 'select_account' });
+        // onTokenResponse will pre-fill the already-open modal if OAuth succeeds
+      } catch (e) {
+        console.warn('[GIS] requestAccessToken failed:', e);
+        // Modal is already open — user can fill manually
+      }
     }
   }
+
 
   // Init GIS when script is ready
   if (window.google && window.google.accounts) {
