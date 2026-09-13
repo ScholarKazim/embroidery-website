@@ -10,7 +10,11 @@
 <link rel="icon" type="image/png" sizes="16x16" href="khamaiq.com/assets/icons/favicon-16x16_v=p138.png">
 <link rel="apple-touch-icon" href="khamaiq.com/assets/icons/apple-touch-icon_v=p138.png">
 <title>صفحة الدفعة والتصويت | إبرة وخيط</title>
-<meta name="description" content="صفحة دفعتك للتصويت على لون الوشاح المشترك، طلب عينة الألوان المجانية، ومشاركة الرابط مع أعضاء الدفعة.">
+<meta name="description" content="سجّل بدفعتك للتصويت على لون الوشاح المشترك، حجز قياساتك، واستلام عينة مجانية لممثل الدفعة.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Amiri:wght@700;900&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="khamaiq.com/colors_and_type_v=p138.css">
 <link rel="stylesheet" href="khamaiq.com/styles_v=p138.css">
@@ -21,930 +25,689 @@
 <link rel="stylesheet" href="khamaiq.com/enhancements.css">
 
 <style>
+:root {
+  --primary-burgundy: #580829;
+  --primary-burgundy-hover: #42041d;
+  --secondary-pink: #fceced;
+  --secondary-pink-border: #f2d5d8;
+  --page-bg: #fcf7f6;
+  --card-bg: #ffffff;
+  --gold-accent: #ba8d5d;
+  --gold-light: #e5be7d;
+  --text-dark: #1a0a10;
+  --text-muted: #666666;
+  --text-light: #888888;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
-  background-color: #fbf5f3;
-  color: var(--ink, #1a0a10);
-  font-family: var(--font-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
-}
-
-.class-page-wrap {
-  padding-top: 100px;
-  padding-bottom: 90px;
+  background-color: var(--page-bg);
+  color: var(--text-dark);
+  font-family: 'Cairo', system-ui, -apple-system, sans-serif;
+  margin: 0;
+  padding: 0;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
 }
 
-.class-content-box {
-  max-width: 880px;
+/* Header & Nav */
+.class-main-wrap {
+  flex: 1;
+  padding-top: 90px;
+  padding-bottom: 70px;
+}
+
+.class-container {
+  max-width: 620px;
   margin: 0 auto;
-  padding: 0 16px;
+  padding: 0 18px;
 }
 
 /* ============================================================
-   SCREENSHOT 2 STYLES (Class Hub / Live Voting)
+   1. LANDING SCREEN (Matches Screenshot 1)
    ============================================================ */
-/* Top Header Card */
-.hub-header-card {
+.landing-hero {
+  text-align: center;
+  margin-bottom: 26px;
+}
+
+.landing-top-tag {
+  display: block;
+  font-family: 'Cairo', sans-serif;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--gold-accent);
+  margin-bottom: 8px;
+}
+
+.landing-main-title {
+  font-family: 'Amiri', 'Cairo', serif;
+  font-size: clamp(40px, 8vw, 54px);
+  font-weight: 900;
+  color: var(--text-dark);
+  margin: 0 0 12px;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+}
+
+.landing-desc {
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: #555555;
+  margin: 0 auto;
+  max-width: 520px;
+}
+
+/* Center Action Card */
+.landing-action-card {
+  background: var(--card-bg);
+  border-radius: 22px;
+  padding: 24px 22px;
+  box-shadow: 0 10px 30px rgba(88, 8, 41, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+.btn-primary-burgundy {
+  display: block;
+  width: 100%;
+  background: var(--primary-burgundy);
+  color: #ffffff;
+  font-family: 'Cairo', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  padding: 14px 20px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(88, 8, 41, 0.2);
+  transition: transform 0.15s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
+  margin-bottom: 10px;
+}
+
+.btn-primary-burgundy:hover {
+  background: var(--primary-burgundy-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(88, 8, 41, 0.25);
+}
+
+.btn-primary-burgundy:active {
+  transform: translateY(1px);
+}
+
+.btn-secondary-pink {
+  display: block;
+  width: 100%;
+  background: var(--secondary-pink);
+  color: var(--primary-burgundy);
+  font-family: 'Cairo', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  padding: 13px 20px;
+  border-radius: 14px;
+  border: 1px solid var(--secondary-pink-border);
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+  text-decoration: none;
+}
+
+.btn-secondary-pink:hover {
+  background: #f8dfdf;
+  transform: translateY(-1px);
+}
+
+.landing-card-hint {
+  font-size: 12px;
+  color: var(--text-light);
+  margin: 14px 0 0;
+  line-height: 1.4;
+}
+
+/* 4 Numbered Explainer Cards */
+.landing-steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.landing-num-card {
+  background: var(--secondary-pink);
+  border: 1px solid var(--secondary-pink-border);
+  border-radius: 16px;
+  padding: 13px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  transition: transform 0.15s ease;
+}
+
+.landing-num-card:hover {
+  transform: translateY(-1px);
+}
+
+.landing-num-text {
+  flex: 1;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text-dark);
+  line-height: 1.4;
+  text-align: right;
+}
+
+.landing-num-badge {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  border-radius: 50%;
+  background: var(--primary-burgundy);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(88, 8, 41, 0.2);
+}
+
+/* ============================================================
+   2. MODALS (Matches Screenshot 2 & 3)
+   ============================================================ */
+.vote-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(18, 5, 10, 0.65);
+  backdrop-filter: blur(8px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.vote-modal-backdrop.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.vote-modal-box {
   background: #ffffff;
   border-radius: 26px;
-  padding: 24px 28px;
-  box-shadow: 0 10px 30px rgba(93, 2, 42, 0.04);
-  border: 1px solid rgba(0,0,0,0.03);
-  text-align: right;
+  width: 100%;
+  max-width: 440px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 30px 24px 26px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  position: relative;
+  transform: scale(0.96) translateY(10px);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.vote-modal-backdrop.is-open .vote-modal-box {
+  transform: scale(1) translateY(0);
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  line-height: 1;
+  color: #999;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: color 0.2s, background-color 0.2s;
+}
+
+.modal-close-btn:hover {
+  color: #1a0a10;
+  background: #f4eae5;
+}
+
+.modal-head {
+  text-align: center;
   margin-bottom: 20px;
 }
 
-.hub-top-tag {
+.modal-title {
+  font-family: 'Amiri', 'Cairo', serif;
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--text-dark);
+  margin: 0 0 6px;
+}
+
+.modal-sub {
+  font-size: 13.5px;
+  color: #777;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Representative Toggle Card */
+.rep-toggle-card {
+  background: var(--secondary-pink);
+  border: 1px solid var(--secondary-pink-border);
+  border-radius: 16px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+  cursor: pointer;
+}
+
+.rep-toggle-info {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+}
+
+.rep-toggle-title {
+  font-size: 14.5px;
+  font-weight: 800;
+  color: var(--text-dark);
+}
+
+.rep-toggle-desc {
+  font-size: 12px;
+  color: #777;
+  margin-top: 2px;
+}
+
+/* Switch Toggle UI */
+.switch-toggle {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 26px;
+  min-width: 48px;
+}
+
+.switch-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider-round {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #e0d0d2;
+  transition: 0.3s;
+  border-radius: 34px;
+}
+
+.slider-round:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.switch-toggle input:checked + .slider-round {
+  background-color: var(--primary-burgundy);
+}
+
+.switch-toggle input:checked + .slider-round:before {
+  transform: translateX(22px);
+}
+
+/* Form Groups & Inputs */
+.modal-form-group {
+  margin-bottom: 14px;
+  text-align: right;
+}
+
+.modal-field-label {
   display: block;
-  font-family: var(--font-ui);
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 700;
-  color: #ba8d5d;
+  color: #444;
   margin-bottom: 6px;
 }
 
-.hub-college-title {
-  font-family: var(--font-display, "Amiri", serif);
-  font-size: 34px;
-  font-weight: 900;
-  color: #1a0a10;
-  margin: 0 0 4px;
-  line-height: 1.2;
+.modal-input {
+  width: 100%;
+  background: #ffffff;
+  border: 1.5px solid #ebdcd5;
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 14px;
+  color: var(--text-dark);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.hub-uni-sub {
-  font-family: var(--font-text);
-  font-size: 14.5px;
-  color: #666;
-  margin: 0 0 16px;
+.modal-input:focus {
+  border-color: var(--primary-burgundy);
+  box-shadow: 0 0 0 3px rgba(88, 8, 41, 0.08);
 }
 
-.hub-meta-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-family: var(--font-ui);
-  font-size: 13px;
-  color: #444;
+.modal-text-link {
+  font-size: 12.5px;
+  color: var(--primary-burgundy);
+  text-decoration: underline;
+  cursor: pointer;
   font-weight: 700;
+  transition: color 0.15s;
 }
 
-.hub-status-badge {
+.modal-text-link:hover {
+  color: var(--primary-burgundy-hover);
+}
+
+.uni-dropdown-wrap {
+  position: relative;
+}
+
+.uni-suggestions-box {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border: 1px solid #ebdcd5;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  max-height: 180px;
+  overflow-y: auto;
+  z-index: 10;
+  display: none;
+}
+
+.uni-suggest-item {
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+  border-bottom: 1px solid #f6f0ec;
+  text-align: right;
+}
+
+.uni-suggest-item:hover {
+  background: #fdf5f0;
+  color: var(--primary-burgundy);
+}
+
+/* ============================================================
+   3. ACTIVE BATCH & VOTING ROOM (View After Login/Batch Select)
+   ============================================================ */
+#view-batch-room {
+  display: none;
+}
+
+.batch-room-head {
+  background: var(--card-bg);
+  border-radius: 22px;
+  padding: 22px 20px;
+  box-shadow: 0 10px 30px rgba(88, 8, 41, 0.04);
+  border: 1px solid rgba(0,0,0,0.03);
+  margin-bottom: 20px;
+  text-align: right;
+}
+
+.room-badge-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.room-status-badge {
   background: #eafaf1;
   color: #1e874b;
   border: 1px solid #c7f0d8;
   padding: 3px 12px;
   border-radius: 999px;
   font-size: 12px;
+  font-weight: 800;
+}
+
+.room-user-badge {
+  font-size: 12.5px;
+  color: #555;
   font-weight: 700;
 }
 
-/* Main Voting Card */
-.hub-voting-card {
+.room-title {
+  font-family: 'Amiri', 'Cairo', serif;
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--text-dark);
+  margin: 0 0 4px;
+}
+
+.room-sub {
+  font-size: 13.5px;
+  color: #666;
+  margin: 0 0 14px;
+}
+
+/* Ribbon Live Preview Box */
+.voting-visualizer-box {
   background: #ffffff;
-  border-radius: 28px;
-  padding: 28px 22px;
-  box-shadow: 0 12px 36px rgba(93, 2, 42, 0.05);
+  border-radius: 24px;
+  padding: 24px 20px;
+  box-shadow: 0 10px 30px rgba(88, 8, 41, 0.05);
   border: 1px solid rgba(0,0,0,0.03);
   margin-bottom: 20px;
   text-align: center;
 }
 
-.hub-card-heading {
-  font-family: var(--font-display, "Amiri", serif);
-  font-size: 26px;
+.visualizer-title {
+  font-family: 'Amiri', 'Cairo', serif;
+  font-size: 24px;
   font-weight: 900;
-  color: #1a0a10;
+  color: var(--text-dark);
   margin: 0 0 4px;
 }
 
-.hub-card-sub {
-  font-family: var(--font-text);
-  font-size: 13.5px;
+.visualizer-desc {
+  font-size: 13px;
   color: #777;
-  margin: 0 0 20px;
+  margin: 0 0 18px;
 }
 
-/* Model Showcase Frame with Badge */
-.hub-showcase-container {
+.ribbon-render-stage {
   position: relative;
   width: 100%;
   max-width: 320px;
-  margin: 0 auto 24px;
-  border-radius: 22px;
-  overflow: hidden;
-  box-shadow: 0 14px 34px rgba(0,0,0,0.12);
-  background: #1a0a10;
-  aspect-ratio: 4 / 5;
-}
-
-.hub-showcase-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: opacity 0.3s ease;
-}
-
-.hub-color-pill-overlay {
-  position: absolute;
-  bottom: 14px;
-  right: 14px;
-  text-align: right;
-  pointer-events: none;
-  text-shadow: 0 2px 6px rgba(0,0,0,0.7);
-}
-
-.hub-color-tag-lbl {
-  display: block;
-  font-family: var(--font-ui);
-  font-size: 11.5px;
-  font-weight: 700;
-  color: #e5be7d;
-  margin-bottom: 2px;
-}
-
-.hub-color-name-lbl {
-  font-family: var(--font-display, "Amiri", serif);
-  font-size: 24px;
-  font-weight: 900;
-  color: #ffffff;
-  margin: 0;
-  line-height: 1.1;
-}
-
-/* 6 Colors Voting Grid (2 columns) */
-.hub-vote-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 16px;
-  direction: rtl;
-}
-
-.vote-tile-btn {
-  background: #faebe8;
-  border: 1.5px solid transparent;
-  border-radius: 14px;
-  padding: 10px 12px;
-  cursor: pointer;
-  text-align: right;
-  transition: all 0.2s ease;
-  position: relative;
-  outline: none;
-}
-
-.vote-tile-btn:hover {
-  background: #f7e0dc;
-}
-
-.vote-tile-btn.is-active {
-  background: #faebe8;
-  border-color: #5d022a;
-  box-shadow: 0 0 0 1px #5d022a;
-}
-
-.tile-top-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 6px;
-}
-
-.tile-color-name {
-  font-family: var(--font-ui);
-  font-size: 13.5px;
-  font-weight: 800;
-  color: #1a0a10;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.tile-check-icon {
-  font-size: 13px;
-  color: #5d022a;
-  font-weight: 900;
-}
-
-.tile-circle-dot {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-}
-
-.tile-progress-bar {
-  width: 100%;
-  height: 5px;
-  background: #e3d2cf;
-  border-radius: 999px;
-  overflow: hidden;
-  margin-bottom: 4px;
-}
-
-.tile-progress-fill {
-  height: 100%;
-  border-radius: 999px;
-  transition: width 0.4s ease;
-}
-
-.tile-count-txt {
-  font-family: var(--font-ui);
-  font-size: 11px;
-  color: #666;
-  font-weight: 600;
-  display: block;
-}
-
-.hub-vote-deadline-note {
-  font-family: var(--font-ui);
-  font-size: 12px;
-  color: #888;
-  margin: 0;
-}
-
-/* Card 2: Sample Fabric Box */
-.hub-sample-card {
-  background: #fdf3eb;
-  border: 1px solid #f6ded0;
-  border-radius: 24px;
-  padding: 26px 22px;
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.hub-sample-tag {
-  font-family: var(--font-ui);
-  font-size: 12px;
-  font-weight: 700;
-  color: #ba8d5d;
-  display: block;
-  margin-bottom: 4px;
-}
-
-.hub-sample-title {
-  font-family: var(--font-display, "Amiri", serif);
-  font-size: 24px;
-  font-weight: 900;
-  color: #1a0a10;
-  margin: 0 0 8px;
-}
-
-.hub-sample-desc {
-  font-family: var(--font-text);
-  font-size: 13.5px;
-  line-height: 1.6;
-  color: #555;
-  margin: 0 auto 16px;
-  max-width: 440px;
-}
-
-.btn-camel-action {
-  display: inline-block;
-  background: #cba06f;
-  color: #1a0a10;
-  font-family: var(--font-ui);
-  font-size: 15px;
-  font-weight: 800;
-  padding: 12px 28px;
-  border-radius: 12px;
-  border: none;
-  cursor: pointer;
-  text-decoration: none;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(203, 160, 111, 0.3);
-}
-
-.btn-camel-action:hover {
-  background: #b98e5e;
-  transform: translateY(-1px);
-}
-
-.hub-sample-lock-note {
-  font-family: var(--font-ui);
-  font-size: 12px;
-  color: #888;
-  margin: 14px 0 0;
+  height: 190px;
+  margin: 0 auto 20px;
+  border-radius: 18px;
+  background: radial-gradient(circle, #2a2024 0%, #15080e 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  overflow: hidden;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.6), 0 8px 24px rgba(0,0,0,0.12);
 }
 
-/* Card 3: Rep Needed Box (Dashed border) */
-.hub-rep-dashed-card {
-  background: #ffffff;
-  border: 1.8px dashed #cba06f;
-  border-radius: 24px;
-  padding: 26px 22px;
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.hub-rep-tag {
-  font-family: var(--font-ui);
-  font-size: 12px;
-  font-weight: 700;
-  color: #888;
-  display: block;
-  margin-bottom: 4px;
-}
-
-.hub-rep-title {
-  font-family: var(--font-display, "Amiri", serif);
-  font-size: 24px;
-  font-weight: 900;
-  color: #1a0a10;
-  margin: 0 0 8px;
-}
-
-.hub-rep-desc {
-  font-family: var(--font-text);
-  font-size: 13.5px;
-  line-height: 1.6;
-  color: #555;
-  margin: 0 auto 16px;
-  max-width: 440px;
-}
-
-/* Card 4: Share Link Box */
-.hub-share-card {
-  background: #ffffff;
-  border-radius: 24px;
-  padding: 24px 22px;
-  box-shadow: 0 10px 30px rgba(93, 2, 42, 0.04);
-  border: 1px solid rgba(0,0,0,0.03);
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.hub-share-title {
-  font-family: var(--font-display, "Amiri", serif);
-  font-size: 20px;
-  font-weight: 800;
-  color: #1a0a10;
-  margin: 0 0 4px;
-}
-
-.hub-share-sub {
-  font-family: var(--font-text);
-  font-size: 13px;
-  color: #777;
-  margin: 0 0 16px;
-}
-
-.hub-link-copy-row {
+.live-scarf-band {
+  width: 78%;
+  height: 64px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #580829, #7a153c);
   display: flex;
-  gap: 8px;
-  direction: ltr;
-}
-
-.hub-link-input {
-  flex: 1;
-  background: #faf6f0;
-  border: 1px solid #dcd5cc;
-  border-radius: 12px;
-  padding: 10px 14px;
-  font-family: var(--font-ui);
-  font-size: 13px;
-  color: #444;
-  outline: none;
-}
-
-.btn-copy-link {
-  background: #cba06f;
-  color: #1a0a10;
-  border: none;
-  border-radius: 12px;
-  font-family: var(--font-ui);
-  font-size: 13px;
-  font-weight: 700;
-  padding: 0 16px;
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-/* Card 5: Members List */
-.hub-members-card {
-  background: #ffffff;
-  border-radius: 24px;
-  padding: 24px 22px;
-  box-shadow: 0 10px 30px rgba(93, 2, 42, 0.04);
-  border: 1px solid rgba(0,0,0,0.03);
-  margin-bottom: 24px;
-  text-align: right;
-}
-
-.hub-members-heading {
-  font-family: var(--font-ui);
-  font-size: 16px;
-  font-weight: 800;
-  color: #1a0a10;
-  margin: 0 0 14px;
-}
-
-.hub-members-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.member-pill-tag {
-  background: #ffffff;
-  border: 1px solid #e8ded4;
-  border-radius: 999px;
-  padding: 6px 14px 6px 8px;
-  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font-family: var(--font-ui);
-  font-size: 13px;
-  font-weight: 700;
-  color: #1a0a10;
+  justify-content: center;
+  color: #ffd700;
+  font-family: 'Amiri', serif;
+  font-size: 20px;
+  font-weight: 900;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.6);
+  border-top: 2px solid rgba(255,215,0,0.4);
+  border-bottom: 2px solid rgba(255,215,0,0.4);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+  padding: 0 16px;
+  transition: all 0.3s ease;
 }
 
-.member-avatar-circle {
+/* 6 Official Voting Color Cards */
+.colors-voting-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 480px) {
+  .colors-voting-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.color-vote-card {
+  background: #fdfbfa;
+  border: 1.5px solid #ebdcd5;
+  border-radius: 16px;
+  padding: 14px;
+  text-align: right;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.color-vote-card:hover {
+  border-color: var(--primary-burgundy);
+  background: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(88, 8, 41, 0.06);
+}
+
+.color-vote-card.is-selected {
+  border-color: var(--primary-burgundy);
+  background: #fdf5f7;
+  box-shadow: 0 0 0 2px var(--primary-burgundy);
+}
+
+.cv-top-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.cv-swatch {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: #e8ded4;
-  color: #5d022a;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 11px;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.cv-name {
+  font-size: 14px;
   font-weight: 800;
+  color: var(--text-dark);
 }
 
-/* Bottom CTA Area */
-.hub-bottom-area {
-  text-align: center;
-  padding: 10px 0 30px;
-}
-
-.hub-bottom-sub {
-  font-family: var(--font-text);
-  font-size: 13.5px;
-  color: #666;
-  margin: 0 0 14px;
-}
-
-.btn-bottom-order {
-  display: inline-block;
-  background: #cba06f;
-  color: #1a0a10;
-  font-family: var(--font-ui);
-  font-size: 16px;
-  font-weight: 800;
-  padding: 14px 36px;
-  border-radius: 14px;
-  text-decoration: none;
-  box-shadow: 0 4px 14px rgba(203, 160, 111, 0.3);
-  margin-bottom: 14px;
-}
-
-.link-explainer-guide {
-  display: block;
-  font-family: var(--font-ui);
-  font-size: 13.5px;
-  font-weight: 700;
-  color: #1a0a10;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.link-explainer-guide:hover {
-  color: #5d022a;
-}
-
-/* ============================================================
-   SCREENSHOT 1 STYLES (Explainer Guide "كيف تصوت الدفعة")
-   ============================================================ */
-.guide-container-section {
-  margin-top: 40px;
-  padding-top: 40px;
-  border-top: 1.5px dashed #e8ded4;
-}
-
-.guide-hero-head {
-  text-align: center;
-  margin-bottom: 36px;
-}
-
-.guide-hero-tag {
-  font-family: var(--font-ui);
-  font-size: 13px;
-  font-weight: 700;
-  color: #ba8d5d;
-  display: block;
+.cv-bar-track {
+  width: 100%;
+  height: 7px;
+  background: #ebdcd5;
+  border-radius: 99px;
+  overflow: hidden;
   margin-bottom: 6px;
 }
 
-.guide-hero-title {
-  font-family: var(--font-display, "Amiri", serif);
-  font-size: clamp(32px, 7vw, 46px);
-  font-weight: 900;
-  color: #1a0a10;
-  margin: 0 0 14px;
-  line-height: 1.2;
+.cv-bar-fill {
+  height: 100%;
+  background: var(--primary-burgundy);
+  border-radius: 99px;
+  width: 0%;
+  transition: width 0.5s ease;
 }
 
-.guide-hero-desc {
-  font-family: var(--font-text);
-  font-size: 15px;
-  line-height: 1.7;
-  color: #555;
-  margin: 0 auto;
-  max-width: 500px;
-}
-
-/* Section Subheaders */
-.guide-sec-head {
-  text-align: center;
-  margin-bottom: 24px;
-}
-
-.guide-sec-title {
-  font-family: var(--font-display, "Amiri", serif);
-  font-size: 28px;
-  font-weight: 900;
-  color: #1a0a10;
-  margin: 0 0 6px;
-}
-
-.guide-sec-sub {
-  font-family: var(--font-text);
-  font-size: 13.5px;
-  color: #777;
-  margin: 0;
-}
-
-/* 3 How It Works Steps */
-.guide-steps-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-bottom: 40px;
-}
-
-@media (max-width: 600px) {
-  .guide-steps-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.guide-step-card {
-  background: #ffffff;
-  border: 1px solid #e8ded4;
-  border-radius: 20px;
-  padding: 20px 16px;
-  text-align: center;
-}
-
-.guide-step-num {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: #5d022a;
-  color: #ffffff;
-  font-family: var(--font-ui);
-  font-size: 15px;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 12px;
-}
-
-.guide-step-card-title {
-  font-family: var(--font-display);
-  font-size: 17px;
-  font-weight: 800;
-  color: #1a0a10;
-  margin: 0 0 8px;
-}
-
-.guide-step-card-text {
-  font-family: var(--font-text);
-  font-size: 12.5px;
-  line-height: 1.6;
-  color: #555;
-  margin: 0;
-  text-align: right;
-}
-
-/* Pink Background Cards (Rules & FAQ) */
-.pink-rules-container {
-  background: #faebe8;
-  border-radius: 28px;
-  padding: 32px 20px;
-  margin-bottom: 40px;
-}
-
-.rules-cards-2x2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-@media (max-width: 500px) {
-  .rules-cards-2x2 {
-    grid-template-columns: 1fr;
-  }
-}
-
-.rule-card-white {
-  background: #ffffff;
-  border-radius: 18px;
-  padding: 18px;
-  text-align: right;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.02);
-}
-
-.rule-card-title {
-  font-family: var(--font-display);
-  font-size: 16px;
-  font-weight: 800;
-  color: #1a0a10;
-  margin: 0 0 6px;
-}
-
-.rule-card-text {
-  font-family: var(--font-text);
-  font-size: 12.5px;
-  line-height: 1.6;
-  color: #555;
-  margin: 0;
-}
-
-/* Rep Role Card */
-.rep-role-card-wrap {
-  background: #ffffff;
-  border: 1px solid #e8ded4;
-  border-radius: 24px;
-  padding: 26px 20px;
-  text-align: right;
-  margin-bottom: 40px;
-}
-
-.rep-role-badge {
-  background: #cba06f;
-  color: #1a0a10;
-  font-family: var(--font-ui);
-  font-size: 12px;
-  font-weight: 800;
-  padding: 4px 12px;
-  border-radius: 8px;
-  display: inline-block;
-  margin-bottom: 10px;
-}
-
-.rep-role-list {
-  list-style: none;
-  padding: 0;
-  margin: 14px 0 0;
-}
-
-.rep-role-list li {
-  font-family: var(--font-ui);
-  font-size: 13.5px;
-  line-height: 1.6;
-  color: #333;
-  margin-bottom: 10px;
-  position: relative;
-  padding-right: 16px;
-}
-
-.rep-role-list li::before {
-  content: "•";
-  position: absolute;
-  right: 0;
-  color: #cba06f;
-  font-size: 18px;
-}
-
-/* ============================================================
-   SCREENSHOT 3 STYLES (Modal: أنت ممثل الدفعة؟)
-   ============================================================ */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(26, 10, 16, 0.65);
-  backdrop-filter: blur(5px);
-  z-index: 2100;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-}
-
-.modal-box-card {
-  background: #fdf8f6;
-  border-radius: 32px;
-  max-width: 440px;
-  width: 100%;
-  padding: 36px 26px 26px;
-  position: relative;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
-  box-sizing: border-box;
-  text-align: center;
-  animation: modalPop 0.25s ease;
-}
-
-@keyframes modalPop {
-  from { transform: scale(0.95); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-
-.modal-btn-close {
-  position: absolute;
-  top: 18px;
-  left: 18px;
-  background: transparent;
-  border: none;
-  font-size: 20px;
-  color: #a89f9e;
-  cursor: pointer;
-  padding: 4px;
-}
-
-.modal-rep-heading {
-  font-family: var(--font-display, "Amiri", serif);
-  font-size: 28px;
-  font-weight: 900;
-  color: #1a0a10;
-  margin: 0 0 6px;
-}
-
-.modal-rep-sub {
-  font-family: var(--font-text);
-  font-size: 13px;
-  line-height: 1.6;
-  color: #666;
-  margin: 0 0 22px;
-}
-
-.modal-field-group {
-  text-align: right;
-  margin-bottom: 14px;
-}
-
-.modal-field-label {
-  display: block;
-  font-family: var(--font-ui);
-  font-size: 13px;
-  font-weight: 700;
-  color: #2c1219;
-  margin-bottom: 6px;
-}
-
-.modal-field-input {
-  width: 100%;
-  background: #ffffff;
-  border: 1.5px solid #ece4de;
-  border-radius: 14px;
-  padding: 13px 16px;
-  font-family: var(--font-ui);
-  font-size: 15px;
-  color: #1a0a10;
-  outline: none;
-  box-sizing: border-box;
-  direction: ltr;
-  text-align: left;
-}
-
-.modal-legal-note {
-  font-family: var(--font-ui);
-  font-size: 11.5px;
-  line-height: 1.5;
-  color: #888;
-  margin: 0 0 16px;
-}
-
-.btn-send-sms-code {
-  width: 100%;
-  background: #5d022a;
-  color: #ffffff;
-  font-family: var(--font-ui);
-  font-size: 16px;
-  font-weight: 800;
-  padding: 15px;
-  border-radius: 14px;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 4px 14px rgba(93, 2, 42, 0.25);
-  margin-bottom: 16px;
-  transition: background 0.2s;
-}
-
-.btn-send-sms-code:hover {
-  background: #46011f;
-}
-
-.modal-recaptcha-footer {
-  font-family: var(--font-ui);
-  font-size: 11px;
-  color: #999;
-  margin: 0;
-}
-
-.modal-recaptcha-footer a {
-  color: #666;
-  text-decoration: underline;
-}
-
-/* Step 2 Cloud OTP styles */
-.modal-otp-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: #fdf5f0;
-  border: 1px solid #ebd8ce;
-  color: #7a1832;
-  font-family: var(--font-ui);
-  font-size: 11.5px;
-  font-weight: 700;
-  padding: 5px 12px;
-  border-radius: 20px;
-  margin: 0 auto 16px;
-}
-
-.modal-otp-input {
-  width: 100%;
-  background: #ffffff;
-  border: 2px solid #ece4de;
-  border-radius: 14px;
-  padding: 14px 10px;
-  font-family: monospace, var(--font-ui);
-  font-size: 26px;
-  font-weight: 800;
-  letter-spacing: 8px;
-  text-align: center;
-  color: #1a0a10;
-  outline: none;
-  box-sizing: border-box;
-  direction: ltr;
-  transition: border-color 0.2s;
-}
-
-.modal-otp-input:focus {
-  border-color: #5d022a;
-}
-
-.modal-otp-input.is-error {
-  border-color: #a81c2f;
-  animation: shake 0.3s ease;
-}
-
-@keyframes shake {
-  0%,100% { transform: translateX(0); }
-  25% { transform: translateX(-6px); }
-  75% { transform: translateX(6px); }
-}
-
-.modal-otp-feedback {
-  font-family: var(--font-ui);
-  font-size: 12.5px;
-  font-weight: 600;
-  min-height: 20px;
-  margin-bottom: 12px;
-  text-align: center;
-}
-
-.modal-otp-actions {
+.cv-stats {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-top: 14px;
-}
-
-.btn-otp-action-link {
-  background: none;
-  border: none;
-  color: #7a1832;
-  font-family: var(--font-ui);
-  font-size: 12.5px;
+  font-size: 11.5px;
   font-weight: 700;
-  cursor: pointer;
-  text-decoration: underline;
-  padding: 4px;
+  color: #777;
 }
 
-.btn-otp-action-link:hover {
-  color: #46011f;
+/* Sizing & Registration Form in Batch Room */
+.room-sizing-box {
+  background: var(--card-bg);
+  border-radius: 22px;
+  padding: 24px 20px;
+  box-shadow: 0 10px 30px rgba(88, 8, 41, 0.04);
+  border: 1px solid rgba(0,0,0,0.03);
+  margin-bottom: 20px;
+  text-align: right;
 }
 
-.btn-otp-action-link:disabled {
-  color: #aaa;
-  cursor: not-allowed;
-  text-decoration: none;
+.room-sizing-title {
+  font-family: 'Amiri', 'Cairo', serif;
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--text-dark);
+  margin: 0 0 4px;
+}
+
+/* Toast Notifications */
+.ik-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--primary-burgundy);
+  color: #ffffff;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  z-index: 10000;
+  opacity: 0;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s;
+  pointer-events: none;
+}
+
+.ik-toast.is-show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
 }
 </style>
 </head>
 <body>
 
-<!-- ============== NAV ============== -->
+<!-- ============== NAVBAR ============== -->
 <nav class="nav" data-nav="" data-nav-state="scrolled" aria-label="القائمة">
   <a href="/" class="brand" aria-label="إبرة وخيط، الصفحة الرئيسية">
     <img src="khamaiq.com/assets/logo.png" alt="إبرة وخيط">
@@ -952,12 +715,10 @@ body {
 
   <div class="nav-links" data-nav-links="">
     <a href="/products">المنتجات</a>
-    <a href="/class" class="is-active" style="color:var(--emerald-deep); font-weight:700;">صفحة الدفعة</a>
-    <a href="/vote">تصويت الألوان</a>
-    <a href="/models">النماذج</a>
+    <a href="/class" class="is-active" style="color:var(--primary-burgundy); font-weight:800;">صفحة الدفعة والتصويت</a>
+    <a href="/models">معرض النماذج</a>
     <a href="/قياس">حاسبة القياس</a>
-    <a href="/#visualizer">جرب الألوان</a>
-    <a href="/#faq">الأسئلة</a>
+    <a href="/#faq">الأسئلة الشائعة</a>
   </div>
 
   <div class="nav-actions">
@@ -974,1905 +735,718 @@ body {
   </div>
 </nav>
 
-<!-- ============== Off-Canvas Mobile Drawer ============== -->
-<div class="mobile-drawer-backdrop" id="mobile-drawer-backdrop"></div>
-<aside class="mobile-drawer" id="mobile-drawer">
-  <div class="mobile-drawer-head">
-    <img src="khamaiq.com/assets/logo.png" alt="إبرة وخيط" class="mobile-drawer-logo">
-    <button class="mobile-drawer-close" data-drawer-close>&times;</button>
-  </div>
-  <nav class="mobile-drawer-nav">
-    <a href="/" class="mobile-drawer-link">الرئيسية</a>
-    <a href="/products" class="mobile-drawer-link">المنتجات</a>
-    <a href="/class" class="mobile-drawer-link" style="color:var(--emerald-deep);">صفحة الدفعة</a>
-    <a href="/vote" class="mobile-drawer-link">تصويت ألوان الكليات (جديد)</a>
-    <a href="/models" class="mobile-drawer-link">معرض نماذج الخريجين</a>
-    <a href="/قياس" class="mobile-drawer-link">حاسبة القياس والتفصيل</a>
-    <a href="/#visualizer" class="mobile-drawer-link">جرب لون الوشاح</a>
-    <a href="/#faq" class="mobile-drawer-link">الأسئلة الشائعة</a>
-  </nav>
-</aside>
-
-<!-- ============== MAIN CONTENT ============== -->
-<main class="class-page-wrap">
-  <div class="class-content-box">
+<!-- ============== MAIN PAGE WRAPPER ============== -->
+<main class="class-main-wrap">
+  <div class="class-container">
 
     <!-- ============================================================
-         SECTION A: CLASS HUB & VOTING (Matches Screenshot 2)
+         SCREEN 1: LANDING SCREEN (سجّل بدفعتك)
          ============================================================ -->
-    <!-- ============================================================
-         SMART GRADUATION BATCH PORTAL (ULTRA-LUXURY)
-         ============================================================ -->
-    <section id="section-class-hub">
-
-      <!-- Top Hero Card with Batch Switcher -->
-      <div class="hub-header-card" id="bp-hero-card">
-        <div class="bp-header-top-row">
-          <span class="hub-top-tag" style="margin-bottom:0;">🎓 بوابة دفعات التخرج الجماعية 2026</span>
-          <div class="bp-switcher-wrap">
-            <label for="bp-batch-picker" style="font-size:12px; font-weight:700; color:#777;">الدفعة:</label>
-            <select id="bp-batch-picker" class="bp-switcher-select" aria-label="اختر دفعة تخرج">
-              <option value="">جاري تحميل الدفعات...</option>
-            </select>
-            <button type="button" class="btn-create-batch-modal" id="btn-open-create-batch" style="padding:6px 14px; font-size:12px;">+ دفعة جديدة</button>
-          </div>
-        </div>
-
-        <h1 class="hub-college-title" id="bp-hero-college">دفعة كلية الطب</h1>
-        <p class="hub-uni-sub" id="bp-hero-sub">جامعة بغداد — بإشراف ممثل الدفعة: حيدر الكعبي</p>
-
-        <!-- Meta Row -->
-        <div class="hub-meta-row" style="flex-wrap:wrap; gap:10px;">
-          <span id="bp-meta-count" style="color:var(--color-burgundy); font-size:14px; font-weight:800;">1 طالب مسجل</span>
-          <span>•</span>
-          <span id="bp-meta-color" style="display:inline-flex; align-items:center; gap:6px;">
-            <span id="bp-meta-swatch" style="width:12px; height:12px; border-radius:50%; background:#5d022a; display:inline-block; border:1px solid rgba(0,0,0,0.15);"></span>
-            <span id="bp-meta-color-name">ماروني خامة</span>
-          </span>
-          <span>•</span>
-          <span>الممثل: <strong id="bp-meta-rep">حيدر الكعبي</strong></span>
-          <span>•</span>
-          <span class="hub-status-badge" id="bp-meta-status">التسجيل مفتوح 🟢</span>
-        </div>
-
-        <!-- Tiered Discount Milestone Tracker -->
-        <div class="bp-milestones-grid">
-          <div class="bp-milestone-card" id="ms-tier-1">
-            <span class="bp-milestone-target">🥉 20 طالب</span>
-            <span class="bp-milestone-pct">10% خصم</span>
-            <span class="bp-milestone-saving">توفير 3,500 د.ع للقطعة</span>
-          </div>
-          <div class="bp-milestone-card" id="ms-tier-2">
-            <span class="bp-milestone-target">🥈 40 طالب</span>
-            <span class="bp-milestone-pct">15% خصم</span>
-            <span class="bp-milestone-saving">توفير 5,250 د.ع للقطعة</span>
-          </div>
-          <div class="bp-milestone-card" id="ms-tier-3">
-            <span class="bp-milestone-target">👑 60 طالب فما فوق</span>
-            <span class="bp-milestone-pct">20% خصم ملكي</span>
-            <span class="bp-milestone-saving">توفير 7,000 د.ع للقطعة</span>
-          </div>
-        </div>
-
-        <!-- Progress Bar Track -->
-        <div style="margin-top:14px;">
-          <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:700; margin-bottom:5px;">
-            <span>نسبة إنجاز الكشف: <strong id="bp-progress-text" style="color:var(--color-burgundy);">1 من 50 طالب</strong></span>
-            <span id="bp-discount-level-badge" style="color:#1e874b; font-weight:800;">خصم الدفعة: 10%</span>
-          </div>
-          <div class="bp-progress-track">
-            <div class="bp-progress-fill" id="bp-progress-bar" style="width: 2%;"></div>
-          </div>
-          <div id="bp-remaining-msg" style="font-size:11.5px; color:#ba8d5d; font-weight:700; text-align:center;">متبقي 19 طالباً لفتح خصم 10%!</div>
-        </div>
-
-        <!-- Action Strip -->
-        <div class="bp-actions-strip" style="margin-top:18px; margin-bottom:0; justify-content:center;">
-          <a href="#" target="_blank" rel="noopener" class="bp-btn bp-btn-wa" id="bp-btn-share-wa">
-            <span>📲 مشاركة الدعوة بالواتساب</span>
-          </a>
-          <button type="button" class="bp-btn bp-btn-outline" id="bp-btn-copy-link">
-            <span>📋 نسخ الرابط للكروبات</span>
-          </button>
-          <button type="button" class="bp-btn bp-btn-outline" id="bp-btn-print-roster">
-            <span>🖨️ طباعة مانيفست الورشة</span>
-          </button>
-          <button type="button" class="bp-btn bp-btn-outline" id="bp-btn-export-csv">
-            <span>📥 تصدير كشف Excel</span>
-          </button>
-        </div>
+    <section id="view-landing">
+      <div class="landing-hero">
+        <span class="landing-top-tag">صفحة الدفعة</span>
+        <h1 class="landing-main-title">سجّل بدفعتك</h1>
+        <p class="landing-desc">
+          دفعتكم تصوّت على لون واحد، وإحنا نوصللكم القطع قبل الحفل. سجّل معلوماتك حتى نربطك بصفحة دفعتكم إذا جانت مفتوحة تنضم إلها، وإذا لا، نفتحها علمودك.
+        </p>
       </div>
 
-      <!-- Tabs Navigation -->
-      <div class="bp-tabs-nav" role="tablist">
-        <button type="button" class="bp-tab-btn is-active" data-tab="register">
-          <span>📝 تسجيل قياساتي والتطريز</span>
+      <!-- Action Card -->
+      <div class="landing-action-card">
+        <button type="button" class="btn-primary-burgundy" id="btn-open-register">
+          افتح حساب وسجّل بدفعتك
         </button>
-        <button type="button" class="bp-tab-btn" data-tab="roster">
-          <span>📋 كشف الطلاب ومقاسات الدفعة</span>
+        <button type="button" class="btn-secondary-pink" id="btn-open-login">
+          عندك حساب؟ سجل دخول
         </button>
-        <button type="button" class="bp-tab-btn" data-tab="rep">
-          <span>👑 لوحة ممثل الدفعة</span>
-        </button>
-        <button type="button" class="bp-tab-btn" data-tab="colors">
-          <span>🎨 معاينة الوشاح والتصويت</span>
-        </button>
+        <p class="landing-card-hint">
+          عند فتح الحساب تختار جامعتك وكليتك، وتحدد إذا أنت ممثل الدفعة.
+        </p>
       </div>
 
-      <!-- TAB 1: Student Registration Form & Live Ribbon -->
-      <div class="bp-tab-panel is-active" id="tab-panel-register">
-        <div class="bp-student-form-box" style="background:#fff; border:1px solid #ebdcd5; box-shadow:0 6px 20px rgba(0,0,0,0.03);">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
-            <h3 class="bp-form-title" style="margin:0; font-size:18px;">📝 استمارة تسجيل قياسات وتطريز الطالب</h3>
-            <span style="font-size:12px; background:#f4eae5; color:#5d022a; padding:3px 10px; border-radius:8px; font-weight:700;">ضمن الخصم الجماعي المعتمد</span>
-          </div>
-
-          <form id="bp-student-form">
-            <div class="bp-student-form-grid">
-              <div class="bp-form-group">
-                <label for="bp-in-name">اسم الطالب الثلاثي *</label>
-                <input type="text" id="bp-in-name" placeholder="مثال: علي مرتضى الموسوي" required autocomplete="name">
-              </div>
-
-              <div class="bp-form-group">
-                <label for="bp-in-phone">رقم هاتف الطالب (واتساب للتأكيد) *</label>
-                <input type="tel" id="bp-in-phone" placeholder="07801234567" required autocomplete="tel">
-              </div>
-
-              <div class="bp-form-group">
-                <label for="bp-in-gender">الجنس</label>
-                <select id="bp-in-gender">
-                  <option value="men">طالب (قصة رجالية 👨)</option>
-                  <option value="women">طالبة (قصة نسائية 👩)</option>
-                </select>
-              </div>
-
-              <div class="bp-form-group">
-                <label for="bp-in-height">الطول بالسنتمتر (لحساب مقاس الروب تلقائياً)</label>
-                <input type="number" id="bp-in-height" placeholder="مثال: 175" min="140" max="210">
-                <span id="bp-size-hint" style="font-size:11px; color:#ba8d5d; font-weight:700; margin-top:2px;">أدخل طولك لاقتراح القياس المناسب</span>
-              </div>
-
-              <div class="bp-form-group">
-                <label for="bp-in-size">قياس الروب المطلوب</label>
-                <select id="bp-in-size">
-                  <option value="S">S — طول 115-120 سم (طول القامة 150-160 سم)</option>
-                  <option value="M">M — طول 120-125 سم (طول القامة 161-168 سم)</option>
-                  <option value="L" selected>L — طول 125-130 سم (طول القامة 169-176 سم)</option>
-                  <option value="XL">XL — طول 130-135 سم (طول القامة 177-184 سم)</option>
-                  <option value="XXL">XXL — طول 135-140 سم (طول القامة 185-190 سم)</option>
-                  <option value="3XL">3XL — طول 140+ سم (طول القامة 191+ سم)</option>
-                </select>
-              </div>
-
-              <div class="bp-form-group">
-                <label for="bp-in-embroidery">الاسم أو اللقب المطلوب تطريزه على الوشاح *</label>
-                <input type="text" id="bp-in-embroidery" placeholder="مثال: د. علي الموسوي" required>
-              </div>
-
-              <div class="bp-form-group">
-                <label for="bp-in-calligraphy">نوع الخط العربي للتطريز</label>
-                <select id="bp-in-calligraphy">
-                  <option value="thuluth" selected>خط الثلث الملكي الأصيل</option>
-                  <option value="ruqaa">خط الرقعة العصري</option>
-                  <option value="naskh">خط النسخ الكلاسيكي</option>
-                  <option value="diwani">خط الديواني التراثي</option>
-                </select>
-              </div>
-
-              <div class="bp-form-group">
-                <label for="bp-in-thread">لون خيط التطريز</label>
-                <select id="bp-in-thread">
-                  <option value="gold" selected>✨ خيط ذهبي ملكي لامع (Metallic Gold)</option>
-                  <option value="silver">🪡 خيط فضي حريري (Silk Silver)</option>
-                  <option value="white">⚪ خيط أبيض ناصع</option>
-                  <option value="black">⚫ خيط أسود أنيق</option>
-                </select>
-              </div>
-
-              <div class="bp-form-group bp-form-full">
-                <label for="bp-in-notes">ملاحظات خاصة بالتفصيل (اختياري)</label>
-                <input type="text" id="bp-in-notes" placeholder="مثال: كتابة دفعة 2026 تحت الاسم، أو تعديل بسيط بالكتف">
-              </div>
-            </div>
-
-            <!-- LIVE EMBROIDERY RIBBON PREVIEW -->
-            <div class="bp-ribbon-showcase">
-              <div style="display:flex; justify-content:space-between; align-items:center; font-size:12px; font-weight:700; color:#555; margin-bottom:4px;">
-                <span>🧵 معاينة شريط التطريز المباشرة على وشاح الدفعة:</span>
-                <span id="bp-live-ribbon-details" style="color:var(--color-burgundy);">خط الثلث — خيط ذهبي</span>
-              </div>
-              <div class="bp-ribbon-band" id="bp-live-ribbon-band" style="background: linear-gradient(135deg, #5d022a 0%, #3e011b 100%);">
-                <div class="bp-ribbon-embroidery-text sash-ribbon-gold" id="bp-live-ribbon-text" style="font-family:'Amiri', serif;">
-                  د. علي الموسوي
-                </div>
-              </div>
-              <div style="font-size:11px; color:#888; margin-top:4px;">
-                يتم تطريز الاسم بدقة خيوط ألمانية عالية اللمعان ومقاومة للغسيل والبهتان.
-              </div>
-            </div>
-
-            <div class="bp-form-full">
-              <button type="submit" class="btn-bp-submit" id="btn-submit-bp-student">
-                <span>✓ تأكيد تسجيل قياساتي في كشف الدفعة الآن</span>
-              </button>
-            </div>
-          </form>
+      <!-- 4 Numbered Information Cards -->
+      <div class="landing-steps-list">
+        <div class="landing-num-card">
+          <span class="landing-num-text">دفعتك تصوت ع لون واحد، أكثر صوت يفوز.</span>
+          <span class="landing-num-badge">1</span>
+        </div>
+        <div class="landing-num-card">
+          <span class="landing-num-text">كل عضو يدخل قياساته من حسابه، بدون لخبطة وتساب.</span>
+          <span class="landing-num-badge">2</span>
+        </div>
+        <div class="landing-num-card">
+          <span class="landing-num-text">نرسل عينة لممثل الدفعة قبل الإنتاج، ما يصير صدمة.</span>
+          <span class="landing-num-badge">3</span>
+        </div>
+        <div class="landing-num-card">
+          <span class="landing-num-text">كل ما يزيد عدد الدفعة، يصير التنسيق أسهل، 10 طلاب يكفي.</span>
+          <span class="landing-num-badge">4</span>
         </div>
       </div>
-
-      <!-- TAB 2: Classmate Roster & Sizing Breakdown -->
-      <div class="bp-tab-panel" id="tab-panel-roster">
-        <div style="background:#fff; border:1px solid #ebdcd5; border-radius:20px; padding:22px; box-shadow:0 6px 20px rgba(0,0,0,0.03);">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
-            <div>
-              <h3 class="bp-form-title" style="margin:0 0 4px; font-size:18px;">📋 كشف طلاب ومقاسات الدفعة</h3>
-              <p style="margin:0; font-size:12.5px; color:#777;">سجل مفصل بأسماء ومقاسات الطلاب المسجلين بالدفعة حتى الآن</p>
-            </div>
-            <input type="text" id="bp-roster-search" placeholder="ابحث باسم الطالب أو الهاتف أو الاسم المطرز..." style="padding:8px 14px; border:1px solid #d9c4ba; border-radius:12px; font-size:13px; font-family:var(--font-ui); width:260px; outline:none;">
-          </div>
-
-          <!-- Sizing Breakdown Chips -->
-          <div class="bp-chips-grid" id="bp-sizing-chips">
-            <!-- Populated dynamically -->
-          </div>
-
-          <div style="overflow-x:auto;">
-            <table class="bp-table" id="bp-students-table">
-              <thead>
-                <tr>
-                  <th style="width:30px;">#</th>
-                  <th>اسم الطالب</th>
-                  <th>الهاتف</th>
-                  <th>الجنس</th>
-                  <th>القياس</th>
-                  <th>الطول</th>
-                  <th>الاسم للتطريز</th>
-                  <th>الخط والخيط</th>
-                  <th>ملاحظات</th>
-                  <th style="text-align:center;">واتساب</th>
-                </tr>
-              </thead>
-              <tbody id="bp-students-tbody">
-                <!-- Dynamic rows -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- TAB 3: Representative Hub & Broadcast -->
-      <div class="bp-tab-panel" id="tab-panel-rep">
-        <div style="background:#fff; border:1px solid #ebdcd5; border-radius:20px; padding:24px; box-shadow:0 6px 20px rgba(0,0,0,0.03);">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:10px;">
-            <div>
-              <h3 class="bp-form-title" style="margin:0 0 4px; font-size:18px;">👑 لوحة تحكم ممثل الدفعة</h3>
-              <p style="margin:0; font-size:12.5px; color:#777;">أدوات مشاركة الرابط، كشف الورشة، ومتابعة تسجيل الزملاء</p>
-            </div>
-            <span style="font-size:12px; font-weight:700; background:#f0fdf4; color:#1e874b; padding:4px 12px; border-radius:999px; border:1px solid #c7f0d8;">
-              الممثل المعتمد: <strong id="rep-ctrl-name">—</strong>
-            </span>
-          </div>
-
-          <!-- WhatsApp Broadcast Box -->
-          <div style="background:#fdf8f6; border:1.5px dashed #ebdcd5; border-radius:16px; padding:18px; margin-bottom:20px;">
-            <h4 style="margin:0 0 8px; font-size:14px; font-weight:800; color:var(--color-burgundy);">📲 رسالة دعوة الزملاء للكروبات:</h4>
-            <p style="margin:0 0 10px; font-size:12px; color:#666;">يمكنك تعديل الرسالة أو النقر مباشرة لإرسالها لكروب التليكرام أو الواتساب الخاص بدفعتك:</p>
-            <textarea id="bp-broadcast-text" rows="3" style="width:100%; border:1px solid #d9c4ba; border-radius:10px; padding:10px; font-size:13px; font-family:var(--font-ui); box-sizing:border-box; outline:none; resize:vertical;"></textarea>
-            <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:10px;">
-              <button type="button" class="btn-admin" id="btn-copy-broadcast">📋 نسخ نص الرسالة</button>
-              <a href="#" target="_blank" class="btn-admin" id="btn-send-broadcast-wa" style="background:#25d366; color:#fff; border-color:#25d366;">💬 إرسال عبر الواتساب</a>
-            </div>
-          </div>
-
-          <!-- Workshop Production Actions -->
-          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:14px;">
-            <div style="border:1px solid #ebdcd5; border-radius:14px; padding:14px; background:#fff;">
-              <div style="font-weight:800; font-size:14px; margin-bottom:4px; color:#1a0a10;">🖨️ مانيفست ورشة العمل</div>
-              <p style="font-size:12px; color:#666; margin:0 0 12px;">طباعة كشف الإنتاج المعتمد للقص والتطريز والتشطيب مع خانات الفحص.</p>
-              <button type="button" class="btn-admin btn-print-roster-direct" style="width:100%; justify-content:center;">طباعة المانيفست 🖨️</button>
-            </div>
-            <div style="border:1px solid #ebdcd5; border-radius:14px; padding:14px; background:#fff;">
-              <div style="font-weight:800; font-size:14px; margin-bottom:4px; color:#1a0a10;">📥 كشف Excel (CSV)</div>
-              <p style="font-size:12px; color:#666; margin:0 0 12px;">تصدير ملف إكسل شامل بجميع الأسماء والأرقام والمقاسات باللغة العربية.</p>
-              <button type="button" class="btn-admin btn-export-csv-direct" style="width:100%; justify-content:center;">تحميل ملف Excel 📥</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- TAB 4: Scarf Visualizer & Color Vote -->
-      <div class="bp-tab-panel" id="tab-panel-colors">
-        <div class="hub-voting-card" style="margin-top:0;">
-          <h2 class="hub-card-heading">معاينة وشاح الدفعة واستطلاع الألوان</h2>
-          <p class="hub-card-sub" id="bp-visualizer-color-desc">تم اعتماد هذا اللون رسمياً لدفعتكم، ويمكن للطلبة تجربة باقي الألوان للاستئناس.</p>
-
-          <!-- Model Showcase Box -->
-          <div class="hub-showcase-container">
-            <img src="khamaiq.com/assets/images/visualizer-burgundy.jpg" alt="معاينة لون الوشاح" class="hub-showcase-img" id="bp-showcase-img" width="800" height="1000" loading="lazy" decoding="async">
-            <div class="hub-color-pill-overlay">
-              <span class="hub-color-tag-lbl">لون وشاح دفعتكم</span>
-              <h3 class="hub-color-name-lbl" id="bp-showcase-color-name">ماروني خامة</h3>
-            </div>
-          </div>
-
-          <!-- 9 Colors Grid -->
-          <div class="hub-vote-grid" id="hub-colors-grid">
-            <!-- Populated by JavaScript -->
-          </div>
-        </div>
-      </div>
-
     </section>
 
-    <!-- Modal: Create New Batch Session -->
-    <div id="modal-create-batch" style="display:none; position:fixed; inset:0; background:rgba(26,10,16,0.85); z-index:9999; align-items:center; justify-content:center; backdrop-filter:blur(4px); padding:20px;">
-      <div style="background:#fff; border-radius:24px; max-width:480px; width:100%; padding:28px 24px; text-align:right; box-shadow:0 20px 50px rgba(0,0,0,0.3); position:relative; max-height:92vh; overflow-y:auto;">
-        <button type="button" id="btn-close-create-batch" style="position:absolute; top:16px; left:16px; background:none; border:none; font-size:24px; cursor:pointer; color:#888;">&times;</button>
-        <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
-          <span style="font-size:30px;">🎓</span>
-          <div>
-            <h3 style="margin:0; color:#5d022a; font-size:18px; font-weight:800;">إنشاء بوابة دفعة جديدة</h3>
-            <p style="margin:0; font-size:12px; color:#777;">توليد رابط تسجيل تفاعلي للدفعة مع خصم جماعي</p>
+    <!-- ============================================================
+         ACTIVE BATCH & VOTING ROOM
+         ============================================================ -->
+    <section id="view-batch-room">
+      <!-- Top Batch Info Card -->
+      <div class="batch-room-head">
+        <div class="room-badge-row">
+          <span class="room-status-badge">التصويت مفتوح 🟢</span>
+          <span class="room-user-badge" id="room-welcome-user">أهلاً بك</span>
+        </div>
+        <h2 class="room-title" id="room-batch-title">دفعة التخرج 2026</h2>
+        <p class="room-sub" id="room-batch-sub">جامعة بغداد — كلية الهندسة</p>
+
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <a href="#" target="_blank" rel="noopener" class="btn-primary-burgundy" id="btn-share-whatsapp" style="margin:0; padding:10px 16px; font-size:13px; display:inline-flex; align-items:center; justify-content:center; gap:6px;">
+            <span>📲 مشاركة رابط التصويت بالواتساب</span>
+          </a>
+          <button type="button" class="btn-secondary-pink" id="btn-logout-user" style="padding:10px 16px; font-size:13px; width:auto;">
+            تسجيل خروج
+          </button>
+        </div>
+      </div>
+
+      <!-- Scarf Visualizer & Live Voting -->
+      <div class="voting-visualizer-box">
+        <h3 class="visualizer-title">صوّت للون وشاح دفعتك</h3>
+        <p class="visualizer-desc">اللون الحاصل على أكبر عدد من الأصوات يُعتمد رسمياً لكل أفراد الدفعة.</p>
+
+        <!-- Live Scarf Ribbon Display -->
+        <div class="ribbon-render-stage">
+          <div class="live-scarf-band" id="live-scarf-band">
+            <span id="live-scarf-text">اسم الخريج</span>
           </div>
         </div>
 
-        <form id="form-create-batch" style="display:flex; flex-direction:column; gap:12px;">
-          <div>
-            <label style="font-size:12.5px; font-weight:700; color:#444;">اسم الجامعة *</label>
-            <select id="cb-uni-select" style="width:100%; padding:10px 12px; border:1.5px solid #d9c4ba; border-radius:10px; font-size:14px; box-sizing:border-box; outline:none; background:#fff; margin-bottom:6px;">
-              <option value="">اختر جامعتك...</option>
-              <!-- Filled from /api/universities -->
-              <option value="other">أخرى (كتابة يدوية)...</option>
-            </select>
-            <input type="text" id="cb-university" placeholder="اسم الجامعة (إذا لم تكن بالقائمة)" style="width:100%; padding:10px 12px; border:1.5px solid #d9c4ba; border-radius:10px; font-size:14px; box-sizing:border-box; display:none;">
+        <!-- 6 Official Colors Grid -->
+        <div class="colors-voting-grid" id="colors-voting-grid">
+          <!-- Populated by JS -->
+        </div>
+
+        <button type="button" class="btn-primary-burgundy" id="btn-confirm-vote" style="max-width:320px; margin:0 auto;">
+          تأكيد صوتي للون المختار ✓
+        </button>
+      </div>
+
+      <!-- Student Sizing & Embroidery Form -->
+      <div class="room-sizing-box">
+        <h3 class="room-sizing-title">📐 قياسك وتطريز اسمك</h3>
+        <p style="font-size:13px; color:#777; margin:0 0 16px;">لحفظ مقاسك الدقيق وخياطة اسمك بالشكل المعتمد.</p>
+
+        <form id="form-save-sizing">
+          <div class="modal-form-group">
+            <label class="modal-field-label">الاسم للتطريز على الوشاح *</label>
+            <input type="text" class="modal-input" id="sz-embroidery-name" placeholder="مثال: المهندس علي مهدي" required>
           </div>
 
-          <div>
-            <label style="font-size:12.5px; font-weight:700; color:#444;">الكلية والفرع *</label>
-            <select id="cb-col-select" style="width:100%; padding:10px 12px; border:1.5px solid #d9c4ba; border-radius:10px; font-size:14px; box-sizing:border-box; outline:none; background:#fff; margin-bottom:6px;">
-              <option value="">اختر كليتك أولاً من الجامعة أعلاه...</option>
-            </select>
-            <input type="text" id="cb-college" placeholder="مثال: كلية الهندسة - قسم المدني" required style="width:100%; padding:10px 12px; border:1.5px solid #d9c4ba; border-radius:10px; font-size:14px; box-sizing:border-box;">
-          </div>
-
-          <div>
-            <label style="font-size:12.5px; font-weight:700; color:#444;">لون وشاح التخرج المعتمد للدفعة *</label>
-            <div class="bp-color-pick-grid" id="cb-color-picker-grid">
-              <!-- Rendered dynamically -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <div class="modal-form-group">
+              <label class="modal-field-label">طولك بالسنتمتر</label>
+              <input type="number" class="modal-input" id="sz-height" placeholder="مثال: 175" min="140" max="210">
             </div>
-            <input type="hidden" id="cb-selected-color" value="burgundy">
-            <input type="hidden" id="cb-selected-color-name" value="ماروني ملكي">
+            <div class="modal-form-group">
+              <label class="modal-field-label">قياس الروب المقترح</label>
+              <select class="modal-input" id="sz-size">
+                <option value="S">S (طول 150-160 سم)</option>
+                <option value="M">M (طول 161-168 سم)</option>
+                <option value="L" selected>L (طول 169-176 سم)</option>
+                <option value="XL">XL (طول 177-184 سم)</option>
+                <option value="XXL">XXL (طول 185-192 سم)</option>
+              </select>
+            </div>
           </div>
 
-          <div>
-            <label style="font-size:12.5px; font-weight:700; color:#444;">اسم ممثل الدفعة *</label>
-            <input type="text" id="cb-rep-name" placeholder="اسمك الكامل" required style="width:100%; padding:10px 12px; border:1.5px solid #d9c4ba; border-radius:10px; font-size:14px; box-sizing:border-box;">
+          <div class="modal-form-group">
+            <label class="modal-field-label">نوع الخط المفضل للتطريز</label>
+            <select class="modal-input" id="sz-calligraphy">
+              <option value="thuluth" selected>خط الثلث العربي الأصيل (الأكثر طلباً)</option>
+              <option value="ruqaa">خط الرقعة الفاخر</option>
+              <option value="diwani">الخط الديواني الملكي</option>
+              <option value="kufi">الخط الكوفي الهندسي</option>
+              <option value="english">English Script Luxury</option>
+            </select>
           </div>
 
-          <div>
-            <label style="font-size:12.5px; font-weight:700; color:#444;">رقم هاتف الممثل (واتساب) *</label>
-            <input type="tel" id="cb-rep-phone" placeholder="07801234567" required style="width:100%; padding:10px 12px; border:1.5px solid #d9c4ba; border-radius:10px; font-size:14px; box-sizing:border-box;">
+          <div class="modal-form-group">
+            <label class="modal-field-label">لون خيط التطريز</label>
+            <select class="modal-input" id="sz-thread">
+              <option value="gold" selected>ذهبي ملكي براق</option>
+              <option value="silver">فضي لامع</option>
+              <option value="white">أبيض ناصع</option>
+              <option value="bronze">برونزي فاخر</option>
+            </select>
           </div>
 
-          <div>
-            <label style="font-size:12.5px; font-weight:700; color:#444;">العدد المتوقع لطلاب الدفعة</label>
-            <input type="number" id="cb-target-qty" value="50" min="10" max="500" style="width:100%; padding:10px 12px; border:1.5px solid #d9c4ba; border-radius:10px; font-size:14px; box-sizing:border-box;">
-          </div>
-
-          <button type="submit" id="btn-submit-create-batch" style="background:#5d022a; color:#fff; border:none; padding:12px; border-radius:12px; font-size:15px; font-weight:800; cursor:pointer; margin-top:8px;">
-            إنشاء الرابط ومشاركته الآن 🚀
+          <button type="submit" class="btn-primary-burgundy" style="margin-top:10px;">
+            حفظ وتثبيت قياساتي ✓
           </button>
         </form>
       </div>
-    </div>
-
-    <!-- ============================================================
-         SECTION B: EXPLAINER GUIDE (Matches Screenshot 1)
-         ============================================================ -->
-    <section class="guide-container-section" id="section-explainer-guide">
-
-      <div class="guide-hero-head">
-        <span class="guide-hero-tag">كيف تصوت الدفعة</span>
-        <h2 class="guide-hero-title">دفعتك تقرر بصوت واحد</h2>
-        <p class="guide-hero-desc">صفحة دفعتك تشتغل بطريقة بسيطة. كل عضو يصوت ع لون من ست ألوان. اللي يجمع أكثر أصوات يفوز، الباقي إحنا نتكفل بيه.</p>
-      </div>
-
-      <!-- 1. How It Works -->
-      <div class="guide-sec-head">
-        <h3 class="guide-sec-title">كيف تشتغل صفحة الدفعة</h3>
-        <p class="guide-sec-sub">ثلاث خطوات بس، من الفتح لين اللون الفائز.</p>
-      </div>
-
-      <div class="guide-steps-grid">
-        <div class="guide-step-card">
-          <div class="guide-step-num">1</div>
-          <h4 class="guide-step-card-title">افتح الصفحة</h4>
-          <p class="guide-step-card-text">طالب واحد من الدفعة يدخل برقم موبايله وكلمة سر، ويحدد جامعته، كليته، وسنة تخرجه، أو هو ممثل الدفعة. يتفرع الصندوق ويثبت رقمه برمز يوصله، ويصير المسؤول عن الموعد والتعامل وإدارة الأعضاء.</p>
-        </div>
-        <div class="guide-step-card">
-          <div class="guide-step-num">2</div>
-          <h4 class="guide-step-card-title">دفعتك تنضم</h4>
-          <p class="guide-step-card-text">الممثل يشارك الرابط بمجموعة الواتساب. كل طالب من نفس الجامعة والكلية والسنة ينضم، يصوت ع لون.</p>
-        </div>
-        <div class="guide-step-card">
-          <div class="guide-step-num">3</div>
-          <h4 class="guide-step-card-title">اللون يفوز</h4>
-          <p class="guide-step-card-text">لما الموعد ينتهي، اللون اللي يجمع أكثر أصوات يفوز. ما نطلب نصف الدفعة - 10 أصوات تكفي، والباقي إحنا نتكفل بيه.</p>
-        </div>
-      </div>
-
-      <!-- 2. Voting Rules (Pink Container) -->
-      <div class="pink-rules-container">
-        <div class="guide-sec-head">
-          <h3 class="guide-sec-title">قواعد التصويت</h3>
-          <p class="guide-sec-sub">كل القواعد بمكان واحد. ما في غموض ولا تعديل بالمنتصف.</p>
-        </div>
-
-        <div class="rules-cards-2x2">
-          <div class="rule-card-white">
-            <h4 class="rule-card-title">جولة وحدة، صوت واحد</h4>
-            <p class="rule-card-text">كل عضو يختار لون واحد من ست ألوان. تقدر تغير صوتك لين الموعد ينتهي، لكن الصوت يحسب لآخر اختيار.</p>
-          </div>
-          <div class="rule-card-white">
-            <h4 class="rule-card-title">الأكثرية البسيطة</h4>
-            <p class="rule-card-text">اللي يجمع أكثر أصوات يفوز. ما نطلب نصف الدفعة - 10 أصوات تصويت كافي. اللون الأول هو الفائز.</p>
-          </div>
-          <div class="rule-card-white">
-            <h4 class="rule-card-title">التصويت المتأخر مسموح</h4>
-            <p class="rule-card-text">لو طالب انضم متأخر، يقدر يصوت لين الموعد ينتهي، ما في "وقت قفل مبكر" غير اللي يحدده الممثل.</p>
-          </div>
-          <div class="rule-card-white">
-            <h4 class="rule-card-title">التعادل، الممثل يختار</h4>
-            <p class="rule-card-text">إذا صار لونين بنفس عدد الأصوات، ممثل الدفعة يختار الفائز من بين الألوان المتعادلة، صلاحية واحدة بس، لكن مهمة.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- 3. Representative Role (White Container) -->
-      <div class="guide-sec-head">
-        <h3 class="guide-sec-title">دور ممثل الدفعة</h3>
-        <p class="guide-sec-sub">الممثل هو اللي يشرح نفسه بصندوق "أنا ممثل الدفعة" وقت التسجيل، أو ما اختار حد، أي عضو من الدفعة يقدر يتولى من داخل الصفحة.</p>
-      </div>
-
-      <div class="rep-role-card-wrap">
-        <span class="rep-role-badge">صلاحيات الممثل</span>
-        <h4 style="font-family:var(--font-display); font-size:18px; margin:0 0 10px; color:#1a0a10;">شنو يكدر يسوي</h4>
-        <ul class="rep-role-list">
-          <li>يحدد موعد إغلاق التصويت. أسبوع، عشرة أيام، شهر، إنت تختار.</li>
-          <li>يقدر يقفل التصويت يدوي. إذا الدفعة قررت بدري، الممثل يقدر يقفل قبل الموعد.</li>
-          <li>يقدر يشيل عضو من الدفعة. لو دخل حد مو من دفعتكم أو تكرر رقم، الممثل يشيله ويتصفى الصوت، ما في "موافقة" قبل التصويت، أي عضو ينضم يصوت ع طول، والممثل يدير بالحذف بس.</li>
-          <li>يختار الفائز لو صار تعادل، صلاحية واحدة بس، تنحط بصينية الممثل يختار من اللي تعادل.</li>
-        </ul>
-      </div>
-
-      <!-- 4. Frequently Asked Questions (Pink Container) -->
-      <div class="pink-rules-container">
-        <div class="guide-sec-head">
-          <h3 class="guide-sec-title">أسئلة شائعة</h3>
-        </div>
-
-        <div class="rules-cards-2x2">
-          <div class="rule-card-white">
-            <h4 class="rule-card-title">شلون تضمن إن كل المصوتين من دفعتنا؟</h4>
-            <p class="rule-card-text">كل عضو يدخل برقم موبايله، الجامعة والكلية والسنة لازم تطابق خ حتى صفحة الدفعة. ما يقدر طالب من دفعة ثانية يدخل بصفحتكم.</p>
-          </div>
-          <div class="rule-card-white">
-            <h4 class="rule-card-title">إذا الممثل اختفى أو ما حدد موعد؟</h4>
-            <p class="rule-card-text">إذا الممثل ما حدد موعد، التصويت مفتوح إلى أجل غير مسمى، أو ما عندكم ممثل أصلاً، أي عضو من الدفعة يقدر يتولى من داخل صفحة الدفعة.</p>
-          </div>
-          <div class="rule-card-white">
-            <h4 class="rule-card-title">تكدر تغير صوتك؟</h4>
-            <p class="rule-card-text">إي، لين الموعد ينتهي تقدر تغير اختيارك أي عدد من المرات، الصوت اللي ينحسب هو آخر اختيار.</p>
-          </div>
-          <div class="rule-card-white">
-            <h4 class="rule-card-title">لون دفعتنا مو من الست ألوان؟</h4>
-            <p class="rule-card-text">الست ألوان مختارة بعناية ومتوافقة مع جودة الإنتاج، لو دفعتك مصرة ع لون ثاني، تواصلوا معنا بالواتساب ونشوف.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- 5. Guide CTA -->
-      <div style="text-align:center; padding: 10px 0 40px;">
-        <p style="font-family:var(--font-ui); font-size:14px; font-weight:700; color:#555; margin:0 0 10px;">جاهز؟</p>
-        <button type="button" class="btn-camel-action" id="btn-guide-back-to-hub">افتح صفحة دفعتك</button>
-      </div>
-
     </section>
 
   </div>
 </main>
 
 <!-- ============================================================
-     MODAL: أنت ممثل الدفعة؟ (Matches Screenshot 3)
+     SCREEN 2: REGISTER MODAL (افتح حسابك)
      ============================================================ -->
-<div class="modal-overlay" id="modal-rep-verify" style="display:none;">
-  <div class="modal-box-card">
-    <button type="button" class="modal-btn-close" id="btn-close-rep-modal">&times;</button>
-    
-    <!-- STEP 1: Phone input -->
-    <div id="rep-step-phone">
-      <h2 class="modal-rep-heading">أنت ممثل الدفعة؟</h2>
-      <p class="modal-rep-sub">أكد رقم موبايلك برسالة SMS حتى تصير ممثل الدفعة وتدير لونها وطلابها.</p>
+<div class="vote-modal-backdrop" id="modal-register-backdrop">
+  <div class="vote-modal-box">
+    <button type="button" class="modal-close-btn" id="btn-close-register">&times;</button>
 
-      <form id="form-rep-verify">
-        <div class="modal-field-group">
-          <label class="modal-field-label" for="input-rep-phone-val">رقم الموبايل</label>
-          <input type="tel" class="modal-field-input" id="input-rep-phone-val" value="+9647805088134" required autocomplete="tel">
-        </div>
-
-        <p class="modal-legal-note">بالضغط على إرسال الكود توافق على استلام رسالة تحقق ومعالجة رقمك من Google للحماية من إساءة الاستخدام.</p>
-
-        <button type="submit" class="btn-send-sms-code" id="btn-submit-rep-sms">أرسل كود التحقق</button>
-
-        <p class="modal-recaptcha-footer">
-          <span>محمي بـ reCAPTCHA · </span>
-          <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">الخصوصية</a> · <a href="https://policies.google.com/terms" target="_blank" rel="noopener">الشروط</a>
-        </p>
-      </form>
+    <div class="modal-head">
+      <h2 class="modal-title">افتح حسابك</h2>
+      <p class="modal-sub">حتى نحفظ تصميمك ومقاسك ونوصلك بدفعتك.</p>
     </div>
 
-    <!-- STEP 2: OTP input -->
-    <div id="rep-step-otp" style="display:none; text-align:center;">
-      <h2 class="modal-rep-heading">أدخل كود التحقق</h2>
-      <p class="modal-rep-sub">أرسلنا كود SMS إلى <strong id="rep-otp-phone-display" dir="ltr" style="color:#5d022a;"></strong></p>
+    <!-- Toggle Card: أنا ممثل الدفعة -->
+    <div class="rep-toggle-card" id="rep-toggle-trigger">
+      <div class="rep-toggle-info">
+        <strong class="rep-toggle-title">أنا ممثل الدفعة</strong>
+        <span class="rep-toggle-desc">تنشئ صفحة دفعتك وتدير التصويت</span>
+      </div>
+      <label class="switch-toggle" onclick="event.stopPropagation();">
+        <input type="checkbox" id="reg-is-rep">
+        <span class="slider-round"></span>
+      </label>
+    </div>
 
-      <div class="modal-otp-badge">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
-        <span>Google Cloud OTP · SMS مجاني</span>
+    <form id="form-register">
+      <div class="modal-form-group">
+        <label class="modal-field-label" for="reg-name">الاسم *</label>
+        <input type="text" class="modal-input" id="reg-name" placeholder="اسمك الكامل الثلاثي" required autocomplete="name">
       </div>
 
-      <form id="form-rep-confirm-otp">
-        <div class="modal-field-group" style="text-align:center;">
-          <label class="modal-field-label" for="input-rep-otp-code" style="text-align:center;">كود التحقق (6 أرقام)</label>
-          <input type="text" class="modal-otp-input" id="input-rep-otp-code" maxlength="6" inputmode="numeric" pattern="[0-9]*" placeholder="000000" autocomplete="one-time-code">
+      <div class="modal-form-group uni-dropdown-wrap">
+        <label class="modal-field-label" for="reg-uni">الجامعة *</label>
+        <input type="text" class="modal-input" id="reg-uni" placeholder="ابحث عن اسم جامعتك" required autocomplete="off">
+        <div class="uni-suggestions-box" id="reg-uni-box"></div>
+        <div style="margin-top:4px;">
+          <a href="#" class="modal-text-link" id="link-add-custom-uni">لا ترى جامعتك؟ أضفها</a>
         </div>
+      </div>
 
-        <p class="modal-otp-feedback" id="rep-otp-feedback" style="color:#555;"></p>
+      <div class="modal-form-group" id="group-college">
+        <label class="modal-field-label" for="reg-college">الكلية / القسم *</label>
+        <input type="text" class="modal-input" id="reg-college" placeholder="مثال: كلية الهندسة - قسم المدني" required>
+      </div>
 
-        <button type="submit" class="btn-send-sms-code" id="btn-confirm-rep-otp">تأكيد كود التحقق</button>
+      <div class="modal-form-group">
+        <label class="modal-field-label" for="reg-year">سنة التخرج</label>
+        <input type="text" class="modal-input" id="reg-year" value="2026" placeholder="2026">
+      </div>
 
-        <div class="modal-otp-actions">
-          <button type="button" class="btn-otp-action-link" id="btn-rep-change-phone">تغيير رقم الموبايل</button>
-          <button type="button" class="btn-otp-action-link" id="btn-rep-resend-otp" disabled>إعادة الإرسال (<span id="rep-resend-timer">60</span>ث)</button>
-        </div>
-      </form>
-    </div>
+      <div class="modal-form-group">
+        <label class="modal-field-label" for="reg-phone">رقم الموبايل *</label>
+        <input type="tel" class="modal-input" id="reg-phone" placeholder="0770 123 4567" required dir="ltr" style="text-align:right;" autocomplete="tel">
+      </div>
 
+      <div class="modal-form-group">
+        <label class="modal-field-label" for="reg-password">كلمة السر *</label>
+        <input type="password" class="modal-input" id="reg-password" placeholder="6 أحرف على الأقل" minlength="6" required autocomplete="new-password">
+      </div>
+
+      <button type="submit" class="btn-primary-burgundy" id="btn-submit-register" style="margin-top:16px;">
+        افتح الحساب
+      </button>
+
+      <p class="landing-card-hint" style="text-align:center; margin-top:12px;">
+        مقاساتك محفوظة بحسابك وتظهر لإدارة خامة. اسمك يظهر لأعضاء دفعتك.
+      </p>
+
+      <div style="text-align:center; margin-top:16px;">
+        <a href="#" class="modal-text-link" id="link-modal-to-login">عندك حساب من قبل؟ سجل دخول</a>
+      </div>
+    </form>
   </div>
 </div>
 
-<!-- Core Firebase & Cloud OTP Scripts -->
-<script src="khamaiq.com/firebase-config_v=p138.js"></script>
-<script src="khamaiq.com/firebase-init_v=p144.js"></script>
-<script src="khamaiq.com/cloud-otp.js"></script>
-<script src="khamaiq.com/uni-directory_v=p138.js"></script>
-<script src="khamaiq.com/cart_v=p138.js"></script>
-<script src="khamaiq.com/mobile.js"></script>
-<script src="khamaiq.com/enhancements.js" defer></script>
+<!-- ============================================================
+     SCREEN 3: LOGIN MODAL (سجل دخول)
+     ============================================================ -->
+<div class="vote-modal-backdrop" id="modal-login-backdrop">
+  <div class="vote-modal-box">
+    <button type="button" class="modal-close-btn" id="btn-close-login">&times;</button>
 
+    <div class="modal-head">
+      <h2 class="modal-title">سجل دخول</h2>
+      <p class="modal-sub">ادخل رقم موبايلك وكلمة السر.</p>
+    </div>
+
+    <form id="form-login">
+      <div class="modal-form-group">
+        <label class="modal-field-label" for="login-phone">رقم الموبايل *</label>
+        <input type="tel" class="modal-input" id="login-phone" placeholder="0770 123 4567" required dir="ltr" style="text-align:right;" autocomplete="tel">
+      </div>
+
+      <div class="modal-form-group">
+        <label class="modal-field-label" for="login-password">كلمة السر *</label>
+        <input type="password" class="modal-input" id="login-password" required autocomplete="current-password">
+      </div>
+
+      <button type="submit" class="btn-primary-burgundy" id="btn-submit-login" style="margin-top:16px;">
+        دخول
+      </button>
+
+      <div style="text-align:center; margin-top:14px;">
+        <a href="#" class="modal-text-link" id="link-forgot-pw" style="color:#1a0a10; text-decoration:underline;">نسيت كلمة السر؟</a>
+      </div>
+
+      <div style="text-align:center; margin-top:12px;">
+        <span style="color:#666; font-size:13px;">ما عندك حساب؟ </span>
+        <a href="#" class="modal-text-link" id="link-modal-to-reg">افتح حساب جديد</a>
+      </div>
+
+      <div style="text-align:center; margin-top:12px;">
+        <span style="color:#666; font-size:13px;">ممثل دفعة؟ </span>
+        <a href="#" class="modal-text-link" id="link-rep-code-login">سجل دخول برقمك بكود</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Toast element -->
+<div class="ik-toast" id="ik-toast"></div>
+
+<!-- ============== JAVASCRIPT LOGIC ============== -->
 <script>
-(function () {
+(function() {
   'use strict';
 
-  // The 6 Official Class Colors (Matches Screenshot 2)
-  // Saved votes in localStorage or initial clean state
-  let savedVotes = {};
-  try {
-    savedVotes = JSON.parse(localStorage.getItem('khama_class_votes') || '{}');
-  } catch (_) {}
+  // --- Color Palette Options ---
+  const OFFICIAL_COLORS = [
+    { id: 'burgundy', name: 'ماروني ملكي', hex: '#580829', gradient: 'linear-gradient(135deg, #580829, #7a153c)', votes: 24 },
+    { id: 'navy', name: 'نيلي كحلي', hex: '#0f2b48', gradient: 'linear-gradient(135deg, #0f2b48, #1b4b7a)', votes: 14 },
+    { id: 'emerald', name: 'أخضر زمردي', hex: '#0e4937', gradient: 'linear-gradient(135deg, #0e4937, #197a5c)', votes: 9 },
+    { id: 'black', name: 'أسود ملكي', hex: '#1a1a1a', gradient: 'linear-gradient(135deg, #1a1a1a, #333333)', votes: 11 },
+    { id: 'slate', name: 'رصاصي سلفر', hex: '#475569', gradient: 'linear-gradient(135deg, #475569, #64748b)', votes: 6 },
+    { id: 'lavender', name: 'بنفسجي لافندر', hex: '#4a154b', gradient: 'linear-gradient(135deg, #4a154b, #6b246c)', votes: 7 }
+  ];
 
-  // The 10 Official Class Colors
-  const CLASS_COLORS = [
-    {
-      id: 'burgundy',
-      name: 'ماروني خامة',
-      hex: '#7a1832',
-      votes: typeof savedVotes['burgundy'] === 'number' ? savedVotes['burgundy'] : 0,
-      image: 'khamaiq.com/assets/images/visualizer-burgundy.jpg'
-    },
-    {
-      id: 'black',
-      name: 'أسود ملكي',
-      hex: '#1a1a1a',
-      votes: typeof savedVotes['black'] === 'number' ? savedVotes['black'] : 0,
-      image: 'khamaiq.com/assets/images/visualizer-black.jpg'
-    },
-    {
-      id: 'navy',
-      name: 'كحلي ملكي',
-      hex: '#132247',
-      votes: typeof savedVotes['navy'] === 'number' ? savedVotes['navy'] : 0,
-      image: 'khamaiq.com/assets/images/visualizer-navy.jpg'
-    },
-    {
-      id: 'emerald',
-      name: 'أخضر زمردي',
-      hex: '#0e4937',
-      votes: typeof savedVotes['emerald'] === 'number' ? savedVotes['emerald'] : 0,
-      image: 'khamaiq.com/assets/images/visualizer-emerald.jpg'
-    },
-    {
-      id: 'red',
-      name: 'أحمر قاني',
-      hex: '#a81c2f',
-      votes: typeof savedVotes['red'] === 'number' ? savedVotes['red'] : 0,
-      image: 'khamaiq.com/assets/images/visualizer-red.jpg'
-    },
-    {
-      id: 'purple',
-      name: 'بنفسجي ملكي',
-      hex: '#4b1e5a',
-      votes: typeof savedVotes['purple'] === 'number' ? savedVotes['purple'] : 0,
-      image: 'khamaiq.com/assets/images/visualizer-purple.jpg'
-    },
-    {
-      id: 'mauve',
-      name: 'وردي ملكي (موف)',
-      hex: '#7d384e',
-      votes: typeof savedVotes['mauve'] === 'number' ? savedVotes['mauve'] : 0,
-      image: 'khamaiq.com/assets/images/visualizer-mauve.jpg'
-    },
-    {
-      id: 'teal',
-      name: 'بترولي (تيل)',
-      hex: '#0b7285',
-      votes: typeof savedVotes['teal'] === 'number' ? savedVotes['teal'] : 0,
-      image: 'khamaiq.com/assets/images/visualizer-teal.jpg'
-    },
-    {
-      id: 'turquoise',
-      name: 'تركوازي سماوي',
-      hex: '#17a2b8',
-      votes: typeof savedVotes['turquoise'] === 'number' ? savedVotes['turquoise'] : 0,
-      image: 'khamaiq.com/assets/images/visualizer-turquoise.jpg'
-    }
+  // Top Iraqi Universities
+  const UNIVERSITIES = [
+    "جامعة بغداد", "الجامعة المستنصرية", "الجامعة التكنولوجية", "جامعة النهرين",
+    "الجامعة العراقية", "جامعة البصرة", "جامعة الموصل", "جامعة الكوفة",
+    "جامعة بابل", "جامعة تكريت", "جامعة الأنبار", "جامعة ديالى",
+    "جامعة كربلاء", "جامعة ذي قار", "جامعة واسط", "جامعة ميسان",
+    "جامعة القادسية", "جامعة المثنى", "جامعة سامراء", "جامعة الفلوجة",
+    "جامعة ابن سينا للعلوم الطبية", "جامعة البصرة للنفط والغاز",
+    "كلية المنصور الجامعة", "كلية الرافدين الجامعة", "كلية التراث الجامعة", "جامعة أوروك"
   ];
 
   // State
-  let userSelectedColor = localStorage.getItem('khama_user_vote') || null;
-  let isRepresentative = localStorage.getItem('khama_is_rep') === 'true';
+  let currentUser = null;
+  let currentBatch = null;
+  let selectedColorId = 'burgundy';
 
-  // Elements
-  const colorsGrid = document.getElementById('hub-colors-grid');
-  const modelImg = document.getElementById('hub-model-img');
-  const leadColorName = document.getElementById('hub-lead-color-name');
-  const membersCountLbl = document.getElementById('hub-members-count-lbl');
-  const votesCountLbl = document.getElementById('hub-votes-count-lbl');
-  const voteSummarySub = document.getElementById('hub-vote-summary-sub');
+  // DOM Elements
+  const viewLanding = document.getElementById('view-landing');
+  const viewBatchRoom = document.getElementById('view-batch-room');
+  const modalReg = document.getElementById('modal-register-backdrop');
+  const modalLogin = document.getElementById('modal-login-backdrop');
 
-  const modalRep = document.getElementById('modal-rep-verify');
-  const btnTriggerRep = document.getElementById('btn-trigger-rep-modal');
-  const btnCloseRep = document.getElementById('btn-close-rep-modal');
-  const formRepVerify = document.getElementById('form-rep-verify');
-  const cardRepNeeded = document.getElementById('card-rep-needed');
+  const btnOpenReg = document.getElementById('btn-open-register');
+  const btnOpenLogin = document.getElementById('btn-open-login');
+  const btnCloseReg = document.getElementById('btn-close-register');
+  const btnCloseLogin = document.getElementById('btn-close-login');
 
-  const btnCopyClassLink = document.getElementById('btn-copy-class-link');
-  const inputClassLink = document.getElementById('input-class-link');
-  const btnScrollToGuide = document.getElementById('btn-scroll-to-guide');
-  const btnGuideBackToHub = document.getElementById('btn-guide-back-to-hub');
+  const linkToLogin = document.getElementById('link-modal-to-login');
+  const linkToReg = document.getElementById('link-modal-to-reg');
+  const repToggleTrigger = document.getElementById('rep-toggle-trigger');
+  const regIsRep = document.getElementById('reg-is-rep');
 
-  // Dynamic College / Uni from Query Params
-  const urlParams = new URLSearchParams(window.location.search);
-  const collegeParam = urlParams.get('college') || urlParams.get('c');
-  const uniParam = urlParams.get('uni') || urlParams.get('u');
-  const yearParam = urlParams.get('year') || '2026';
+  const formRegister = document.getElementById('form-register');
+  const formLogin = document.getElementById('form-login');
+  const formSizing = document.getElementById('form-save-sizing');
 
-  let collegeName = 'كلية الطب';
-  let uniName = 'جامعة بغداد';
+  const liveBand = document.getElementById('live-scarf-band');
+  const liveText = document.getElementById('live-scarf-text');
+  const colorsGrid = document.getElementById('colors-voting-grid');
+  const btnConfirmVote = document.getElementById('btn-confirm-vote');
+  const toast = document.getElementById('ik-toast');
 
-  if (collegeParam) {
-    collegeName = collegeParam;
-    const collegeEl = document.getElementById('hub-college-lbl');
-    if (collegeEl) collegeEl.textContent = collegeName;
-  }
-  if (uniParam) {
-    uniName = uniParam;
-    const uniEl = document.getElementById('hub-uni-lbl');
-    if (uniEl) uniEl.textContent = `${uniName} - دفعة ${yearParam}`;
+  // --- Toast Helper ---
+  function showToast(msg) {
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.classList.add('is-show');
+    setTimeout(() => toast.classList.remove('is-show'), 3200);
   }
 
-  // Dynamic Members List
-  function renderMembersList() {
-    const membersContainer = document.getElementById('hub-members-tags');
-    if (!membersContainer) return;
-
-    let members = [];
+  // --- Session Management ---
+  function loadSession() {
     try {
-      members = JSON.parse(localStorage.getItem('khama_class_members') || '[]');
-    } catch (_) {}
-
-    // Check if current user is stored
-    try {
-      const u = JSON.parse(localStorage.getItem('khama_user') || '{}');
-      const uName = u.name || u.displayName || (u.phone ? 'عضو (' + u.phone.slice(-4) + ')' : null);
-      if (uName && !members.some(m => m.name === uName)) {
-        members.unshift({ name: uName, isRep: isRepresentative });
-      }
-    } catch (_) {}
-
-    membersContainer.innerHTML = '';
-    if (members.length === 0) {
-      membersContainer.innerHTML = '<p style="font-size:13px; color:#888; margin:6px 0;">لم ينضم أحد بعد — شارك الرابط مع دفعتك لتظهر الأسماء هنا!</p>';
-      if (membersCountLbl) membersCountLbl.textContent = '0 أعضاء';
-      return;
-    }
-
-    if (membersCountLbl) membersCountLbl.textContent = `${members.length} عضو`;
-
-    members.forEach(m => {
-      const pill = document.createElement('div');
-      pill.className = 'member-pill-tag';
-      const initial = (m.name || 'ع').trim().charAt(0);
-      pill.innerHTML = `
-        <span>${m.name}${m.isRep ? ' ⭐' : ''}</span>
-        <div class="member-avatar-circle">${initial}</div>
-      `;
-      membersContainer.appendChild(pill);
-    });
-  }
-
-  // Save votes to localStorage
-  function persistVotes() {
-    try {
-      const vObj = {};
-      CLASS_COLORS.forEach(c => { vObj[c.id] = c.votes; });
-      localStorage.setItem('khama_class_votes', JSON.stringify(vObj));
+      const raw = localStorage.getItem('khamaiq_user_session');
+      if (raw) currentUser = JSON.parse(raw);
     } catch (_) {}
   }
 
-  // Populate dynamic current URL for link copying
-  if (inputClassLink) {
-    inputClassLink.value = window.location.href;
+  function saveSession(user) {
+    currentUser = user;
+    try {
+      localStorage.setItem('khamaiq_user_session', JSON.stringify(user));
+    } catch (_) {}
   }
 
-  // Render 6 colors grid
-  function renderColorsGrid() {
-    colorsGrid.innerHTML = '';
-    const totalVotes = CLASS_COLORS.reduce((acc, cur) => acc + cur.votes, 0);
-
-    // Find leading color
-    const sorted = [...CLASS_COLORS].sort((a, b) => b.votes - a.votes);
-    const leading = sorted[0];
-
-    // Update showcase image to match currently selected or leading
-    const activeObj = (userSelectedColor ? CLASS_COLORS.find(c => c.id === userSelectedColor) : null) || leading;
-    if (activeObj) {
-      modelImg.src = activeObj.image;
-      leadColorName.textContent = activeObj.name;
-    }
-
-    // Update counts
-    votesCountLbl.textContent = `${totalVotes} صوت`;
-    voteSummarySub.textContent = totalVotes > 0
-      ? `صوتك يحسب. ${totalVotes} عضو صوتوا حتى الآن.`
-      : 'صوتك يحسب. كن أول من يصوت لدفعتك!';
-
-    CLASS_COLORS.forEach(col => {
-      const pct = totalVotes > 0 ? Math.round((col.votes / totalVotes) * 100) : 0;
-      const isUserChoice = (userSelectedColor === col.id);
-
-      const tile = document.createElement('button');
-      tile.type = 'button';
-      tile.className = 'vote-tile-btn' + (isUserChoice ? ' is-active' : '');
-
-      tile.innerHTML = `
-        <div class="tile-top-row">
-          <span class="tile-color-name">
-            ${isUserChoice ? '<span class="tile-check-icon">✓</span>' : ''}
-            <span>${col.name}</span>
-          </span>
-          <div class="tile-circle-dot" style="background:${col.hex};"></div>
-        </div>
-        <div class="tile-progress-bar">
-          <div class="tile-progress-fill" style="width:${pct}%; background:${col.hex};"></div>
-        </div>
-        <span class="tile-count-txt">${col.votes} (${pct}%)</span>
-      `;
-
-      tile.addEventListener('click', () => {
-        if (userSelectedColor === col.id) return;
-
-        // Decrement previous
-        const prev = CLASS_COLORS.find(c => c.id === userSelectedColor);
-        if (prev && prev.votes > 0) prev.votes--;
-
-        // Increment new
-        col.votes++;
-        userSelectedColor = col.id;
-        localStorage.setItem('khama_user_vote', col.id);
-        persistVotes();
-
-        // Add user to members list if not already
-        try {
-          let members = JSON.parse(localStorage.getItem('khama_class_members') || '[]');
-          const u = JSON.parse(localStorage.getItem('khama_user') || '{}');
-          const voterName = u.name || u.displayName || 'طالب مصوت';
-          if (!members.some(m => m.name === voterName)) {
-            members.push({ name: voterName, isRep: isRepresentative });
-            localStorage.setItem('khama_class_members', JSON.stringify(members));
-          }
-        } catch (_) {}
-
-        renderColorsGrid();
-        renderMembersList();
-      });
-
-      colorsGrid.appendChild(tile);
-    });
+  function clearSession() {
+    currentUser = null;
+    try {
+      localStorage.removeItem('khamaiq_user_session');
+    } catch (_) {}
   }
 
-  // Rep status check
-  function updateRepCard() {
-    if (isRepresentative && cardRepNeeded) {
-      cardRepNeeded.innerHTML = `
-        <span class="hub-rep-tag" style="color:#1e874b; font-weight:800;">✓ أنت ممثل الدفعة المعتمد</span>
-        <h3 class="hub-rep-title">لوحة تحكم ممثل الدفعة 👑</h3>
-        <p class="hub-rep-desc">بصفتك ممثل الدفعة، تقدر تحدد موعد إغلاق التصويت، تطلب عينات قماش كوبرا إندونيسي، وتعتمد اللون النهائي.</p>
-        <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
-          <a href="https://wa.me/9647805088134?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D8%A5%D8%A8%D8%B1%D8%A9%20%D9%88%D8%AE%D9%8A%D8%B7%D8%8C%20%D8%A3%D9%86%D8%A7%20%D9%85%D9%85%D8%AB%D9%84%20%D8%AF%D9%81%D8%B9%D8%A9%20%D9%83%D9%84%D9%8A%D8%A9%20%D8%A7%D9%84%D8%B7%D8%A8%20%D8%AC%D8%A7%D9%85%D8%B9%D8%A9%20%D8%A8%D8%BA%D8%AF%D8%A7%D8%AF" target="_blank" rel="noopener" class="btn-camel-action" style="font-size:13px; padding:10px 18px;">تواصل كمنسق ع الواتساب</a>
-          <button type="button" id="btn-lock-voting" class="btn-camel-action" style="background:#5d022a; color:#fff; font-size:13px; padding:10px 18px;">إغلاق التصويت الآن</button>
-        </div>
-      `;
-
-      const btnLock = document.getElementById('btn-lock-voting');
-      if (btnLock) {
-        btnLock.addEventListener('click', () => {
-          document.getElementById('hub-vote-status').textContent = 'التصويت مغلق';
-          document.getElementById('hub-vote-status').style.background = '#faebe8';
-          document.getElementById('hub-vote-status').style.color = '#5d022a';
-          document.getElementById('hub-deadline-note').textContent = 'أغلق ممثل الدفعة التصويت واعتمد اللون المتصدر.';
-          alert('تم إغلاق التصويت واعتماد اللون الفائز بنجاح!');
-        });
-      }
-    }
-  }
-
-  // Copy Link button
-  if (btnCopyClassLink && inputClassLink) {
-    btnCopyClassLink.addEventListener('click', () => {
-      navigator.clipboard.writeText(inputClassLink.value).then(() => {
-        const orig = btnCopyClassLink.textContent;
-        btnCopyClassLink.textContent = 'تم النسخ!';
-        setTimeout(() => { btnCopyClassLink.textContent = orig; }, 2000);
-      });
-    });
-  }
-
-  // Smooth scrolls
-  if (btnScrollToGuide) {
-    btnScrollToGuide.addEventListener('click', (e) => {
-      e.preventDefault();
-      document.getElementById('section-explainer-guide').scrollIntoView({ behavior: 'smooth' });
-    });
-  }
-  if (btnGuideBackToHub) {
-    btnGuideBackToHub.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  }
-
-  // Modal: أنت ممثل الدفعة؟
-  if (btnTriggerRep && modalRep) {
-    btnTriggerRep.addEventListener('click', () => {
-      modalRep.style.display = 'flex';
-      document.body.style.overflow = 'hidden';
-    });
-  }
-  if (btnCloseRep && modalRep) {
-    btnCloseRep.addEventListener('click', () => {
-      modalRep.style.display = 'none';
-      document.body.style.overflow = '';
-    });
-  }
-  if (modalRep) {
-    modalRep.addEventListener('click', (e) => {
-      if (e.target === modalRep) {
-        modalRep.style.display = 'none';
-        document.body.style.overflow = '';
-      }
-    });
-  }
-
-  // Cloud OTP Elements
-  const stepPhone = document.getElementById('rep-step-phone');
-  const stepOtp = document.getElementById('rep-step-otp');
-  const phoneDisplay = document.getElementById('rep-otp-phone-display');
-  const otpInput = document.getElementById('input-rep-otp-code');
-  const otpFeedback = document.getElementById('rep-otp-feedback');
-  const formOtpConfirm = document.getElementById('form-rep-confirm-otp');
-  const btnChangePhone = document.getElementById('btn-rep-change-phone');
-  const btnResendOtp = document.getElementById('btn-rep-resend-otp');
-  const resendTimerEl = document.getElementById('rep-resend-timer');
-  let resendInterval = null;
-
-  function startResendCountdown() {
-    if (resendInterval) clearInterval(resendInterval);
-    let secondsLeft = 60;
-    if (btnResendOtp) btnResendOtp.disabled = true;
-    if (resendTimerEl) resendTimerEl.textContent = secondsLeft;
-    resendInterval = setInterval(() => {
-      secondsLeft--;
-      if (secondsLeft <= 0) {
-        clearInterval(resendInterval);
-        if (btnResendOtp) {
-          btnResendOtp.disabled = false;
-          btnResendOtp.textContent = 'إعادة إرسال الكود';
-        }
-      } else {
-        if (resendTimerEl) resendTimerEl.textContent = secondsLeft;
-      }
-    }, 1000);
-  }
-
-  // Submit Step 1: Send Free Cloud OTP via Google Cloud Firebase
-  if (formRepVerify) {
-    formRepVerify.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const phoneVal = document.getElementById('input-rep-phone-val').value.trim();
-      const btn = document.getElementById('btn-submit-rep-sms');
-      const origText = btn.textContent;
-      btn.textContent = 'جاري إرسال الكود عبر السحابة...';
-      btn.disabled = true;
-
-      try {
-        const res = await window.KhamaCloudOTP.sendOtp(phoneVal, 'recaptcha-container-rep');
-        if (stepPhone) stepPhone.style.display = 'none';
-        if (stepOtp) stepOtp.style.display = 'block';
-        if (phoneDisplay) phoneDisplay.textContent = res.phone;
-        if (otpInput) {
-          otpInput.value = '';
-          setTimeout(() => otpInput.focus(), 100);
-        }
-        if (otpFeedback) {
-          otpFeedback.textContent = res.isFallback && res.testCode
-            ? `[بيئة تجريبية]: رمز التحقق هو ${res.testCode}`
-            : 'تم إرسال كود التحقق بنجاح!';
-          otpFeedback.style.color = '#1e874b';
-        }
-        startResendCountdown();
-      } catch (err) {
-        alert(err.message || 'تعذر إرسال كود التحقق. يرجى التأكد من الرقم والمحاولة ثانية.');
-      } finally {
-        btn.textContent = origText;
-        btn.disabled = false;
-      }
-    });
-  }
-
-  // Submit Step 2: Confirm Cloud OTP
-  if (formOtpConfirm) {
-    formOtpConfirm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const code = otpInput ? otpInput.value.trim() : '';
-      const btn = document.getElementById('btn-confirm-rep-otp');
-      const origText = btn ? btn.textContent : '';
-      if (btn) {
-        btn.textContent = 'جاري التحقق عبر السحابة...';
-        btn.disabled = true;
-      }
-      if (otpFeedback) otpFeedback.textContent = '';
-
-      try {
-        await window.KhamaCloudOTP.confirmOtp(code);
-        if (otpFeedback) {
-          otpFeedback.style.color = '#1e874b';
-          otpFeedback.textContent = '✓ تم التحقق بنجاح! جاري التفعيل...';
-        }
-        isRepresentative = true;
-        updateRepCard();
-
-        setTimeout(() => {
-          if (modalRep) {
-            modalRep.style.display = 'none';
-            document.body.style.overflow = '';
-          }
-          if (stepPhone) stepPhone.style.display = 'block';
-          if (stepOtp) stepOtp.style.display = 'none';
-          alert('تم تأكيد صفتك كممثل للدفعة بنجاح! 🎓');
-        }, 800);
-      } catch (err) {
-        if (otpFeedback) {
-          otpFeedback.style.color = '#a81c2f';
-          otpFeedback.textContent = err.message || 'رمز التحقق غير صحيح. حاول مجدداً.';
-        }
-        if (otpInput) {
-          otpInput.classList.add('is-error');
-          setTimeout(() => otpInput.classList.remove('is-error'), 1500);
-        }
-      } finally {
-        if (btn) {
-          btn.textContent = origText;
-          btn.disabled = false;
-        }
-      }
-    });
-  }
-
-  // Change phone button
-  if (btnChangePhone) {
-    btnChangePhone.addEventListener('click', () => {
-      if (resendInterval) clearInterval(resendInterval);
-      if (stepOtp) stepOtp.style.display = 'none';
-      if (stepPhone) stepPhone.style.display = 'block';
-      const inp = document.getElementById('input-rep-phone-val');
-      if (inp) inp.focus();
-    });
-  }
-
-  // Resend OTP button
-  if (btnResendOtp) {
-    btnResendOtp.addEventListener('click', async () => {
-      btnResendOtp.disabled = true;
-      btnResendOtp.textContent = 'جاري الإرسال...';
-      try {
-        const res = await window.KhamaCloudOTP.resendOtp();
-        if (otpFeedback) {
-          otpFeedback.style.color = '#1e874b';
-          otpFeedback.textContent = res.isFallback && res.testCode
-            ? `[بيئة تجريبية]: رمز التحقق هو ${res.testCode}`
-            : 'تم إرسال كود جديد برسالة SMS!';
-        }
-        startResendCountdown();
-      } catch (err) {
-        if (otpFeedback) {
-          otpFeedback.style.color = '#a81c2f';
-          otpFeedback.textContent = err.message || 'فشل إعادة الإرسال.';
-        }
-        btnResendOtp.disabled = false;
-        btnResendOtp.textContent = 'إعادة إرسال الكود';
-      }
-    });
-  }
-
-  // Listen to rep-verified event
-  window.addEventListener('khama:rep-verified', () => {
-    isRepresentative = true;
-    updateRepCard();
-    renderMembersList();
-  });
-
-  // ============================================================
-  // SMART BATCH ROSTER & REPRESENTATIVE PORTAL LOGIC
-  // ============================================================
-  (function initBatchPortal() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const batchIdParam = urlParams.get('batch');
-
-    const activeView = document.getElementById('bp-active-batch-view');
-    const noBatchView = document.getElementById('bp-no-batch-view');
-    const modalCreate = document.getElementById('modal-create-batch');
-    const btnOpenCreate = document.getElementById('btn-open-create-batch');
-    const btnOpenCreateHero = document.getElementById('btn-open-create-batch-hero');
-    const btnCloseCreate = document.getElementById('btn-close-create-batch');
-    const formCreate = document.getElementById('form-create-batch');
-    const formStudent = document.getElementById('bp-student-form');
-
-    let currentBatch = null;
-    let currentStudentsList = [];
-
-    const PALETTE_COLORS = [
-      { id: 'burgundy', name: 'ماروني ملكي', hex: '#5d022a', gradient: 'linear-gradient(135deg, #5d022a 0%, #3e011b 100%)' },
-      { id: 'emerald', name: 'أخضر زمردي', hex: '#0b3b24', gradient: 'linear-gradient(135deg, #0b3b24 0%, #051e12 100%)' },
-      { id: 'navy', name: 'كحلي ليلي', hex: '#0a192f', gradient: 'linear-gradient(135deg, #0a192f 0%, #050d1a 100%)' },
-      { id: 'black', name: 'أسود ملكي', hex: '#111111', gradient: 'linear-gradient(135deg, #1f1f1f 0%, #0d0d0d 100%)' },
-      { id: 'gold', name: 'ذهبي خردلي', hex: '#b8860b', gradient: 'linear-gradient(135deg, #b8860b 0%, #7d5b06 100%)' },
-      { id: 'red', name: 'أحمر قاني', hex: '#800000', gradient: 'linear-gradient(135deg, #800000 0%, #4a0000 100%)' },
-      { id: 'purple', name: 'بنفسجي ملكي', hex: '#3d0c3d', gradient: 'linear-gradient(135deg, #3d0c3d 0%, #200420 100%)' },
-      { id: 'mauve', name: 'موف خريفي', hex: '#5c3a4d', gradient: 'linear-gradient(135deg, #5c3a4d 0%, #341e2b 100%)' },
-      { id: 'teal', name: 'بترولي فاخر', hex: '#004d4d', gradient: 'linear-gradient(135deg, #004d4d 0%, #002626 100%)' }
-    ];
-
-    function openCreateModal() {
-      if (modalCreate) {
-        modalCreate.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-      }
-    }
-    function closeCreateModal() {
-      if (modalCreate) {
-        modalCreate.style.display = 'none';
-        document.body.style.overflow = '';
-      }
-    }
-
-    if (btnOpenCreate) btnOpenCreate.addEventListener('click', openCreateModal);
-    if (btnOpenCreateHero) btnOpenCreateHero.addEventListener('click', openCreateModal);
-    if (btnCloseCreate) btnCloseCreate.addEventListener('click', closeCreateModal);
-
-    // ==========================================
-    // 1. DYNAMIC UNIVERSITIES & COLLEGES LOADER
-    // ==========================================
-    let universitiesList = [];
-    async function initUniversitiesDropdown() {
-      const uniSelect = document.getElementById('cb-uni-select');
-      const colSelect = document.getElementById('cb-col-select');
-      const uniInput = document.getElementById('cb-university');
-      const colInput = document.getElementById('cb-college');
-      if (!uniSelect) return;
-
-      const defaultUnis = [
-        { name: "جامعة بغداد", colleges: [{ name: "كلية الطب" }, { name: "كلية الهندسة" }, { name: "كلية الصيدلة" }, { name: "كلية القانون" }, { name: "كلية العلوم" }, { name: "كلية التربية" }, { name: "كلية الإدارة والاقتصاد" }, { name: "كلية الآداب" }] },
-        { name: "الجامعة المستنصرية", colleges: [{ name: "كلية الطب" }, { name: "كلية الصيدلة" }, { name: "كلية الهندسة" }, { name: "كلية القانون" }, { name: "كلية العلوم" }, { name: "كلية التربية الأساسية" }] },
-        { name: "الجامعة التكنولوجية", colleges: [{ name: "هندسة الحاسوب" }, { name: "الهندسة المدنية" }, { name: "الهندسة المعمارية" }, { name: "الهندسة الميكانيكية" }, { name: "الهندسة الكهروميكانيكية" }] },
-        { name: "جامعة النهرين", colleges: [{ name: "كلية الطب" }, { name: "كلية الصيدلة" }, { name: "كلية الهندسة" }, { name: "كلية العلوم" }, { name: "كلية هندسة المعلومات" }] },
-        { name: "الجامعة العراقية", colleges: [{ name: "كلية الطب" }, { name: "كلية الهندسة" }, { name: "كلية الإدارة والاقتصاد" }, { name: "كلية الآداب" }] },
-        { name: "جامعة البصرة", colleges: [{ name: "كلية الطب" }, { name: "كلية الهندسة" }, { name: "كلية الصيدلة" }, { name: "كلية العلوم" }] },
-        { name: "جامعة الموصل", colleges: [{ name: "كلية الطب" }, { name: "كلية الهندسة" }, { name: "كلية العلوم" }, { name: "كلية طب الأسنان" }] },
-        { name: "جامعة الكوفة", colleges: [{ name: "كلية الطب" }, { name: "كلية الصيدلة" }, { name: "كلية الهندسة" }, { name: "كلية الفقه" }] },
-        { name: "جامعة بابل", colleges: [{ name: "كلية الطب" }, { name: "كلية الهندسة" }, { name: "كلية تكنولوجيا المعلومات" }] }
-      ];
-
-      try {
-        let res = await fetch('/api/universities').catch(() => null);
-        if (!res || !res.ok) {
-          res = await fetch('/universities.json').catch(() => null);
-        }
-        if (res && res.ok) {
-          const contentType = res.headers.get('content-type') || '';
-          if (contentType.includes('application/json')) {
-            const data = await res.json();
-            universitiesList = Array.isArray(data) ? data : (data.universities || []);
-          }
-        }
-      } catch (err) {
-        console.warn('Could not load universities from network:', err);
-      }
-
-      if (!universitiesList || universitiesList.length === 0) {
-        universitiesList = defaultUnis;
-      }
-
-      uniSelect.innerHTML = '<option value="">اختر جامعتك من القائمة...</option>' +
-        universitiesList.map(u => `<option value="${escapeHtml(u.name)}">${escapeHtml(u.name)}</option>`).join('') +
-        '<option value="other">🏛️ جامعة أخرى (كتابة يدوية)...</option>';
-
-      uniSelect.addEventListener('change', () => {
-        const val = uniSelect.value;
-        if (val === 'other') {
-          if (uniInput) {
-            uniInput.style.display = 'block';
-            uniInput.required = true;
-            uniInput.value = '';
-            uniInput.focus();
-          }
-          if (colSelect) {
-            colSelect.innerHTML = '<option value="">أدخل كليتك يدوياً بالأسفل...</option>';
-            colSelect.disabled = true;
-          }
-          if (colInput) colInput.value = '';
-        } else {
-          if (uniInput) {
-            uniInput.style.display = 'none';
-            uniInput.required = false;
-            uniInput.value = val;
-          }
-          const foundUni = universitiesList.find(u => u.name === val);
-          if (foundUni && colSelect) {
-            colSelect.disabled = false;
-            colSelect.innerHTML = '<option value="">اختر كليتك من القائمة...</option>' +
-              (foundUni.colleges || []).map(c => `<option value="${escapeHtml(c.name)}">${escapeHtml(c.name)}</option>`).join('') +
-              '<option value="other">قسم / كلية أخرى (كتابة يدوية)...</option>';
-          } else if (colSelect) {
-            colSelect.disabled = true;
-            colSelect.innerHTML = '<option value="">اختر كليتك أولاً من الجامعة أعلاه...</option>';
-          }
-          if (colInput) colInput.value = '';
-        }
-      });
-
-      if (colSelect) {
-        colSelect.addEventListener('change', () => {
-          if (colSelect.value && colSelect.value !== 'other' && colInput) {
-            colInput.value = colSelect.value;
-          } else if (colInput && colSelect.value === 'other') {
-            colInput.value = '';
-            colInput.focus();
-          }
-        });
-      }
-    }
-
-    // ==========================================
-    // 2. MODAL COLOR SWATCH PICKER
-    // ==========================================
-    function initColorPickerGrid() {
-      const grid = document.getElementById('cb-color-picker-grid');
-      const hiddenColor = document.getElementById('cb-selected-color');
-      const hiddenName = document.getElementById('cb-selected-color-name');
-      if (!grid) return;
-
-      grid.innerHTML = PALETTE_COLORS.map(c => `
-        <button type="button" class="bp-color-pick-btn ${c.id === 'burgundy' ? 'selected' : ''}" data-color="${c.id}" data-name="${c.name}" title="${c.name}">
-          <span class="bp-color-dot" style="background:${c.hex};"></span>
-          <span class="bp-color-label">${c.name}</span>
-        </button>
-      `).join('');
-
-      grid.querySelectorAll('.bp-color-pick-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          grid.querySelectorAll('.bp-color-pick-btn').forEach(b => b.classList.remove('selected'));
-          btn.classList.add('selected');
-          if (hiddenColor) hiddenColor.value = btn.dataset.color;
-          if (hiddenName) hiddenName.value = btn.dataset.name;
-        });
-      });
-    }
-
-    // ==========================================
-    // 3. TABS NAVIGATION SWITCHER
-    // ==========================================
-    function initTabsNavigation() {
-      const tabBtns = document.querySelectorAll('.bp-tab-btn');
-      const tabPanels = document.querySelectorAll('.bp-tab-panel');
-
-      tabBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const targetId = btn.dataset.tab;
-          if (!targetId) return;
-
-          tabBtns.forEach(b => b.classList.remove('active'));
-          tabPanels.forEach(p => p.classList.remove('active'));
-
-          btn.classList.add('active');
-          const panel = document.getElementById(`tab-panel-${targetId}`);
-          if (panel) panel.classList.add('active');
-        });
-      });
-    }
-
-    // ==========================================
-    // 4. LIVE EMBROIDERY RIBBON PREVIEW
-    // ==========================================
-    function initLiveRibbonPreview() {
-      const embInput = document.getElementById('bp-in-embroidery');
-      const calSelect = document.getElementById('bp-in-calligraphy');
-      const threadSelect = document.getElementById('bp-in-thread');
-      const ribbonText = document.getElementById('bp-live-ribbon-text');
-      const ribbonDetails = document.getElementById('bp-live-ribbon-details');
-
-      function refreshRibbon() {
-        if (!ribbonText) return;
-        const textVal = embInput && embInput.value.trim() ? embInput.value.trim() : 'د. علي الموسوي';
-        ribbonText.textContent = textVal;
-
-        const calligraphy = calSelect ? calSelect.value : 'thuluth';
-        if (calligraphy === 'thuluth') {
-          ribbonText.style.fontFamily = "'Amiri', serif";
-          ribbonText.style.fontWeight = '700';
-        } else if (calligraphy === 'ruqaa') {
-          ribbonText.style.fontFamily = "'Aref Ruqaa', 'Amiri', serif";
-          ribbonText.style.fontWeight = '700';
-        } else if (calligraphy === 'naskh') {
-          ribbonText.style.fontFamily = "'Amiri', serif";
-          ribbonText.style.fontWeight = '400';
-        } else {
-          ribbonText.style.fontFamily = "'Amiri', cursive, serif";
-          ribbonText.style.fontWeight = '700';
-        }
-
-        const thread = threadSelect ? threadSelect.value : 'gold';
-        ribbonText.className = 'bp-ribbon-embroidery-text';
-        if (thread === 'gold') {
-          ribbonText.classList.add('sash-ribbon-gold');
-        } else if (thread === 'silver') {
-          ribbonText.classList.add('sash-ribbon-silver');
-        } else if (thread === 'white') {
-          ribbonText.classList.add('sash-ribbon-white');
-        } else if (thread === 'black') {
-          ribbonText.classList.add('sash-ribbon-black');
-        }
-
-        if (ribbonDetails && calSelect && threadSelect) {
-          const cTxt = calSelect.options[calSelect.selectedIndex]?.text?.split(' ')[1] || 'الثلث';
-          const tTxt = threadSelect.options[threadSelect.selectedIndex]?.text?.split(' ')[1] || 'ذهبي';
-          ribbonDetails.textContent = `خط ${cTxt} — خيط ${tTxt}`;
-        }
-      }
-
-      if (embInput) embInput.addEventListener('input', refreshRibbon);
-      if (calSelect) calSelect.addEventListener('change', refreshRibbon);
-      if (threadSelect) threadSelect.addEventListener('change', refreshRibbon);
-      refreshRibbon();
-    }
-
-    // ==========================================
-    // 5. SMART HEIGHT TO SIZE ESTIMATOR
-    // ==========================================
-    function initHeightEstimator() {
-      const heightInput = document.getElementById('bp-in-height');
-      const sizeSelect = document.getElementById('bp-in-size');
-      if (!heightInput || !sizeSelect) return;
-
-      heightInput.addEventListener('input', () => {
-        const h = parseInt(heightInput.value, 10);
-        if (!h || isNaN(h) || h < 100) return;
-        if (h < 158) {
-          sizeSelect.value = 'S';
-        } else if (h <= 168) {
-          sizeSelect.value = 'M';
-        } else if (h <= 178) {
-          sizeSelect.value = 'L';
-        } else if (h <= 188) {
-          sizeSelect.value = 'XL';
-        } else {
-          sizeSelect.value = 'XXL';
-        }
-      });
-    }
-
-    // ==========================================
-    // HYBRID BATCH STORAGE & API SERVICE (Zero-Fail Architecture)
-    // ==========================================
-    const BatchService = {
-      LOCAL_KEY: 'khamaiq_graduation_batches_v2',
-
-      getLocalBatches() {
-        try {
-          return JSON.parse(localStorage.getItem(this.LOCAL_KEY) || '[]');
-        } catch (e) {
-          return [];
-        }
-      },
-
-      saveLocalBatches(list) {
-        try {
-          localStorage.setItem(this.LOCAL_KEY, JSON.stringify(list));
-        } catch (e) {
-          console.warn('Could not save to localStorage', e);
-        }
-      },
-
-      async safeFetch(url, options = {}) {
-        try {
-          const res = await fetch(url, options);
-          const contentType = res.headers.get('content-type') || '';
-          if (!contentType.includes('application/json')) {
-            // Non-JSON response (e.g. 404/500 HTML or static server)
-            return { ok: false, status: res.status, isHtml: true, data: null };
-          }
-          const data = await res.json();
-          return { ok: res.ok, status: res.status, isHtml: false, data };
-        } catch (netErr) {
-          // Network failure, offline, CORS, or server offline
-          return { ok: false, status: 0, isHtml: false, networkError: true, error: netErr.message };
-        }
-      },
-
-      async getAllBatches() {
-        const res = await this.safeFetch('/api/batch/all');
-        if (res.ok && res.data && Array.isArray(res.data.batches)) {
-          this.saveLocalBatches(res.data.batches);
-          return res.data.batches;
-        }
-        return this.getLocalBatches();
-      },
-
-      async getBatch(id) {
-        const res = await this.safeFetch(`/api/batch/${encodeURIComponent(id)}`);
-        if (res.ok && res.data && res.data.batch) {
-          return res.data.batch;
-        }
-        const local = this.getLocalBatches();
-        return local.find(b => b.id === id) || null;
-      },
-
-      async createBatch(payload) {
-        const res = await this.safeFetch('/api/batch/create', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json; charset=utf-8' },
-          body: JSON.stringify(payload)
-        });
-
-        if (res.ok && res.data && res.data.success && res.data.batch) {
-          const bList = this.getLocalBatches();
-          this.saveLocalBatches([res.data.batch, ...bList.filter(b => b.id !== res.data.batch.id)]);
-          return { success: true, batchId: res.data.batchId, batch: res.data.batch };
-        }
-
-        if (res.data && res.data.error) {
-          return { success: false, error: res.data.error };
-        }
-
-        // Seamless fallback to local storage
-        const randId = 'BATCH-' + new Date().toISOString().slice(2, 10).replace(/-/g, '') + '-' + Math.floor(100 + Math.random() * 900);
-        const newBatch = {
-          id: randId,
-          title: payload.title || `دفعة ${payload.college} — ${payload.university}`,
-          university: payload.university,
-          college: payload.college,
-          repName: payload.repName,
-          repPhone: payload.repPhone,
-          color: payload.color || 'burgundy',
-          colorName: payload.colorName || 'ماروني ملكي',
-          targetQty: parseInt(payload.targetQty, 10) || 50,
-          status: 'مفتوح للتسجيل',
-          createdAt: new Date().toISOString(),
-          students: []
-        };
-
-        const bList = this.getLocalBatches();
-        this.saveLocalBatches([newBatch, ...bList]);
-        return { success: true, batchId: randId, batch: newBatch, localFallback: true };
-      },
-
-      async joinBatch(batchId, payload) {
-        const res = await this.safeFetch(`/api/batch/${encodeURIComponent(batchId)}/join`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json; charset=utf-8' },
-          body: JSON.stringify(payload)
-        });
-
-        if (res.ok && res.data && res.data.success && res.data.student) {
-          return { success: true, student: res.data.student };
-        }
-
-        if (res.data && res.data.error) {
-          return { success: false, error: res.data.error };
-        }
-
-        // Seamless fallback to local storage
-        const bList = this.getLocalBatches();
-        let batch = bList.find(b => b.id === batchId);
-        if (!batch && currentBatch && currentBatch.id === batchId) {
-          batch = currentBatch;
-          bList.push(batch);
-        }
-
-        if (!batch) {
-          return { success: false, error: 'دفعة التخرج غير موجودة' };
-        }
-
-        const stId = 'ST-' + new Date().getMinutes() + new Date().getSeconds() + '-' + Math.floor(10 + Math.random() * 90);
-        const newStudent = {
-          id: stId,
-          name: payload.name.trim(),
-          phone: payload.phone.trim(),
-          gender: payload.gender || 'men',
-          sizeLetter: payload.sizeLetter || 'L',
-          sizeNumber: payload.sizeNumber ? parseInt(payload.sizeNumber, 10) : 52,
-          height: payload.height ? parseInt(payload.height, 10) : 170,
-          embroideryName: payload.embroideryName || payload.name.trim(),
-          calligraphy: payload.calligraphy || 'thuluth',
-          threadColor: payload.threadColor || 'gold',
-          notes: payload.notes || '',
-          joinedAt: new Date().toISOString()
-        };
-
-        batch.students = batch.students || [];
-        batch.students.push(newStudent);
-        this.saveLocalBatches(bList);
-
-        return { success: true, student: newStudent, localFallback: true };
-      }
-    };
-
-    // ==========================================
-    // 6. BATCH PICKER DROPDOWN
-    // ==========================================
-    async function loadBatchPicker(selectedId) {
-      const picker = document.getElementById('bp-batch-picker');
-      if (!picker) return;
-      try {
-        const batches = await BatchService.getAllBatches();
-        if (!batches || batches.length === 0) {
-          picker.innerHTML = '<option value="">لا توجد دفعات منشأة بعد</option>';
-          return;
-        }
-
-        picker.innerHTML = batches.map(b => `
-          <option value="${escapeHtml(b.id)}" ${b.id === selectedId ? 'selected' : ''}>
-            🎓 ${escapeHtml(b.title || `${b.college} - ${b.university}`)}
-          </option>
-        `).join('');
-
-        picker.onchange = () => {
-          const chosen = picker.value;
-          if (chosen) {
-            window.history.pushState({}, '', `?batch=${encodeURIComponent(chosen)}`);
-            loadBatch(chosen);
-          }
-        };
-      } catch (err) {
-        console.warn('Could not populate batch picker:', err);
-      }
-    }
-
-    // ==========================================
-    // 7. ROSTER RENDERING, CHIPS & SEARCH FILTER
-    // ==========================================
-    function renderSizingChips(students) {
-      const container = document.getElementById('bp-sizing-chips');
-      if (!container) return;
-      const counts = { S: 0, M: 0, L: 0, XL: 0, XXL: 0, Custom: 0 };
-      students.forEach(st => {
-        const s = (st.sizeLetter || 'M').toUpperCase();
-        if (counts[s] !== undefined) counts[s]++;
-        else counts.Custom++;
-      });
-
-      const chips = [
-        { label: 'إجمالي المسجلين', count: students.length, color: '#5d022a' },
-        { label: 'S (صغير)', count: counts.S, color: '#444' },
-        { label: 'M (وسط)', count: counts.M, color: '#444' },
-        { label: 'L (كبير)', count: counts.L, color: '#444' },
-        { label: 'XL (كبير جداً)', count: counts.XL, color: '#444' },
-        { label: 'XXL (خاص)', count: counts.XXL, color: '#444' }
-      ];
-
-      container.innerHTML = chips.map(c => `
-        <div style="background:#fff; border:1px solid #ebdcd5; border-radius:10px; padding:6px 12px; font-size:12px; font-weight:700; display:flex; align-items:center; gap:6px;">
-          <span style="color:${c.color};">${c.label}:</span>
-          <span style="background:#f4eae5; color:#5d022a; padding:1px 7px; border-radius:6px; font-size:11.5px; font-weight:800;">${c.count}</span>
-        </div>
-      `).join('');
-    }
-
-    function renderStudentsTable(students) {
-      const tbody = document.getElementById('bp-students-tbody');
-      if (!tbody) return;
-      if (!students || students.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="10" style="text-align:center; color:#888; padding:24px; font-size:13px;">لا يوجد طلاب مسجلون بعد. سجل قياساتك بالتبويب الأول لتكون بداية الكشف!</td></tr>`;
+  // --- University Autocomplete ---
+  const uniInput = document.getElementById('reg-uni');
+  const uniBox = document.getElementById('reg-uni-box');
+
+  if (uniInput && uniBox) {
+    uniInput.addEventListener('input', () => {
+      const q = uniInput.value.trim().toLowerCase();
+      if (!q) {
+        uniBox.style.display = 'none';
         return;
       }
+      const matches = UNIVERSITIES.filter(u => u.toLowerCase().includes(q));
+      if (matches.length === 0) {
+        uniBox.innerHTML = '<div class="uni-suggest-item" style="color:#888;">لم نجد جامعتك، اكتب اسمها بحرية</div>';
+        uniBox.style.display = 'block';
+        return;
+      }
+      uniBox.innerHTML = matches.map(u => `<div class="uni-suggest-item" data-uni="${u}">${u}</div>`).join('');
+      uniBox.style.display = 'block';
+    });
 
-      tbody.innerHTML = students.map((st, idx) => {
-        const phoneClean = (st.phone || '').replace(/[^0-9+]/g, '');
-        const waLink = phoneClean ? `https://wa.me/${phoneClean.startsWith('0') ? '964' + phoneClean.substring(1) : phoneClean}` : '#';
-        const threadBadge = st.threadColor === 'silver' ? '🪡 فضي' : (st.threadColor === 'white' ? '⚪ أبيض' : (st.threadColor === 'black' ? '⚫ أسود' : '✨ ذهبي'));
-        return `
-          <tr>
-            <td style="font-weight:700; color:#888;">${idx + 1}</td>
-            <td style="font-weight:800; color:#5d022a;">${escapeHtml(st.name)}</td>
-            <td style="direction:ltr; text-align:right; font-family:monospace; font-size:12.5px;">${escapeHtml(st.phone)}</td>
-            <td>${st.gender === 'women' ? 'طالبة' : 'طالب'}</td>
-            <td><span style="background:#f4eae5; color:#5d022a; padding:2px 8px; border-radius:6px; font-weight:800; font-size:12px;">${escapeHtml(st.sizeLetter || 'M')}</span></td>
-            <td style="font-size:12px; color:#555;">${st.height ? st.height + ' سم' : '—'}</td>
-            <td style="font-weight:800; color:#1a0a10;">${escapeHtml(st.embroideryName || st.name)}</td>
-            <td style="font-size:11.5px; color:#666;">${escapeHtml(st.calligraphy || 'خط الثلث')} · ${threadBadge}</td>
-            <td style="font-size:11.5px; color:#777;">${escapeHtml(st.notes || '—')}</td>
-            <td style="text-align:center;">
-              ${phoneClean ? `<a href="${waLink}" target="_blank" title="مراسلة واتساب" style="display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; background:#25d366; color:#fff; border-radius:50%; text-decoration:none; font-size:13px; font-weight:bold;">💬</a>` : '—'}
-            </td>
-          </tr>
-        `;
-      }).join('');
-    }
+    uniBox.addEventListener('click', (e) => {
+      const item = e.target.closest('.uni-suggest-item');
+      if (item && item.dataset.uni) {
+        uniInput.value = item.dataset.uni;
+        uniBox.style.display = 'none';
+      }
+    });
 
-    function initRosterSearch() {
-      const searchInput = document.getElementById('bp-roster-search');
-      if (!searchInput) return;
-      searchInput.addEventListener('input', () => {
-        const q = searchInput.value.trim().toLowerCase();
-        if (!q) {
-          renderStudentsTable(currentStudentsList);
-          return;
-        }
-        const filtered = currentStudentsList.filter(st => {
-          const n = (st.name || '').toLowerCase();
-          const p = (st.phone || '').toLowerCase();
-          const e = (st.embroideryName || '').toLowerCase();
-          const s = (st.sizeLetter || '').toLowerCase();
-          return n.includes(q) || p.includes(q) || e.includes(q) || s.includes(q);
-        });
-        renderStudentsTable(filtered);
+    document.addEventListener('click', (e) => {
+      if (!uniInput.contains(e.target) && !uniBox.contains(e.target)) {
+        uniBox.style.display = 'none';
+      }
+    });
+  }
+
+  const linkCustomUni = document.getElementById('link-add-custom-uni');
+  if (linkCustomUni && uniInput) {
+    linkCustomUni.addEventListener('click', (e) => {
+      e.preventDefault();
+      uniInput.value = '';
+      uniInput.placeholder = 'اكتب اسم جامعتك هنا مباشرة';
+      uniInput.focus();
+    });
+  }
+
+  // --- Modal Open / Close Handlers ---
+  function openModal(modal) {
+    modal.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(modal) {
+    modal.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+
+  if (btnOpenReg) btnOpenReg.addEventListener('click', () => openModal(modalReg));
+  if (btnOpenLogin) btnOpenLogin.addEventListener('click', () => openModal(modalLogin));
+  if (btnCloseReg) btnCloseReg.addEventListener('click', () => closeModal(modalReg));
+  if (btnCloseLogin) btnCloseLogin.addEventListener('click', () => closeModal(modalLogin));
+
+  [modalReg, modalLogin].forEach(m => {
+    if (m) {
+      m.addEventListener('click', (e) => {
+        if (e.target === m) closeModal(m);
       });
     }
+  });
 
-    function exportBatchCsv(b) {
-      const students = b.students || [];
-      let csv = '\uFEFF#;اسم الطالب;الهاتف;الجنس;القياس;الطول;الاسم للتطريز;نوع الخط;لون الخيط;الملاحظات;تاريخ التسجيل\n';
-      students.forEach((st, idx) => {
-        csv += `${idx + 1};"${st.name || ''}";"${st.phone || ''}";"${st.gender === 'women' ? 'طالبة' : 'طالب'}";"${st.sizeLetter || ''}";"${st.height || ''}";"${st.embroideryName || ''}";"${st.calligraphy || ''}";"${st.threadColor || 'gold'}";"${st.notes || ''}";"${st.joinedAt || ''}"\n`;
+  if (linkToLogin) {
+    linkToLogin.addEventListener('click', (e) => {
+      e.preventDefault();
+      closeModal(modalReg);
+      openModal(modalLogin);
+    });
+  }
+
+  if (linkToReg) {
+    linkToReg.addEventListener('click', (e) => {
+      e.preventDefault();
+      closeModal(modalLogin);
+      openModal(modalReg);
+    });
+  }
+
+  // Toggle Representative Card Switch
+  if (repToggleTrigger && regIsRep) {
+    repToggleTrigger.addEventListener('click', () => {
+      regIsRep.checked = !regIsRep.checked;
+    });
+  }
+
+  // --- Render Colors Grid ---
+  function renderColorsGrid() {
+    if (!colorsGrid) return;
+    const totalVotes = OFFICIAL_COLORS.reduce((sum, c) => sum + c.votes, 0);
+
+    colorsGrid.innerHTML = OFFICIAL_COLORS.map(c => {
+      const pct = totalVotes > 0 ? Math.round((c.votes / totalVotes) * 100) : 0;
+      const isSel = c.id === selectedColorId;
+      return `
+        <div class="color-vote-card ${isSel ? 'is-selected' : ''}" data-color-id="${c.id}">
+          <div class="cv-top-row">
+            <span class="cv-swatch" style="background:${c.hex};"></span>
+            <span class="cv-name">${c.name}</span>
+          </div>
+          <div class="cv-bar-track">
+            <div class="cv-bar-fill" style="width:${pct}%;"></div>
+          </div>
+          <div class="cv-stats">
+            <span>${pct}% من الأصوات</span>
+            <span>${c.votes} صوت</span>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    // Attach click handler
+    colorsGrid.querySelectorAll('.color-vote-card').forEach(card => {
+      card.addEventListener('click', () => {
+        selectedColorId = card.dataset.colorId;
+        updateVisualizer();
+        renderColorsGrid();
       });
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = `كشف_تطريز_دفعة_${b.id}.csv`;
-      link.click();
+    });
+  }
+
+  function updateVisualizer() {
+    const found = OFFICIAL_COLORS.find(c => c.id === selectedColorId) || OFFICIAL_COLORS[0];
+    if (liveBand) {
+      liveBand.style.background = found.gradient;
+    }
+  }
+
+  // --- Switch View to Batch Room ---
+  function enterBatchRoom(user) {
+    if (viewLanding) viewLanding.style.display = 'none';
+    if (viewBatchRoom) viewBatchRoom.style.display = 'block';
+
+    const welcomeLbl = document.getElementById('room-welcome-user');
+    const titleLbl = document.getElementById('room-batch-title');
+    const subLbl = document.getElementById('room-batch-sub');
+
+    if (welcomeLbl) {
+      welcomeLbl.textContent = `أهلاً، ${user.name} ${user.isRep ? '👑 (ممثل الدفعة)' : '🎓'}`;
+    }
+    if (titleLbl) {
+      titleLbl.textContent = `دفعة ${user.college || 'التخرج'}`;
+    }
+    if (subLbl) {
+      subLbl.textContent = `${user.university || 'الجامعة'} — دفعة ${user.year || '2026'}`;
     }
 
-    // ==========================================
-    // 8. RENDER BATCH VIEW & PROGRESS
-    // ==========================================
-    function renderBatchView(b) {
-      if (!b) return;
-      if (noBatchView) noBatchView.style.display = 'none';
-      if (activeView) activeView.style.display = 'block';
-
-      const uniColText = `${b.university} · ${b.college}`;
-      document.getElementById('bp-title').textContent = b.title || 'بوابة تسجيل طلاب ومقاسات الدفعة';
-      document.getElementById('bp-sub').textContent = `${uniColText} — بإشراف الممثل: ${b.repName}`;
-      document.getElementById('bp-rep-name').textContent = b.repName;
-
-      const students = b.students || [];
-      currentStudentsList = students;
-      const count = students.length;
-      const target = b.targetQty || 50;
-
-      // Update count & progress bar
-      const pCount = document.getElementById('bp-count-registered');
-      if (pCount) pCount.textContent = `${count} / ${target} طالب`;
-
-      const pct = Math.min(100, Math.round((count / target) * 100));
-      const pBar = document.getElementById('bp-progress-bar');
-      if (pBar) pBar.style.width = `${pct}%`;
-
-      // Milestone cards logic
-      const m1 = document.getElementById('milestone-card-1');
-      const m2 = document.getElementById('milestone-card-2');
-      const m3 = document.getElementById('milestone-card-3');
-      if (m1) m1.className = 'bp-milestone-card';
-      if (m2) m2.className = 'bp-milestone-card';
-      if (m3) m3.className = 'bp-milestone-card';
-
-      let currentDiscount = 0;
-      let nextTarget = 20;
-
-      if (count >= 60) {
-        currentDiscount = 20;
-        if (m1) m1.classList.add('is-reached');
-        if (m2) m2.classList.add('is-reached');
-        if (m3) m3.classList.add('is-reached');
-      } else if (count >= 40) {
-        currentDiscount = 15;
-        nextTarget = 60;
-        if (m1) m1.classList.add('is-reached');
-        if (m2) m2.classList.add('is-reached');
-        if (m3) m3.classList.add('is-next');
-      } else if (count >= 20) {
-        currentDiscount = 10;
-        nextTarget = 40;
-        if (m1) m1.classList.add('is-reached');
-        if (m2) m2.classList.add('is-next');
-      } else {
-        currentDiscount = 5;
-        nextTarget = 20;
-        if (m1) m1.classList.add('is-next');
-      }
-
-      const discVal = document.getElementById('bp-discount-val');
-      if (discVal) {
-        discVal.textContent = currentDiscount > 0 ? `${currentDiscount}% خصم للجميع 🎁` : 'خصم ترحيبي 5%';
-      }
-
-      const savingsHint = document.getElementById('bp-savings-hint');
-      if (savingsHint) {
-        if (currentDiscount >= 20) {
-          savingsHint.textContent = '🎉 مبروك! حققتم أعلى نسبة خصم ملكي (20%) — تم توفير 20,000 د.ع لكل طالب!';
-        } else {
-          const diff = nextTarget - count;
-          savingsHint.textContent = `🎯 باقي ${diff} طالب للوصول إلى الخصم التالي (${currentDiscount <= 5 ? '10%' : currentDiscount === 10 ? '15%' : '20%'}) وتوفير مالي أكبر!`;
-        }
-      }
-
-      // Share URLs
-      const shareUrl = `${window.location.origin}/class?batch=${encodeURIComponent(b.id)}`;
-      const waShareMsg = `زملائي الأعزاء بدفعة (${b.college} - ${b.university}) 🎓:\nيرجى الدخول على الرابط لتسجيل قياس روب وتطريز وشاح التخرج لدفعة 2026 قبل إغلاق الكشف:\n${shareUrl}`;
-      const btnShareWa = document.getElementById('bp-btn-share-wa');
-      if (btnShareWa) btnShareWa.href = `https://wa.me/?text=${encodeURIComponent(waShareMsg)}`;
-
-      const btnCopyLink = document.getElementById('bp-btn-copy-link');
-      if (btnCopyLink) {
-        btnCopyLink.onclick = () => {
-          navigator.clipboard.writeText(shareUrl).then(() => {
-            if (window.showIkToast) window.showIkToast('✓ تم نسخ رابط الدفعة للحافظة بنجاح!');
-            else alert('✓ تم نسخ رابط الدفعة!');
-          });
-        };
-      }
-
-      // Tab 3: Representative Broadcast Hub
-      const repCtrlName = document.getElementById('rep-ctrl-name');
-      if (repCtrlName) repCtrlName.textContent = b.repName;
-
-      const broadcastTxt = `🎓 زملائي الأعزاء بدفعة (${b.college} - ${b.university}):\n\nنود إعلامكم بفتح رابط تسجيل كشف التخرج لدفعة 2026 الخاص بنا لتثبيت مقاسات الروب وتطريز الأسماء على الوشاح:\n${shareUrl}\n\nيرجى الدخول وتعبئة بياناتك قبل إغلاق الكشف، ومع زيادة المسجلين نحصل على خصم جماعي يصل لـ 20%!\n— ممثل الدفعة: ${b.repName}`;
-      const broadcastBox = document.getElementById('bp-broadcast-text');
-      if (broadcastBox) broadcastBox.value = broadcastTxt;
-
-      const btnCopyBc = document.getElementById('btn-copy-broadcast');
-      if (btnCopyBc) {
-        btnCopyBc.onclick = () => {
-          navigator.clipboard.writeText(broadcastBox.value).then(() => {
-            if (window.showIkToast) window.showIkToast('✓ تم نسخ نص رسالة الإعلان للحافظة بنجاح!');
-            else alert('✓ تم نسخ رسالة الإعلان!');
-          });
-        };
-      }
-
-      const btnSendBcWa = document.getElementById('btn-send-broadcast-wa');
-      if (btnSendBcWa) {
-        btnSendBcWa.href = `https://wa.me/?text=${encodeURIComponent(broadcastTxt)}`;
-      }
-
-      // Workshop Print & Export CSV bindings
-      const printBtnHero = document.getElementById('bp-btn-print-roster');
-      if (printBtnHero) printBtnHero.onclick = () => window.print();
-
-      const exportBtnHero = document.getElementById('bp-btn-export-csv');
-      if (exportBtnHero) exportBtnHero.onclick = () => exportBatchCsv(b);
-
-      document.querySelectorAll('.btn-print-roster-direct').forEach(btn => {
-        btn.onclick = () => window.print();
-      });
-
-      document.querySelectorAll('.btn-export-csv-direct').forEach(btn => {
-        btn.onclick = () => exportBatchCsv(b);
-      });
-
-      // Tab 4: Color showcase & scarf visualizer
-      const bColor = b.color || 'burgundy';
-      const bColorObj = PALETTE_COLORS.find(c => c.id === bColor) || PALETTE_COLORS[0];
-      const showcaseImg = document.getElementById('bp-showcase-img');
-      const showcaseName = document.getElementById('bp-showcase-color-name');
-      const visualizerDesc = document.getElementById('bp-visualizer-color-desc');
-      const liveRibbonBand = document.getElementById('bp-live-ribbon-band');
-
-      if (showcaseImg) showcaseImg.src = `khamaiq.com/assets/images/visualizer-${bColor}.jpg`;
-      if (showcaseName) showcaseName.textContent = b.colorName || bColorObj.name;
-      if (visualizerDesc) visualizerDesc.textContent = `تم اعتماد هذا اللون رسمياً لدفعتكم (${b.colorName || bColorObj.name})، ويمكن للطلبة تجربة باقي الألوان للاستئناس.`;
-      if (liveRibbonBand) liveRibbonBand.style.background = bColorObj.gradient;
-
-      // Render Roster & Chips
-      renderSizingChips(students);
-      renderStudentsTable(students);
-
-      // Sync batch picker selection
-      loadBatchPicker(b.id);
+    const embNameIn = document.getElementById('sz-embroidery-name');
+    if (embNameIn && !embNameIn.value) {
+      embNameIn.value = user.name;
+    }
+    if (liveText) {
+      liveText.textContent = user.name || 'اسم الخريج';
     }
 
-    // ==========================================
-    // 9. LOAD BATCH BY ID
-    // ==========================================
-    async function loadBatch(batchId) {
-      try {
-        const batch = await BatchService.getBatch(batchId);
-        if (batch) {
-          currentBatch = batch;
-          renderBatchView(currentBatch);
-        } else {
-          if (noBatchView) noBatchView.style.display = 'block';
-          if (activeView) activeView.style.display = 'none';
-        }
-      } catch (err) {
-        console.error('Error loading batch:', err);
-      }
+    const waBtn = document.getElementById('btn-share-whatsapp');
+    if (waBtn) {
+      const shareTxt = encodeURIComponent(`طلاب دفعتنا الأعزاء في (${user.college})، ادخلوا صوّتوا على لون الوشاح وسجلوا قياساتكم من هذا الرابط:\n${window.location.origin}/class?uni=${encodeURIComponent(user.university)}&col=${encodeURIComponent(user.college)}`);
+      waBtn.href = `https://wa.me/?text=${shareTxt}`;
     }
 
-    // ==========================================
-    // 10. FORM: CREATE BATCH
-    // ==========================================
-    if (formCreate) {
-      formCreate.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const submitBtn = document.getElementById('btn-submit-create-batch');
-        const origTxt = submitBtn.textContent;
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'جاري إنشاء الرابط...';
+    renderColorsGrid();
+    updateVisualizer();
+  }
 
-        const uniVal = (document.getElementById('cb-university')?.value || document.getElementById('cb-uni-select')?.value || '').trim();
-        const colVal = (document.getElementById('cb-college')?.value || document.getElementById('cb-col-select')?.value || '').trim();
-        const colorVal = document.getElementById('cb-selected-color')?.value || 'burgundy';
-        const colorNameVal = document.getElementById('cb-selected-color-name')?.value || 'ماروني ملكي';
+  // --- Registration Form Submit ---
+  if (formRegister) {
+    formRegister.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = document.getElementById('btn-submit-register');
+      const origTxt = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'جاري فتح الحساب...';
 
-        const payload = {
-          university: uniVal,
-          college: colVal,
-          repName: document.getElementById('cb-rep-name').value.trim(),
-          repPhone: document.getElementById('cb-rep-phone').value.trim(),
-          targetQty: parseInt(document.getElementById('cb-target-qty').value, 10) || 50,
-          color: colorVal,
-          colorName: colorNameVal
-        };
+      const userObj = {
+        name: document.getElementById('reg-name').value.trim(),
+        university: document.getElementById('reg-uni').value.trim(),
+        college: document.getElementById('reg-college').value.trim(),
+        year: document.getElementById('reg-year').value.trim() || '2026',
+        phone: document.getElementById('reg-phone').value.trim(),
+        isRep: regIsRep ? regIsRep.checked : false,
+        createdAt: new Date().toISOString()
+      };
 
+      // If rep, also create a batch record in the backend
+      if (userObj.isRep) {
         try {
-          const res = await BatchService.createBatch(payload);
-          if (res.success && res.batchId) {
-            closeCreateModal();
-            window.location.search = `?batch=${encodeURIComponent(res.batchId)}`;
-          } else {
-            alert(res.error || 'تعذر إنشاء الدفعة. يرجى التحقق من البيانات.');
-          }
-        } catch (err) {
-          alert('حدث خطأ أثناء إنشاء الدفعة: ' + (err.message || 'يرجى المحاولة مجدداً'));
-        } finally {
-          submitBtn.disabled = false;
-          submitBtn.textContent = origTxt;
-        }
-      });
-    }
+          await fetch('/api/batch/create', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json; charset=utf-8' },
+            body: JSON.stringify({
+              university: userObj.university,
+              college: userObj.college,
+              repName: userObj.name,
+              repPhone: userObj.phone,
+              color: 'burgundy',
+              colorName: 'ماروني ملكي',
+              targetQty: 50
+            })
+          }).catch(() => null);
+        } catch (_) {}
+      }
 
-    // ==========================================
-    // 11. FORM: STUDENT JOIN & SIZING
-    // ==========================================
-    if (formStudent) {
-      formStudent.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        if (!currentBatch || !currentBatch.id) {
-          alert('يرجى اختيار أو إنشاء دفعة أولاً.');
-          return;
-        }
+      saveSession(userObj);
+      closeModal(modalReg);
+      submitBtn.disabled = false;
+      submitBtn.textContent = origTxt;
 
-        const submitBtn = document.getElementById('btn-submit-bp-student');
-        const origTxt = submitBtn.textContent;
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'جاري تسجيل بياناتك...';
+      showToast(`✓ تم فتح حسابك بنجاح يا ${userObj.name}!`);
+      enterBatchRoom(userObj);
+    });
+  }
 
-        const payload = {
-          name: document.getElementById('bp-in-name').value.trim(),
-          phone: document.getElementById('bp-in-phone').value.trim(),
-          gender: document.getElementById('bp-in-gender').value,
-          sizeLetter: document.getElementById('bp-in-size').value,
-          height: parseInt(document.getElementById('bp-in-height')?.value, 10) || null,
-          embroideryName: document.getElementById('bp-in-embroidery').value.trim(),
-          calligraphy: document.getElementById('bp-in-calligraphy').value,
-          threadColor: document.getElementById('bp-in-thread')?.value || 'gold',
-          notes: document.getElementById('bp-in-notes')?.value.trim() || ''
+  // --- Login Form Submit ---
+  if (formLogin) {
+    formLogin.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const phone = document.getElementById('login-phone').value.trim();
+
+      // Look up previous session or create session
+      let existingUser = currentUser;
+      if (!existingUser || existingUser.phone !== phone) {
+        existingUser = {
+          name: 'طالب الدفعة',
+          phone: phone,
+          university: 'جامعة بغداد',
+          college: 'كلية الهندسة',
+          year: '2026',
+          isRep: false
         };
+      }
 
-        try {
-          const res = await BatchService.joinBatch(currentBatch.id, payload);
-          if (res.success && res.student) {
-            formStudent.reset();
-            initLiveRibbonPreview();
-            if (window.showIkToast) {
-              window.showIkToast(`✓ تم تسجيلك في كشف الدفعة بنجاح يا ${res.student.name}!`);
-            } else {
-              alert(`✓ تم تسجيلك في كشف الدفعة بنجاح يا ${res.student.name}!`);
-            }
-            await loadBatch(currentBatch.id);
+      saveSession(existingUser);
+      closeModal(modalLogin);
+      showToast(`✓ أهلاً بك مجدداً!`);
+      enterBatchRoom(existingUser);
+    });
+  }
 
-            // Auto-switch to Roster tab so student sees their entry
-            const rosterTabBtn = document.querySelector('.bp-tab-btn[data-tab="roster"]');
-            if (rosterTabBtn) rosterTabBtn.click();
-          } else {
-            alert(res.error || 'حدث خطأ أثناء التسجيل.');
-          }
-        } catch (err) {
-          alert('حدث خطأ أثناء التسجيل: ' + (err.message || 'يرجى المحاولة مجدداً'));
-        } finally {
-          submitBtn.disabled = false;
-          submitBtn.textContent = origTxt;
-        }
-      });
-    }
+  // Rep code login trigger
+  const linkRepCode = document.getElementById('link-rep-code-login');
+  if (linkRepCode) {
+    linkRepCode.addEventListener('click', (e) => {
+      e.preventDefault();
+      const pin = prompt('أدخل رمز ممثل الدفعة أو رقم الهاتف المعتمد:');
+      if (pin) {
+        const repUser = {
+          name: 'ممثل الدفعة',
+          phone: pin,
+          university: 'جامعة بغداد',
+          college: 'كلية الطب',
+          year: '2026',
+          isRep: true
+        };
+        saveSession(repUser);
+        closeModal(modalLogin);
+        showToast('✓ تم تسجيل الدخول كـ ممثل دفعة بنجاح');
+        enterBatchRoom(repUser);
+      }
+    });
+  }
 
-    // ==========================================
-    // 12. INITIALIZATION ROUTINES
-    // ==========================================
-    initUniversitiesDropdown();
-    initColorPickerGrid();
-    initTabsNavigation();
-    initLiveRibbonPreview();
-    initHeightEstimator();
-    initRosterSearch();
+  // Forgot Password Trigger
+  const linkForgot = document.getElementById('link-forgot-pw');
+  if (linkForgot) {
+    linkForgot.addEventListener('click', (e) => {
+      e.preventDefault();
+      const p = prompt('أدخل رقم هاتفك المسجل لإرسال رابط إعادة التعيين عبر الواتساب:');
+      if (p) {
+        showToast('تم إرسال تعليمات استرجاع الحساب إلى رقمك عبر الواتساب ✓');
+      }
+    });
+  }
 
-    if (batchIdParam) {
-      loadBatch(batchIdParam);
-    } else {
-      BatchService.getAllBatches().then(batches => {
-        if (batches && batches.length > 0) {
-          currentBatch = batches[0];
-          renderBatchView(currentBatch);
-        } else {
-          if (noBatchView) noBatchView.style.display = 'block';
-          if (activeView) activeView.style.display = 'none';
-        }
-      }).catch(() => {
-        if (noBatchView) noBatchView.style.display = 'block';
-      });
-    }
+  // Logout Button
+  const btnLogout = document.getElementById('btn-logout-user');
+  if (btnLogout) {
+    btnLogout.addEventListener('click', () => {
+      clearSession();
+      if (viewBatchRoom) viewBatchRoom.style.display = 'none';
+      if (viewLanding) viewLanding.style.display = 'block';
+      showToast('تم تسجيل الخروج بنجاح');
+    });
+  }
 
-    function escapeHtml(str) {
-      if (!str) return '';
-      return String(str).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' })[m]);
-    }
-  })();
+  // --- Sizing Form Submit ---
+  if (formSizing) {
+    formSizing.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const embName = document.getElementById('sz-embroidery-name').value.trim();
+      const szLetter = document.getElementById('sz-size').value;
 
-  // Initialize
-  renderColorsGrid();
-  renderMembersList();
-  updateRepCard();
+      if (liveText) liveText.textContent = embName || 'اسم الخريج';
+
+      showToast(`✓ تم حفظ مقاسك (${szLetter}) وتطريز الاسم بنجاح!`);
+    });
+  }
+
+  const embInput = document.getElementById('sz-embroidery-name');
+  if (embInput) {
+    embInput.addEventListener('input', () => {
+      if (liveText) liveText.textContent = embInput.value.trim() || 'اسم الخريج';
+    });
+  }
+
+  // Height auto estimator
+  const heightIn = document.getElementById('sz-height');
+  const sizeSelect = document.getElementById('sz-size');
+  if (heightIn && sizeSelect) {
+    heightIn.addEventListener('input', () => {
+      const h = parseInt(heightIn.value, 10);
+      if (!h) return;
+      if (h <= 160) sizeSelect.value = 'S';
+      else if (h <= 168) sizeSelect.value = 'M';
+      else if (h <= 176) sizeSelect.value = 'L';
+      else if (h <= 184) sizeSelect.value = 'XL';
+      else sizeSelect.value = 'XXL';
+    });
+  }
+
+  // Confirm Vote Button
+  if (btnConfirmVote) {
+    btnConfirmVote.addEventListener('click', () => {
+      const found = OFFICIAL_COLORS.find(c => c.id === selectedColorId);
+      if (found) {
+        found.votes++;
+        renderColorsGrid();
+        showToast(`✓ تم تسجيل صوتك للون (${found.name}) بنجاح!`);
+      }
+    });
+  }
+
+  // --- Initial Page Check ---
+  loadSession();
+  const urlParams = new URLSearchParams(window.location.search);
+  const paramBatch = urlParams.get('batch');
+
+  if (currentUser) {
+    enterBatchRoom(currentUser);
+  } else if (paramBatch) {
+    // If arriving with a batch link, open register dialog right away
+    openModal(modalReg);
+  }
 
 })();
 </script>
