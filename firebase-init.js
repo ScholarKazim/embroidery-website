@@ -64,7 +64,12 @@
 
       return {
         app, auth, db,
-        // Auth helpers
+        // Google Auth helpers
+        GoogleAuthProvider:    authMod.GoogleAuthProvider,
+        signInWithPopup:       authMod.signInWithPopup,
+        signInWithRedirect:    authMod.signInWithRedirect,
+        getRedirectResult:     authMod.getRedirectResult,
+        // Phone Auth helpers
         signInWithPhoneNumber: authMod.signInWithPhoneNumber,
         PhoneAuthProvider:     authMod.PhoneAuthProvider,
         linkWithCredential:    authMod.linkWithCredential,
@@ -73,7 +78,7 @@
         RecaptchaVerifier:     authMod.RecaptchaVerifier,
         onAuthStateChanged:    authMod.onAuthStateChanged,
         signOut:               authMod.signOut,
-        // Email/password auth (students). Phone OTP above stays for reps.
+        // Email/password auth
         createUserWithEmailAndPassword: authMod.createUserWithEmailAndPassword,
         signInWithEmailAndPassword:     authMod.signInWithEmailAndPassword,
         sendPasswordResetEmail:         authMod.sendPasswordResetEmail,
