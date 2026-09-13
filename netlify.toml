@@ -7,7 +7,17 @@
   status = 200
 
 [[redirects]]
+  from = "/products/*"
+  to = "/products.html"
+  status = 200
+
+[[redirects]]
   from = "/class"
+  to = "/class.html"
+  status = 200
+
+[[redirects]]
+  from = "/class/*"
   to = "/class.html"
   status = 200
 

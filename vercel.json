@@ -4,7 +4,9 @@
   "trailingSlash": false,
   "rewrites": [
     { "source": "/products", "destination": "/products.html" },
+    { "source": "/products/(.*)", "destination": "/products.html" },
     { "source": "/class", "destination": "/class.html" },
+    { "source": "/class/(.*)", "destination": "/class.html" },
     { "source": "/models", "destination": "/models.html" },
     { "source": "/size", "destination": "/size.html" },
     { "source": "/checkout", "destination": "/checkout.html" },

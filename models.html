@@ -937,6 +937,18 @@ searchInput.addEventListener("input", (e) => {
   renderModels();
 });
 
+// URL filter param check
+const urlParams = new URLSearchParams(window.location.search);
+const paramFilter = urlParams.get('filter') || urlParams.get('item');
+if (paramFilter) {
+  const targetBtn = Array.from(filterBtns).find(b => b.dataset.filter === paramFilter);
+  if (targetBtn) {
+    filterBtns.forEach(b => b.classList.remove("active"));
+    targetBtn.classList.add("active");
+    currentFilter = paramFilter;
+  }
+}
+
 // Initial Render
 renderModels();
 </script>

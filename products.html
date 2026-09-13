@@ -1057,8 +1057,21 @@
     <button class="mobile-drawer-close" data-drawer-close>&times;</button>
   </div>
   <nav class="mobile-drawer-nav">
-    <a href="/" class="mobile-drawer-link">الرئيسية</a>
-    <a href="/products" class="mobile-drawer-link" style="color:var(--emerald-deep, #5d022a);">المنتجات</a>
+    <a href="/products" class="mobile-drawer-link" style="color:var(--emerald-deep, #5d022a); font-weight:800;">المنتجات والتفصيل</a>
+    <div style="padding: 0 16px 8px 16px; display: flex; flex-direction: column; gap: 6px;">
+      <a href="/products?item=scarf" style="color: #555; font-size: 13.5px; text-decoration: none; padding: 8px 12px; background: rgba(93, 2, 42, 0.04); border-radius: 8px; display: flex; align-items: center; justify-content: space-between;">
+        <span>وشاح إبرة وخيط</span>
+        <span style="font-size: 11px; color: #b6834b; font-weight: 700;">صمم وشاحك &larr;</span>
+      </a>
+      <a href="/products?item=robe" style="color: #555; font-size: 13.5px; text-decoration: none; padding: 8px 12px; background: rgba(93, 2, 42, 0.04); border-radius: 8px; display: flex; align-items: center; justify-content: space-between;">
+        <span>روب إبرة وخيط</span>
+        <span style="font-size: 11px; color: #b6834b; font-weight: 700;">صمم روبك &larr;</span>
+      </a>
+      <a href="/products?item=cap" style="color: #555; font-size: 13.5px; text-decoration: none; padding: 8px 12px; background: rgba(93, 2, 42, 0.04); border-radius: 8px; display: flex; align-items: center; justify-content: space-between;">
+        <span>قبعة إبرة وخيط</span>
+        <span style="font-size: 11px; color: #b6834b; font-weight: 700;">صمم قبعتك &larr;</span>
+      </a>
+    </div>
     <a href="/vote" class="mobile-drawer-link">تصويت ألوان الكليات (جديد)</a>
     <a href="/models" class="mobile-drawer-link">معرض نماذج الخريجين</a>
     <a href="/class" class="mobile-drawer-link">صفحة الدفعة</a>
@@ -1090,6 +1103,14 @@
 <!-- ============== MAIN CONTENT CONTAINER ============== -->
 <main class="products-page">
   <div class="container">
+
+    <!-- Top Category Switcher Tabs (Accessible anywhere) -->
+    <div class="products-top-nav-bar" style="margin: 20px auto 28px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+      <button type="button" class="products-top-tab is-active" id="top-tab-all" style="padding: 10px 22px; border-radius: 999px; border: 1.5px solid #5d022a; background: #5d022a; color: #fff; font-family: inherit; font-size: 14.5px; font-weight: 700; cursor: pointer; transition: all 0.2s;">جميع القطع (3)</button>
+      <button type="button" class="products-top-tab" id="top-tab-scarf" style="padding: 10px 22px; border-radius: 999px; border: 1.5px solid #e2d7ce; background: #fff; color: #333; font-family: inherit; font-size: 14.5px; font-weight: 700; cursor: pointer; transition: all 0.2s;">وشاح إبرة وخيط</button>
+      <button type="button" class="products-top-tab" id="top-tab-robe" style="padding: 10px 22px; border-radius: 999px; border: 1.5px solid #e2d7ce; background: #fff; color: #333; font-family: inherit; font-size: 14.5px; font-weight: 700; cursor: pointer; transition: all 0.2s;">روب إبرة وخيط</button>
+      <button type="button" class="products-top-tab" id="top-tab-cap" style="padding: 10px 22px; border-radius: 999px; border: 1.5px solid #e2d7ce; background: #fff; color: #333; font-family: inherit; font-size: 14.5px; font-weight: 700; cursor: pointer; transition: all 0.2s;">قبعة إبرة وخيط</button>
+    </div>
 
     <!-- ============================================================
          VIEW A: PRODUCTS CATALOG VIEW (/products)
@@ -2290,12 +2311,38 @@
     btnCalloutWa.href = `https://wa.me/${WA_PHONE}?text=` + encodeURIComponent(msg);
   }
 
+  // Top Category Tabs Switcher helper
+  function updateTopNavTabs(activeKind) {
+    const tabs = {
+      all: document.getElementById('top-tab-all'),
+      scarf: document.getElementById('top-tab-scarf'),
+      robe: document.getElementById('top-tab-robe'),
+      cap: document.getElementById('top-tab-cap')
+    };
+    Object.keys(tabs).forEach(k => {
+      const btn = tabs[k];
+      if (!btn) return;
+      if (k === activeKind) {
+        btn.style.background = '#5d022a';
+        btn.style.borderColor = '#5d022a';
+        btn.style.color = '#ffffff';
+        btn.classList.add('is-active');
+      } else {
+        btn.style.background = '#ffffff';
+        btn.style.borderColor = '#e2d7ce';
+        btn.style.color = '#333333';
+        btn.classList.remove('is-active');
+      }
+    });
+  }
+
   // View Switchers: Catalog vs Wizard
   function showCatalogView(push = true) {
     currentView = 'catalog';
     viewCatalog.style.display = 'block';
     viewWizard.style.display = 'none';
-    if (push && window.location.pathname !== '/products') {
+    updateTopNavTabs('all');
+    if (push && (window.location.search || window.location.pathname !== '/products')) {
       window.history.pushState(null, '', '/products');
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2306,6 +2353,7 @@
     currentProductKind = kind;
     viewCatalog.style.display = 'none';
     viewWizard.style.display = 'block';
+    updateTopNavTabs(kind);
 
     const node2Lbl = document.getElementById('stepper-lbl-step2');
     const node3Lbl = document.getElementById('stepper-lbl-step3');
@@ -2324,8 +2372,8 @@
       selectedCut = 'regular';
       setupStep1Tabs();
       renderCutDisplay('regular');
-      if (push && !window.location.pathname.includes('/cap')) {
-        window.history.pushState(null, '', '/products/cap');
+      if (push) {
+        window.history.pushState(null, '', '/products?item=cap');
       }
     } else if (kind === 'robe') {
       document.getElementById('lbl-breadcrumb-curr').textContent = 'روب إبرة وخيط';
@@ -2339,8 +2387,8 @@
       selectedCut = 'regular';
       setupStep1Tabs();
       renderCutDisplay('regular');
-      if (push && !window.location.pathname.includes('/robe')) {
-        window.history.pushState(null, '', '/products/robe');
+      if (push) {
+        window.history.pushState(null, '', '/products?item=robe');
       }
     } else {
       document.getElementById('lbl-breadcrumb-curr').textContent = 'وشاح إبرة وخيط';
@@ -2354,14 +2402,25 @@
       selectedCut = 'royal';
       setupStep1Tabs();
       renderCutDisplay('royal');
-      if (push && !window.location.pathname.includes('/scarf')) {
-        window.history.pushState(null, '', '/products/scarf');
+      if (push) {
+        window.history.pushState(null, '', '/products?item=scarf');
       }
     }
 
     goToStep(1);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+
+  // Top Category Tabs Events
+  const topTabAll = document.getElementById('top-tab-all');
+  const topTabScarf = document.getElementById('top-tab-scarf');
+  const topTabRobe = document.getElementById('top-tab-robe');
+  const topTabCap = document.getElementById('top-tab-cap');
+
+  if (topTabAll) topTabAll.addEventListener('click', () => showCatalogView(true));
+  if (topTabScarf) topTabScarf.addEventListener('click', () => showWizard('scarf', true));
+  if (topTabRobe) topTabRobe.addEventListener('click', () => showWizard('robe', true));
+  if (topTabCap) topTabCap.addEventListener('click', () => showWizard('cap', true));
 
   // Catalog Card Buttons
   document.getElementById('btn-open-scarf-wizard').addEventListener('click', () => showWizard('scarf', true));
@@ -2383,34 +2442,25 @@
     });
   }
 
-  // Handle browser back/forward buttons
-  window.addEventListener('popstate', () => {
+  // URL routing logic
+  function handleUrlRouting(push = false) {
     const p = window.location.pathname.toLowerCase();
-    if (p.includes('/robe')) {
-      showWizard('robe', false);
-    } else if (p.includes('/cap')) {
-      showWizard('cap', false);
-    } else if (p.includes('/scarf')) {
-      showWizard('scarf', false);
+    const search = new URLSearchParams(window.location.search);
+    const item = search.get('item');
+
+    if (p.includes('/robe') || item === 'robe') {
+      showWizard('robe', push);
+    } else if (p.includes('/cap') || item === 'cap') {
+      showWizard('cap', push);
+    } else if (p.includes('/scarf') || item === 'scarf') {
+      showWizard('scarf', push);
     } else {
-      showCatalogView(false);
+      showCatalogView(push);
     }
-  });
-
-  // URL routing check on page load
-  const path = window.location.pathname.toLowerCase();
-  const search = new URLSearchParams(window.location.search);
-  const item = search.get('item');
-
-  if (path.includes('/robe') || item === 'robe') {
-    showWizard('robe', false);
-  } else if (path.includes('/cap') || item === 'cap') {
-    showWizard('cap', false);
-  } else if (path.includes('/scarf') || item === 'scarf') {
-    showWizard('scarf', false);
-  } else {
-    showCatalogView(false);
   }
+
+  window.addEventListener('popstate', () => handleUrlRouting(false));
+  handleUrlRouting(false);
 
   // Initialize
   updateSizeFeedback();
