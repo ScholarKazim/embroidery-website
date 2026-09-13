@@ -661,24 +661,6 @@ body {
   color: #777;
 }
 
-/* Sizing & Registration Form in Batch Room */
-.room-sizing-box {
-  background: var(--card-bg);
-  border-radius: 22px;
-  padding: 24px 20px;
-  box-shadow: 0 10px 30px rgba(88, 8, 41, 0.04);
-  border: 1px solid rgba(0,0,0,0.03);
-  margin-bottom: 20px;
-  text-align: right;
-}
-
-.room-sizing-title {
-  font-family: 'Amiri', 'Cairo', serif;
-  font-size: 22px;
-  font-weight: 900;
-  color: var(--text-dark);
-  margin: 0 0 4px;
-}
 
 /* Toast Notifications */
 .ik-toast {
@@ -847,60 +829,7 @@ body {
         </button>
       </div>
 
-      <!-- Student Sizing & Embroidery Form -->
-      <div class="room-sizing-box">
-        <h3 class="room-sizing-title">📐 قياسك وتطريز اسمك</h3>
-        <p style="font-size:13px; color:#777; margin:0 0 16px;">لحفظ مقاسك الدقيق وخياطة اسمك بالشكل المعتمد.</p>
 
-        <form id="form-save-sizing">
-          <div class="modal-form-group">
-            <label class="modal-field-label">الاسم للتطريز على الوشاح *</label>
-            <input type="text" class="modal-input" id="sz-embroidery-name" placeholder="مثال: المهندس علي مهدي" required>
-          </div>
-
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-            <div class="modal-form-group">
-              <label class="modal-field-label">طولك بالسنتمتر</label>
-              <input type="number" class="modal-input" id="sz-height" placeholder="مثال: 175" min="140" max="210">
-            </div>
-            <div class="modal-form-group">
-              <label class="modal-field-label">قياس الروب المقترح</label>
-              <select class="modal-input" id="sz-size">
-                <option value="S">S (طول 150-160 سم)</option>
-                <option value="M">M (طول 161-168 سم)</option>
-                <option value="L" selected>L (طول 169-176 سم)</option>
-                <option value="XL">XL (طول 177-184 سم)</option>
-                <option value="XXL">XXL (طول 185-192 سم)</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="modal-form-group">
-            <label class="modal-field-label">نوع الخط المفضل للتطريز</label>
-            <select class="modal-input" id="sz-calligraphy">
-              <option value="thuluth" selected>خط الثلث العربي الأصيل (الأكثر طلباً)</option>
-              <option value="ruqaa">خط الرقعة الفاخر</option>
-              <option value="diwani">الخط الديواني الملكي</option>
-              <option value="kufi">الخط الكوفي الهندسي</option>
-              <option value="english">English Script Luxury</option>
-            </select>
-          </div>
-
-          <div class="modal-form-group">
-            <label class="modal-field-label">لون خيط التطريز</label>
-            <select class="modal-input" id="sz-thread">
-              <option value="gold" selected>ذهبي ملكي براق</option>
-              <option value="silver">فضي لامع</option>
-              <option value="white">أبيض ناصع</option>
-              <option value="bronze">برونزي فاخر</option>
-            </select>
-          </div>
-
-          <button type="submit" class="btn-primary-burgundy" style="margin-top:10px;">
-            حفظ وتثبيت قياساتي ✓
-          </button>
-        </form>
-      </div>
     </section>
 
   </div>
@@ -1076,7 +1005,6 @@ body {
 
   const formRegister = document.getElementById('form-register');
   const formLogin = document.getElementById('form-login');
-  const formSizing = document.getElementById('form-save-sizing');
 
   const liveBand = document.getElementById('live-scarf-band');
   const liveText = document.getElementById('live-scarf-text');
@@ -1268,17 +1196,13 @@ body {
       subLbl.textContent = `${user.university || 'الجامعة'} — دفعة ${user.year || '2026'}`;
     }
 
-    const embNameIn = document.getElementById('sz-embroidery-name');
-    if (embNameIn && !embNameIn.value) {
-      embNameIn.value = user.name;
-    }
     if (liveText) {
       liveText.textContent = user.name || 'اسم الخريج';
     }
 
     const waBtn = document.getElementById('btn-share-whatsapp');
     if (waBtn) {
-      const shareTxt = encodeURIComponent(`طلاب دفعتنا الأعزاء في (${user.college})، ادخلوا صوّتوا على لون الوشاح وسجلوا قياساتكم من هذا الرابط:\n${window.location.origin}/class?uni=${encodeURIComponent(user.university)}&col=${encodeURIComponent(user.college)}`);
+      const shareTxt = encodeURIComponent(`طلاب دفعتنا الأعزاء في (${user.college})، ادخلوا صوّتوا على لون الوشاح الرسمي لدفعتنا من هذا الرابط:\n${window.location.origin}/class?uni=${encodeURIComponent(user.university)}&col=${encodeURIComponent(user.college)}`);
       waBtn.href = `https://wa.me/?text=${shareTxt}`;
     }
 
@@ -1406,40 +1330,6 @@ body {
     });
   }
 
-  // --- Sizing Form Submit ---
-  if (formSizing) {
-    formSizing.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const embName = document.getElementById('sz-embroidery-name').value.trim();
-      const szLetter = document.getElementById('sz-size').value;
-
-      if (liveText) liveText.textContent = embName || 'اسم الخريج';
-
-      showToast(`✓ تم حفظ مقاسك (${szLetter}) وتطريز الاسم بنجاح!`);
-    });
-  }
-
-  const embInput = document.getElementById('sz-embroidery-name');
-  if (embInput) {
-    embInput.addEventListener('input', () => {
-      if (liveText) liveText.textContent = embInput.value.trim() || 'اسم الخريج';
-    });
-  }
-
-  // Height auto estimator
-  const heightIn = document.getElementById('sz-height');
-  const sizeSelect = document.getElementById('sz-size');
-  if (heightIn && sizeSelect) {
-    heightIn.addEventListener('input', () => {
-      const h = parseInt(heightIn.value, 10);
-      if (!h) return;
-      if (h <= 160) sizeSelect.value = 'S';
-      else if (h <= 168) sizeSelect.value = 'M';
-      else if (h <= 176) sizeSelect.value = 'L';
-      else if (h <= 184) sizeSelect.value = 'XL';
-      else sizeSelect.value = 'XXL';
-    });
-  }
 
   // Confirm Vote Button
   if (btnConfirmVote) {
