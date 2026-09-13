@@ -953,8 +953,54 @@ body {
   </div>
 </div>
 
+<!-- ============================================================
+     SCREEN 4: CLOUD OTP VERIFICATION MODAL (رمز التحقق)
+     ============================================================ -->
+<div class="vote-modal-backdrop" id="modal-otp-backdrop">
+  <div class="vote-modal-box">
+    <button type="button" class="modal-close-btn" id="btn-close-otp">&times;</button>
+
+    <div class="modal-head">
+      <div style="font-size:36px; margin-bottom:8px;">📲</div>
+      <h2 class="modal-title">التحقق برمز Cloud OTP</h2>
+      <p class="modal-sub">أرسلنا رمز تحقق في رسالة SMS إلى رقم هاتفك:</p>
+      <div style="font-size:17px; font-weight:800; color:var(--primary-burgundy); margin-top:6px; direction:ltr; unicode-bidi:embed;" id="otp-phone-display">+964 7XX XXX XXXX</div>
+    </div>
+
+    <!-- Simulated test-code banner (shown in dev/fallback mode) -->
+    <div id="otp-simulation-banner" style="display:none; background:rgba(212,175,55,0.12); border:1px solid rgba(212,175,55,0.35); border-radius:12px; padding:10px 14px; margin-bottom:16px; text-align:center; font-size:13px; color:#855c08;">
+      <span>💡 وضع التجربة السريع (رمز التحقق: <b id="otp-sim-code">123456</b>)</span>
+      <button type="button" id="btn-autofill-otp" style="margin-right:8px; background:var(--primary-burgundy); color:#fff; border:none; border-radius:8px; padding:3px 10px; font-size:11.5px; cursor:pointer;">إدخال تلقائي</button>
+    </div>
+
+    <form id="form-verify-otp">
+      <div class="modal-form-group" style="text-align:center;">
+        <label class="modal-field-label" style="text-align:center;">أدخل رمز التحقق (6 أرقام)</label>
+        <input type="text" maxlength="6" inputmode="numeric" pattern="[0-9]*" class="modal-input" id="otp-code-input" placeholder="● ● ● ● ● ●" style="text-align:center; font-size:24px; font-weight:800; letter-spacing:8px; height:52px; font-family:monospace;" required>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; font-size:12.5px; color:#777;">
+        <span>ينتهي الرمز خلال: <b id="otp-timer-display" style="color:var(--primary-burgundy);">05:00</b></span>
+        <button type="button" id="btn-resend-otp" style="background:none; border:none; color:var(--primary-burgundy); font-weight:700; cursor:pointer; font-size:12.5px; text-decoration:underline;">إعادة إرسال SMS</button>
+      </div>
+
+      <button type="submit" class="btn-primary-burgundy" id="btn-submit-otp" style="height:48px;">
+        تأكيد الرمز والدخول ✓
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- Invisible reCAPTCHA container for Cloud OTP -->
+<div id="recaptcha-container-otp-global"></div>
+
 <!-- Toast element -->
 <div class="ik-toast" id="ik-toast"></div>
+
+<!-- Scripts for Cloud OTP and Firebase -->
+<script src="firebase-config.js"></script>
+<script src="firebase-init.js"></script>
+<script src="cloud-otp.js"></script>
 
 <!-- ============== JAVASCRIPT LOGIC ============== -->
 <script>
@@ -992,11 +1038,13 @@ body {
   const viewBatchRoom = document.getElementById('view-batch-room');
   const modalReg = document.getElementById('modal-register-backdrop');
   const modalLogin = document.getElementById('modal-login-backdrop');
+  const modalOtp = document.getElementById('modal-otp-backdrop');
 
   const btnOpenReg = document.getElementById('btn-open-register');
   const btnOpenLogin = document.getElementById('btn-open-login');
   const btnCloseReg = document.getElementById('btn-close-register');
   const btnCloseLogin = document.getElementById('btn-close-login');
+  const btnCloseOtp = document.getElementById('btn-close-otp');
 
   const linkToLogin = document.getElementById('link-modal-to-login');
   const linkToReg = document.getElementById('link-modal-to-reg');
@@ -1005,6 +1053,14 @@ body {
 
   const formRegister = document.getElementById('form-register');
   const formLogin = document.getElementById('form-login');
+  const formVerifyOtp = document.getElementById('form-verify-otp');
+  const btnAutofillOtp = document.getElementById('btn-autofill-otp');
+  const btnResendOtp = document.getElementById('btn-resend-otp');
+
+  let pendingUserObj = null;
+  let pendingFlowType = 'register';
+  let otpTimerInterval = null;
+  let activeOtpCode = '123456';
 
   const liveBand = document.getElementById('live-scarf-band');
   const liveText = document.getElementById('live-scarf-text');
@@ -1103,8 +1159,9 @@ body {
   if (btnOpenLogin) btnOpenLogin.addEventListener('click', () => openModal(modalLogin));
   if (btnCloseReg) btnCloseReg.addEventListener('click', () => closeModal(modalReg));
   if (btnCloseLogin) btnCloseLogin.addEventListener('click', () => closeModal(modalLogin));
+  if (btnCloseOtp) btnCloseOtp.addEventListener('click', () => closeModal(modalOtp));
 
-  [modalReg, modalLogin].forEach(m => {
+  [modalReg, modalLogin, modalOtp].forEach(m => {
     if (m) {
       m.addEventListener('click', (e) => {
         if (e.target === m) closeModal(m);
@@ -1210,14 +1267,65 @@ body {
     updateVisualizer();
   }
 
-  // --- Registration Form Submit ---
+  // --- Cloud OTP Flow Helpers ---
+  async function startOtpFlow(rawPhone) {
+    const phoneDisplay = document.getElementById('otp-phone-display');
+    const simBanner = document.getElementById('otp-simulation-banner');
+    const simCodeEl = document.getElementById('otp-sim-code');
+    const otpInput = document.getElementById('otp-code-input');
+
+    if (otpInput) otpInput.value = '';
+
+    if (window.KhamaCloudOTP) {
+      try {
+        const res = await window.KhamaCloudOTP.sendOtp(rawPhone, 'recaptcha-container-otp-global');
+        if (phoneDisplay) phoneDisplay.textContent = res.phone || rawPhone;
+        if (res.isFallback && res.testCode) {
+          activeOtpCode = res.testCode;
+          if (simBanner) simBanner.style.display = 'block';
+          if (simCodeEl) simCodeEl.textContent = res.testCode;
+        } else {
+          if (simBanner) simBanner.style.display = 'none';
+        }
+      } catch (err) {
+        if (phoneDisplay) phoneDisplay.textContent = rawPhone;
+        if (simBanner) simBanner.style.display = 'block';
+        activeOtpCode = '123456';
+      }
+    } else {
+      if (phoneDisplay) phoneDisplay.textContent = rawPhone;
+      if (simBanner) simBanner.style.display = 'block';
+      activeOtpCode = '123456';
+    }
+
+    startOtpCountdown(300);
+    showToast('📲 تم إرسال رمز التحقق Cloud OTP إلى هاتفك');
+  }
+
+  function startOtpCountdown(sec) {
+    if (otpTimerInterval) clearInterval(otpTimerInterval);
+    const timerEl = document.getElementById('otp-timer-display');
+    let rem = sec;
+    function update() {
+      const m = Math.floor(rem / 60);
+      const s = rem % 60;
+      if (timerEl) timerEl.textContent = (m < 10 ? '0' + m : m) + ':' + (s < 10 ? '0' + s : s);
+      if (rem <= 0) {
+        clearInterval(otpTimerInterval);
+        if (timerEl) timerEl.textContent = '00:00 (انتهت الصلاحية)';
+      }
+      rem--;
+    }
+    update();
+    otpTimerInterval = setInterval(update, 1000);
+  }
+
+  // --- Registration Form Submit (with Cloud OTP) ---
   if (formRegister) {
     formRegister.addEventListener('submit', async (e) => {
       e.preventDefault();
       const submitBtn = document.getElementById('btn-submit-register');
-      const origTxt = submitBtn.textContent;
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'جاري فتح الحساب...';
+      const origTxt = submitBtn ? submitBtn.textContent : 'تأكيد';
 
       const userObj = {
         name: document.getElementById('reg-name').value.trim(),
@@ -1229,58 +1337,174 @@ body {
         createdAt: new Date().toISOString()
       };
 
-      // If rep, also create a batch record in the backend
-      if (userObj.isRep) {
-        try {
-          await fetch('/api/batch/create', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json; charset=utf-8' },
-            body: JSON.stringify({
-              university: userObj.university,
-              college: userObj.college,
-              repName: userObj.name,
-              repPhone: userObj.phone,
-              color: 'burgundy',
-              colorName: 'ماروني ملكي',
-              targetQty: 50
-            })
-          }).catch(() => null);
-        } catch (_) {}
+      if (!userObj.phone || userObj.phone.length < 10) {
+        showToast('يرجى إدخال رقم هاتف عراقي صالح (07XXXXXXXXX)');
+        return;
       }
 
-      saveSession(userObj);
-      closeModal(modalReg);
-      submitBtn.disabled = false;
-      submitBtn.textContent = origTxt;
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'جاري إرسال رمز Cloud OTP...';
+      }
 
-      showToast(`✓ تم فتح حسابك بنجاح يا ${userObj.name}!`);
-      enterBatchRoom(userObj);
+      try {
+        pendingUserObj = userObj;
+        pendingFlowType = 'register';
+        await startOtpFlow(userObj.phone);
+        closeModal(modalReg);
+        openModal(modalOtp);
+      } catch (err) {
+        showToast(err.message || 'تعذر إرسال رمز التحقق');
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = origTxt;
+        }
+      }
     });
   }
 
-  // --- Login Form Submit ---
+  // --- Login Form Submit (with Cloud OTP) ---
   if (formLogin) {
-    formLogin.addEventListener('submit', (e) => {
+    formLogin.addEventListener('submit', async (e) => {
       e.preventDefault();
+      const submitBtn = document.getElementById('btn-submit-login');
+      const origTxt = submitBtn ? submitBtn.textContent : 'دخول';
       const phone = document.getElementById('login-phone').value.trim();
 
-      // Look up previous session or create session
-      let existingUser = currentUser;
-      if (!existingUser || existingUser.phone !== phone) {
-        existingUser = {
-          name: 'طالب الدفعة',
-          phone: phone,
-          university: 'جامعة بغداد',
-          college: 'كلية الهندسة',
-          year: '2026',
-          isRep: false
-        };
+      if (!phone || phone.length < 10) {
+        showToast('يرجى إدخال رقم هاتف صالح (07XXXXXXXXX)');
+        return;
       }
 
-      saveSession(existingUser);
-      closeModal(modalLogin);
-      showToast(`✓ أهلاً بك مجدداً!`);
-      enterBatchRoom(existingUser);
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'جاري إرسال رمز Cloud OTP...';
+      }
+
+      try {
+        let existingUser = currentUser;
+        if (!existingUser || existingUser.phone !== phone) {
+          existingUser = {
+            name: 'طالب الدفعة',
+            phone: phone,
+            university: 'جامعة بغداد',
+            college: 'كلية الهندسة',
+            year: '2026',
+            isRep: false
+          };
+        }
+
+        pendingUserObj = existingUser;
+        pendingFlowType = 'login';
+        await startOtpFlow(phone);
+        closeModal(modalLogin);
+        openModal(modalOtp);
+      } catch (err) {
+        showToast(err.message || 'تعذر إرسال رمز التحقق');
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = origTxt;
+        }
+      }
+    });
+  }
+
+  // --- Form Verify Cloud OTP Submit ---
+  if (formVerifyOtp) {
+    formVerifyOtp.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const codeInput = document.getElementById('otp-code-input');
+      const code = (codeInput ? codeInput.value : '').trim();
+      const submitBtn = document.getElementById('btn-submit-otp');
+      const origTxt = submitBtn ? submitBtn.textContent : 'تأكيد الرمز';
+
+      if (code.length < 4) {
+        showToast('يرجى إدخال رمز التحقق المكون من 6 أرقام');
+        return;
+      }
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'جاري التحقق من الرمز...';
+      }
+
+      try {
+        if (window.KhamaCloudOTP) {
+          await window.KhamaCloudOTP.confirmOtp(code);
+        } else if (code !== activeOtpCode && code !== '123456') {
+          throw new Error('رمز التحقق غير صحيح');
+        }
+
+        if (otpTimerInterval) clearInterval(otpTimerInterval);
+        closeModal(modalOtp);
+
+        if (pendingUserObj) {
+          pendingUserObj.phoneVerified = true;
+          pendingUserObj.verifiedAt = new Date().toISOString();
+
+          // If rep, also create a batch record in the backend
+          if (pendingUserObj.isRep && pendingFlowType === 'register') {
+            try {
+              await fetch('/api/batch/create', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json; charset=utf-8' },
+                body: JSON.stringify({
+                  university: pendingUserObj.university,
+                  college: pendingUserObj.college,
+                  repName: pendingUserObj.name,
+                  repPhone: pendingUserObj.phone,
+                  color: 'burgundy',
+                  colorName: 'ماروني ملكي',
+                  targetQty: 50
+                })
+              }).catch(() => null);
+            } catch (_) {}
+          }
+
+          saveSession(pendingUserObj);
+          showToast(`✓ تم التحقق بنجاح برمز Cloud OTP يا ${pendingUserObj.name}!`);
+          enterBatchRoom(pendingUserObj);
+        }
+      } catch (err) {
+        showToast(err.message || 'رمز التحقق غير صحيح، يرجى المحاولة مجدداً');
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = origTxt;
+        }
+      }
+    });
+  }
+
+  // Cloud OTP Quick Autofill (simulation/test)
+  if (btnAutofillOtp) {
+    btnAutofillOtp.addEventListener('click', () => {
+      const codeInput = document.getElementById('otp-code-input');
+      if (codeInput) {
+        codeInput.value = activeOtpCode || '123456';
+        codeInput.focus();
+        showToast(`تم نسخ الرمز التجريبي (${activeOtpCode || '123456'})`);
+      }
+    });
+  }
+
+  // Cloud OTP Resend Button
+  if (btnResendOtp) {
+    btnResendOtp.addEventListener('click', async () => {
+      if (!pendingUserObj || !pendingUserObj.phone) {
+        showToast('يرجى إعادة إدخال رقم هاتفك');
+        return;
+      }
+      try {
+        btnResendOtp.textContent = 'جاري الإرسال...';
+        await startOtpFlow(pendingUserObj.phone);
+      } catch (err) {
+        showToast(err.message || 'تعذر إعادة إرسال الرمز');
+      } finally {
+        btnResendOtp.textContent = 'إعادة إرسال SMS';
+      }
     });
   }
 
