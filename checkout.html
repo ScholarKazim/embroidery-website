@@ -670,10 +670,10 @@
       if (c.referenceImage) details.push(`📷 مرفق صورة نموذج`);
     } else if (item.kind === 'cap') {
       if (c.cut) details.push(`القصة: ${escapeHtml(c.cut)}`);
-      if (c.notes && c.notes !== 'بدون طلب خاص (القصة الأصلية والشرابة الذهبية)') {
+      if (c.notes && c.notes !== 'بدون طلب خاص (القصة الأصلية والكركوشة الذهبية)' && c.notes !== 'بدون طلب خاص (القصة الأصلية والشرابة الذهبية)') {
         details.push(`الملاحظات: ${escapeHtml(c.notes)}`);
       } else {
-        details.push('القصة الأصلية والشرابة الذهبية');
+        details.push('القصة الأصلية والكركوشة الذهبية');
       }
       if (c.referenceImage) details.push(`📷 مرفق صورة نموذج`);
       details.push('مقاس مرن ذكي Free Size');
@@ -742,7 +742,7 @@
       } else if (it.kind === 'robe') {
         desc += `\n   • قصة الروب: ${c.cut}\n   • الطول: ${c.height} سم\n   • المقاس: ${c.refName}\n   • عرض الكتف: ${c.shoulder} سم`;
       } else if (it.kind === 'cap') {
-        desc += `\n   • قصة القبعة: ${c.cut || 'عادية'}\n   • ملاحظات خاصة: ${c.notes || 'القصة الأصلية والشرابة الذهبية'}`;
+        desc += `\n   • قصة القبعة: ${c.cut || 'عادية'}\n   • ملاحظات خاصة: ${c.notes || 'القصة الأصلية والكركوشة الذهبية'}`;
       }
       orderLines.push(desc);
     });
