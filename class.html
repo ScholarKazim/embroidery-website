@@ -1486,7 +1486,8 @@ body {
 <!-- Toast element -->
 <div class="ik-toast" id="ik-toast"></div>
 
-<!-- Scripts for Cloud OTP and Firebase -->
+<!-- Google Identity Services & Firebase Scripts -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="firebase-config.js"></script>
 <script src="firebase-init.js"></script>
 <script src="cloud-otp.js"></script>
@@ -2261,11 +2262,119 @@ body {
     });
   }
 
-  // --- Google One-Click Authentication Handler ---
+  // --- Google Identity Services Integration ---
+  const GOOGLE_CLIENT_ID = '2281809966-calghjvvd9hb6anq4kdnm99guma7320m.apps.googleusercontent.com';
+  let googleTokenClient = null;
+
+  function initGoogleIdentity() {
+    try {
+      if (window.google && window.google.accounts) {
+        if (window.google.accounts.id) {
+          window.google.accounts.id.initialize({
+            client_id: GOOGLE_CLIENT_ID,
+            callback: handleGoogleCredentialResponse,
+            auto_select: false,
+            cancel_on_tap_outside: true
+          });
+        }
+        if (window.google.accounts.oauth2) {
+          googleTokenClient = window.google.accounts.oauth2.initTokenClient({
+            client_id: GOOGLE_CLIENT_ID,
+            scope: 'email profile openid',
+            callback: async (resp) => {
+              if (resp && resp.access_token) {
+                try {
+                  showToast('✓ تم تأكيد حسابك من Google بنجاح!');
+                  const userInfo = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+                    headers: { Authorization: `Bearer ${resp.access_token}` }
+                  }).then(r => r.json());
+
+                  onGoogleAuthenticated({
+                    uid: userInfo.sub,
+                    name: userInfo.name || userInfo.email.split('@')[0],
+                    email: userInfo.email,
+                    photo: userInfo.picture,
+                    authProvider: 'google',
+                    phoneVerified: true
+                  });
+                } catch (err) {
+                  console.warn('Google UserInfo error:', err);
+                }
+              }
+            }
+          });
+        }
+      }
+    } catch (e) {
+      console.warn('GIS init error:', e);
+    }
+  }
+
+  function handleGoogleCredentialResponse(response) {
+    if (!response || !response.credential) return;
+    try {
+      const base64Url = response.credential.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+      const payload = JSON.parse(jsonPayload);
+      if (payload) {
+        showToast(`✓ مرحباً بك ${payload.name}!`);
+        onGoogleAuthenticated({
+          uid: payload.sub,
+          name: payload.name,
+          email: payload.email,
+          photo: payload.picture,
+          authProvider: 'google',
+          phoneVerified: true
+        });
+      }
+    } catch (e) {
+      console.warn('JWT parse error:', e);
+    }
+  }
+
+  function onGoogleAuthenticated(gUser) {
+    const saved = loadSession();
+    if (saved && saved.college) {
+      saved.name = gUser.name || saved.name;
+      saved.email = gUser.email || saved.email;
+      saveSession(saved);
+      closeModal(modalReg);
+      closeModal(modalLogin);
+      closeModal(modalGoogleSetup);
+      enterBatchRoom(saved);
+      return;
+    }
+
+    const uParams = new URLSearchParams(window.location.search);
+    const paramUni = uParams.get('uni');
+    const paramCol = uParams.get('col');
+    if (paramUni && paramCol) {
+      gUser.university = paramUni;
+      gUser.college = paramCol;
+      gUser.year = '2027';
+      gUser.isRep = false;
+      saveSession(gUser);
+      closeModal(modalReg);
+      closeModal(modalLogin);
+      closeModal(modalGoogleSetup);
+      enterBatchRoom(gUser);
+      return;
+    }
+
+    pendingGoogleUser = gUser;
+    if (googleDisplayName) googleDisplayName.textContent = gUser.name ? `يا ${gUser.name}` : '';
+    if (googleNameInput) googleNameInput.value = gUser.name || '';
+    if (googleEmailInput) googleEmailInput.value = gUser.email || '';
+    closeModal(modalReg);
+    closeModal(modalLogin);
+    openModal(modalGoogleSetup);
+  }
+
+  // --- Google Authentication Click Handler ---
   async function handleGoogleSignIn() {
-  // --- Google Authentication Handler ---
-  async function handleGoogleSignIn() {
-    // 1. Check if user already logged in
     const savedUser = loadSession();
     if (savedUser && savedUser.college) {
       showToast(`✓ أهلاً بعودتك يا ${savedUser.name}!`);
@@ -2275,79 +2384,37 @@ body {
       return;
     }
 
-    showToast('جاري الاتصال بخدمة Google...');
-
-    let googleUser = null;
-
-    // 2. Try Firebase Google Auth popup
-    if (window.KhamaFirebase) {
+    if (googleTokenClient) {
       try {
-        const fb = await window.KhamaFirebase.ready;
-        if (fb && fb.auth && fb.GoogleAuthProvider && fb.signInWithPopup) {
-          const provider = new fb.GoogleAuthProvider();
-          provider.setCustomParameters({ prompt: 'select_account' });
-          const result = await fb.signInWithPopup(fb.auth, provider);
-          if (result && result.user) {
-            googleUser = {
-              uid: result.user.uid,
-              name: result.user.displayName || '',
-              email: result.user.email || '',
-              photo: result.user.photoURL || '',
-              authProvider: 'google',
-              phoneVerified: true
-            };
-          }
-        }
-      } catch (popupErr) {
-        console.warn('Firebase Google Auth popup note:', popupErr);
-        if (popupErr.code === 'auth/popup-closed-by-user') {
-          showToast('تم إغلاق نافذة Google');
-          return;
-        }
+        googleTokenClient.requestAccessToken({ prompt: '' });
+        return;
+      } catch (e) {
+        console.warn('GIS token request error:', e);
+      }
+    } else if (window.google && window.google.accounts && window.google.accounts.id) {
+      try {
+        window.google.accounts.id.prompt();
+        return;
+      } catch (e) {
+        console.warn('Google One Tap prompt error:', e);
       }
     }
 
-    // 3. Fallback object if Google popup was blocked or provider is waiting to be enabled
-    if (!googleUser) {
-      googleUser = {
-        uid: 'goog_' + Date.now(),
-        name: '',
-        email: '',
-        authProvider: 'google',
-        phoneVerified: true
-      };
-    }
-
-    // 4. If joining from batch link with uni & college in URL
-    const uParams = new URLSearchParams(window.location.search);
-    const paramUni = uParams.get('uni');
-    const paramCol = uParams.get('col');
-    if (paramUni && paramCol && googleUser.name) {
-      googleUser.university = paramUni;
-      googleUser.college = paramCol;
-      googleUser.year = '2027';
-      googleUser.isRep = false;
-      saveSession(googleUser);
-      showToast(`✓ تم التحقق والمصادقة بحساب Google يا ${googleUser.name}!`);
-      closeModal(modalReg);
-      closeModal(modalLogin);
-      enterBatchRoom(googleUser);
-      return;
-    }
-
-    // 5. Open Google modal to complete details
-    pendingGoogleUser = googleUser;
+    // Fallback: Open Google setup modal immediately
+    pendingGoogleUser = {
+      uid: 'goog_' + Date.now(),
+      name: '',
+      email: '',
+      authProvider: 'google',
+      phoneVerified: true
+    };
     closeModal(modalReg);
     closeModal(modalLogin);
-
-    if (googleDisplayName) {
-      googleDisplayName.textContent = googleUser.name ? `يا ${googleUser.name}` : '';
-    }
-    if (googleNameInput && googleUser.name) {
-      googleNameInput.value = googleUser.name;
-    }
     openModal(modalGoogleSetup);
   }
+
+  window.addEventListener('load', initGoogleIdentity);
+  setTimeout(initGoogleIdentity, 1000);
 
   // Attach Google buttons
   [btnGoogleLanding, btnGoogleModalReg, btnGoogleModalLogin].forEach(btn => {
