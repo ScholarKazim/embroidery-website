@@ -497,168 +497,438 @@ body {
   font-weight: 800;
 }
 
-.room-user-badge {
-  font-size: 12.5px;
+/* Batch Top Header Card (Screenshot 1) */
+.batch-top-card {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 24px 22px;
+  border: 1px solid #edd9df;
+  box-shadow: 0 6px 24px rgba(88, 8, 41, 0.04);
+  margin-bottom: 20px;
+  text-align: right;
+}
+.batch-top-kicker {
+  font-size: 13px;
+  color: #b58d60;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.batch-top-title {
+  font-family: 'Amiri', 'Cairo', serif;
+  font-size: 42px;
+  font-weight: 900;
+  color: #1a1a1a;
+  line-height: 1.15;
+  margin: 0 0 4px;
+}
+.batch-top-sub {
+  font-size: 14.5px;
+  color: #666;
+  margin: 0 0 12px;
+}
+.batch-top-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 13px;
   color: #555;
   font-weight: 700;
 }
-
-.room-title {
-  font-family: 'Amiri', 'Cairo', serif;
-  font-size: 28px;
-  font-weight: 900;
-  color: var(--text-dark);
-  margin: 0 0 4px;
+.batch-status-open-pill {
+  background: #dcfce7;
+  color: #15803d;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 3px 12px;
+  border-radius: 99px;
+  border: 1px solid #bbf7d0;
 }
 
-.room-sub {
-  font-size: 13.5px;
-  color: #666;
-  margin: 0 0 14px;
-}
-
-/* Ribbon Live Preview Box */
-.voting-visualizer-box {
+/* Room Card Generic Box */
+.room-card-box {
   background: #ffffff;
   border-radius: 24px;
   padding: 24px 20px;
-  box-shadow: 0 10px 30px rgba(88, 8, 41, 0.05);
-  border: 1px solid rgba(0,0,0,0.03);
+  border: 1px solid #edd9df;
+  box-shadow: 0 6px 24px rgba(88, 8, 41, 0.04);
   margin-bottom: 20px;
-  text-align: center;
+  text-align: right;
 }
-
-.visualizer-title {
+.room-card-title {
   font-family: 'Amiri', 'Cairo', serif;
-  font-size: 24px;
+  font-size: 30px;
   font-weight: 900;
-  color: var(--text-dark);
+  color: #1a1a1a;
   margin: 0 0 4px;
 }
-
-.visualizer-desc {
-  font-size: 13px;
+.room-card-sub {
+  font-size: 13.5px;
   color: #777;
-  margin: 0 0 18px;
+  margin: 0 0 20px;
 }
 
-.ribbon-render-stage {
+/* Graduate Preview Box (Screenshot 1) */
+.graduate-visualizer-container {
   position: relative;
   width: 100%;
-  max-width: 320px;
-  height: 190px;
-  margin: 0 auto 20px;
-  border-radius: 18px;
-  background: radial-gradient(circle, #2a2024 0%, #15080e 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  max-width: 440px;
+  margin: 0 auto 22px;
+  border-radius: 24px;
   overflow: hidden;
-  box-shadow: inset 0 0 20px rgba(0,0,0,0.6), 0 8px 24px rgba(0,0,0,0.12);
+  aspect-ratio: 4 / 5;
+  background: #1a1a1a;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
 }
-
-.live-scarf-band {
-  width: 78%;
-  height: 64px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #580829, #7a153c);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #ffd700;
-  font-family: 'Amiri', serif;
-  font-size: 20px;
+.graduate-visualizer-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transition: opacity 0.25s ease;
+}
+.graduate-overlay-badge {
+  position: absolute;
+  bottom: 18px;
+  right: 22px;
+  text-align: right;
+  z-index: 2;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.9);
+  pointer-events: none;
+}
+.graduate-overlay-kicker {
+  font-size: 12px;
+  color: #f5d77f;
+  font-weight: 700;
+  margin-bottom: 2px;
+  display: block;
+}
+.graduate-overlay-name {
+  font-family: 'Amiri', 'Cairo', serif;
+  font-size: 30px;
   font-weight: 900;
-  text-shadow: 0 2px 5px rgba(0,0,0,0.6);
-  border-top: 2px solid rgba(255,215,0,0.4);
-  border-bottom: 2px solid rgba(255,215,0,0.4);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.4);
-  padding: 0 16px;
-  transition: all 0.3s ease;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.1;
 }
 
-/* 6 Official Voting Color Cards */
+/* 6 Official Voting Color Cards (Screenshot 1) */
 .colors-voting-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
   margin-bottom: 20px;
 }
-
-@media (max-width: 480px) {
+@media (max-width: 520px) {
   .colors-voting-grid {
     grid-template-columns: 1fr;
   }
 }
-
 .color-vote-card {
-  background: #fdfbfa;
-  border: 1.5px solid #ebdcd5;
-  border-radius: 16px;
-  padding: 14px;
-  text-align: right;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  position: relative;
-}
-
-.color-vote-card:hover {
-  border-color: var(--primary-burgundy);
-  background: #fff;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(88, 8, 41, 0.06);
-}
-
-.color-vote-card.is-selected {
-  border-color: var(--primary-burgundy);
-  background: #fdf5f7;
-  box-shadow: 0 0 0 2px var(--primary-burgundy);
-}
-
-.cv-top-row {
+  background: #fff8f8;
+  border: 1px solid #ebd5d8;
+  border-radius: 18px;
+  padding: 12px 16px;
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 8px;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  direction: rtl;
 }
-
-.cv-swatch {
-  width: 24px;
-  height: 24px;
+.color-vote-card:hover {
+  background: #ffffff;
+  border-color: #580829;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(88,8,41,0.06);
+}
+.color-vote-card.is-selected {
+  background: #ffffff;
+  border: 2px solid #580829;
+  box-shadow: 0 4px 16px rgba(88,8,41,0.12);
+}
+.cv-info-side {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.cv-swatch-circle {
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   border: 2px solid #ffffff;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+  flex-shrink: 0;
 }
-
-.cv-name {
+.cv-name-text {
   font-size: 14px;
   font-weight: 800;
-  color: var(--text-dark);
+  color: #1a1a1a;
 }
-
+.cv-bar-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  min-width: 90px;
+}
 .cv-bar-track {
   width: 100%;
-  height: 7px;
+  height: 5px;
   background: #ebdcd5;
   border-radius: 99px;
   overflow: hidden;
-  margin-bottom: 6px;
 }
-
 .cv-bar-fill {
   height: 100%;
-  background: var(--primary-burgundy);
+  background: #580829;
   border-radius: 99px;
-  width: 0%;
-  transition: width 0.5s ease;
+  transition: width 0.4s ease;
+}
+.cv-count-text {
+  font-size: 11px;
+  color: #777;
+  font-weight: 700;
 }
 
-.cv-stats {
+/* Representative Tools Card (Screenshot 2) */
+.rep-badge-pill {
+  background: #c59b6d;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 99px;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+.rep-section-h3 {
+  font-size: 16px;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 16px 0 4px;
+}
+.rep-section-desc {
+  font-size: 12.5px;
+  color: #777;
+  margin: 0 0 14px;
+}
+.rep-pills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+@media (max-width: 480px) {
+  .rep-pills-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.rep-color-pill {
+  background: #ffffff;
+  border: 1px solid #ebd5d8;
+  border-radius: 12px;
+  padding: 8px 12px;
   display: flex;
+  align-items: center;
   justify-content: space-between;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  transition: all 0.2s;
+}
+.rep-color-pill:hover, .rep-color-pill.is-active {
+  border-color: #580829;
+  background: #fff8f8;
+}
+.rep-upload-box {
+  background: #ffffff;
+  border: 1px dashed #ebd5d8;
+  border-radius: 14px;
+  padding: 14px;
+  text-align: center;
+  color: #666;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 6px;
+  display: block;
+  transition: all 0.2s;
+}
+.rep-upload-box:hover {
+  border-color: #c59b6d;
+  background: #fffdf9;
+}
+.btn-caramel {
+  background: #c59b6d;
+  color: #ffffff;
+  border: none;
+  border-radius: 14px;
+  padding: 12px 24px;
+  font-size: 14.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: inline-block;
+}
+.btn-caramel:hover {
+  background: #b58c5f;
+}
+.btn-caramel-block {
+  width: 100%;
+  text-align: center;
+}
+.rep-divider {
+  border: 0;
+  border-top: 1px solid #f0e2dc;
+  margin: 22px 0;
+}
+.rep-vote-management-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin: 8px 0 14px;
+}
+.rep-date-input {
+  flex: 1;
+  background: #ffffff;
+  border: 1px solid #ebd5d8;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-family: inherit;
+  color: #333;
+}
+.btn-save-date {
+  background: #fff5f5;
+  border: 1px solid #ebd5d8;
+  border-radius: 12px;
+  padding: 10px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #333;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn-save-date:hover {
+  background: #fee;
+}
+
+/* Share Link Card (Screenshot 3) */
+.share-link-group {
+  display: flex;
+  gap: 8px;
+  direction: ltr;
+}
+.share-link-input {
+  flex: 1;
+  background: #fffafa;
+  border: 1px solid #ebd5d8;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #555;
+  outline: none;
+}
+
+/* Members Grid (Screenshot 3) */
+.members-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+@media (max-width: 580px) {
+  .members-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.member-card-item {
+  background: #ffffff;
+  border: 1px solid #ebd5d8;
+  border-radius: 16px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  direction: rtl;
+}
+.member-card-item.is-rep {
+  background: #fff8f3;
+  border: 1.5px solid #f2cbb4;
+  box-shadow: 0 2px 10px rgba(197, 155, 109, 0.08);
+}
+.member-user-side {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.member-avatar-circle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.member-name-text {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+.member-rep-badge {
+  background: #e8c89b;
+  color: #5c3a13;
+  font-size: 10.5px;
+  font-weight: 700;
+  border-radius: 6px;
+  padding: 1px 6px;
+  display: inline-block;
+  margin-top: 2px;
+}
+.btn-remove-member {
+  border: 1px solid #c76a77;
+  background: transparent;
+  color: #991b1b;
+  border-radius: 20px;
+  padding: 3px 12px;
   font-size: 11.5px;
   font-weight: 700;
-  color: #777;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-remove-member:hover {
+  background: #991b1b;
+  color: #ffffff;
+}
+
+/* Bottom CTA Area (Screenshot 3) */
+.room-bottom-cta {
+  text-align: center;
+  padding: 30px 16px 20px;
+}
+.room-bottom-desc {
+  font-size: 14.5px;
+  color: #444;
+  margin-bottom: 18px;
+  line-height: 1.6;
+}
+.room-bottom-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.room-bottom-link {
+  font-size: 14px;
+  color: #6b3e26;
+  text-decoration: underline;
+  font-weight: 700;
+  cursor: pointer;
 }
 
 
@@ -785,50 +1055,129 @@ body {
     </section>
 
     <!-- ============================================================
-         ACTIVE BATCH & VOTING ROOM
+         ACTIVE BATCH & VOTING ROOM (Matches Screenshots 1, 2, 3)
          ============================================================ -->
-    <section id="view-batch-room">
-      <!-- Top Batch Info Card -->
-      <div class="batch-room-head">
-        <div class="room-badge-row">
-          <span class="room-status-badge">التصويت مفتوح 🟢</span>
-          <span class="room-user-badge" id="room-welcome-user">أهلاً بك</span>
-        </div>
-        <h2 class="room-title" id="room-batch-title">دفعة التخرج 2026</h2>
-        <p class="room-sub" id="room-batch-sub">جامعة بغداد — كلية الهندسة</p>
+    <section id="view-batch-room" style="display:none;">
 
-        <div style="display:flex; gap:8px; flex-wrap:wrap;">
-          <a href="#" target="_blank" rel="noopener" class="btn-primary-burgundy" id="btn-share-whatsapp" style="margin:0; padding:10px 16px; font-size:13px; display:inline-flex; align-items:center; justify-content:center; gap:6px;">
-            <span>📲 مشاركة رابط التصويت بالواتساب</span>
-          </a>
-          <button type="button" class="btn-secondary-pink" id="btn-logout-user" style="padding:10px 16px; font-size:13px; width:auto;">
-            تسجيل خروج
-          </button>
+      <!-- SCREENSHOT 1: TOP BATCH HEADER CARD -->
+      <div class="batch-top-card">
+        <div class="batch-top-kicker">صفحة الدفعة</div>
+        <h1 class="batch-top-title" id="room-batch-title">الطب</h1>
+        <p class="batch-top-sub" id="room-batch-sub">جامعة المستنصرية · دفعة 2027</p>
+        <div class="batch-top-meta">
+          <span class="batch-status-open-pill" id="room-batch-status-pill">التصويت مفتوح</span>
+          <span>·</span>
+          <span id="room-stats-members">5 عضو</span>
+          <span>·</span>
+          <span id="room-stats-votes">1 صوت</span>
+          <button type="button" id="btn-logout-user" style="margin-right:auto; background:none; border:none; color:#888; font-size:12px; cursor:pointer; text-decoration:underline;">تسجيل خروج</button>
         </div>
       </div>
 
-      <!-- Scarf Visualizer & Live Voting -->
-      <div class="voting-visualizer-box">
-        <h3 class="visualizer-title">صوّت للون وشاح دفعتك</h3>
-        <p class="visualizer-desc">اللون الحاصل على أكبر عدد من الأصوات يُعتمد رسمياً لكل أفراد الدفعة.</p>
+      <!-- SCREENSHOT 1: MAIN VOTING SECTION (صوت ع لون دفعتك) -->
+      <div class="room-card-box">
+        <h2 class="room-card-title">صوت ع لون دفعتك</h2>
+        <p class="room-card-sub" id="room-vote-sub">صوتك يحسب. 1 عضو صوتوا حتى الآن.</p>
 
-        <!-- Live Scarf Ribbon Display -->
-        <div class="ribbon-render-stage">
-          <div class="live-scarf-band" id="live-scarf-band">
-            <span id="live-scarf-text">اسم الخريج</span>
+        <!-- Graduate Visualizer Photo -->
+        <div class="graduate-visualizer-container">
+          <img src="khamaiq.com/assets/images/visualizer-burgundy.jpg" alt="معاينة وشاح التخرج" class="graduate-visualizer-img" id="graduate-preview-img">
+          <div class="graduate-overlay-badge">
+            <span class="graduate-overlay-kicker">اللون المختار</span>
+            <div class="graduate-overlay-name" id="preview-color-name">ماروني خامة</div>
           </div>
         </div>
 
-        <!-- 6 Official Colors Grid -->
+        <!-- 6 Official Colors Grid (2 columns) -->
         <div class="colors-voting-grid" id="colors-voting-grid">
-          <!-- Populated by JS -->
+          <!-- Dynamically populated by JS -->
         </div>
 
-        <button type="button" class="btn-primary-burgundy" id="btn-confirm-vote" style="max-width:320px; margin:0 auto;">
+        <button type="button" class="btn-primary-burgundy" id="btn-confirm-vote" style="max-width:340px; margin:10px auto 0; height:48px;">
           تأكيد صوتي للون المختار ✓
         </button>
       </div>
 
+      <!-- SCREENSHOT 2: REPRESENTATIVE TOOLS (أدوات الممثل) -->
+      <div class="room-card-box" id="rep-tools-section" style="display:none;">
+        <span class="rep-badge-pill">أنت ممثل الدفعة</span>
+        <h2 class="room-card-title" style="margin-bottom:2px;">أدوات الممثل</h2>
+        <p style="font-size:13px; color:#666; margin:0 0 16px;">تكدر تعتمد لون بنفسك، أو تخلي الدفعة تختاره بالتصويت.</p>
+
+        <h3 class="rep-section-h3">اختار اللون بدون تصويت</h3>
+        <p class="rep-section-desc">اختار من ألوان خامة أو ارفع صورة للون الوشاح. لما تعتمد اختيارك، يتوقف التصويت ويظهر اللون لكل الدفعة.</p>
+
+        <!-- 6 Quick Color Pills -->
+        <div class="rep-pills-grid" id="rep-pills-grid">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Upload Scarf Color Photo -->
+        <label style="font-size:13px; font-weight:700; color:#333; display:block; margin-bottom:6px;">أو ارفع صورة لون الوشاح</label>
+        <label class="rep-upload-box" for="rep-color-file-input">
+          <span id="rep-upload-label-text">اختر صورة من جهازك</span>
+          <input type="file" id="rep-color-file-input" accept="image/*" style="display:none;">
+        </label>
+        <p style="font-size:11.5px; color:#888; margin:0 0 16px;">JPG أو PNG أو WebP، لحد 10 ميغابايت، راح نحفظ نسخة مصغّرة من الصورة.</p>
+
+        <button type="button" class="btn-caramel" id="btn-rep-adopt-color">
+          اعتمد اللون للدفعة
+        </button>
+
+        <hr class="rep-divider">
+
+        <!-- Vote Management -->
+        <details class="rep-vote-details" open>
+          <summary style="font-size:14px; font-weight:800; color:#333; cursor:pointer; margin-bottom:12px;">▼ إدارة التصويت</summary>
+          <label style="font-size:12.5px; font-weight:700; color:#555; display:block;">موعد الإغلاق</label>
+          <div class="rep-vote-management-row">
+            <input type="datetime-local" class="rep-date-input" id="rep-deadline-input">
+            <button type="button" class="btn-save-date" id="btn-save-deadline">احفظ الموعد</button>
+          </div>
+
+          <button type="button" class="btn-caramel btn-caramel-block" id="btn-rep-close-voting" style="margin-top:10px;">
+            اقفل التصويت الآن
+          </button>
+        </details>
+      </div>
+
+      <!-- SCREENSHOT 3: SHARE LINK CARD (شارك الرابط مع دفعتك) -->
+      <div class="room-card-box">
+        <h2 class="room-card-title" style="font-size:24px;">شارك الرابط مع دفعتك</h2>
+        <p class="room-card-sub" style="margin-bottom:14px;">كل واحد ينقر الرابط راح يدخل لنفس الصفحة هاي.</p>
+
+        <div class="share-link-group">
+          <input type="text" readonly class="share-link-input" id="room-share-link-input" value="https://khamaiq.com/class?id=g_1aowou0">
+          <button type="button" class="btn-caramel" id="btn-copy-batch-link" style="padding:10px 18px; font-size:13.5px; white-space:nowrap;">
+            انسخ الرابط
+          </button>
+        </div>
+      </div>
+
+      <!-- SCREENSHOT 3: BATCH MEMBERS CARD (أعضاء الدفعة) -->
+      <div class="room-card-box">
+        <h2 class="room-card-title" style="font-size:24px;">أعضاء الدفعة</h2>
+        <p class="room-card-sub" style="margin-bottom:18px;">إنت ممثل الدفعة — تكدر تشيل أي عضو إذا انضم بالغلط أو تكرر.</p>
+
+        <div class="members-grid" id="batch-members-grid">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- SCREENSHOT 3: BOTTOM FOOTER CALL TO ACTION -->
+      <div class="room-bottom-cta">
+        <p class="room-bottom-desc">
+          لما يتحدد لون الدفعة، تظهر هنا استمارة القياسات حتى تكمل طلبك.
+        </p>
+        <div class="room-bottom-buttons">
+          <a href="/products" class="btn-caramel" style="text-decoration:none; padding:12px 30px; font-size:15px;">
+            صمم طقمك
+          </a>
+          <a href="#colors-voting-grid" class="room-bottom-link" id="link-show-voting">
+            شوف كيف تصوت دفعتك
+          </a>
+        </div>
+      </div>
 
     </section>
 
@@ -1007,14 +1356,23 @@ body {
 (function() {
   'use strict';
 
-  // --- Color Palette Options ---
+  // --- Color Palette Options (Matches Screenshot 1 & 2) ---
   const OFFICIAL_COLORS = [
-    { id: 'burgundy', name: 'ماروني ملكي', hex: '#580829', gradient: 'linear-gradient(135deg, #580829, #7a153c)', votes: 24 },
-    { id: 'navy', name: 'نيلي كحلي', hex: '#0f2b48', gradient: 'linear-gradient(135deg, #0f2b48, #1b4b7a)', votes: 14 },
-    { id: 'emerald', name: 'أخضر زمردي', hex: '#0e4937', gradient: 'linear-gradient(135deg, #0e4937, #197a5c)', votes: 9 },
-    { id: 'black', name: 'أسود ملكي', hex: '#1a1a1a', gradient: 'linear-gradient(135deg, #1a1a1a, #333333)', votes: 11 },
-    { id: 'slate', name: 'رصاصي سلفر', hex: '#475569', gradient: 'linear-gradient(135deg, #475569, #64748b)', votes: 6 },
-    { id: 'lavender', name: 'بنفسجي لافندر', hex: '#4a154b', gradient: 'linear-gradient(135deg, #4a154b, #6b246c)', votes: 7 }
+    { id: 'burgundy', name: 'ماروني خامة', hex: '#580829', img: 'khamaiq.com/assets/images/visualizer-burgundy.jpg', votes: 1 },
+    { id: 'red', name: 'احمر عميق', hex: '#881329', img: 'khamaiq.com/assets/images/visualizer-red.jpg', votes: 0 },
+    { id: 'mauve', name: 'وردي ملكي', hex: '#9c5b6b', img: 'khamaiq.com/assets/images/visualizer-mauve.jpg', votes: 0 },
+    { id: 'emerald', name: 'اخضر داكن', hex: '#134e3a', img: 'khamaiq.com/assets/images/visualizer-emerald.jpg', votes: 0 },
+    { id: 'navy', name: 'ازرق داكن', hex: '#15475e', img: 'khamaiq.com/assets/images/visualizer-navy.jpg', votes: 0 },
+    { id: 'turquoise', name: 'ازرق فاتح', hex: '#1a7fa0', img: 'khamaiq.com/assets/images/visualizer-turquoise.jpg', votes: 0 }
+  ];
+
+  // Batch Members (Matches Screenshot 3)
+  let batchMembers = [
+    { id: 'm1', name: 'علي', isRep: true, avatar: 'ع', bg: '#dbeafe', color: '#1e40af' },
+    { id: 'm2', name: 'dalqader', isRep: false, avatar: 'M', bg: '#dcfce7', color: '#15803d' },
+    { id: 'm3', name: 'احمد خليفة', isRep: false, avatar: 'أ', bg: '#fce7f3', color: '#be185d' },
+    { id: 'm4', name: 'بان نصير خ...', isRep: false, avatar: 'ب', bg: '#ccfbf1', color: '#0f766e' },
+    { id: 'm5', name: 'سما', isRep: false, avatar: 'س', bg: '#e0f2fe', color: '#0369a1' }
   ];
 
   // Top Iraqi Universities
@@ -1062,10 +1420,21 @@ body {
   let otpTimerInterval = null;
   let activeOtpCode = '123456';
 
-  const liveBand = document.getElementById('live-scarf-band');
-  const liveText = document.getElementById('live-scarf-text');
+  const graduatePreviewImg = document.getElementById('graduate-preview-img');
+  const previewColorName = document.getElementById('preview-color-name');
   const colorsGrid = document.getElementById('colors-voting-grid');
   const btnConfirmVote = document.getElementById('btn-confirm-vote');
+  const repToolsSection = document.getElementById('rep-tools-section');
+  const repPillsGrid = document.getElementById('rep-pills-grid');
+  const batchMembersGrid = document.getElementById('batch-members-grid');
+  const btnCopyBatchLink = document.getElementById('btn-copy-batch-link');
+  const roomShareLinkInput = document.getElementById('room-share-link-input');
+  const btnRepAdoptColor = document.getElementById('btn-rep-adopt-color');
+  const btnRepCloseVoting = document.getElementById('btn-rep-close-voting');
+  const repColorFileInput = document.getElementById('rep-color-file-input');
+  const repUploadLabelText = document.getElementById('rep-upload-label-text');
+  const btnSaveDeadline = document.getElementById('btn-save-deadline');
+  const repDeadlineInput = document.getElementById('rep-deadline-input');
   const toast = document.getElementById('ik-toast');
 
   // --- Toast Helper ---
@@ -1192,10 +1561,29 @@ body {
     });
   }
 
-  // --- Render Colors Grid ---
+  // --- Visualizer & Colors Grid ---
+  function updateVisualizer() {
+    const found = OFFICIAL_COLORS.find(c => c.id === selectedColorId) || OFFICIAL_COLORS[0];
+    if (graduatePreviewImg) {
+      graduatePreviewImg.src = found.img;
+    }
+    if (previewColorName) {
+      previewColorName.textContent = found.name;
+    }
+  }
+
   function renderColorsGrid() {
     if (!colorsGrid) return;
     const totalVotes = OFFICIAL_COLORS.reduce((sum, c) => sum + c.votes, 0);
+
+    const voteSub = document.getElementById('room-vote-sub');
+    if (voteSub) {
+      voteSub.textContent = `صوتك يحسب. ${totalVotes} عضو صوتوا حتى الآن.`;
+    }
+    const statsVotes = document.getElementById('room-stats-votes');
+    if (statsVotes) {
+      statsVotes.textContent = `${totalVotes} صوت`;
+    }
 
     colorsGrid.innerHTML = OFFICIAL_COLORS.map(c => {
       const pct = totalVotes > 0 ? Math.round((c.votes / totalVotes) * 100) : 0;
@@ -1203,7 +1591,7 @@ body {
       return `
         <div class="color-vote-card ${isSel ? 'is-selected' : ''}" data-color-id="${c.id}">
           <div class="cv-top-row">
-            <span class="cv-swatch" style="background:${c.hex};"></span>
+            <span class="cv-swatch-circle" style="background:${c.hex};"></span>
             <span class="cv-name">${c.name}</span>
           </div>
           <div class="cv-bar-track">
@@ -1217,20 +1605,73 @@ body {
       `;
     }).join('');
 
-    // Attach click handler
     colorsGrid.querySelectorAll('.color-vote-card').forEach(card => {
       card.addEventListener('click', () => {
         selectedColorId = card.dataset.colorId;
         updateVisualizer();
         renderColorsGrid();
+        renderRepPills();
       });
     });
   }
 
-  function updateVisualizer() {
-    const found = OFFICIAL_COLORS.find(c => c.id === selectedColorId) || OFFICIAL_COLORS[0];
-    if (liveBand) {
-      liveBand.style.background = found.gradient;
+  // --- Render Rep Quick Color Pills (Screenshot 2) ---
+  function renderRepPills() {
+    if (!repPillsGrid) return;
+    repPillsGrid.innerHTML = OFFICIAL_COLORS.map(c => {
+      const isSel = c.id === selectedColorId;
+      return `
+        <button type="button" class="rep-color-pill ${isSel ? 'is-active' : ''}" data-color-id="${c.id}">
+          <span class="rep-pill-swatch" style="background:${c.hex};"></span>
+          <span class="rep-pill-name">${c.name}</span>
+        </button>
+      `;
+    }).join('');
+
+    repPillsGrid.querySelectorAll('.rep-color-pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectedColorId = btn.dataset.colorId;
+        updateVisualizer();
+        renderColorsGrid();
+        renderRepPills();
+      });
+    });
+  }
+
+  // --- Render Batch Members (Screenshot 3) ---
+  function renderMembersList() {
+    if (!batchMembersGrid) return;
+    const isCurrentRep = currentUser && currentUser.isRep;
+
+    batchMembersGrid.innerHTML = batchMembers.map(m => {
+      return `
+        <div class="member-card-item" data-member-id="${m.id}">
+          <div class="member-avatar" style="background:${m.bg}; color:${m.color};">${m.avatar}</div>
+          <div class="member-info">
+            <div class="member-name">${m.name}</div>
+            ${m.isRep ? '<span class="member-rep-badge">👑 ممثل الدفعة</span>' : ''}
+          </div>
+          ${(!m.isRep && isCurrentRep) ? `<button type="button" class="member-remove-btn" data-remove-id="${m.id}">إزالة</button>` : ''}
+        </div>
+      `;
+    }).join('');
+
+    batchMembersGrid.querySelectorAll('.member-remove-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = btn.dataset.removeId;
+        batchMembers = batchMembers.filter(m => m.id !== id);
+        renderMembersList();
+        updateMemberStats();
+        showToast('تمت إزالة العضو من الدفعة');
+      });
+    });
+  }
+
+  function updateMemberStats() {
+    const membersEl = document.getElementById('room-stats-members');
+    if (membersEl) {
+      membersEl.textContent = `${batchMembers.length} عضو`;
     }
   }
 
@@ -1239,32 +1680,45 @@ body {
     if (viewLanding) viewLanding.style.display = 'none';
     if (viewBatchRoom) viewBatchRoom.style.display = 'block';
 
-    const welcomeLbl = document.getElementById('room-welcome-user');
     const titleLbl = document.getElementById('room-batch-title');
     const subLbl = document.getElementById('room-batch-sub');
 
-    if (welcomeLbl) {
-      welcomeLbl.textContent = `أهلاً، ${user.name} ${user.isRep ? '👑 (ممثل الدفعة)' : '🎓'}`;
-    }
     if (titleLbl) {
-      titleLbl.textContent = `دفعة ${user.college || 'التخرج'}`;
+      titleLbl.textContent = user.college || 'الطب';
     }
     if (subLbl) {
-      subLbl.textContent = `${user.university || 'الجامعة'} — دفعة ${user.year || '2026'}`;
+      subLbl.textContent = `${user.university || 'الجامعة المستنصرية'} · دفعة ${user.year || '2027'}`;
     }
 
-    if (liveText) {
-      liveText.textContent = user.name || 'اسم الخريج';
+    // Toggle Rep Tools Section
+    if (repToolsSection) {
+      repToolsSection.style.display = user.isRep ? 'block' : 'none';
     }
 
-    const waBtn = document.getElementById('btn-share-whatsapp');
-    if (waBtn) {
-      const shareTxt = encodeURIComponent(`طلاب دفعتنا الأعزاء في (${user.college})، ادخلوا صوّتوا على لون الوشاح الرسمي لدفعتنا من هذا الرابط:\n${window.location.origin}/class?uni=${encodeURIComponent(user.university)}&col=${encodeURIComponent(user.college)}`);
-      waBtn.href = `https://wa.me/?text=${shareTxt}`;
+    // Update Room Share Link
+    if (roomShareLinkInput) {
+      const batchCode = user.batchId || 'g_1aowou0';
+      roomShareLinkInput.value = `${window.location.origin}/class?id=${batchCode}`;
+    }
+
+    // Make sure user is in members list
+    if (user && user.name && !batchMembers.some(m => m.name === user.name)) {
+      const firstChar = user.name.trim().charAt(0);
+      batchMembers.unshift({
+        id: 'm_' + Date.now(),
+        name: user.name,
+        isRep: !!user.isRep,
+        avatar: firstChar,
+        bg: user.isRep ? '#dbeafe' : '#f1f5f9',
+        color: user.isRep ? '#1e40af' : '#475569'
+      });
     }
 
     renderColorsGrid();
     updateVisualizer();
+    renderRepPills();
+    renderMembersList();
+    updateMemberStats();
   }
 
   // --- Cloud OTP Flow Helpers ---
@@ -1564,6 +2018,77 @@ body {
         renderColorsGrid();
         showToast(`✓ تم تسجيل صوتك للون (${found.name}) بنجاح!`);
       }
+    });
+  }
+
+  // Copy Batch Room Link (Screenshot 3)
+  if (btnCopyBatchLink && roomShareLinkInput) {
+    btnCopyBatchLink.addEventListener('click', async () => {
+      try {
+        roomShareLinkInput.select();
+        await navigator.clipboard.writeText(roomShareLinkInput.value);
+        showToast('✓ تم نسخ رابط الدفعة للحافظة بنجاح!');
+      } catch (_) {
+        roomShareLinkInput.select();
+        document.execCommand('copy');
+        showToast('✓ تم نسخ الرابط للحافظة!');
+      }
+    });
+  }
+
+  // Rep: Adopt Color Button (Screenshot 2)
+  if (btnRepAdoptColor) {
+    btnRepAdoptColor.addEventListener('click', () => {
+      const found = OFFICIAL_COLORS.find(c => c.id === selectedColorId);
+      const colorTitle = found ? found.name : 'المختار';
+      const statusPill = document.getElementById('room-batch-status-pill');
+      if (statusPill) {
+        statusPill.textContent = 'تم اعتماد اللون';
+        statusPill.style.background = '#fef3c7';
+        statusPill.style.color = '#92400e';
+      }
+      showToast(`✓ تم اعتماد اللون (${colorTitle}) رسمياً للدفعة!`);
+    });
+  }
+
+  // Rep: Custom Scarf Photo Upload (Screenshot 2)
+  if (repColorFileInput) {
+    repColorFileInput.addEventListener('change', (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (file) {
+        if (repUploadLabelText) repUploadLabelText.textContent = `تم اختيار: ${file.name}`;
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          if (graduatePreviewImg) graduatePreviewImg.src = evt.target.result;
+          if (previewColorName) previewColorName.textContent = 'لون مخصص مرفوع';
+          showToast('تم رفع صورة اللون وتحديث المعاينة ✓');
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+
+  // Rep: Save Deadline (Screenshot 2)
+  if (btnSaveDeadline && repDeadlineInput) {
+    btnSaveDeadline.addEventListener('click', () => {
+      if (repDeadlineInput.value) {
+        showToast('✓ تم حفظ موعد إغلاق التصويت بنجاح');
+      } else {
+        showToast('يرجى تحديد التاريخ والوقت أولاً');
+      }
+    });
+  }
+
+  // Rep: Close Voting Now (Screenshot 2)
+  if (btnRepCloseVoting) {
+    btnRepCloseVoting.addEventListener('click', () => {
+      const statusPill = document.getElementById('room-batch-status-pill');
+      if (statusPill) {
+        statusPill.textContent = 'التصويت مقفل';
+        statusPill.style.background = '#fee2e2';
+        statusPill.style.color = '#991b1b';
+      }
+      showToast('تم قفل التصويت للدفعة بنجاح ✓');
     });
   }
 
