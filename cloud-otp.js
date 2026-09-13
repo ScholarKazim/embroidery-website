@@ -1,4 +1,4 @@
-/* Khama — cloud-otp.js
+/* cloud-otp.js
  *
  * Free Cloud OTP Engine for SMS Verification.
  *
@@ -27,16 +27,16 @@
   }
 
   function friendlyError(err) {
-    if (!err) return 'حدث خطأ غير متوقع. حاول مرة ثانية.';
+    if (!err) return 'ط­ط¯ط« ط®ط·ط£ ط؛ظٹط± ظ…طھظˆظ‚ط¹. ط­ط§ظˆظ„ ظ…ط±ط© ط«ط§ظ†ظٹط©.';
     var code = err.code || err.message || '';
-    if (code.indexOf('invalid-phone-number') >= 0)      return 'رقم الموبايل غير صحيح. اكتبه بالصيغة الدولية (+964...).';
-    if (code.indexOf('invalid-verification-code') >= 0) return 'رمز التحقق غير صحيح. تأكد وحاول مجدداً.';
-    if (code.indexOf('code-expired') >= 0)              return 'انتهت صلاحية الرمز. اطلب رمزاً جديداً.';
-    if (code.indexOf('too-many-requests') >= 0)         return 'محاولات كثيرة. انتظر دقائق وحاول مرة أخرى.';
-    if (code.indexOf('quota-exceeded') >= 0)            return 'تم الوصول للحد اليومي. حاول لاحقاً.';
+    if (code.indexOf('invalid-phone-number') >= 0)      return 'ط±ظ‚ظ… ط§ظ„ظ…ظˆط¨ط§ظٹظ„ ط؛ظٹط± طµط­ظٹط­. ط§ظƒطھط¨ظ‡ ط¨ط§ظ„طµظٹط؛ط© ط§ظ„ط¯ظˆظ„ظٹط© (+964...).';
+    if (code.indexOf('invalid-verification-code') >= 0) return 'ط±ظ…ط² ط§ظ„طھط­ظ‚ظ‚ ط؛ظٹط± طµط­ظٹط­. طھط£ظƒط¯ ظˆط­ط§ظˆظ„ ظ…ط¬ط¯ط¯ط§ظ‹.';
+    if (code.indexOf('code-expired') >= 0)              return 'ط§ظ†طھظ‡طھ طµظ„ط§ط­ظٹط© ط§ظ„ط±ظ…ط². ط§ط·ظ„ط¨ ط±ظ…ط²ط§ظ‹ ط¬ط¯ظٹط¯ط§ظ‹.';
+    if (code.indexOf('too-many-requests') >= 0)         return 'ظ…ط­ط§ظˆظ„ط§طھ ظƒط«ظٹط±ط©. ط§ظ†طھط¸ط± ط¯ظ‚ط§ط¦ظ‚ ظˆط­ط§ظˆظ„ ظ…ط±ط© ط£ط®ط±ظ‰.';
+    if (code.indexOf('quota-exceeded') >= 0)            return 'طھظ… ط§ظ„ظˆطµظˆظ„ ظ„ظ„ط­ط¯ ط§ظ„ظٹظˆظ…ظٹ. ط­ط§ظˆظ„ ظ„ط§ط­ظ‚ط§ظ‹.';
     if (code.indexOf('unauthorized-domain') >= 0)       return 'auth/unauthorized-domain';
-    if (code.indexOf('network-request-failed') >= 0)    return 'تعذر الاتصال. تأكد من الإنترنت وحاول مجدداً.';
-    return 'تعذر إرسال كود التحقق. يرجى التأكد من الرقم والإنترنت.';
+    if (code.indexOf('network-request-failed') >= 0)    return 'طھط¹ط°ط± ط§ظ„ط§طھطµط§ظ„. طھط£ظƒط¯ ظ…ظ† ط§ظ„ط¥ظ†طھط±ظ†طھ ظˆط­ط§ظˆظ„ ظ…ط¬ط¯ط¯ط§ظ‹.';
+    return 'طھط¹ط°ط± ط¥ط±ط³ط§ظ„ ظƒظˆط¯ ط§ظ„طھط­ظ‚ظ‚. ظٹط±ط¬ظ‰ ط§ظ„طھط£ظƒط¯ ظ…ظ† ط§ظ„ط±ظ‚ظ… ظˆط§ظ„ط¥ظ†طھط±ظ†طھ.';
   }
 
   var confirmationResult = null;
@@ -69,7 +69,7 @@
     sendOtp: function(rawPhone, containerIdHint) {
       var phoneE164 = normalizePhoneIQ(rawPhone);
       if (!/^\+\d{8,15}$/.test(phoneE164)) {
-        return Promise.reject(new Error('رقم الموبايل غير صحيح. اكتبه بالصيغة الدولية (+964...).'));
+        return Promise.reject(new Error('ط±ظ‚ظ… ط§ظ„ظ…ظˆط¨ط§ظٹظ„ ط؛ظٹط± طµط­ظٹط­. ط§ظƒطھط¨ظ‡ ط¨ط§ظ„طµظٹط؛ط© ط§ظ„ط¯ظˆظ„ظٹط© (+964...).'));
       }
 
       activePhone        = phoneE164;
@@ -77,9 +77,9 @@
 
       var isLocalHost = ['localhost', '127.0.0.1', '::1'].indexOf(window.location.hostname) >= 0;
 
-      // Always use fallback on localhost — Firebase Phone Auth requires HTTPS + authorized domain
+      // Always use fallback on localhost â€” Firebase Phone Auth requires HTTPS + authorized domain
       if (isLocalHost) {
-        console.info('[CloudOTP] Localhost detected — using test OTP mode (code: 123456)');
+        console.info('[CloudOTP] Localhost detected â€” using test OTP mode (code: 123456)');
         isFallbackMode = true;
         return Promise.resolve({
           success:  true,
@@ -94,10 +94,10 @@
       var containerId = ensureRecaptchaContainer(containerIdHint || 'recaptcha-container-otp-global');
       activeContainerId = containerId;
 
-      var fbReady = window.KhamaFirebase ? window.KhamaFirebase.ready : Promise.resolve(null);
+      var fbReady = window.IbraFirebase ? window.IbraFirebase.ready : Promise.resolve(null);
       return fbReady.then(function(fb) {
         if (!fb || !fb.auth || !fb.signInWithPhoneNumber || !fb.RecaptchaVerifier) {
-          // Firebase not configured — soft fallback
+          // Firebase not configured â€” soft fallback
           isFallbackMode = true;
           return {
             success:    true,
@@ -161,7 +161,7 @@
     confirmOtp: function(rawCode) {
       var code = String(rawCode || '').trim().replace(/\D/g, '');
       if (code.length < 4) {
-        return Promise.reject(new Error('رمز التحقق يجب أن يكون 6 أرقام.'));
+        return Promise.reject(new Error('ط±ظ…ط² ط§ظ„طھط­ظ‚ظ‚ ظٹط¬ط¨ ط£ظ† ظٹظƒظˆظ† 6 ط£ط±ظ‚ط§ظ….'));
       }
 
       var self = this;
@@ -176,7 +176,7 @@
           });
           return Promise.resolve({ success: true, isRep: true, provider: 'Fallback' });
         }
-        return Promise.reject(new Error('رمز التحقق غير صحيح.'));
+        return Promise.reject(new Error('ط±ظ…ط² ط§ظ„طھط­ظ‚ظ‚ ط؛ظٹط± طµط­ظٹط­.'));
       }
 
       // Live Firebase confirmation
@@ -201,7 +201,7 @@
      * Resend OTP.
      */
     resendOtp: function() {
-      if (!activePhone) return Promise.reject(new Error('لا يوجد رقم هاتف. يرجى إدخال الرقم مجدداً.'));
+      if (!activePhone) return Promise.reject(new Error('ظ„ط§ ظٹظˆط¬ط¯ ط±ظ‚ظ… ظ‡ط§طھظپ. ظٹط±ط¬ظ‰ ط¥ط¯ط®ط§ظ„ ط§ظ„ط±ظ‚ظ… ظ…ط¬ط¯ط¯ط§ظ‹.'));
       return this.sendOtp(activePhone, activeContainerId);
     },
 
@@ -209,7 +209,7 @@
      * Check if user is a verified rep.
      */
     isRepresentative: function() {
-      try { return localStorage.getItem('khama_is_rep') === 'true'; } catch (_) { return false; }
+      try { return localStorage.getItem('ibra_is_rep') === 'true'; } catch (_) { return false; }
     },
 
     /**
@@ -217,8 +217,8 @@
      */
     setRepresentative: function(details) {
       try {
-        localStorage.setItem('khama_is_rep', 'true');
-        var raw  = localStorage.getItem('khama_user');
+        localStorage.setItem('ibra_is_rep', 'true');
+        var raw  = localStorage.getItem('ibra_user');
         var user = raw ? JSON.parse(raw) : {};
         user = Object.assign({}, user, {
           role:        'rep',
@@ -226,14 +226,15 @@
           repVerified: true,
           verifiedAt:  details.verifiedAt || new Date().toISOString()
         });
-        localStorage.setItem('khama_user', JSON.stringify(user));
+        localStorage.setItem('ibra_user', JSON.stringify(user));
       } catch (_) {}
 
-      window.dispatchEvent(new CustomEvent('khama:rep-verified', {
+      window.dispatchEvent(new CustomEvent('ibra:rep-verified', {
         detail: Object.assign({ phone: activePhone }, details)
       }));
     }
   };
 
-  window.KhamaCloudOTP = CloudOTP;
+  window.IbraCloudOTP = CloudOTP;
 })();
+

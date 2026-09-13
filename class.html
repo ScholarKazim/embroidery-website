@@ -1,28 +1,16 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="only light">
 
-<link rel="icon" href="khamaiq.com/favicon_v=p138.ico" sizes="any">
-<link rel="icon" type="image/png" sizes="32x32" href="khamaiq.com/assets/icons/favicon-32x32_v=p138.png">
-<link rel="icon" type="image/png" sizes="16x16" href="khamaiq.com/assets/icons/favicon-16x16_v=p138.png">
-<link rel="apple-touch-icon" href="khamaiq.com/assets/icons/apple-touch-icon_v=p138.png">
 <title>صفحة الدفعة والتصويت | إبرة وخيط</title>
 <meta name="description" content="سجّل بدفعتك للتصويت على لون الوشاح المشترك، حجز قياساتك، واستلام عينة مجانية لممثل الدفعة.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Amiri:wght@700;900&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="khamaiq.com/colors_and_type_v=p138.css">
-<link rel="stylesheet" href="khamaiq.com/styles_v=p138.css">
-<link rel="stylesheet" href="khamaiq.com/extras_v=p138.css">
-<link rel="stylesheet" href="khamaiq.com/cart_v=p138.css">
-<link rel="stylesheet" href="khamaiq.com/desktop_v=p138.css">
-<link rel="stylesheet" href="khamaiq.com/mobile.css">
-<link rel="stylesheet" href="khamaiq.com/enhancements.css">
 
 <style>
 :root {
@@ -1009,7 +997,9 @@ body {
 <!-- ============== NAVBAR ============== -->
 <nav class="nav" data-nav="" data-nav-state="scrolled" aria-label="القائمة">
   <a href="/" class="brand" aria-label="إبرة وخيط، الصفحة الرئيسية">
-    <img src="khamaiq.com/assets/logo.png" alt="إبرة وخيط">
+    <svg viewBox="0 0 120 32" width="120" height="32" aria-label="إبرة وخيط">
+      <text x="60" y="23" text-anchor="middle" font-family="Cairo, Tajawal, sans-serif" font-size="18" font-weight="800" fill="#580829">إبرة وخيط</text>
+    </svg>
   </a>
 
   <div class="nav-links" data-nav-links="">
@@ -1038,7 +1028,9 @@ body {
 <div class="mobile-drawer-backdrop" id="mobile-drawer-backdrop"></div>
 <aside class="mobile-drawer" id="mobile-drawer">
   <div class="mobile-drawer-head">
-    <img src="khamaiq.com/assets/logo.png" alt="إبرة وخيط" class="mobile-drawer-logo">
+    <svg viewBox="0 0 120 32" width="100" height="28" aria-label="إبرة وخيط" class="mobile-drawer-logo">
+      <text x="60" y="22" text-anchor="middle" font-family="Cairo, Tajawal, sans-serif" font-size="16" font-weight="800" fill="#580829">إبرة وخيط</text>
+    </svg>
     <button class="mobile-drawer-close" data-drawer-close>&times;</button>
   </div>
   <nav class="mobile-drawer-nav">
@@ -1128,7 +1120,13 @@ body {
 
         <!-- Graduate Visualizer Photo -->
         <div class="graduate-visualizer-container">
-          <img src="khamaiq.com/assets/images/visualizer-burgundy.jpg" alt="معاينة وشاح التخرج" class="graduate-visualizer-img" id="graduate-preview-img">
+          <div id="graduate-preview-img" class="graduate-visualizer-img" style="background: #580829; display:flex; align-items:center; justify-content:center;">
+            <svg viewBox="0 0 120 140" width="120" height="140" fill="none">
+              <path d="M60 10 C30 10 15 35 15 60 L15 110 C15 120 25 130 60 130 C95 130 105 120 105 110 L105 60 C105 35 90 10 60 10Z" fill="rgba(255,255,255,0.15)"/>
+              <circle cx="60" cy="50" r="18" fill="rgba(255,255,255,0.25)"/>
+              <text x="60" y="88" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="11" font-family="Cairo,sans-serif">وشاح التخرج</text>
+            </svg>
+          </div>
           <div class="graduate-overlay-badge">
             <span class="graduate-overlay-kicker">اللون المختار</span>
             <div class="graduate-overlay-name" id="preview-color-name">ماروني خامة</div>
@@ -1194,7 +1192,7 @@ body {
         <p class="room-card-sub" style="margin-bottom:14px;">كل واحد ينقر الرابط راح يدخل لنفس الصفحة هاي.</p>
 
         <div class="share-link-group">
-          <input type="text" readonly class="share-link-input" id="room-share-link-input" value="https://khamaiq.com/class?id=g_1aowou0">
+          <input type="text" readonly class="share-link-input" id="room-share-link-input" value="">
           <button type="button" class="btn-caramel" id="btn-copy-batch-link" style="padding:10px 18px; font-size:13.5px; white-space:nowrap;">
             انسخ الرابط
           </button>
@@ -1497,14 +1495,14 @@ body {
 (function() {
   'use strict';
 
-  // --- Color Palette Options (Matches Screenshot 1 & 2) ---
+  // --- Color Palette Options ---
   const OFFICIAL_COLORS = [
-    { id: 'burgundy', name: 'ماروني خامة', hex: '#580829', img: 'khamaiq.com/assets/images/visualizer-burgundy.jpg', votes: 1 },
-    { id: 'red', name: 'احمر عميق', hex: '#881329', img: 'khamaiq.com/assets/images/visualizer-red.jpg', votes: 0 },
-    { id: 'mauve', name: 'وردي ملكي', hex: '#9c5b6b', img: 'khamaiq.com/assets/images/visualizer-mauve.jpg', votes: 0 },
-    { id: 'emerald', name: 'اخضر داكن', hex: '#134e3a', img: 'khamaiq.com/assets/images/visualizer-emerald.jpg', votes: 0 },
-    { id: 'navy', name: 'ازرق داكن', hex: '#15475e', img: 'khamaiq.com/assets/images/visualizer-navy.jpg', votes: 0 },
-    { id: 'turquoise', name: 'ازرق فاتح', hex: '#1a7fa0', img: 'khamaiq.com/assets/images/visualizer-turquoise.jpg', votes: 0 }
+    { id: 'burgundy', name: 'ماروني خامة',   hex: '#580829', votes: 1 },
+    { id: 'red',      name: 'احمر عميق',     hex: '#881329', votes: 0 },
+    { id: 'mauve',    name: 'وردي ملكي',     hex: '#9c5b6b', votes: 0 },
+    { id: 'emerald',  name: 'اخضر داكن',     hex: '#134e3a', votes: 0 },
+    { id: 'navy',     name: 'ازرق داكن',     hex: '#15475e', votes: 0 },
+    { id: 'turquoise',name: 'ازرق فاتح',     hex: '#1a7fa0', votes: 0 }
   ];
 
   // Batch Members (Matches Screenshot 3)
@@ -1605,9 +1603,11 @@ body {
   }
 
   // --- Session Management ---
+  const SESSION_KEY = 'ibra_user_session';
+
   function loadSession() {
     try {
-      const raw = localStorage.getItem('khamaiq_user_session');
+      const raw = localStorage.getItem(SESSION_KEY);
       if (raw) currentUser = JSON.parse(raw);
       else currentUser = null;
     } catch (_) {
@@ -1619,14 +1619,14 @@ body {
   function saveSession(user) {
     currentUser = user;
     try {
-      localStorage.setItem('khamaiq_user_session', JSON.stringify(user));
+      localStorage.setItem(SESSION_KEY, JSON.stringify(user));
     } catch (_) {}
   }
 
   function clearSession() {
     currentUser = null;
     try {
-      localStorage.removeItem('khamaiq_user_session');
+      localStorage.removeItem(SESSION_KEY);
     } catch (_) {}
   }
 
@@ -1743,7 +1743,7 @@ body {
   function updateVisualizer() {
     const found = OFFICIAL_COLORS.find(c => c.id === selectedColorId) || OFFICIAL_COLORS[0];
     if (graduatePreviewImg) {
-      graduatePreviewImg.src = found.img;
+      graduatePreviewImg.style.background = found.hex;
     }
     if (previewColorName) {
       previewColorName.textContent = found.name;
@@ -1908,9 +1908,9 @@ body {
 
     if (otpInput) otpInput.value = '';
 
-    if (window.KhamaCloudOTP) {
+    if (window.IbraCloudOTP) {
       try {
-        const res = await window.KhamaCloudOTP.sendOtp(rawPhone, 'recaptcha-container-otp-global');
+        const res = await window.IbraCloudOTP.sendOtp(rawPhone, 'recaptcha-container-otp-global');
         if (phoneDisplay) phoneDisplay.textContent = res.phone || rawPhone;
         if (res.isFallback && res.testCode) {
           activeOtpCode = res.testCode;
@@ -2063,8 +2063,8 @@ body {
       }
 
       try {
-        if (window.KhamaCloudOTP) {
-          await window.KhamaCloudOTP.confirmOtp(code);
+        if (window.IbraCloudOTP) {
+          await window.IbraCloudOTP.confirmOtp(code);
         } else if (code !== activeOtpCode && code !== '123456') {
           throw new Error('رمز التحقق غير صحيح');
         }
@@ -2237,7 +2237,12 @@ body {
         if (repUploadLabelText) repUploadLabelText.textContent = `تم اختيار: ${file.name}`;
         const reader = new FileReader();
         reader.onload = function(evt) {
-          if (graduatePreviewImg) graduatePreviewImg.src = evt.target.result;
+          if (graduatePreviewImg) {
+            graduatePreviewImg.style.backgroundImage = `url(${evt.target.result})`;
+            graduatePreviewImg.style.backgroundSize = 'cover';
+            graduatePreviewImg.style.backgroundPosition = 'center';
+            graduatePreviewImg.innerHTML = '';
+          }
           if (previewColorName) previewColorName.textContent = 'لون مخصص مرفوع';
           showToast('تم رفع صورة اللون وتحديث المعاينة ✓');
         };
@@ -2498,3 +2503,4 @@ body {
 
 </body>
 </html>
+
