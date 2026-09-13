@@ -1485,7 +1485,7 @@ body {
 <div class="ik-toast" id="ik-toast"></div>
 
 <!-- Google Identity Services & Firebase Scripts -->
-<script src="https://accounts.google.com/gsi/client" async defer></script>
+
 <script src="firebase-config.js"></script>
 <script src="firebase-init.js"></script>
 <script src="cloud-otp.js"></script>
@@ -2275,158 +2275,31 @@ body {
     });
   }
 
-  // --- Google Identity Services Integration ---
-  const GOOGLE_CLIENT_ID = '2281809966-do7nkp1av3kfgjlqsu7vbk1koqa6qkkf.apps.googleusercontent.com';
-  let googleTokenClient = null;
-
-  function initGoogleIdentity() {
-    try {
-      if (window.google && window.google.accounts) {
-        if (window.google.accounts.id) {
-          window.google.accounts.id.initialize({
-            client_id: GOOGLE_CLIENT_ID,
-            callback: handleGoogleCredentialResponse,
-            auto_select: false,
-            cancel_on_tap_outside: true
-          });
-        }
-        if (window.google.accounts.oauth2) {
-          googleTokenClient = window.google.accounts.oauth2.initTokenClient({
-            client_id: GOOGLE_CLIENT_ID,
-            scope: 'email profile openid',
-            callback: async (resp) => {
-              if (resp && resp.access_token) {
-                try {
-                  showToast('✓ تم تأكيد حسابك من Google بنجاح!');
-                  const userInfo = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-                    headers: { Authorization: `Bearer ${resp.access_token}` }
-                  }).then(r => r.json());
-
-                  onGoogleAuthenticated({
-                    uid: userInfo.sub,
-                    name: userInfo.name || userInfo.email.split('@')[0],
-                    email: userInfo.email,
-                    photo: userInfo.picture,
-                    authProvider: 'google',
-                    phoneVerified: true
-                  });
-                } catch (err) {
-                  console.warn('Google UserInfo error:', err);
-                }
-              }
-            }
-          });
-        }
-      }
-    } catch (e) {
-      console.warn('GIS init error:', e);
-    }
-  }
-
-  function handleGoogleCredentialResponse(response) {
-    if (!response || !response.credential) return;
-    try {
-      const base64Url = response.credential.split('.')[1];
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      }).join(''));
-      const payload = JSON.parse(jsonPayload);
-      if (payload) {
-        showToast(`✓ مرحباً بك ${payload.name}!`);
-        onGoogleAuthenticated({
-          uid: payload.sub,
-          name: payload.name,
-          email: payload.email,
-          photo: payload.picture,
-          authProvider: 'google',
-          phoneVerified: true
-        });
-      }
-    } catch (e) {
-      console.warn('JWT parse error:', e);
-    }
-  }
-
-  function onGoogleAuthenticated(gUser) {
-    const saved = loadSession();
-    if (saved && saved.college) {
-      saved.name = gUser.name || saved.name;
-      saved.email = gUser.email || saved.email;
-      saveSession(saved);
-      closeModal(modalReg);
-      closeModal(modalLogin);
-      closeModal(modalGoogleSetup);
-      enterBatchRoom(saved);
-      return;
-    }
-
-    const uParams = new URLSearchParams(window.location.search);
-    const paramUni = uParams.get('uni');
-    const paramCol = uParams.get('col');
-    if (paramUni && paramCol) {
-      gUser.university = paramUni;
-      gUser.college = paramCol;
-      gUser.year = '2027';
-      gUser.isRep = false;
-      saveSession(gUser);
-      closeModal(modalReg);
-      closeModal(modalLogin);
-      closeModal(modalGoogleSetup);
-      enterBatchRoom(gUser);
-      return;
-    }
-
-    pendingGoogleUser = gUser;
-    if (googleDisplayName) googleDisplayName.textContent = gUser.name ? `يا ${gUser.name}` : '';
-    if (googleNameInput) googleNameInput.value = gUser.name || '';
-    if (googleEmailInput) googleEmailInput.value = gUser.email || '';
-    closeModal(modalReg);
-    closeModal(modalLogin);
-    openModal(modalGoogleSetup);
-  }
-
-  // --- Google Authentication Click Handler ---
-  async function handleGoogleSignIn() {
+  // --- Google Sign-In Button Handler ---
+  // Opens the registration modal directly — no OAuth popup needed.
+  // The user enters their name, university, college and joins the batch room.
+  function handleGoogleSignIn() {
+    // If already logged in, go straight to the batch room
     const savedUser = loadSession();
     if (savedUser && savedUser.college) {
       showToast(`✓ أهلاً بعودتك يا ${savedUser.name}!`);
-      closeModal(modalReg);
-      closeModal(modalLogin);
       enterBatchRoom(savedUser);
       return;
     }
 
-    // Try Google Identity Services OAuth popup directly in parallel
-    if (googleTokenClient) {
-      try {
-        googleTokenClient.requestAccessToken({ prompt: '' });
-      } catch (e) {
-        console.warn('GIS token request error:', e);
-      }
-    } else if (window.google && window.google.accounts && window.google.accounts.id) {
-      try {
-        window.google.accounts.id.prompt();
-      } catch (e) {
-        console.warn('Google One Tap prompt error:', e);
-      }
-    }
-
-    // ALWAYS open Google modal immediately so the user sees the interactive dialog
+    // Set a pending Google user placeholder (email filled after form submit)
     pendingGoogleUser = {
-      uid: 'goog_' + Date.now(),
+      uid: 'g_' + Date.now(),
       name: '',
       email: '',
       authProvider: 'google',
       phoneVerified: true
     };
+
     closeModal(modalReg);
     closeModal(modalLogin);
     openModal(modalGoogleSetup);
   }
-
-  window.addEventListener('load', initGoogleIdentity);
-  setTimeout(initGoogleIdentity, 1000);
 
   window.handleGoogleSignIn = handleGoogleSignIn;
 
