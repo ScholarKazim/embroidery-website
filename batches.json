@@ -1,44 +1,108 @@
-[{
-    "id":  "BATCH-260912-459",
-    "title":  "دفعة كلية الطب — جامعة بغداد",
-    "university":  "جامعة بغداد",
-    "college":  "كلية الطب",
-    "repName":  "حيدر الكعبي",
-    "repPhone":  "+9647801234567",
-    "color":  "burgundy",
-    "colorName":  "ماروني خامة",
-    "targetQty":  60,
-    "status":  "مفتوح للتسجيل",
-    "createdAt":  "2026-09-12T11:37:00",
-    "students":  [
-                     {
-                         "id":  "ST-3709-73",
-                         "name":  "علي مرتضى الموسوي",
-                         "phone":  "07709876543",
-                         "gender":  "men",
-                         "sizeLetter":  "XL",
-                         "sizeNumber":  54,
-                         "height":  176,
-                         "embroideryName":  "د. علي الموسوي",
-                         "calligraphy":  "thuluth",
-                         "thread":  "gold",
-                         "notes":  "يرجى كتابة سنة 2026 تحت الاسم",
-                         "joinedAt":  "2026-09-12T11:37:09"
-                     },
-                     {
-                         "id":  "ST-5327-66",
-                         "name":  "Eng. Haidar Al-Iraqi",
-                         "phone":  "07709876543",
-                         "gender":  "men",
-                         "sizeLetter":  "XL",
-                         "sizeNumber":  52,
-                         "height":  182,
-                         "embroideryName":  "Eng. Haidar",
-                         "calligraphy":  "thuluth",
-                         "thread":  "gold",
-                         "threadColor":  "gold",
-                         "notes":  "Batch 2026 CS",
-                         "joinedAt":  "2026-09-12T12:53:27"
-                     }
-                 ]
-}]
+[
+    {
+        "id":  "BATCH-260913-307",
+        "title":  "دفعة كلية الهندسة — جامعة بابل",
+        "university":  "جامعة بابل",
+        "college":  "كلية الهندسة",
+        "repName":  "حسين علي",
+        "repPhone":  "07812345678",
+        "color":  "burgundy",
+        "colorName":  "ماروني ملكي",
+        "targetQty":  45,
+        "status":  "مفتوح للتسجيل",
+        "createdAt":  "2026-09-13T12:44:56",
+        "students":  [
+                         {
+                             "id":  "ST-4504-31",
+                             "name":  "محمد حسن الخفاجي",
+                             "phone":  "07712345678",
+                             "gender":  "men",
+                             "sizeLetter":  "XL",
+                             "sizeNumber":  54,
+                             "height":  178,
+                             "embroideryName":  "م. محمد الخفاجي",
+                             "calligraphy":  "thuluth",
+                             "thread":  "gold",
+                             "threadColor":  "gold",
+                             "notes":  "دفعة تخرج 2026",
+                             "joinedAt":  "2026-09-13T12:45:04"
+                         }
+                     ]
+    },
+    {
+        "id":  "BATCH-260913-863",
+        "title":  "دفعة كلية العلوم — جامعة بغداد",
+        "university":  "جامعة بغداد",
+        "college":  "كلية العلوم",
+        "repName":  "أحمد",
+        "repPhone":  "07800000000",
+        "color":  "burgundy",
+        "colorName":  "ماروني خامة",
+        "targetQty":  50,
+        "status":  "مفتوح للتسجيل",
+        "createdAt":  "2026-09-13T12:41:57",
+        "students":  [
+
+                     ]
+    },
+    {
+        "id":  "BATCH-260913-275",
+        "title":  "دفعة كلية الهندسة — جامعة بغداد",
+        "university":  "جامعة بغداد",
+        "college":  "كلية الهندسة",
+        "repName":  "علي مهدي",
+        "repPhone":  "07801234567",
+        "color":  "burgundy",
+        "colorName":  "ماروني ملكي",
+        "targetQty":  50,
+        "status":  "مفتوح للتسجيل",
+        "createdAt":  "2026-09-13T12:40:38",
+        "students":  [
+
+                     ]
+    },
+    {
+        "id":  "BATCH-260912-459",
+        "title":  "دفعة كلية الطب — جامعة بغداد",
+        "university":  "جامعة بغداد",
+        "college":  "كلية الطب",
+        "repName":  "حيدر الكعبي",
+        "repPhone":  "+9647801234567",
+        "color":  "burgundy",
+        "colorName":  "ماروني خامة",
+        "targetQty":  60,
+        "status":  "مفتوح للتسجيل",
+        "createdAt":  "2026-09-12T11:37:00",
+        "students":  [
+                         {
+                             "id":  "ST-3709-73",
+                             "name":  "علي مرتضى الموسوي",
+                             "phone":  "07709876543",
+                             "gender":  "men",
+                             "sizeLetter":  "XL",
+                             "sizeNumber":  54,
+                             "height":  176,
+                             "embroideryName":  "د. علي الموسوي",
+                             "calligraphy":  "thuluth",
+                             "thread":  "gold",
+                             "notes":  "يرجى كتابة سنة 2026 تحت الاسم",
+                             "joinedAt":  "2026-09-12T11:37:09"
+                         },
+                         {
+                             "id":  "ST-5327-66",
+                             "name":  "Eng. Haidar Al-Iraqi",
+                             "phone":  "07709876543",
+                             "gender":  "men",
+                             "sizeLetter":  "XL",
+                             "sizeNumber":  52,
+                             "height":  182,
+                             "embroideryName":  "Eng. Haidar",
+                             "calligraphy":  "thuluth",
+                             "thread":  "gold",
+                             "threadColor":  "gold",
+                             "notes":  "Batch 2026 CS",
+                             "joinedAt":  "2026-09-12T12:53:27"
+                         }
+                     ]
+    }
+]

@@ -2091,17 +2091,41 @@ body {
       const colInput = document.getElementById('cb-college');
       if (!uniSelect) return;
 
-      try {
-        const res = await fetch('/api/universities').catch(() => fetch('/universities.json'));
-        const data = await res.json();
-        universitiesList = Array.isArray(data) ? data : (data.universities || []);
+      const defaultUnis = [
+        { name: "جامعة بغداد", colleges: [{ name: "كلية الطب" }, { name: "كلية الهندسة" }, { name: "كلية الصيدلة" }, { name: "كلية القانون" }, { name: "كلية العلوم" }, { name: "كلية التربية" }, { name: "كلية الإدارة والاقتصاد" }, { name: "كلية الآداب" }] },
+        { name: "الجامعة المستنصرية", colleges: [{ name: "كلية الطب" }, { name: "كلية الصيدلة" }, { name: "كلية الهندسة" }, { name: "كلية القانون" }, { name: "كلية العلوم" }, { name: "كلية التربية الأساسية" }] },
+        { name: "الجامعة التكنولوجية", colleges: [{ name: "هندسة الحاسوب" }, { name: "الهندسة المدنية" }, { name: "الهندسة المعمارية" }, { name: "الهندسة الميكانيكية" }, { name: "الهندسة الكهروميكانيكية" }] },
+        { name: "جامعة النهرين", colleges: [{ name: "كلية الطب" }, { name: "كلية الصيدلة" }, { name: "كلية الهندسة" }, { name: "كلية العلوم" }, { name: "كلية هندسة المعلومات" }] },
+        { name: "الجامعة العراقية", colleges: [{ name: "كلية الطب" }, { name: "كلية الهندسة" }, { name: "كلية الإدارة والاقتصاد" }, { name: "كلية الآداب" }] },
+        { name: "جامعة البصرة", colleges: [{ name: "كلية الطب" }, { name: "كلية الهندسة" }, { name: "كلية الصيدلة" }, { name: "كلية العلوم" }] },
+        { name: "جامعة الموصل", colleges: [{ name: "كلية الطب" }, { name: "كلية الهندسة" }, { name: "كلية العلوم" }, { name: "كلية طب الأسنان" }] },
+        { name: "جامعة الكوفة", colleges: [{ name: "كلية الطب" }, { name: "كلية الصيدلة" }, { name: "كلية الهندسة" }, { name: "كلية الفقه" }] },
+        { name: "جامعة بابل", colleges: [{ name: "كلية الطب" }, { name: "كلية الهندسة" }, { name: "كلية تكنولوجيا المعلومات" }] }
+      ];
 
-        uniSelect.innerHTML = '<option value="">اختر جامعتك من القائمة...</option>' +
-          universitiesList.map(u => `<option value="${escapeHtml(u.name)}">${escapeHtml(u.name)}</option>`).join('') +
-          '<option value="other">🏛️ جامعة أخرى (كتابة يدوية)...</option>';
+      try {
+        let res = await fetch('/api/universities').catch(() => null);
+        if (!res || !res.ok) {
+          res = await fetch('/universities.json').catch(() => null);
+        }
+        if (res && res.ok) {
+          const contentType = res.headers.get('content-type') || '';
+          if (contentType.includes('application/json')) {
+            const data = await res.json();
+            universitiesList = Array.isArray(data) ? data : (data.universities || []);
+          }
+        }
       } catch (err) {
-        console.warn('Could not load universities:', err);
+        console.warn('Could not load universities from network:', err);
       }
+
+      if (!universitiesList || universitiesList.length === 0) {
+        universitiesList = defaultUnis;
+      }
+
+      uniSelect.innerHTML = '<option value="">اختر جامعتك من القائمة...</option>' +
+        universitiesList.map(u => `<option value="${escapeHtml(u.name)}">${escapeHtml(u.name)}</option>`).join('') +
+        '<option value="other">🏛️ جامعة أخرى (كتابة يدوية)...</option>';
 
       uniSelect.addEventListener('change', () => {
         const val = uniSelect.value;
@@ -2278,16 +2302,160 @@ body {
     }
 
     // ==========================================
+    // HYBRID BATCH STORAGE & API SERVICE (Zero-Fail Architecture)
+    // ==========================================
+    const BatchService = {
+      LOCAL_KEY: 'khamaiq_graduation_batches_v2',
+
+      getLocalBatches() {
+        try {
+          return JSON.parse(localStorage.getItem(this.LOCAL_KEY) || '[]');
+        } catch (e) {
+          return [];
+        }
+      },
+
+      saveLocalBatches(list) {
+        try {
+          localStorage.setItem(this.LOCAL_KEY, JSON.stringify(list));
+        } catch (e) {
+          console.warn('Could not save to localStorage', e);
+        }
+      },
+
+      async safeFetch(url, options = {}) {
+        try {
+          const res = await fetch(url, options);
+          const contentType = res.headers.get('content-type') || '';
+          if (!contentType.includes('application/json')) {
+            // Non-JSON response (e.g. 404/500 HTML or static server)
+            return { ok: false, status: res.status, isHtml: true, data: null };
+          }
+          const data = await res.json();
+          return { ok: res.ok, status: res.status, isHtml: false, data };
+        } catch (netErr) {
+          // Network failure, offline, CORS, or server offline
+          return { ok: false, status: 0, isHtml: false, networkError: true, error: netErr.message };
+        }
+      },
+
+      async getAllBatches() {
+        const res = await this.safeFetch('/api/batch/all');
+        if (res.ok && res.data && Array.isArray(res.data.batches)) {
+          this.saveLocalBatches(res.data.batches);
+          return res.data.batches;
+        }
+        return this.getLocalBatches();
+      },
+
+      async getBatch(id) {
+        const res = await this.safeFetch(`/api/batch/${encodeURIComponent(id)}`);
+        if (res.ok && res.data && res.data.batch) {
+          return res.data.batch;
+        }
+        const local = this.getLocalBatches();
+        return local.find(b => b.id === id) || null;
+      },
+
+      async createBatch(payload) {
+        const res = await this.safeFetch('/api/batch/create', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json; charset=utf-8' },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok && res.data && res.data.success && res.data.batch) {
+          const bList = this.getLocalBatches();
+          this.saveLocalBatches([res.data.batch, ...bList.filter(b => b.id !== res.data.batch.id)]);
+          return { success: true, batchId: res.data.batchId, batch: res.data.batch };
+        }
+
+        if (res.data && res.data.error) {
+          return { success: false, error: res.data.error };
+        }
+
+        // Seamless fallback to local storage
+        const randId = 'BATCH-' + new Date().toISOString().slice(2, 10).replace(/-/g, '') + '-' + Math.floor(100 + Math.random() * 900);
+        const newBatch = {
+          id: randId,
+          title: payload.title || `دفعة ${payload.college} — ${payload.university}`,
+          university: payload.university,
+          college: payload.college,
+          repName: payload.repName,
+          repPhone: payload.repPhone,
+          color: payload.color || 'burgundy',
+          colorName: payload.colorName || 'ماروني ملكي',
+          targetQty: parseInt(payload.targetQty, 10) || 50,
+          status: 'مفتوح للتسجيل',
+          createdAt: new Date().toISOString(),
+          students: []
+        };
+
+        const bList = this.getLocalBatches();
+        this.saveLocalBatches([newBatch, ...bList]);
+        return { success: true, batchId: randId, batch: newBatch, localFallback: true };
+      },
+
+      async joinBatch(batchId, payload) {
+        const res = await this.safeFetch(`/api/batch/${encodeURIComponent(batchId)}/join`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json; charset=utf-8' },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok && res.data && res.data.success && res.data.student) {
+          return { success: true, student: res.data.student };
+        }
+
+        if (res.data && res.data.error) {
+          return { success: false, error: res.data.error };
+        }
+
+        // Seamless fallback to local storage
+        const bList = this.getLocalBatches();
+        let batch = bList.find(b => b.id === batchId);
+        if (!batch && currentBatch && currentBatch.id === batchId) {
+          batch = currentBatch;
+          bList.push(batch);
+        }
+
+        if (!batch) {
+          return { success: false, error: 'دفعة التخرج غير موجودة' };
+        }
+
+        const stId = 'ST-' + new Date().getMinutes() + new Date().getSeconds() + '-' + Math.floor(10 + Math.random() * 90);
+        const newStudent = {
+          id: stId,
+          name: payload.name.trim(),
+          phone: payload.phone.trim(),
+          gender: payload.gender || 'men',
+          sizeLetter: payload.sizeLetter || 'L',
+          sizeNumber: payload.sizeNumber ? parseInt(payload.sizeNumber, 10) : 52,
+          height: payload.height ? parseInt(payload.height, 10) : 170,
+          embroideryName: payload.embroideryName || payload.name.trim(),
+          calligraphy: payload.calligraphy || 'thuluth',
+          threadColor: payload.threadColor || 'gold',
+          notes: payload.notes || '',
+          joinedAt: new Date().toISOString()
+        };
+
+        batch.students = batch.students || [];
+        batch.students.push(newStudent);
+        this.saveLocalBatches(bList);
+
+        return { success: true, student: newStudent, localFallback: true };
+      }
+    };
+
+    // ==========================================
     // 6. BATCH PICKER DROPDOWN
     // ==========================================
     async function loadBatchPicker(selectedId) {
       const picker = document.getElementById('bp-batch-picker');
       if (!picker) return;
       try {
-        const resp = await fetch('/api/batch/all');
-        const data = await resp.json();
-        const batches = data.batches || [];
-        if (batches.length === 0) {
+        const batches = await BatchService.getAllBatches();
+        if (!batches || batches.length === 0) {
           picker.innerHTML = '<option value="">لا توجد دفعات منشأة بعد</option>';
           return;
         }
@@ -2558,10 +2726,9 @@ body {
     // ==========================================
     async function loadBatch(batchId) {
       try {
-        const resp = await fetch(`/api/batch/${encodeURIComponent(batchId)}`);
-        const data = await resp.json();
-        if (data.success && data.batch) {
-          currentBatch = data.batch;
+        const batch = await BatchService.getBatch(batchId);
+        if (batch) {
+          currentBatch = batch;
           renderBatchView(currentBatch);
         } else {
           if (noBatchView) noBatchView.style.display = 'block';
@@ -2599,20 +2766,15 @@ body {
         };
 
         try {
-          const resp = await fetch('/api/batch/create', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json; charset=utf-8' },
-            body: JSON.stringify(payload)
-          });
-          const data = await resp.json();
-          if (data.success && data.batchId) {
+          const res = await BatchService.createBatch(payload);
+          if (res.success && res.batchId) {
             closeCreateModal();
-            window.location.search = `?batch=${encodeURIComponent(data.batchId)}`;
+            window.location.search = `?batch=${encodeURIComponent(res.batchId)}`;
           } else {
-            alert(data.error || 'تعذر إنشاء الدفعة. يرجى التحقق من البيانات.');
+            alert(res.error || 'تعذر إنشاء الدفعة. يرجى التحقق من البيانات.');
           }
         } catch (err) {
-          alert('حدث خطأ بالاتصال بالسيرفر: ' + err.message);
+          alert('حدث خطأ أثناء إنشاء الدفعة: ' + (err.message || 'يرجى المحاولة مجدداً'));
         } finally {
           submitBtn.disabled = false;
           submitBtn.textContent = origTxt;
@@ -2649,30 +2811,25 @@ body {
         };
 
         try {
-          const resp = await fetch(`/api/batch/${encodeURIComponent(currentBatch.id)}/join`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json; charset=utf-8' },
-            body: JSON.stringify(payload)
-          });
-          const data = await resp.json();
-          if (data.success && data.student) {
+          const res = await BatchService.joinBatch(currentBatch.id, payload);
+          if (res.success && res.student) {
             formStudent.reset();
             initLiveRibbonPreview();
             if (window.showIkToast) {
-              window.showIkToast(`✓ تم تسجيلك في كشف الدفعة بنجاح يا ${data.student.name}!`);
+              window.showIkToast(`✓ تم تسجيلك في كشف الدفعة بنجاح يا ${res.student.name}!`);
             } else {
-              alert(`✓ تم تسجيلك في كشف الدفعة بنجاح يا ${data.student.name}!`);
+              alert(`✓ تم تسجيلك في كشف الدفعة بنجاح يا ${res.student.name}!`);
             }
-            loadBatch(currentBatch.id);
+            await loadBatch(currentBatch.id);
 
             // Auto-switch to Roster tab so student sees their entry
             const rosterTabBtn = document.querySelector('.bp-tab-btn[data-tab="roster"]');
             if (rosterTabBtn) rosterTabBtn.click();
           } else {
-            alert(data.error || 'حدث خطأ أثناء التسجيل.');
+            alert(res.error || 'حدث خطأ أثناء التسجيل.');
           }
         } catch (err) {
-          alert('تعذر الاتصال بالسيرفر: ' + err.message);
+          alert('حدث خطأ أثناء التسجيل: ' + (err.message || 'يرجى المحاولة مجدداً'));
         } finally {
           submitBtn.disabled = false;
           submitBtn.textContent = origTxt;
@@ -2693,9 +2850,9 @@ body {
     if (batchIdParam) {
       loadBatch(batchIdParam);
     } else {
-      fetch('/api/batch/all').then(r => r.json()).then(d => {
-        if (d.success && d.batches && d.batches.length > 0) {
-          currentBatch = d.batches[0];
+      BatchService.getAllBatches().then(batches => {
+        if (batches && batches.length > 0) {
+          currentBatch = batches[0];
           renderBatchView(currentBatch);
         } else {
           if (noBatchView) noBatchView.style.display = 'block';

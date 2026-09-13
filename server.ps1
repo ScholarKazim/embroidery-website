@@ -73,18 +73,9 @@ Write-Host "========================================="
 
 function Get-RequestBody($req) {
     try {
-        if ($req.ContentLength64 -le 0) { return $null }
-        $ms = New-Object System.IO.MemoryStream
-        $buf = New-Object byte[] 4096
-        $total = 0
-        while ($total -lt $req.ContentLength64) {
-            $toRead = [Math]::Min(4096, [int]($req.ContentLength64 - $total))
-            $readCount = $req.InputStream.Read($buf, 0, $toRead)
-            if ($readCount -le 0) { break }
-            $ms.Write($buf, 0, $readCount)
-            $total += $readCount
-        }
-        $txt = [System.Text.Encoding]::UTF8.GetString($ms.ToArray())
+        if (-not $req.HasEntityBody) { return $null }
+        $reader = New-Object System.IO.StreamReader($req.InputStream, [System.Text.Encoding]::UTF8)
+        $txt = $reader.ReadToEnd()
         if ([string]::IsNullOrWhiteSpace($txt)) { return $null }
         return ConvertFrom-Json $txt
     } catch {
@@ -650,9 +641,16 @@ while ($listener.IsListening) {
                     $response.ContentLength64 = $err.Length
                     $response.OutputStream.Write($err, 0, $err.Length)
                     $response.OutputStream.Close()
-                    continue
                 }
             }
+
+            # Unmatched /api/batch sub-route fallback (never fall through to HTML)
+            $response.StatusCode = 404
+            $err = [System.Text.Encoding]::UTF8.GetBytes('{"success":false,"error":"طلب الدفعة غير صالح أو غير معرّف"}')
+            $response.ContentLength64 = $err.Length
+            if ($request.HttpMethod -ne "HEAD") { $response.OutputStream.Write($err, 0, $err.Length) }
+            $response.OutputStream.Close()
+            continue
         }
 
         # -----------------------------------------------------------------
@@ -858,6 +856,21 @@ while ($listener.IsListening) {
         }
 
         # -----------------------------------------------------------------
+        # API 404 CATCH-ALL (Guarantees NO /api/* call ever returns HTML)
+        # -----------------------------------------------------------------
+        if ($relPath.StartsWith("api/") -or $relPath -eq "api") {
+            $response.ContentType = "application/json; charset=utf-8"
+            $response.StatusCode = 404
+            $errBytes = [System.Text.Encoding]::UTF8.GetBytes('{"success":false,"error":"نقطة النهاية المطلوبة غير موجودة"}')
+            $response.ContentLength64 = $errBytes.Length
+            if ($request.HttpMethod -ne "HEAD") {
+                $response.OutputStream.Write($errBytes, 0, $errBytes.Length)
+            }
+            $response.OutputStream.Close()
+            continue
+        }
+
+        # -----------------------------------------------------------------
         # STATIC HTML & ASSET ROUTING WITH PATH TRAVERSAL DEFENSE
         # -----------------------------------------------------------------
         if ([string]::IsNullOrWhiteSpace($relPath) -or $relPath -eq "index") {
@@ -951,6 +964,17 @@ while ($listener.IsListening) {
 
         $response.OutputStream.Close()
     } catch {
-        # Continue serving next requests
+        try {
+            if ($response -and $response.OutputStream) {
+                if ($relPath -and ($relPath.StartsWith("api/") -or $relPath -eq "api")) {
+                    $response.ContentType = "application/json; charset=utf-8"
+                    $response.StatusCode = 500
+                    $errBytes = [System.Text.Encoding]::UTF8.GetBytes('{"success":false,"error":"حدث خطأ داخلي في الخادم"}')
+                    $response.ContentLength64 = $errBytes.Length
+                    $response.OutputStream.Write($errBytes, 0, $errBytes.Length)
+                }
+                $response.OutputStream.Close()
+            }
+        } catch {}
     }
 }
