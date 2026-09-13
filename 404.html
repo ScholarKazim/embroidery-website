@@ -10,6 +10,36 @@
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="static/styles_v=p138.css">
   <link rel="stylesheet" href="static/enhancements.css?v=2">
+  <script>
+    // Smart auto-recovery for 404 routes
+    (function() {
+      var p = window.location.pathname.toLowerCase();
+      var s = window.location.search;
+      if (p.indexOf('scarf') !== -1) {
+        window.location.replace('/products?item=scarf');
+      } else if (p.indexOf('robe') !== -1) {
+        window.location.replace('/products?item=robe');
+      } else if (p.indexOf('cap') !== -1) {
+        window.location.replace('/products?item=cap');
+      } else if (p.indexOf('product') !== -1) {
+        window.location.replace('/products' + s);
+      } else if (p.indexOf('class') !== -1 || p.indexOf('batch') !== -1) {
+        window.location.replace('/class' + s);
+      } else if (p.indexOf('model') !== -1) {
+        window.location.replace('/models' + s);
+      } else if (p.indexOf('size') !== -1 || decodeURIComponent(p).indexOf('قياس') !== -1) {
+        window.location.replace('/size' + s);
+      } else if (p.indexOf('vote') !== -1) {
+        window.location.replace('/vote' + s);
+      } else if (p.indexOf('checkout') !== -1) {
+        window.location.replace('/checkout' + s);
+      } else if (p.indexOf('track') !== -1) {
+        window.location.replace('/track' + s);
+      } else if (p.indexOf('admin') !== -1) {
+        window.location.replace('/admin' + s);
+      }
+    })();
+  </script>
   <style>
     body {
       min-height: 100vh;
