@@ -1068,8 +1068,7 @@ body {
       </div>
 
       <!-- Action Card -->
-      <div class="landing-action-card">
-        <button type="button" class="btn-google-action" id="btn-google-landing" style="margin-bottom:0; height:52px; font-size:16px;">
+        <button type="button" class="btn-google-action" id="btn-google-landing" onclick="if(window.handleGoogleSignIn){window.handleGoogleSignIn()}else{var m=document.getElementById('modal-google-setup-backdrop');if(m)m.classList.add('is-open');}" style="margin-bottom:0; height:52px; font-size:16px;">
           <svg viewBox="0 0 24 24" width="22" height="22">
             <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
             <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -1609,7 +1608,11 @@ body {
     try {
       const raw = localStorage.getItem('khamaiq_user_session');
       if (raw) currentUser = JSON.parse(raw);
-    } catch (_) {}
+      else currentUser = null;
+    } catch (_) {
+      currentUser = null;
+    }
+    return currentUser;
   }
 
   function saveSession(user) {
@@ -1626,41 +1629,43 @@ body {
     } catch (_) {}
   }
 
-  // --- University Autocomplete ---
-  const uniInput = document.getElementById('reg-uni');
-  const uniBox = document.getElementById('reg-uni-box');
-
-  if (uniInput && uniBox) {
-    uniInput.addEventListener('input', () => {
-      const q = uniInput.value.trim().toLowerCase();
+  // --- University Autocomplete Helper ---
+  function setupUniAutocomplete(inputEl, boxEl) {
+    if (!inputEl || !boxEl) return;
+    inputEl.addEventListener('input', () => {
+      const q = inputEl.value.trim().toLowerCase();
       if (!q) {
-        uniBox.style.display = 'none';
+        boxEl.style.display = 'none';
         return;
       }
       const matches = UNIVERSITIES.filter(u => u.toLowerCase().includes(q));
       if (matches.length === 0) {
-        uniBox.innerHTML = '<div class="uni-suggest-item" style="color:#888;">لم نجد جامعتك، اكتب اسمها بحرية</div>';
-        uniBox.style.display = 'block';
+        boxEl.innerHTML = '<div class="uni-suggest-item" style="color:#888;">لم نجد جامعتك، اكتب اسمها بحرية</div>';
+        boxEl.style.display = 'block';
         return;
       }
-      uniBox.innerHTML = matches.map(u => `<div class="uni-suggest-item" data-uni="${u}">${u}</div>`).join('');
-      uniBox.style.display = 'block';
+      boxEl.innerHTML = matches.map(u => `<div class="uni-suggest-item" data-uni="${u}">${u}</div>`).join('');
+      boxEl.style.display = 'block';
     });
 
-    uniBox.addEventListener('click', (e) => {
+    boxEl.addEventListener('click', (e) => {
       const item = e.target.closest('.uni-suggest-item');
       if (item && item.dataset.uni) {
-        uniInput.value = item.dataset.uni;
-        uniBox.style.display = 'none';
+        inputEl.value = item.dataset.uni;
+        boxEl.style.display = 'none';
       }
     });
 
     document.addEventListener('click', (e) => {
-      if (!uniInput.contains(e.target) && !uniBox.contains(e.target)) {
-        uniBox.style.display = 'none';
+      if (!inputEl.contains(e.target) && !boxEl.contains(e.target)) {
+        boxEl.style.display = 'none';
       }
     });
   }
+
+  const uniInput = document.getElementById('reg-uni');
+  const uniBox = document.getElementById('reg-uni-box');
+  setupUniAutocomplete(uniInput, uniBox);
 
   const linkCustomUni = document.getElementById('link-add-custom-uni');
   if (linkCustomUni && uniInput) {
@@ -1674,11 +1679,13 @@ body {
 
   // --- Modal Open / Close Handlers ---
   function openModal(modal) {
+    if (!modal) return;
     modal.classList.add('is-open');
     document.body.style.overflow = 'hidden';
   }
 
   function closeModal(modal) {
+    if (!modal) return;
     modal.classList.remove('is-open');
     document.body.style.overflow = '';
   }
@@ -2414,6 +2421,8 @@ body {
 
   window.addEventListener('load', initGoogleIdentity);
   setTimeout(initGoogleIdentity, 1000);
+
+  window.handleGoogleSignIn = handleGoogleSignIn;
 
   // Attach Google buttons
   [btnGoogleLanding, btnGoogleModalReg, btnGoogleModalLogin].forEach(btn => {
