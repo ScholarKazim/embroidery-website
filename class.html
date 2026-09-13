@@ -1081,7 +1081,8 @@ body {
       </div>
 
       <!-- Action Card -->
-      <div class="landing-action-card" style="padding: 20px 0 8px;">
+      <div class="landing-action-card" style="padding: 16px 0 8px; display: flex; flex-direction: column; align-items: center; gap: 10px;">
+        <div id="google-landing-btn-slot" style="display:flex; justify-content:center; min-height:44px; width:100%; max-width:340px;"></div>
         <button type="button" class="btn-google-action" id="btn-google-landing" onclick="if(window.handleGoogleSignIn){window.handleGoogleSignIn()}else{var m=document.getElementById('modal-google-setup-backdrop');if(m)m.classList.add('is-open');}" style="margin-bottom:0; height:52px; font-size:16px;">
           <svg viewBox="0 0 24 24" width="22" height="22">
             <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -2303,6 +2304,24 @@ body {
   let googleTokenClient  = null;
   let gisReady           = false;
 
+  // Safe JWT decoder supporting UTF-8 Arabic characters
+  function decodeJwtPayload(token) {
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+      return JSON.parse(jsonPayload);
+    } catch (e) {
+      try {
+        return JSON.parse(atob(token.split('.')[1]));
+      } catch (_) {
+        return null;
+      }
+    }
+  }
+
   // Called once GIS script loads
   function initGoogleIdentity() {
     if (!window.google || !window.google.accounts) return;
@@ -2310,11 +2329,24 @@ body {
       // 1️⃣ One-Tap / ID Credential handler
       if (window.google.accounts.id) {
         window.google.accounts.id.initialize({
-          client_id        : GOOGLE_CLIENT_ID,
-          callback         : onGisCredential,
-          auto_select      : false,
+          client_id            : GOOGLE_CLIENT_ID,
+          callback             : onGisCredential,
+          auto_select          : false,
           cancel_on_tap_outside: true
         });
+
+        // Render official Google button inside landing slot
+        const landingSlot = document.getElementById('google-landing-btn-slot');
+        if (landingSlot) {
+          window.google.accounts.id.renderButton(landingSlot, {
+            theme: 'outline',
+            size: 'large',
+            type: 'standard',
+            shape: 'pill',
+            text: 'continue_with',
+            width: 320
+          });
+        }
 
         // Render official Google button inside the modal slot
         const btnSlot = document.getElementById('google-onetap-btn-slot');
@@ -2322,8 +2354,9 @@ body {
           window.google.accounts.id.renderButton(btnSlot, {
             theme: 'outline',
             size: 'large',
-            text: 'continue_with',
+            type: 'standard',
             shape: 'pill',
+            text: 'continue_with',
             width: 280
           });
         }
@@ -2332,9 +2365,9 @@ body {
       // 2️⃣ OAuth2 Token client for custom button click
       if (window.google.accounts.oauth2) {
         googleTokenClient = window.google.accounts.oauth2.initTokenClient({
-          client_id : GOOGLE_CLIENT_ID,
-          scope     : 'openid email profile',
-          callback  : onTokenResponse,
+          client_id     : GOOGLE_CLIENT_ID,
+          scope         : 'openid email profile',
+          callback      : onTokenResponse,
           error_callback: (err) => {
             console.warn('[GIS] token error:', err);
             openModal(modalGoogleSetup);
@@ -2351,16 +2384,15 @@ body {
   // Called when user selects account via One-Tap or Rendered Button (JWT)
   function onGisCredential(response) {
     if (!response || !response.credential) return;
-    try {
-      const parts   = response.credential.split('.');
-      const payload = JSON.parse(atob(parts[1].replace(/-/g,'+').replace(/_/g,'/')));
+    const payload = decodeJwtPayload(response.credential);
+    if (payload) {
       fillAndOpenModal({
         uid   : payload.sub || ('goog_' + Date.now()),
-        name  : payload.name  || (payload.email ? payload.email.split('@')[0] : 'طالب'),
+        name  : payload.name || payload.given_name || (payload.email ? payload.email.split('@')[0] : 'طالب'),
         email : payload.email || '',
         photo : payload.picture || ''
       });
-    } catch (e) { console.warn('[GIS] JWT parse error:', e); }
+    }
   }
 
   // Called when OAuth succeeds via custom button click (access token)
@@ -2375,7 +2407,7 @@ body {
       if (info) {
         fillAndOpenModal({
           uid   : info.sub || ('goog_' + Date.now()),
-          name  : info.name || (info.email ? info.email.split('@')[0] : 'طالب'),
+          name  : info.name || info.given_name || (info.email ? info.email.split('@')[0] : 'طالب'),
           email : info.email || '',
           photo : info.picture || ''
         });
@@ -2408,6 +2440,7 @@ body {
       gUser.year = '2027';
       gUser.isRep = false;
       saveSession(gUser);
+      showToast(`✓ مرحباً بك ${gUser.name}!`);
       enterBatchRoom(gUser);
       return;
     }
@@ -2416,12 +2449,12 @@ body {
     if (googleNameInput && gUser.name) googleNameInput.value = gUser.name;
     if (googleEmailInput && gUser.email) googleEmailInput.value = gUser.email;
     if (googleDisplayName && (gUser.name || gUser.email)) {
-      googleDisplayName.innerHTML = `<span style="color:#15803d; font-weight:700;">✓ مرحباً بك ${gUser.name || gUser.email}</span><br><span style="font-size:12.5px; color:#666;">أكمل بيانات كليتك للتصويت:</span>`;
+      googleDisplayName.innerHTML = `<span style="color:#15803d; font-weight:700;">✓ تم التعرف على حسابك: ${gUser.name || gUser.email}</span><br><span style="font-size:12.5px; color:#666;">أكمل بيانات كليتك للانضمام للدفعة:</span>`;
     }
     closeModal(modalReg);
     closeModal(modalLogin);
     openModal(modalGoogleSetup);
-    showToast(`✓ مرحباً بك ${gUser.name || ''}!`);
+    showToast(`✓ أهلاً ${gUser.name || ''}!`);
   }
 
   // Main button click handler
@@ -2433,31 +2466,32 @@ body {
       return;
     }
 
-    // Try Google Identity Services OAuth popup
-    if (gisReady && googleTokenClient) {
-      try {
-        googleTokenClient.requestAccessToken({ prompt: 'select_account' });
-        return;
-      } catch (e) {
-        console.warn('[GIS] requestAccessToken failed:', e);
-      }
-    } else if (gisReady && window.google && window.google.accounts && window.google.accounts.id) {
-      try {
-        window.google.accounts.id.prompt();
-        return;
-      } catch (e) {
-        console.warn('[GIS] prompt error:', e);
-      }
-    }
-
-    // Smooth fallback if GIS not loaded yet or blocked
+    // 1️⃣ Always open the setup modal immediately — user is never stuck
     pendingGoogleUser = {
-      uid: 'g_' + Date.now(), name: '', email: '',
-      authProvider: 'google', phoneVerified: true
+      uid: 'g_' + Date.now(),
+      name: '',
+      email: '',
+      authProvider: 'google',
+      phoneVerified: true
     };
     closeModal(modalReg);
     closeModal(modalLogin);
     openModal(modalGoogleSetup);
+
+    // 2️⃣ Concurrently trigger Google account chooser
+    if (gisReady && googleTokenClient) {
+      try {
+        googleTokenClient.requestAccessToken({ prompt: 'select_account' });
+      } catch (e) {
+        console.warn('[GIS] requestAccessToken error:', e);
+      }
+    } else if (gisReady && window.google && window.google.accounts && window.google.accounts.id) {
+      try {
+        window.google.accounts.id.prompt();
+      } catch (e) {
+        console.warn('[GIS] prompt error:', e);
+      }
+    }
   }
 
   // Init GIS when script is ready
