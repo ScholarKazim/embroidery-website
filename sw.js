@@ -8,14 +8,14 @@ const STATIC_ASSETS = [
   '/vote',
   '/track',
   '/manifest.json',
-  '/khamaiq.com/styles_v=p138.css',
-  '/khamaiq.com/colors_and_type_v=p138.css',
-  '/khamaiq.com/extras_v=p138.css',
-  '/khamaiq.com/enhancements.css',
-  '/khamaiq.com/enhancements.js',
-  '/khamaiq.com/assets/icons/favicon-32x32_v=p138.png',
-  '/khamaiq.com/assets/icons/apple-touch-icon_v=p138.png',
-  '/khamaiq.com/qrcode.min.js'
+  '/static/styles_v=p138.css',
+  '/static/colors_and_type_v=p138.css',
+  '/static/extras_v=p138.css',
+  '/static/enhancements.css',
+  '/static/enhancements.js',
+  '/static/assets/icons/favicon-32x32_v=p138.png',
+  '/static/assets/icons/apple-touch-icon_v=p138.png',
+  '/static/qrcode.min.js'
 ];
 
 self.addEventListener('install', (event) => {

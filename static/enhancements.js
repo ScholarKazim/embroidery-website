@@ -107,64 +107,64 @@
         id: 'burgundy',
         name: 'ماروني خامة',
         hex: '#7a1832',
-        front: 'khamaiq.com/assets/images/visualizer-burgundy.jpg?v=p2026_real',
-        back:  'khamaiq.com/assets/images/visualizer-royal-back-burgundy.jpg?v=p2026_real'
+        front: 'static/assets/images/visualizer-burgundy.jpg?v=p2026_real',
+        back:  'static/assets/images/visualizer-royal-back-burgundy.jpg?v=p2026_real'
       },
       {
         id: 'black',
         name: 'أسود ملكي',
         hex: '#1a1a1a',
-        front: 'khamaiq.com/assets/images/visualizer-black.jpg?v=p2026_real',
-        back:  'khamaiq.com/assets/images/visualizer-royal-back-black.jpg?v=p2026_real'
+        front: 'static/assets/images/visualizer-black.jpg?v=p2026_real',
+        back:  'static/assets/images/visualizer-royal-back-black.jpg?v=p2026_real'
       },
       {
         id: 'navy',
         name: 'كحلي ملكي',
         hex: '#132247',
-        front: 'khamaiq.com/assets/images/visualizer-navy.jpg?v=p2026_real',
-        back:  'khamaiq.com/assets/images/visualizer-royal-back-navy.jpg?v=p2026_real'
+        front: 'static/assets/images/visualizer-navy.jpg?v=p2026_real',
+        back:  'static/assets/images/visualizer-royal-back-navy.jpg?v=p2026_real'
       },
       {
         id: 'emerald',
         name: 'أخضر زمردي',
         hex: '#0e4937',
-        front: 'khamaiq.com/assets/images/visualizer-emerald.jpg?v=p2026_real',
-        back:  'khamaiq.com/assets/images/visualizer-royal-back-emerald.jpg?v=p2026_real'
+        front: 'static/assets/images/visualizer-emerald.jpg?v=p2026_real',
+        back:  'static/assets/images/visualizer-royal-back-emerald.jpg?v=p2026_real'
       },
       {
         id: 'red',
         name: 'أحمر قاني',
         hex: '#a81c2f',
-        front: 'khamaiq.com/assets/images/visualizer-red.jpg?v=p2026_real',
-        back:  'khamaiq.com/assets/images/visualizer-royal-back-red.jpg?v=p2026_real'
+        front: 'static/assets/images/visualizer-red.jpg?v=p2026_real',
+        back:  'static/assets/images/visualizer-royal-back-red.jpg?v=p2026_real'
       },
       {
         id: 'purple',
         name: 'بنفسجي ملكي',
         hex: '#4b1e5a',
-        front: 'khamaiq.com/assets/images/visualizer-purple.jpg?v=p2026_real',
-        back:  'khamaiq.com/assets/images/visualizer-royal-back-purple.jpg?v=p2026_real'
+        front: 'static/assets/images/visualizer-purple.jpg?v=p2026_real',
+        back:  'static/assets/images/visualizer-royal-back-purple.jpg?v=p2026_real'
       },
       {
         id: 'mauve',
         name: 'وردي ملكي (موف)',
         hex: '#7d384e',
-        front: 'khamaiq.com/assets/images/visualizer-mauve.jpg?v=p2026_real',
-        back:  'khamaiq.com/assets/images/visualizer-royal-back-mauve.jpg?v=p2026_real'
+        front: 'static/assets/images/visualizer-mauve.jpg?v=p2026_real',
+        back:  'static/assets/images/visualizer-royal-back-mauve.jpg?v=p2026_real'
       },
       {
         id: 'teal',
         name: 'بترولي (تيل)',
         hex: '#0b7285',
-        front: 'khamaiq.com/assets/images/visualizer-teal.jpg?v=p2026_real',
-        back:  'khamaiq.com/assets/images/visualizer-royal-back-teal.jpg?v=p2026_real'
+        front: 'static/assets/images/visualizer-teal.jpg?v=p2026_real',
+        back:  'static/assets/images/visualizer-royal-back-teal.jpg?v=p2026_real'
       },
       {
         id: 'turquoise',
         name: 'تركوازي سماوي',
         hex: '#17a2b8',
-        front: 'khamaiq.com/assets/images/visualizer-turquoise.jpg?v=p2026_real',
-        back:  'khamaiq.com/assets/images/visualizer-royal-back-turquoise.jpg?v=p2026_real'
+        front: 'static/assets/images/visualizer-turquoise.jpg?v=p2026_real',
+        back:  'static/assets/images/visualizer-royal-back-turquoise.jpg?v=p2026_real'
       }
     ];
 
@@ -519,7 +519,7 @@
         alert('حدث خطأ أثناء تحميل صورة النموذج للتصدير.');
       };
 
-      img.src = activeLayer ? activeLayer.src : (curColor ? curColor.front : 'khamaiq.com/assets/images/visualizer-burgundy.jpg');
+      img.src = activeLayer ? activeLayer.src : (curColor ? curColor.front : 'static/assets/images/visualizer-burgundy.jpg');
     });
 
     function escapeHtml(str) {

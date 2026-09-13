@@ -8,9 +8,16 @@
 <title>صفحة الدفعة والتصويت | إبرة وخيط</title>
 <meta name="description" content="سجّل بدفعتك للتصويت على لون الوشاح المشترك، حجز قياساتك، واستلام عينة مجانية لممثل الدفعة.">
 
+<link rel="icon" href="static/favicon_v=p138.ico" sizes="any">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Amiri:wght@700;900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="static/colors_and_type_v=p138.css">
+<link rel="stylesheet" href="static/styles_v=p138.css">
+<link rel="stylesheet" href="static/desktop_v=p138.css">
+<link rel="stylesheet" href="static/cart_v=p138.css">
+<link rel="stylesheet" href="static/mobile.css">
 
 <style>
 :root {
@@ -1424,7 +1431,8 @@ body {
         <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
       </svg>
       <h2 class="modal-title" style="font-size:24px;">المصادقة بحساب Google</h2>
-      <p class="modal-sub">سجّل دخولك بحساب Google وأكمل معلومات دفعتك لبدء التصويت:</p>
+      <p class="modal-sub" id="google-display-name">سجّل دخولك بحساب Google وأكمل معلومات دفعتك لبدء التصويت:</p>
+      <div id="google-onetap-btn-slot" style="display:flex; justify-content:center; margin:10px 0 6px;"></div>
     </div>
 
     <!-- Toggle Card: أنا ممثل الدفعة -->
@@ -2285,16 +2293,29 @@ body {
   function initGoogleIdentity() {
     if (!window.google || !window.google.accounts) return;
     try {
-      // 1️⃣ One-Tap / FedCM — silent auto-select
-      window.google.accounts.id.initialize({
-        client_id        : GOOGLE_CLIENT_ID,
-        callback         : onGisCredential,   // JWT credential
-        auto_select      : false,
-        cancel_on_tap_outside: true,
-        ux_mode          : 'popup'
-      });
+      // 1️⃣ One-Tap / ID Credential handler
+      if (window.google.accounts.id) {
+        window.google.accounts.id.initialize({
+          client_id        : GOOGLE_CLIENT_ID,
+          callback         : onGisCredential,
+          auto_select      : false,
+          cancel_on_tap_outside: true
+        });
 
-      // 2️⃣ Token client — shows full account picker popup
+        // Render official Google button inside the modal slot
+        const btnSlot = document.getElementById('google-onetap-btn-slot');
+        if (btnSlot) {
+          window.google.accounts.id.renderButton(btnSlot, {
+            theme: 'outline',
+            size: 'large',
+            text: 'continue_with',
+            shape: 'pill',
+            width: 280
+          });
+        }
+      }
+
+      // 2️⃣ OAuth2 Token client for custom button click
       if (window.google.accounts.oauth2) {
         googleTokenClient = window.google.accounts.oauth2.initTokenClient({
           client_id : GOOGLE_CLIENT_ID,
@@ -2302,7 +2323,7 @@ body {
           callback  : onTokenResponse,
           error_callback: (err) => {
             console.warn('[GIS] token error:', err);
-            openModal(modalGoogleSetup); // fallback to manual form
+            openModal(modalGoogleSetup);
           }
         });
       }
@@ -2313,67 +2334,84 @@ body {
     }
   }
 
-  // Called when user selects account via One-Tap (JWT)
+  // Called when user selects account via One-Tap or Rendered Button (JWT)
   function onGisCredential(response) {
     if (!response || !response.credential) return;
     try {
       const parts   = response.credential.split('.');
       const payload = JSON.parse(atob(parts[1].replace(/-/g,'+').replace(/_/g,'/')));
       fillAndOpenModal({
-        uid   : payload.sub,
-        name  : payload.name  || '',
+        uid   : payload.sub || ('goog_' + Date.now()),
+        name  : payload.name  || (payload.email ? payload.email.split('@')[0] : 'طالب'),
         email : payload.email || '',
         photo : payload.picture || ''
       });
     } catch (e) { console.warn('[GIS] JWT parse error:', e); }
   }
 
-  // Called when OAuth succeeds — update the already-open modal with real data
+  // Called when OAuth succeeds via custom button click (access token)
   async function onTokenResponse(resp) {
     if (!resp || !resp.access_token) return;
     try {
+      showToast('جاري التحقق من حساب Google...');
       const info = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
         headers: { Authorization: 'Bearer ' + resp.access_token }
       }).then(r => r.json());
 
-      // Update pending user with real Google data
-      pendingGoogleUser = Object.assign(pendingGoogleUser || {}, {
-        uid   : info.sub   || pendingGoogleUser.uid,
-        name  : info.name  || '',
-        email : info.email || '',
-        photo : info.picture || '',
-        authProvider  : 'google',
-        phoneVerified : true
-      });
-
-      // Pre-fill the modal (it's already open)
-      if (googleNameInput  && info.name)  googleNameInput.value  = info.name;
-      if (googleEmailInput && info.email) googleEmailInput.value = info.email;
-      if (googleDisplayName && info.name) googleDisplayName.textContent = `أهلاً ${info.name}`;
-
-      showToast(`✓ تم التعرف على حسابك: ${info.email}`);
+      if (info) {
+        fillAndOpenModal({
+          uid   : info.sub || ('goog_' + Date.now()),
+          name  : info.name || (info.email ? info.email.split('@')[0] : 'طالب'),
+          email : info.email || '',
+          photo : info.picture || ''
+        });
+      }
     } catch (e) {
       console.warn('[GIS] userinfo error:', e);
-      // Modal is already open — user fills manually
+      openModal(modalGoogleSetup);
     }
   }
 
-  // Pre-fill modal with Google account data, then open it
+  // Pre-fill modal with Google account data, or enter room if already ready
   function fillAndOpenModal(gUser) {
+    const saved = loadSession();
+    if (saved && saved.college) {
+      saved.name = gUser.name || saved.name;
+      saved.email = gUser.email || saved.email;
+      saved.photo = gUser.photo || saved.photo;
+      saveSession(saved);
+      showToast(`✓ أهلاً بعودتك يا ${saved.name}!`);
+      enterBatchRoom(saved);
+      return;
+    }
+
+    const uParams = new URLSearchParams(window.location.search);
+    const paramUni = uParams.get('uni');
+    const paramCol = uParams.get('col');
+    if (paramUni && paramCol) {
+      gUser.university = paramUni;
+      gUser.college = paramCol;
+      gUser.year = '2027';
+      gUser.isRep = false;
+      saveSession(gUser);
+      enterBatchRoom(gUser);
+      return;
+    }
+
     pendingGoogleUser = Object.assign({ authProvider: 'google', phoneVerified: true }, gUser);
-    if (googleNameInput)  googleNameInput.value  = gUser.name;
-    if (googleEmailInput) googleEmailInput.value = gUser.email;
-    if (googleDisplayName && gUser.name) googleDisplayName.textContent = `أهلاً ${gUser.name}`;
+    if (googleNameInput && gUser.name) googleNameInput.value = gUser.name;
+    if (googleEmailInput && gUser.email) googleEmailInput.value = gUser.email;
+    if (googleDisplayName && (gUser.name || gUser.email)) {
+      googleDisplayName.innerHTML = `<span style="color:#15803d; font-weight:700;">✓ مرحباً بك ${gUser.name || gUser.email}</span><br><span style="font-size:12.5px; color:#666;">أكمل بيانات كليتك للتصويت:</span>`;
+    }
     closeModal(modalReg);
     closeModal(modalLogin);
     openModal(modalGoogleSetup);
+    showToast(`✓ مرحباً بك ${gUser.name || ''}!`);
   }
 
-  // Main button click handler — dual-track approach:
-  // 1. Open modal IMMEDIATELY (user never sees a blank/error screen)
-  // 2. Try Google OAuth in background — if it succeeds, pre-fill name & email
+  // Main button click handler
   function handleGoogleSignIn() {
-    // Already logged in → go straight to batch room
     const saved = loadSession();
     if (saved && saved.college) {
       showToast(`✓ أهلاً بعودتك يا ${saved.name}!`);
@@ -2381,7 +2419,24 @@ body {
       return;
     }
 
-    // 1️⃣ Open the modal right away — guaranteed to work everywhere
+    // Try Google Identity Services OAuth popup
+    if (gisReady && googleTokenClient) {
+      try {
+        googleTokenClient.requestAccessToken({ prompt: 'select_account' });
+        return;
+      } catch (e) {
+        console.warn('[GIS] requestAccessToken failed:', e);
+      }
+    } else if (gisReady && window.google && window.google.accounts && window.google.accounts.id) {
+      try {
+        window.google.accounts.id.prompt();
+        return;
+      } catch (e) {
+        console.warn('[GIS] prompt error:', e);
+      }
+    }
+
+    // Smooth fallback if GIS not loaded yet or blocked
     pendingGoogleUser = {
       uid: 'g_' + Date.now(), name: '', email: '',
       authProvider: 'google', phoneVerified: true
@@ -2389,26 +2444,13 @@ body {
     closeModal(modalReg);
     closeModal(modalLogin);
     openModal(modalGoogleSetup);
-
-    // 2️⃣ Try OAuth popup in background to get real Google name/email
-    if (gisReady && googleTokenClient) {
-      try {
-        googleTokenClient.requestAccessToken({ prompt: 'select_account' });
-        // onTokenResponse will pre-fill the already-open modal if OAuth succeeds
-      } catch (e) {
-        console.warn('[GIS] requestAccessToken failed:', e);
-        // Modal is already open — user can fill manually
-      }
-    }
   }
-
 
   // Init GIS when script is ready
   if (window.google && window.google.accounts) {
     initGoogleIdentity();
   } else {
-    window.onGoogleLibraryLoad = initGoogleIdentity; // GIS callback
-    // Also poll in case onGoogleLibraryLoad is not fired
+    window.onGoogleLibraryLoad = initGoogleIdentity;
     const poll = setInterval(() => {
       if (window.google && window.google.accounts) {
         clearInterval(poll);
@@ -2419,11 +2461,31 @@ body {
 
   window.handleGoogleSignIn = handleGoogleSignIn;
 
-
   // Attach Google buttons
   [btnGoogleLanding, btnGoogleModalReg, btnGoogleModalLogin].forEach(btn => {
     if (btn) btn.addEventListener('click', handleGoogleSignIn);
   });
+
+  // Mobile Drawer toggle handlers
+  const burgerBtn = document.querySelector('[data-mobile-burger]');
+  const drawer = document.getElementById('mobile-drawer');
+  const drawerBackdrop = document.getElementById('mobile-drawer-backdrop');
+  const drawerCloseBtn = document.querySelector('[data-drawer-close]');
+
+  function openDrawer() {
+    if (drawer) drawer.classList.add('is-open');
+    if (drawerBackdrop) drawerBackdrop.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDrawer() {
+    if (drawer) drawer.classList.remove('is-open');
+    if (drawerBackdrop) drawerBackdrop.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+
+  if (burgerBtn) burgerBtn.addEventListener('click', openDrawer);
+  if (drawerCloseBtn) drawerCloseBtn.addEventListener('click', closeDrawer);
+  if (drawerBackdrop) drawerBackdrop.addEventListener('click', closeDrawer);
 
   // Handle Google setup form submit
   if (formGoogleSetup) {
@@ -2490,7 +2552,7 @@ body {
 
 })();
 </script>
-
+<script src="static/cart_v=p138.js" defer></script>
 </body>
 </html>
 
